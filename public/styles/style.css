@@ -1,0 +1,24 @@
+/*
+Colors:
+EBE3D2
+CCBFA3
+A4AC86
+737A5D
+414833
+
+Fonts:
+Poppins
+Montserrat
+*/
+
+body{
+    font-family: 'Poppins', "Montserrat", sans-serif;
+    font-weight: 400;
+    color: #414833;
+    padding: 0;
+    margin: 0;
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-family: 'Montserrat', sans-serif;
+}
