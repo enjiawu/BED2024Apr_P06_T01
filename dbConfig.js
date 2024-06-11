@@ -1,6 +1,6 @@
 module.exports = {
-    user: "",
-    password: "",
+    user: "booksapi_user",
+    password: "12N392432p06",
     server: "localhost",
     database: "rethink_bed",
     trustServerCertificate: true,

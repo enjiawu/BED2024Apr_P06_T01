@@ -1,8 +1,10 @@
 const express = require("express");
-const usersController = require("./controllers/usersController");
 const sql = require("mssql");
 const dbConfig = require("./dbConfig");
 const bodyParser = require("body-parser");
+
+const usersController = require("./controllers/usersController");
+const contactUsSubmissionsController = require("./controllers/contactUsSubmissionsController");
 
 const app = express();
 const port = process.env.port || 3000;
@@ -14,6 +16,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(staticMiddleware);
 
 app.get("/users/count", usersController.getUserCount);
+app.get(
+    "/contact-us-submissions",
+    contactUsSubmissionsController.getAllSubmissions
+);
+app.get(
+    "/contact-us-submissions/:id",
+    contactUsSubmissionsController.getSubmissionById
+);
 
 app.listen(port, async () => {
     try {
