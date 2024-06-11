@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const usersController = require("./controllers/usersController");
 const communityPostsController = require("./controllers/communityPostsController");
 const contactUsSubmissionsController = require("./controllers/contactUsSubmissionsController");
+const eventsController = require("./controllers/eventsController");
 
 const app = express();
 const port = process.env.port || 3000;
@@ -26,6 +27,7 @@ app.get(
     "/contact-us-submissions/:id",
     contactUsSubmissionsController.getSubmissionById
 );
+app.get("/events/count", eventsController.getEventCount);
 
 app.listen(port, async () => {
     try {
