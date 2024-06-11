@@ -4,6 +4,7 @@ const dbConfig = require("./dbConfig");
 const bodyParser = require("body-parser");
 
 const usersController = require("./controllers/usersController");
+const communityPostsController = require("./controllers/communityPostsController");
 const contactUsSubmissionsController = require("./controllers/contactUsSubmissionsController");
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(staticMiddleware);
 
 app.get("/users/count", usersController.getUserCount);
+app.get("/posts/count", communityPostsController.getPostCount);
 app.get(
     "/contact-us-submissions",
     contactUsSubmissionsController.getAllSubmissions
