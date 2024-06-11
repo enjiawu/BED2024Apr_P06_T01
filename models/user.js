@@ -2,13 +2,22 @@ const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
 class User {
-    constructor(username, email, location, bio, profilePicture, password) {
-        this.username = username;
-        this.email = email;
-        this.location = location;
-        this.bio = bio;
-        this.profilePicture = profilePicture;
-        this.password = password;
+    constructor(
+        UserId,
+        Username,
+        Email,
+        Location,
+        Bio,
+        ProfilePicture,
+        Password
+    ) {
+        this.UserId = UserId;
+        this.Username = Username;
+        this.Email = Email;
+        this.Location = Location;
+        this.Bio = Bio;
+        this.ProfilePicture = ProfilePicture;
+        this.Password = Password;
     }
 
     static async getUserCount() {
