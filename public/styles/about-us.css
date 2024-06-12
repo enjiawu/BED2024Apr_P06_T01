@@ -25,3 +25,7 @@ body,
     max-width: 50rem;
     margin: auto;
 }
+
+.counters {
+    font-size: 2rem;
+}
