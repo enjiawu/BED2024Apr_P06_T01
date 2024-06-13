@@ -2,7 +2,16 @@ const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
 class Post {
-    constructor(postId, userId, title, description, topicId, likes, comments, dateCreated) {
+    constructor(
+        postId,
+        userId,
+        title,
+        description,
+        topicId,
+        likes,
+        comments,
+        dateCreated
+    ) {
         this.postId = postId;
         this.userId = userId;
         this.title = title;
@@ -11,7 +20,7 @@ class Post {
         this.likes = likes;
         this.comments = comments;
         this.dateCreated = dateCreated;
-    };
+    }
 
     static async getAllPosts() {
         const connection = await sql.connect(dbConfig);
@@ -21,15 +30,25 @@ class Post {
         const result = await connection.request().query(sqlQuery);
 
         connection.close();
-        
-        return result.recordset.map(
-            row => new Post(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
-        );
-    };
 
-    static async getPostById(postId){
+        return result.recordset.map(
+            (row) =>
+                new Post(
+                    row.postId,
+                    row.userId,
+                    row.title,
+                    row.description,
+                    row.topicId,
+                    row.likes,
+                    row.comments,
+                    row.dateCreated
+                )
+        );
+    }
+
+    static async getPostById(postId) {
         const connection = await sql.connect(dbConfig);
-         
+
         const sqlQuery = `SELECT * FROM CommunityPosts WHERE postId = @postId`;
 
         const request = connection.request();
@@ -38,25 +57,27 @@ class Post {
 
         connection.close();
 
-        return result.recordset[0] ?
-        new Post(
-            result.recordset[0].postId, 
-            result.recordset[0].userId, 
-            result.recordset[0].title, 
-            result.recordset[0].description, 
-            result.recordset[0].topicId, 
-            result.recordset[0].likes, 
-            result.recordset[0].comments, 
-            result.recordset[0].dateCreated) : null;
+        return result.recordset[0]
+            ? new Post(
+                  result.recordset[0].postId,
+                  result.recordset[0].userId,
+                  result.recordset[0].title,
+                  result.recordset[0].description,
+                  result.recordset[0].topicId,
+                  result.recordset[0].likes,
+                  result.recordset[0].comments,
+                  result.recordset[0].dateCreated
+              )
+            : null;
     }
 
-    static async createPost(newPostData){
+    static async createPost(newPostData) {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = `INSERT INTO CommunityPosts (userId, title, description, topicId, likes, comments, dateCreated) 
         VALUES 
         (@userId, @title, @description, @topicId, 0, 0, GETDATE());
-        SELECT SCOPE_IDENTITY() AS postId;`
+        SELECT SCOPE_IDENTITY() AS postId;`;
 
         const request = connection.request();
         request.input("userId", newPostData.userId);
@@ -70,7 +91,7 @@ class Post {
         return this.getPostById(result.recordset[0].postId);
     }
 
-    static async updatePost(postId, newPostData){
+    static async updatePost(postId, newPostData) {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = `UPDATE CommunityPosts SET title = @title, description = @description, topicId = @topicId WHERE postId = @postId`;
@@ -87,7 +108,7 @@ class Post {
         return this.getPostById(postId);
     }
 
-    static async deletePost(postId){
+    static async deletePost(postId) {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = `DELETE FROM CommunityPosts WHERE postId = @postId`;
@@ -101,22 +122,32 @@ class Post {
         return result.rowsAffected > 0;
     }
 
-    static async searchPosts(searchTerm){
+    static async searchPosts(searchTerm) {
         const connection = await sql.connect(dbConfig);
-        try{
+        try {
             const sqlQuery = `SELECT * FROM CommunityPosts WHERE title LIKE '%${searchTerm}%';`;
 
             const result = await connection.request().query(sqlQuery);
 
             return result.recordset;
-        }
-        catch(error){
-            throw new Error("Error searching posts")
-        }
-        finally{
+        } catch (error) {
+            throw new Error("Error searching posts");
+        } finally {
             await connection.close();
         }
+    }
 
+    static async getPostCount() {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = "SELECT COUNT(*) AS 'postCount' FROM CommunityPosts";
+
+        const request = connection.request();
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset[0];
     }
 }
 module.exports = Post;

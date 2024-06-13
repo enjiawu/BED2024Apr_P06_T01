@@ -1,6 +1,6 @@
 const Event = require("../models/event");
 
-async function getEventCount(req, res) {
+const getEventCount = async (req, res) => {
     try {
         const eventCount = await Event.getEventCount();
         res.json(eventCount);
@@ -8,7 +8,7 @@ async function getEventCount(req, res) {
         console.error(error);
         res.status(500).send("Error retrieving event count");
     }
-}
+};
 
 module.exports = {
     getEventCount,

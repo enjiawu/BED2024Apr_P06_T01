@@ -1,6 +1,6 @@
 const ContactUsSubmission = require("../models/contactUsSubmission");
 
-async function getAllSubmissions(req, res) {
+const getAllSubmissions = async (req, res) => {
     try {
         const submissions = await ContactUsSubmission.getAllSubmissions();
         res.json(submissions);
@@ -8,9 +8,9 @@ async function getAllSubmissions(req, res) {
         console.error(error);
         res.status(500).send("Error retrieving submissions");
     }
-}
+};
 
-async function getSubmissionById(req, res) {
+const getSubmissionById = async (req, res) => {
     const submissionId = parseInt(req.params.id);
     try {
         const submission = await ContactUsSubmission.getSubmissionById(
@@ -24,7 +24,7 @@ async function getSubmissionById(req, res) {
         console.error(error);
         res.status(500).send("Error retrieving submission");
     }
-}
+};
 
 module.exports = {
     getAllSubmissions,
