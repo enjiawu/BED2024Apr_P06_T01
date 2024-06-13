@@ -1,6 +1,7 @@
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
+<<<<<<< HEAD
 class User{
     constructor(username, email, location, bio, profilePicture, password){
         this.username = username;
@@ -105,3 +106,39 @@ class User{
 }
 
 module.exports = User;
+=======
+class User {
+    constructor(
+        UserId,
+        Username,
+        Email,
+        Location,
+        Bio,
+        ProfilePicture,
+        Password
+    ) {
+        this.UserId = UserId;
+        this.Username = Username;
+        this.Email = Email;
+        this.Location = Location;
+        this.Bio = Bio;
+        this.ProfilePicture = ProfilePicture;
+        this.Password = Password;
+    }
+
+    static async getUserCount() {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = "SELECT COUNT(*) AS 'userCount' FROM Users";
+
+        const request = connection.request();
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset[0];
+    }
+}
+
+module.exports = User;
+>>>>>>> cd2656108582dec7f693753086aa8711ec72161c

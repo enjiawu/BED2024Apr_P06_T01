@@ -1,0 +1,31 @@
+html {
+    min-height: 100vh;
+}
+
+body {
+    color: #ebe3d2;
+
+    background-image: linear-gradient(
+            rgba(34, 34, 34, 0.5),
+            rgba(34, 34, 34, 0.5)
+        ),
+        url("../images/about-us/about-us.jpg");
+    /* background-image: linear-gradient(
+            rgba(34, 34, 34, 0.6),
+            rgba(34, 34, 34, 0.6)
+        ),
+        url("../images/about-us/sprout1.webp"); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+body,
+.stats {
+    max-width: 50rem;
+    margin: auto;
+}
+
+.counters {
+    font-size: 2rem;
+}
