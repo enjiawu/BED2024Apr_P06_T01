@@ -3,19 +3,19 @@ const dbConfig = require("../dbConfig");
 
 class ContactUsSubmission {
     constructor(
-        SubmissionId,
-        FirstName,
-        LastName,
-        Email,
-        PhoneNumber,
-        Message
+        submissionId,
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        message
     ) {
-        this.SubmissionId = SubmissionId;
-        this.FirstName = FirstName;
-        this.LastName = LastName;
-        this.Email = Email;
-        this.PhoneNumber = PhoneNumber;
-        this.Message = Message;
+        this.submissionId = submissionId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.message = message;
     }
 
     static async getAllSubmissions() {
@@ -31,12 +31,12 @@ class ContactUsSubmission {
         return result.recordset.map(
             (row) =>
                 new ContactUsSubmission(
-                    row.SubmissionId,
-                    row.FirstName,
-                    row.LastName,
-                    row.Email,
-                    row.PhoneNumber,
-                    row.Message
+                    row.submissionId,
+                    row.firstName,
+                    row.lastName,
+                    row.email,
+                    row.phoneNumber,
+                    row.message
                 )
         );
     }
@@ -44,7 +44,7 @@ class ContactUsSubmission {
     static async getSubmissionById(id) {
         const connection = await sql.connect(dbConfig);
         const sqlQuery =
-            "SELECT * FROM ContactUsSubmissions WHERE SubmissionId = @id";
+            "SELECT * FROM ContactUsSubmissions WHERE submissionId = @id";
 
         const request = connection.request();
         request.input("id", id);
@@ -54,12 +54,12 @@ class ContactUsSubmission {
 
         return result.recordset[0]
             ? new ContactUsSubmission(
-                  result.recordset[0].SubmissionId,
-                  result.recordset[0].FirstName,
-                  result.recordset[0].LastName,
-                  result.recordset[0].Email,
-                  result.recordset[0].PhoneNumber,
-                  result.recordset[0].Message
+                  result.recordset[0].submissionId,
+                  result.recordset[0].firstName,
+                  result.recordset[0].lastName,
+                  result.recordset[0].email,
+                  result.recordset[0].phoneNumber,
+                  result.recordset[0].message
               )
             : null;
     }
