@@ -1,16 +1,9 @@
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
-class ContactUsSubmission {
-    constructor(
-        submissionId,
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        message
-    ) {
-        this.submissionId = submissionId;
+class Message {
+    constructor(messageId, firstName, lastName, email, phoneNumber, message) {
+        this.messageId = messageId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -18,7 +11,7 @@ class ContactUsSubmission {
         this.message = message;
     }
 
-    static async getAllSubmissions() {
+    static async getAllMessages() {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = "SELECT * FROM ContactUsSubmissions";
@@ -30,7 +23,7 @@ class ContactUsSubmission {
 
         return result.recordset.map(
             (row) =>
-                new ContactUsSubmission(
+                new Message(
                     row.submissionId,
                     row.firstName,
                     row.lastName,
@@ -41,7 +34,7 @@ class ContactUsSubmission {
         );
     }
 
-    static async getSubmissionById(id) {
+    static async getMessageById(id) {
         const connection = await sql.connect(dbConfig);
         const sqlQuery =
             "SELECT * FROM ContactUsSubmissions WHERE submissionId = @id";
@@ -53,7 +46,7 @@ class ContactUsSubmission {
         connection.close();
 
         return result.recordset[0]
-            ? new ContactUsSubmission(
+            ? new Message(
                   result.recordset[0].submissionId,
                   result.recordset[0].firstName,
                   result.recordset[0].lastName,
@@ -65,4 +58,4 @@ class ContactUsSubmission {
     }
 }
 
-module.exports = ContactUsSubmission;
+module.exports = Message;
