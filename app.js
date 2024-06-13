@@ -9,7 +9,7 @@ const staticMiddleware = express.static("public");
 const usersController = require("./controllers/usersController");
 const postsController = require("./controllers/postsController");
 const eventsController = require("./controllers/eventsController.js");
-const contactUsSubmissionsController = require("./controllers/contactUsSubmissionsController.js");
+const messagesController = require("./controllers/messagesController.js");
 
 //Instatiating the app
 const app = express();
@@ -41,14 +41,8 @@ app.get("/users/count", usersController.getUserCount);
 app.get("/events/count", eventsController.getEventCount);
 
 //Contact Us Submission Routes
-app.get(
-    "/contact-us-submissions",
-    contactUsSubmissionsController.getAllSubmissions
-);
-app.get(
-    "/contact-us-submissions/:id",
-    contactUsSubmissionsController.getSubmissionById
-);
+app.get("/messages", messagesController.getAllMessages);
+app.get("/messages/:id", messagesController.getMessageById);
 
 app.listen(port, async () => {
     try {
