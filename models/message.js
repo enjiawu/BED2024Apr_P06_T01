@@ -34,13 +34,13 @@ class Message {
         );
     }
 
-    static async getMessageById(id) {
+    static async getMessageById(messageId) {
         const connection = await sql.connect(dbConfig);
         const sqlQuery =
-            "SELECT * FROM ContactUsSubmissions WHERE submissionId = @id";
+            "SELECT * FROM ContactUsSubmissions WHERE submissionId = @messageId";
 
         const request = connection.request();
-        request.input("id", id);
+        request.input("messageId", messageId);
         const result = await request.query(sqlQuery);
 
         connection.close();

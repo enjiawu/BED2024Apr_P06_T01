@@ -8,6 +8,7 @@ const staticMiddleware = express.static("public");
 //Importing Controllers
 const usersController = require("./controllers/usersController");
 const postsController = require("./controllers/postsController");
+const reportsController = require("./controllers/reportsController.js");
 const eventsController = require("./controllers/eventsController.js");
 const messagesController = require("./controllers/messagesController.js");
 
@@ -31,6 +32,11 @@ app.post("/posts", postsController.createPost);
 app.put("/posts/:id", postsController.updatePost);
 app.delete("/posts/:id", postsController.deletePost);
 
+//Report Routes
+app.get("/reports", reportsController.getAllReports);
+app.get("/reports/:id", reportsController.getReportById);
+app.delete("/reports/:id", reportsController.deleteReport);
+
 //User Routes
 app.get("/users/with-posts", usersController.getUsersWithPosts);
 app.post("/users/add-post", usersController.addPostsToUser);
@@ -40,7 +46,7 @@ app.get("/users/count", usersController.getUserCount);
 //Event Routes
 app.get("/events/count", eventsController.getEventCount);
 
-//Contact Us Submission Routes
+//Message Routes
 app.get("/messages", messagesController.getAllMessages);
 app.get("/messages/:id", messagesController.getMessageById);
 
