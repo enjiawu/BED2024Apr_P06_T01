@@ -11,6 +11,7 @@ const postsController = require("./controllers/postsController");
 const reportsController = require("./controllers/reportsController.js");
 const eventsController = require("./controllers/eventsController.js");
 const messagesController = require("./controllers/messagesController.js");
+const repliesController = require("./controllers/repliesController.js");
 
 //Instatiating the app
 const app = express();
@@ -40,7 +41,7 @@ app.delete("/reports/:id", reportsController.deleteReport);
 //User Routes
 app.get("/users/with-posts", usersController.getUsersWithPosts);
 app.post("/users/add-post", usersController.addPostsToUser);
-app.delete("/users/remove-post/:id", usersController.removePostsFromUser);
+// app.delete("/users/remove-post/:id", usersController.removePostsFromUser);
 app.get("/users/count", usersController.getUserCount);
 
 //Event Routes
@@ -49,6 +50,10 @@ app.get("/events/count", eventsController.getEventCount);
 //Message Routes
 app.get("/messages", messagesController.getAllMessages);
 app.get("/messages/:id", messagesController.getMessageById);
+
+//Reply Routes
+app.get("/replies/:id", repliesController.getReplyById);
+app.post("/replies", repliesController.addReply);
 
 app.listen(port, async () => {
     try {
