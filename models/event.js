@@ -3,34 +3,35 @@ const dbConfig = require("../dbConfig");
 
 class Event {
     constructor(
-        EventId,
-        Title,
-        Description,
-        Image,
-        DatePosted,
-        Location,
-        StartDate,
-        StartTime,
-        Status,
-        Likes,
-        UserId,
-        Username,
-        StaffId,
-        StaffName
+        eventId,
+        title,
+        description,
+        image,
+        datePosted,
+        location,
+        startDate,
+        startTime,
+        status,
+        likes,
+        userId,
+        username,
+        staffId,
+        staffName
     ) {
-        this.EventId = EventId;
-        this.Description = Description;
-        this.Image = Image;
-        this.DatePosted = DatePosted;
-        this.Location = Location;
-        this.StartDate = StartDate;
-        this.StartTime = StartTime;
-        this.Status = Status;
-        this.Likes = Likes;
-        this.UserId = UserId;
-        this.Username = Username;
-        this.StaffId = StaffId;
-        this.StaffName = StaffName;
+        this.eventId = eventId;
+        this.title = title;
+        this.description = description;
+        this.image = image;
+        this.datePosted = datePosted;
+        this.location = location;
+        this.startDate = startDate;
+        this.startTime = startTime;
+        this.status = status;
+        this.likes = likes;
+        this.userId = userId;
+        this.username = username;
+        this.staffId = staffId;
+        this.staffName = staffName;
     }
 
     static async getEventCount() {
