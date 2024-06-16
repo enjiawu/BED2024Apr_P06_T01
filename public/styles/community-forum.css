@@ -1,0 +1,70 @@
+main{
+    max-width: 1000px;
+}
+
+h1{
+    font-size: 40px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.search-bar{
+    border-radius: 3px;
+    max-width: 600px;
+    border: 1px solid;
+}
+
+.search-bar::placeholder{
+    font-size: 15px;
+}
+
+#forum-stats{
+    max-width: 400px;
+}
+
+#forum-stats p{
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+#forum-stats h2{
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: regular;
+    letter-spacing: 3px;
+}
+
+#forum-hero{
+    margin: 0 5%;
+}
+
+.circle{
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    background-color: #A4AC86;
+    display: inline-block;
+    margin-right: 10px;
+    margin-top: 3px;
+}
+
+.topic{
+    font-size: 15px;
+}
+
+#trending-topics{
+    margin-left: 30px;
+}
+
+#trending-topics h4{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.topic{
+    font-size: 14px;
+}
+

@@ -21,12 +21,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(staticMiddleware);
 
 //Post Routes
-app.get("/posts", postsController.getAllPosts);
-app.get("/posts/search", postsController.searchPosts)
-app.get("/posts/:id", postsController.getPostById)
-app.post("/posts", postsController.createPost)
-app.put("/posts/:id",postsController.updatePost)
-app.delete("/posts/:id", postsController.deletePost)
+app.get("/communityforum", postsController.getAllPosts);
+app.get("/communityforum/search", postsController.searchPosts)
+app.get("/communityforum/:id", postsController.getPostById)
+app.post("/communityforum", postsController.createPost)
+app.put("/communityforum/:id",postsController.updatePost)
+app.delete("/communityforum/:id", postsController.deletePost)
 
 //User Routes
 app.get("/users/with-posts", usersController.getUsersWithPosts)
