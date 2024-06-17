@@ -6,8 +6,8 @@ const dbConfig = require("./dbConfig.js");
 const staticMiddleware = express.static("public");
 
 //Importing Controllers
-const usersController = require("./controllers/usersController");
-const postsController = require("./controllers/postsController");
+const usersController = require("./controllers/usersController")
+const postsController = require("./controllers/communityForumPostController");
 const reportsController = require("./controllers/reportsController.js");
 const eventsController = require("./controllers/eventsController.js");
 const messagesController = require("./controllers/messagesController.js");

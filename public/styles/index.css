@@ -50,6 +50,17 @@
     margin-right: 10%;
 }
 
+.btn:hover{
+    background-color: #EBE3D2;
+    color: #414833;
+    border: #414833 1px solid;
+}
+
+.btn:active{
+    background-color: white;
+    color: #414833;
+}
+
 .what-is-sustainability{
     background-color: #EBE3D2;
 }
@@ -75,3 +86,10 @@
     width: 100%;
     margin-top: auto;
 }
+
+.card .btn:hover {
+    background-color: #414833;
+    color: #CCBFA3;
+    border: #CCBFA3 1px solid;
+}
+
