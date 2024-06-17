@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>ReThink | Community Forum</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="../styles/style.css" />
+        <link rel="stylesheet" href="../styles/community-forum.css" />
+    </head>
+
+    <body>
+        <header>
+            <!-- place navbar here -->
+        </header>
+        <main class = "d-flex justify-content-center align-content-center flex-column mx-auto">
+            <section id = "forum-hero" class = "d-flex flex-column justify-content-center align-content-center border-bottom pb-4 border-dark-subtle">
+                <h1 class="text-center mt-5">ReThink Community</h1>
+                <input class="search-bar w-75 px-3 py-1 mt-3 mx-auto" type="text" placeholder="&#x1F50E;&#xFE0E;  Search" />
+                <div id = "forum-stats" class="d-flex justify-content-between w-50 mx-auto mt-5">
+                    <div class="d-flex flex-column align-items-center">
+                        <h2 id = "likes-stats">100</h2>
+                        <p>Likes</p>
+                    </div>
+                    <div class="d-flex flex-column align-items-center">
+                        <h2 id = "posts-stats">1000</h2>
+                        <p>Posts</p>
+                    </div>
+                    <div class="d-flex flex-column align-items-center">
+                        <h2 id = "topics-stats">5</h2>
+                        <p>Topics</p>
+                    </div>
+            </section>
+
+            <div class = "d-flex mt-4 justify-content-center align-content-center m-auto mx-5 ">
+                <div class = "d-flex flex-column w-100">
+                    <section id = "forum-buttons" class = "d-flex flex-column">
+                        <div class="d-flex justify-content-between">
+                            <button class = "btn btn-primary">Create Post</button>
+                            <div class = "d-flex flex-row">
+                                <div class="dropdown mx-1">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        All Categories
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <li><a class="dropdown-item" href="#">Newest</a></li>
+                                    </ul>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Sort By
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <li><a class="dropdown-item" href="#">Newest</a></li>
+                                        <li><a class="dropdown-item" href="#">Oldest</a></li>
+                                        <li><a class="dropdown-item" href="#">Popularity &darr;</i></a></li>
+                                        <li><a class="dropdown-item" href="#">Popularity &uarr;</i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+    
+                    <section id= "forum-posts" class = "d-flex flex-column mb-1">
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <div class = "likes">
+                                    <button class="btn btn-primary">Like</button>
+                                    <p>100</p>
+                                </div>
+                                <div class = "post-content">
+                                    <h5 class="card-title">Post Title</h5>
+                                    <p class="card-text">Post content goes here...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <section id = "trending-topics" class = "d-flex flex-column w-25">
+                    <h4 class="text-center">Trending Topics</h2>
+                    <div id = "topics" class = "d-flex align-content-center">
+                        <div class = "topic-content d-flex flex-row">
+                            <div class="circle"></div>
+                            <p class = "topic">Topic 1</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </main>
+        <footer>
+            <!-- place footer here -->
+        </footer>
+
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"
+        ></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>
