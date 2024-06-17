@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>ReThink | Community Forum</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+        <!-- Icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="../styles/style.css" />
+        <link rel="stylesheet" href="../styles/community-forum.css" />
+        <link rel="stylesheet" href="../styles/community-forum-post.css" />
+    </head>
+
+    <body>
+        <header>
+            <!-- place navbar here -->
+        </header>
+        <main class = "d-flex justify-content-center align-content-center flex-column mx-auto">
+
+            <div class = "d-flex mt-4 justify-content-center align-content-center m-auto mx-5 ">
+                <div class = "d-flex flex-column w-100">
+
+                    <section id= "post-content" class = "d-flex flex-column">
+                        <div class="post-details card mt-3 pb-1">
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div class = "d-flex flex-row justify-content-between align-content-between">
+                                    <a class = "back-arrow mx-2"><i class="fa fa-arrow-circle-left"></i></a>
+                                    <div class = "d-flex flex-row align-content-between justify-content-between mx-3 mt-2 mb-3 flex-grow-1">
+                                        <p class="post-author">@user</p>
+                                        <div class = "d-flex flex-row align-content-end mx-2 gap-4">
+                                            <p class="post-date">date posted</p>
+                                            <a class = "post-ellipsis"><i class="fa fa-ellipsis-v"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                                <div class = "d-flex flex-row align-items-center">
+                                    <div class = "post-content mx-5 mb-4">
+                                        <h5 class="card-title">Post Title</h5>
+                                        <p class="card-text">Post content goes here...</p>
+                                    </div>
+                                </div>
+
+                                <div class = "d-flex flex-row align-items-center justify-content-between">
+                                    <div class = "post-topics d-flex flex-row gap-2 mx-5">
+                                        <div class="post-topic">Topic</div>
+                                        <div class="post-topic">Topic</div>
+                                    </div>
+                                    <div class = "d-flex flex-row justify-content-end mx-4 gap-2">
+                                        <div class = "d-flex flex-row">
+                                            <p class = "number-of-likes">100</p>
+                                            <a class="like-icon like-false"><i class="fa fa-thumbs-up"></i></a>
+                                        </div>
+                                        <div class = "d-flex flex-row">
+                                            <i class="post-comment-icon mx-2 fa fa-comment-o"></i>
+                                            <p class="post-comments">1</p>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+
+                        <div class="post-comments mt-3 pb-3">
+                            <h3 class = "mx-4 my-4">Comments</h3>
+
+                            <div class = "comment card mb-2">
+                                <div class="card-body d-flex align-items-center py-0">
+                                    <div class = "d-flex flex-row mx-2 gap-2">
+                                        <p class = "comment-number-of-likes">100</p>
+                                        <a class="comments-like-icon like-false"><i class="fa fa-thumbs-up"></i></a>
+                                    </div> 
+                                    
+                                    <div class = " mx-2 flex-grow-1">
+                                        <div class = "d-flex flex-row justify-content-between align-content-between">
+                                            <div class = "d-flex flex-row align-content-between justify-content-between mx-3 mt-2 mb-1 flex-grow-1">
+                                                <p class="comment-author">@user</p>
+                                                <div class = "d-flex flex-row align-content-end mx-2 gap-4">
+                                                    <p class="comment-date">date posted</p>
+                                                    <a class = "comment-ellipsis"><i class="fa fa-ellipsis-v"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+    
+                                        <p class="comment-text mx-3">Comment</p>
+                                    </div>
+                                
+                                </div>        
+                            </div>
+
+                            <div class="add-comment d-flex justify-content-center align-content-center mx-4 mb-2">
+                                <input class = "comment-input flex-grow-1" type="text" placeholder="Add a comment..." />
+                                <a class = "post-comment-button mx-3"><i class="material-icons d-flex justify-content-center">send</i></a>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <section id = "trending-topics" class = "d-flex flex-column w-25">
+                    <h4 class="text-center">Trending Topics</h2>
+                    <div id = "topics" class = "d-flex align-content-center">
+                        <div class = "topic-content d-flex flex-row">
+                            <div class="circle"></div>
+                            <p class = "topic">Topic 1</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </main>
+        <footer>
+            <!-- place footer here -->
+        </footer>
+
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"
+        ></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>

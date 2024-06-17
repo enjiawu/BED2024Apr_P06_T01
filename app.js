@@ -7,7 +7,7 @@ const staticMiddleware = express.static("public");
 
 //Importing Controllers
 const usersController = require("./controllers/usersController")
-const postsController = require("./controllers/postsController");
+const postsController = require("./controllers/communityForumPostController");
 
 //Instatiating the app
 const app = express();

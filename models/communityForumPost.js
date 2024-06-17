@@ -1,7 +1,7 @@
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
-class Post {
+class communityForumPost {
     constructor(postId, userId, title, description, topicId, likes, comments, dateCreated) {
         this.postId = postId;
         this.userId = userId;
@@ -23,7 +23,7 @@ class Post {
         connection.close();
         
         return result.recordset.map(
-            row => new Post(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
+            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
         );
     };
 
@@ -39,7 +39,7 @@ class Post {
         connection.close();
 
         return result.recordset[0] ?
-        new Post(
+        new communityForumPost(
             result.recordset[0].postId, 
             result.recordset[0].userId, 
             result.recordset[0].title, 
@@ -118,5 +118,18 @@ class Post {
         }
 
     }
+
+    static async getPostCount() {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = "SELECT COUNT(*) AS 'postCount' FROM CommunityPosts";
+
+        const request = connection.request();
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset[0];
+    }
 }
-module.exports = Post;
+module.exports = communityForumPost;
