@@ -1,17 +1,8 @@
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
-class Post {
-    constructor(
-        postId,
-        userId,
-        title,
-        description,
-        topicId,
-        likes,
-        comments,
-        dateCreated
-    ) {
+class communityForumPost {
+    constructor(postId, userId, title, description, topicId, likes, comments, dateCreated) {
         this.postId = postId;
         this.userId = userId;
         this.title = title;
@@ -30,22 +21,12 @@ class Post {
         const result = await connection.request().query(sqlQuery);
 
         connection.close();
-
+        
         return result.recordset.map(
-            (row) =>
-                new Post(
-                    row.postId,
-                    row.userId,
-                    row.title,
-                    row.description,
-                    row.topicId,
-                    row.likes,
-                    row.comments,
-                    row.dateCreated
-                )
+            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
         );
-    }
-
+    };
+    
     static async getPostById(postId) {
         const connection = await sql.connect(dbConfig);
 
@@ -57,18 +38,16 @@ class Post {
 
         connection.close();
 
-        return result.recordset[0]
-            ? new Post(
-                  result.recordset[0].postId,
-                  result.recordset[0].userId,
-                  result.recordset[0].title,
-                  result.recordset[0].description,
-                  result.recordset[0].topicId,
-                  result.recordset[0].likes,
-                  result.recordset[0].comments,
-                  result.recordset[0].dateCreated
-              )
-            : null;
+        return result.recordset[0] ?
+        new communityForumPost(
+            result.recordset[0].postId, 
+            result.recordset[0].userId, 
+            result.recordset[0].title, 
+            result.recordset[0].description, 
+            result.recordset[0].topicId, 
+            result.recordset[0].likes, 
+            result.recordset[0].comments, 
+            result.recordset[0].dateCreated) : null;
     }
 
     static async createPost(newPostData) {
@@ -149,5 +128,18 @@ class Post {
 
         return result.recordset[0];
     }
+
+    static async getPostCount() {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = "SELECT COUNT(*) AS 'postCount' FROM CommunityPosts";
+
+        const request = connection.request();
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset[0];
+    }
 }
-module.exports = Post;
+module.exports = communityForumPost;
