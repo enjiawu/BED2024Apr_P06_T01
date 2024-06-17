@@ -44,6 +44,7 @@ app.post("/users/add-post", usersController.addPostsToUser);
 app.get("/users/count", usersController.getUserCount);
 
 //Event Routes
+app.get("/events", eventsController.getAllEvents);
 app.get("/events/count", eventsController.getEventCount);
 
 //Message Routes
