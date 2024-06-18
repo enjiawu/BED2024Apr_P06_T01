@@ -6,7 +6,7 @@ const dbConfig = require("./dbConfig.js");
 const staticMiddleware = express.static("public");
 
 //Importing Controllers
-const usersController = require("./controllers/usersController")
+const usersController = require("./controllers/usersController");
 const postsController = require("./controllers/communityForumPostController");
 const reportsController = require("./controllers/reportsController.js");
 const eventsController = require("./controllers/eventsController.js");
@@ -27,6 +27,7 @@ app.use(staticMiddleware);
 //Post Routes
 app.get("/communityforum", postsController.getAllPosts);
 app.get("/communityforum/search", postsController.searchPosts);
+app.get("/community-forum/count", postsController.getPostCount);
 app.get("/communityforum/:id", postsController.getPostById);
 app.post("/communityforum", postsController.createPost);
 app.put("/communityforum/:id", postsController.updatePost);
