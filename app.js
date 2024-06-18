@@ -6,8 +6,8 @@ const dbConfig = require("./dbConfig.js");
 const staticMiddleware = express.static("public");
 
 //Importing Controllers
-const usersController = require("./controllers/usersController");
-const postsController = require("./controllers/postsController");
+const usersController = require("./controllers/usersController")
+const postsController = require("./controllers/communityForumPostController");
 const reportsController = require("./controllers/reportsController.js");
 const eventsController = require("./controllers/eventsController.js");
 const messagesController = require("./controllers/messagesController.js");
@@ -44,7 +44,13 @@ app.delete("/users/remove-post/:id", usersController.removePostsFromUser);
 app.get("/users/count", usersController.getUserCount);
 
 //Event Routes
+app.get("/events", eventsController.getAllEvents);
 app.get("/events/count", eventsController.getEventCount);
+app.get("/events/search", eventsController.searchEvents);
+app.get("/events/:id", eventsController.getEventById);
+app.post("/events", eventsController.createEvent);
+app.put("/events/:id", eventsController.updateEvent);
+app.delete("/events/:id", eventsController.deleteEvent);
 
 //Message Routes
 app.get("/messages", messagesController.getAllMessages);

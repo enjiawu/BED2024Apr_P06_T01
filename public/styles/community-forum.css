@@ -68,3 +68,103 @@ h1{
     font-size: 14px;
 }
 
+#create-post-button{
+    background-color: #414833;
+    color: white;
+    font-weight: 500;
+    margin-right: 1%;
+    transition: 0.2s;
+}
+
+#create-post-button:hover{
+    background-color: #A4AC86;
+    border: #414833 1px solid;
+}
+
+#create-post-button:active{
+    background-color: white;
+    color: #414833;
+}
+
+.dropdown .btn{
+    background-color: white;
+    border: #414833 1px solid;
+    color: #414833;
+}
+
+.dropdown-item:hover{
+    background-color: #A4AC86;
+}
+
+.dropdown-item:active{
+    background-color: #414833;
+}
+
+.card{
+    border: none;
+    background-color: #EBE3D2;
+}
+
+.number-of-likes{
+    font-size: 19px;
+    font-weight: 500;
+    margin: 0 10px 0 0;
+}
+
+.like-true{
+    color: #414833;
+}
+
+.like-false{
+    color: gray;
+}
+
+.like-icon{
+    margin-right: 20px;
+    font-size: 19px;
+}
+
+.card-title{
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.card-text{
+    font-size: 15px;
+    font-weight: 300;
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.post-topic{
+    color: white;
+    font-size: 12px;
+    background-color: #414833;
+    border-radius: 20px;
+    padding: 2px 15px;
+}
+
+.post-comment-icon{
+    color: #414833;
+    font-size: 15px;
+    margin-top: 2px;
+}
+
+.post-date, .post-author{
+    margin: 0;
+    font-size: 14px;
+}
+
+.post-right{
+    margin-right: 8%;
+}
+
+.post-ellipsis{
+    color: #414833;
+}

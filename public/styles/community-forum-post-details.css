@@ -1,0 +1,45 @@
+.add-post-title{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.post-title, .post-description{
+    border: none;
+    border-radius: 5px;
+    padding: 2px 10px;
+    margin: 0;
+}
+
+.post-title{
+    max-lines: 1;
+    width: auto;
+    text-wrap: wrap;
+}
+
+.post-description{
+    text-wrap: wrap;
+}
+
+.post-title::placeholder, .post-description::placeholder{
+    font-size: 13px;
+    font-weight: 300;
+}
+
+.post-title:focus, .post-description:focus {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.select-topic-button{
+    text-decoration: none;
+}
+
+.add-post-button{
+    color: white;
+    background-color: #414833;
+    border: none;
+    border-radius: 5px;
+    padding: 3px 10px;
+    font-weight: 600;
+    font-size: 15px;
+}
