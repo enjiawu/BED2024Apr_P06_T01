@@ -23,13 +23,26 @@
         <section>
             <div class="container">
                 <div class="row">
-                    <div class="col-10 col-lg-4">
+                    <div class="col-10 col-lg-4 flex-grow-1 mt-5">
                         <aside class="card">
                             <div class="card-body">
-                                <p><strong>Staff Name</strong></p>
-                                <p class="card-subtitle">Admin Management</p>
+                                <div class="text-center">
+                                    <img
+                                        class="mb-4"
+                                        src="../images/about-us/about-us.jpg"
+                                    />
+                                    <h4>
+                                        <strong>Staff Name</strong>
+                                    </h4>
+                                    <p
+                                        class="card-subtitle text-body-secondary mb-4"
+                                    >
+                                        Admin Management
+                                    </p>
+                                </div>
+
                                 <button
-                                    class="btn"
+                                    class="btn focus-ring"
                                     type="button"
                                     data-bs-toggle="collapse"
                                     data-bs-target=".staff-info"
@@ -37,33 +50,34 @@
                                 >
                                     &#x25BC; Staff Information
                                 </button>
+                                <hr />
                                 <ul class="collapse staff-info">
-                                    <button class="btn">Edit</button>
+                                    <button class="btn focus-ring">Edit</button>
                                     <li>
-                                        <p><strong>ID</strong></p>
-                                        <p>Staff ID</p>
+                                        <span><strong>ID</strong></span>
+                                        <div>Staff ID</div>
                                     </li>
                                     <li>
-                                        <p><strong>Name</strong></p>
-                                        <p>Staff Name</p>
+                                        <span><strong>Name</strong></span>
+                                        <div>Staff Name</div>
                                     </li>
                                     <li>
-                                        <p><strong>Email</strong></p>
-                                        <p>Staff Name</p>
+                                        <span><strong>Email</strong></span>
+                                        <div>Staff Name</div>
                                     </li>
                                     <li>
-                                        <p><strong>Department</strong></p>
-                                        <p>Admin Management</p>
+                                        <span><strong>Department</strong></span>
+                                        <div>Admin Management</div>
                                     </li>
                                     <li>
-                                        <p><strong>Location</strong></p>
-                                        <p>Singapore</p>
+                                        <span><strong>Location</strong></span>
+                                        <div>Singapore</div>
                                     </li>
                                 </ul>
                             </div>
                         </aside>
                     </div>
-                    <div class="col-10 col-lg-8 mt-5">
+                    <div class="col-10 col-lg-8 flex-grow-1 mt-5">
                         <div class="card">
                             <div class="card-header">
                                 <ul
@@ -76,7 +90,7 @@
                                         role="presentation"
                                     >
                                         <button
-                                            class="nav-link active"
+                                            class="nav-link active focus-ring"
                                             id="admin-reports-tab"
                                             data-bs-toggle="pill"
                                             data-bs-target="#admin-reports"
@@ -90,7 +104,7 @@
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button
-                                            class="nav-link"
+                                            class="nav-link focus-ring"
                                             id="admin-messsages-tab"
                                             data-bs-toggle="pill"
                                             data-bs-target="#admin-messsages"
@@ -108,20 +122,17 @@
                                     id="admin-tabContent"
                                 >
                                     <div
-                                        class="tab-pane fade show active"
+                                        class="tab-pane fade show active focus-ring"
                                         id="admin-reports"
                                         role="tabpanel"
                                         aria-labelledby="admin-reports-tab"
                                         tabindex="0"
                                     >
-                                        <div class="card">
+                                        <div class="card report-card">
                                             <div class="container card-body">
                                                 <div
                                                     class="row justify-content-start"
                                                 >
-                                                    <div class="col-4">
-                                                        0000 &uarr;
-                                                    </div>
                                                     <div class="col-8">
                                                         <div class="card-title">
                                                             <strong
@@ -130,13 +141,11 @@
                                                             >
                                                         </div>
                                                     </div>
+                                                    <div class="col-4 text-end">
+                                                        &uarr; 0000
+                                                    </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div
-                                                        class="col-4 text-body-secondary"
-                                                    >
-                                                        @user
-                                                    </div>
                                                     <div class="col-8">
                                                         <span
                                                             class="card-subtitle"
@@ -144,23 +153,28 @@
                                                             Description</span
                                                         >
                                                     </div>
+                                                    <div
+                                                        class="col-4 text-end text-body-secondary"
+                                                    >
+                                                        @user
+                                                    </div>
                                                 </div>
                                                 <div class="row">
+                                                    <div class="col-8"></div>
                                                     <div
-                                                        class="col-4 text-body-secondary"
+                                                        class="col-4 text-end text-body-secondary"
                                                     >
                                                         1 c
                                                     </div>
-                                                    <div class="col-8"></div>
                                                 </div>
                                                 <div class="row">
-                                                    <div
-                                                        class="col-4 text-body-secondary"
-                                                    >
-                                                        Date Posted
-                                                    </div>
                                                     <div class="col-8">
                                                         Topics
+                                                    </div>
+                                                    <div
+                                                        class="col-4 text-end text-body-secondary"
+                                                    >
+                                                        Date Posted
                                                     </div>
                                                 </div>
                                                 <hr />
@@ -175,12 +189,14 @@
                                                     </div>
                                                 </div>
                                                 <div
-                                                    class="row justify-content-between"
+                                                    class="row justify-content-between mt-4"
                                                 >
                                                     <div
                                                         class="col flex-grow-0 text-nowrap"
                                                     >
-                                                        <button class="btn">
+                                                        <button
+                                                            class="btn ignore-button focus-ring"
+                                                        >
                                                             Ignore Report
                                                         </button>
                                                     </div>
@@ -188,7 +204,7 @@
                                                         class="col flex-grow-0 text-nowrap"
                                                     >
                                                         <button
-                                                            class="btn btn-danger"
+                                                            class="btn remove-button focus-ring"
                                                         >
                                                             Remove Post
                                                         </button>
@@ -204,34 +220,35 @@
                                                 class="pagination justify-content-center"
                                             >
                                                 <li class="page-item disabled">
-                                                    <a class="page-link"
+                                                    <a
+                                                        class="page-link focus-ring"
                                                         >Previous</a
                                                     >
                                                 </li>
                                                 <li class="page-item active">
                                                     <a
-                                                        class="page-link"
+                                                        class="page-link focus-ring"
                                                         href="#"
                                                         >1</a
                                                     >
                                                 </li>
                                                 <li class="page-item">
                                                     <a
-                                                        class="page-link"
+                                                        class="page-link focus-ring"
                                                         href="#"
                                                         >2</a
                                                     >
                                                 </li>
                                                 <li class="page-item">
                                                     <a
-                                                        class="page-link"
+                                                        class="page-link focus-ring"
                                                         href="#"
                                                         >3</a
                                                     >
                                                 </li>
                                                 <li class="page-item">
                                                     <a
-                                                        class="page-link"
+                                                        class="page-link focus-ring"
                                                         href="#"
                                                         >Next</a
                                                     >
@@ -240,13 +257,13 @@
                                         </nav>
                                     </div>
                                     <div
-                                        class="tab-pane fade"
+                                        class="tab-pane fade focus-ring"
                                         id="admin-messsages"
                                         role="tabpanel"
                                         aria-labelledby="admin-messsages-tab"
                                         tabindex="0"
                                     >
-                                        <div class="card">
+                                        <div class="card message-card">
                                             <div class="card-body">
                                                 <p
                                                     class="card-title text-body-secondary"
@@ -268,15 +285,14 @@
                                                 <div class="input-group">
                                                     <input
                                                         type="text"
-                                                        class="form-control"
+                                                        class="form-control focus-ring"
                                                         placeholder="Reply"
                                                         aria-label="Reply and send"
                                                         aria-describedby="reply-button"
                                                     />
                                                     <button
-                                                        class="btn btn-primary"
+                                                        class="btn btn-primary reply-button focus-ring"
                                                         type="button"
-                                                        id="reply-button"
                                                     >
                                                         Reply
                                                     </button>
@@ -291,34 +307,35 @@
                                                 class="pagination justify-content-center"
                                             >
                                                 <li class="page-item disabled">
-                                                    <a class="page-link"
+                                                    <a
+                                                        class="page-link focus-ring"
                                                         >Previous</a
                                                     >
                                                 </li>
                                                 <li class="page-item active">
                                                     <a
-                                                        class="page-link"
+                                                        class="page-link focus-ring"
                                                         href="#"
                                                         >1</a
                                                     >
                                                 </li>
                                                 <li class="page-item">
                                                     <a
-                                                        class="page-link"
+                                                        class="page-link focus-ring"
                                                         href="#"
                                                         >2</a
                                                     >
                                                 </li>
                                                 <li class="page-item">
                                                     <a
-                                                        class="page-link"
+                                                        class="page-link focus-ring"
                                                         href="#"
                                                         >3</a
                                                     >
                                                 </li>
                                                 <li class="page-item">
                                                     <a
-                                                        class="page-link"
+                                                        class="page-link focus-ring"
                                                         href="#"
                                                         >Next</a
                                                     >

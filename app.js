@@ -6,7 +6,7 @@ const dbConfig = require("./dbConfig.js");
 const staticMiddleware = express.static("public");
 
 //Importing Controllers
-const usersController = require("./controllers/usersController")
+const usersController = require("./controllers/usersController");
 const postsController = require("./controllers/communityForumPostController");
 const reportsController = require("./controllers/reportsController.js");
 const eventsController = require("./controllers/eventsController.js");
@@ -26,11 +26,12 @@ app.use(staticMiddleware);
 
 //Post Routes
 app.get("/communityforum", postsController.getAllPosts);
-app.get("/communityforum/search", postsController.searchPosts)
-app.get("/communityforum/:id", postsController.getPostById)
-app.post("/communityforum", postsController.createPost)
-app.put("/communityforum/:id",postsController.updatePost)
-app.delete("/communityforum/:id", postsController.deletePost)
+app.get("/communityforum/search", postsController.searchPosts);
+app.get("/community-forum/count", postsController.getPostCount);
+app.get("/communityforum/:id", postsController.getPostById);
+app.post("/communityforum", postsController.createPost);
+app.put("/communityforum/:id", postsController.updatePost);
+app.delete("/communityforum/:id", postsController.deletePost);
 
 //Report Routes
 app.get("/reports", reportsController.getAllReports);
@@ -40,7 +41,7 @@ app.delete("/reports/:id", reportsController.deleteReport);
 //User Routes
 app.get("/users/with-posts", usersController.getUsersWithPosts);
 app.post("/users/add-post", usersController.addPostsToUser);
-// app.delete("/users/remove-post/:id", usersController.removePostsFromUser);
+app.delete("/users/remove-post/:id", usersController.removePostsFromUser);
 app.get("/users/count", usersController.getUserCount);
 
 //Event Routes
