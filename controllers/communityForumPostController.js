@@ -86,6 +86,30 @@ const getPostCount = async (req, res) => {
     }
 };
 
+const getPostsByTopic = async (req, res) => {
+    const topicId = parseInt(req.params.id);
+    try {
+        const posts = await Post.getPostsByTopic(topicId);
+        if (!posts){
+            return res.status(404).send("No posts found");
+        }
+        res.json(posts);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving posts");
+    }
+};
+
+const getAllLikes = async (req, res) => {
+    try {
+        const likes = await Post.getAllLikes();
+        res.status(200).json(likes);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving total number of likes");
+    }
+};
+
 module.exports = {
     getAllPosts,
     getPostById,
@@ -94,4 +118,6 @@ module.exports = {
     deletePost,
     searchPosts,
     getPostCount,
+    getPostsByTopic,
+    getAllLikes
 };
