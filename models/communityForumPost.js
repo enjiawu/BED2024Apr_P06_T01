@@ -2,7 +2,16 @@ const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
 class communityForumPost {
-    constructor(postId, userId, title, description, topicId, likes, comments, dateCreated) {
+    constructor(
+        postId,
+        userId,
+        title,
+        description,
+        topicId,
+        likes,
+        comments,
+        dateCreated
+    ) {
         this.postId = postId;
         this.userId = userId;
         this.title = title;
@@ -21,9 +30,19 @@ class communityForumPost {
         const result = await connection.request().query(sqlQuery);
 
         connection.close();
-        
+
         return result.recordset.map(
-            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
+            (row) =>
+                new communityForumPost(
+                    row.postId,
+                    row.userId,
+                    row.title,
+                    row.description,
+                    row.topicId,
+                    row.likes,
+                    row.comments,
+                    row.dateCreated
+                )
         );
     };
 
@@ -38,16 +57,18 @@ class communityForumPost {
 
         connection.close();
 
-        return result.recordset[0] ?
-        new communityForumPost(
-            result.recordset[0].postId, 
-            result.recordset[0].userId, 
-            result.recordset[0].title, 
-            result.recordset[0].description, 
-            result.recordset[0].topicId, 
-            result.recordset[0].likes, 
-            result.recordset[0].comments, 
-            result.recordset[0].dateCreated) : null;
+        return result.recordset[0]
+            ? new communityForumPost(
+                  result.recordset[0].postId,
+                  result.recordset[0].userId,
+                  result.recordset[0].title,
+                  result.recordset[0].description,
+                  result.recordset[0].topicId,
+                  result.recordset[0].likes,
+                  result.recordset[0].comments,
+                  result.recordset[0].dateCreated
+              )
+            : null;
     }
 
     static async createPost(newPostData) {
