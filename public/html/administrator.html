@@ -90,7 +90,7 @@
                                         role="presentation"
                                     >
                                         <button
-                                            class="nav-link active focus-ring"
+                                            class="nav-link active focus-ring admin-reports-tab"
                                             id="admin-reports-tab"
                                             data-bs-toggle="pill"
                                             data-bs-target="#admin-reports"
@@ -104,8 +104,8 @@
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button
-                                            class="nav-link focus-ring"
-                                            id="admin-messsages-tab"
+                                            class="nav-link focus-ring admin-messages-tab"
+                                            id="admin-messages-tab"
                                             data-bs-toggle="pill"
                                             data-bs-target="#admin-messsages"
                                             type="button"
@@ -122,92 +122,117 @@
                                     id="admin-tabContent"
                                 >
                                     <div
-                                        class="tab-pane fade show active focus-ring"
+                                        class="tab-pane fade show active focus-ring admin-reports"
                                         id="admin-reports"
                                         role="tabpanel"
                                         aria-labelledby="admin-reports-tab"
                                         tabindex="0"
                                     >
-                                        <div class="card report-card">
-                                            <div class="container card-body">
+                                        <div class="reports-list">
+                                            <div class="card report-card mb-4">
                                                 <div
-                                                    class="row justify-content-start"
+                                                    class="container card-body"
                                                 >
-                                                    <div class="col-8">
-                                                        <div class="card-title">
+                                                    <div
+                                                        class="row justify-content-start"
+                                                    >
+                                                        <div class="col-8">
                                                             <strong
-                                                                >Post
-                                                                Title</strong
+                                                                class="post-title"
                                                             >
+                                                                Post Title
+                                                            </strong>
+                                                        </div>
+                                                        <div
+                                                            class="col-4 text-end post-likes"
+                                                        >
+                                                            &uarr; 0000
                                                         </div>
                                                     </div>
-                                                    <div class="col-4 text-end">
-                                                        &uarr; 0000
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-8">
-                                                        <span
-                                                            class="card-subtitle"
-                                                            >Post
-                                                            Description</span
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <span
+                                                                class="card-subtitle post-description"
+                                                                >Post
+                                                                Description</span
+                                                            >
+                                                        </div>
+                                                        <div
+                                                            class="col-4 text-end text-body-secondary original-poster"
                                                         >
+                                                            @user
+                                                        </div>
                                                     </div>
-                                                    <div
-                                                        class="col-4 text-end text-body-secondary"
-                                                    >
-                                                        @user
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-8"></div>
-                                                    <div
-                                                        class="col-4 text-end text-body-secondary"
-                                                    >
-                                                        1 c
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-8">
-                                                        Topics
-                                                    </div>
-                                                    <div
-                                                        class="col-4 text-end text-body-secondary"
-                                                    >
-                                                        Date Posted
-                                                    </div>
-                                                </div>
-                                                <hr />
-                                                <div
-                                                    class="row text-body-secondary"
-                                                >
-                                                    <div class="col">@user</div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        Report Reason
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    class="row justify-content-between mt-4"
-                                                >
-                                                    <div
-                                                        class="col flex-grow-0 text-nowrap"
-                                                    >
-                                                        <button
-                                                            class="btn ignore-button focus-ring"
+                                                    <div class="row">
+                                                        <div
+                                                            class="col-8"
+                                                        ></div>
+                                                        <div
+                                                            class="col-4 text-end text-body-secondary post-comments"
                                                         >
-                                                            Ignore Report
-                                                        </button>
+                                                            0000 c
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div
+                                                            class="col-8 post-topics"
+                                                        >
+                                                            Topics
+                                                        </div>
+                                                        <div
+                                                            class="col-4 text-end text-body-secondary date-posted"
+                                                        >
+                                                            Date Posted
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+                                                    <div
+                                                        class="row text-body-secondary"
+                                                    >
+                                                        <div
+                                                            class="col date-reported"
+                                                        >
+                                                            Date Reported
+                                                        </div>
                                                     </div>
                                                     <div
-                                                        class="col flex-grow-0 text-nowrap"
+                                                        class="row text-body-secondary"
                                                     >
-                                                        <button
-                                                            class="btn remove-button focus-ring"
+                                                        <div
+                                                            class="col post-reporter"
                                                         >
-                                                            Remove Post
-                                                        </button>
+                                                            @user
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div
+                                                            class="col report-reason"
+                                                        >
+                                                            Report Reason
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="row justify-content-between mt-4"
+                                                    >
+                                                        <div
+                                                            class="col flex-grow-0 text-nowrap"
+                                                        >
+                                                            <button
+                                                                class="btn ignore-button focus-ring"
+                                                            >
+                                                                Ignore Report
+                                                            </button>
+                                                        </div>
+                                                        <div
+                                                            class="col flex-grow-0 text-nowrap"
+                                                        >
+                                                            <button
+                                                                class="btn remove-button focus-ring"
+                                                            >
+                                                                Remove Post
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -263,39 +288,45 @@
                                         aria-labelledby="admin-messsages-tab"
                                         tabindex="0"
                                     >
-                                        <div class="card message-card">
-                                            <div class="card-body">
-                                                <p
-                                                    class="card-title text-body-secondary"
-                                                >
-                                                    First Name Last Name
-                                                </p>
-                                                <p
-                                                    class="card-subtitle text-body-secondary"
-                                                >
-                                                    email
-                                                </p>
-                                                <p
-                                                    class="card-subtitle text-body-secondary"
-                                                >
-                                                    Phone Number
-                                                </p>
-                                                <p class="card-text">Message</p>
-
-                                                <div class="input-group">
-                                                    <input
-                                                        type="text"
-                                                        class="form-control focus-ring"
-                                                        placeholder="Reply"
-                                                        aria-label="Reply and send"
-                                                        aria-describedby="reply-button"
-                                                    />
-                                                    <button
-                                                        class="btn btn-primary reply-button focus-ring"
-                                                        type="button"
+                                        <div class="messages-list">
+                                            <div class="card message-card mb-4">
+                                                <div class="card-body">
+                                                    <p
+                                                        class="card-title text-body-secondary name"
                                                     >
-                                                        Reply
-                                                    </button>
+                                                        First Name Last Name
+                                                    </p>
+                                                    <p
+                                                        class="card-subtitle text-body-secondary email"
+                                                    >
+                                                        email
+                                                    </p>
+                                                    <p
+                                                        class="card-subtitle text-body-secondary phone-number"
+                                                    >
+                                                        Phone Number
+                                                    </p>
+                                                    <p
+                                                        class="card-text message"
+                                                    >
+                                                        Message
+                                                    </p>
+
+                                                    <div class="input-group">
+                                                        <input
+                                                            type="text"
+                                                            class="form-control focus-ring"
+                                                            placeholder="Reply"
+                                                            aria-label="Reply and send"
+                                                            aria-describedby="reply-button"
+                                                        />
+                                                        <button
+                                                            class="btn btn-primary reply-button focus-ring"
+                                                            type="button"
+                                                        >
+                                                            Reply
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
