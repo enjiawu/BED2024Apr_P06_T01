@@ -8,6 +8,7 @@ const staticMiddleware = express.static("public");
 //Importing Controllers
 const usersController = require("./controllers/usersController");
 const postsController = require("./controllers/communityForumPostController");
+const topicsController = require("./controllers/communityForumTopicsController.js");
 const reportsController = require("./controllers/reportsController.js");
 const eventsController = require("./controllers/eventsController.js");
 const messagesController = require("./controllers/messagesController.js");
@@ -24,14 +25,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(staticMiddleware);
 
-//Post Routes
+//Community Forum Routes
 app.get("/communityforum", postsController.getAllPosts);
-app.get("/communityforum/search", postsController.searchPosts);
-app.get("/community-forum/count", postsController.getPostCount);
-app.get("/communityforum/:id", postsController.getPostById);
-app.post("/communityforum", postsController.createPost);
-app.put("/communityforum/:id", postsController.updatePost);
-app.delete("/communityforum/:id", postsController.deletePost);
+app.get("/communityforum/topics", topicsController.getAllTopics);
+app.get("/communityforum/topic-count", postsController.getPostCount)
+app.get("/communityforum/topics/:id", topicsController.getTopicById);
+app.get("/communityforum/posts-by-topic/:id", postsController.getPostsByTopic);
+app.get("/communityforum/search", postsController.searchPosts)
+app.get("/communityforum/:id", postsController.getPostById)
+app.post("/communityforum", postsController.createPost)
+app.put("/communityforum/:id",postsController.updatePost)
+app.delete("/communityforum/:id", postsController.deletePost)
 
 //Report Routes
 app.get("/reports", reportsController.getAllReports);
