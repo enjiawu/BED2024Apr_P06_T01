@@ -110,6 +110,29 @@ const getAllLikes = async (req, res) => {
     }
 };
 
+const sortPostsByLikesDesc =  async (req, res) => {
+    try {
+        const posts = await Post.sortPostsByLikesDesc();
+        res.status(200).json(posts);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error sorting posts by likes");
+    }
+};
+
+const sortPostsByLikesAsc = async (req, res) => {
+    try {
+        const posts = await Post.sortPostsByLikesAsc();
+        res.status(200).json(posts);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error sorting posts by likes");
+    }
+};
+
+
+
+
 module.exports = {
     getAllPosts,
     getPostById,

@@ -177,5 +177,62 @@ class communityForumPost {
 
         return result.recordset;    
     }
+
+    static async sortPostsByLikesDesc(){
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `SELECT * FROM CommunityPosts ORDER BY likes DESC`;
+
+        const result = await connection.request().query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset.map(
+            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
+        );
+    }
+
+    static async sortPostsByLikesAsc(){
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `SELECT * FROM CommunityPosts ORDER BY likes ASC`;
+
+        const result = await connection.request().query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset.map(
+            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
+        );
+    }
+
+    static async sortPostsByNewest(){
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `SELECT * FROM CommunityPosts ORDER BY dateCreated DESC`;
+
+        const result = await connection.request().query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset.map(
+            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
+        );
+    }
+
+    static async sortPostsByOldest(){
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `SELECT * FROM CommunityPosts ORDER BY dateCreated ASC`;
+
+        const result = await connection.request().query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset.map(
+            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
+        );
+    }
+
 }
 module.exports = communityForumPost;
