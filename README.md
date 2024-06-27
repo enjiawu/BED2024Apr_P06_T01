@@ -5,9 +5,9 @@
 | Name | Student ID |
 | --- | --- |
 | Wu Enjia | S10256978E |
-| Joseph Wan |  |
-| Timothy Chai |  |
-| Xue Wenya |  |
+| Joseph Wan | S10262528G |
+| Timothy Chai | S10256132A |
+| Xue Wenya | S10262410A |
 
 
 ## Overview
