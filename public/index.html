@@ -22,15 +22,143 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
         
+        <!-- FA-BRANDS -->
+        <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+        integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+        />
+
         <!-- Custom CSS -->
         <link rel="stylesheet" href="styles/style.css" />
         <link rel="stylesheet" href="styles/index.css" />
+        <link rel="stylesheet" href="styles/nav.css" />
     </head>
 
     <body>
         <header>
-            <!-- place navbar here -->
+            <div class="nav-container">
+                <div class="nav-left">
+                    <a href="#"><img src="images/logo/ReThink Logo - Green.png" alt="Logo" class="logo"></a>
+                </div>
+                <div class="nav-right">
+                    <ul class="nav-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="html/about-us.html">About</a></li>
+                        <li><a href="#">Articles</a></li>
+                        <li class="dropdown">
+                            <a href="#">Community</a>
+                            <div class="dropdown-content">
+                                <a href="html/community-forum.html">Community Forum</a>
+                                <a href="html/event.html">Events</a>
+                                <a href="#">Donation</a>
+                            </div>
+                        </li>
+                        <li><a href="#">Carbon Footprint Calculator</a></li>
+                        <li><a href="html/contact.html">Contact</a></li>
+                        <li class="user-dropdown" id="user-dropdown">
+                            <div class="profile-pic">
+                                <!-- Initially hidden, shown after login -->
+                                <img src="images/logo/ReThink Logo - Beige.png" alt="Profile Picture" class="avatar">
+                            </div>
+                            <div class="dropdown-content">
+                                <a href="#">Profile</a>
+                                <a href="#">Settings</a>
+                                <a href="#">Notifications</a>
+                                <a href="#" id="logout-button">Logout</a>
+                            </div>
+                        </li>
+                        <li class="login-btn-pop" id="login-button-nav"><a href="#">Login</a></li>
+                    </ul>
+                </div>
+                <!-- Menu button for mobile menu -->
+                <div class="icon menu-btn">
+                    <i class="fa fa-bars"></i>
+                </div>
+            </div>
         </header>
+
+        <!-- Login and Register Pop-up -->
+        <div class="wrapper-container">
+            <div id="login-container" class="wrapper">
+                <!-- Close button -->
+                <span class="icon-close">x</span>
+                
+                <!-- Login form -->
+                <div class="form-box login active">
+                    <h2>Sign In</h2>
+                    <form id="login-form" action="/users/login" method="POST">
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                            <input type="email" id="login-email" required>
+                            <label>Email</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                            <input type="password" id="login-password" required>
+                            <label>Password</label>
+                        </div>
+                        <div class="remember-forgot">
+                            <p>Forgot Password?</p>
+                        </div>
+                        <button type="submit" class="btn" id="login-button">Sign In</button>
+                        <div class="login-register">
+                            <p>Don't have an account? <a href="#" class="register-link">Register</a></p>
+                            <p>Are you a staff? <a href="#" class="staff-login-link">Staff Sign In</a></p>
+                        </div>
+                    </form>
+                </div>
+        
+                <!-- Staff Login form -->
+                <div class="form-box staff-login">
+                    <h2>Staff Sign In</h2>
+                    <form id="staff-login-form">
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="person"></ion-icon></span>
+                            <input type="text" id="staff-id" required>
+                            <label for="staff-id">Staff ID</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                            <input type="password" id="staff-password" required>
+                            <label for="staff-password">Password</label>
+                        </div>
+                        <button type="button" class="btn" id="staff-login-button">Staff Sign In</button>
+                        <div class="login-register">
+                            <p>Are you a user? <a href="#" class="login-link">User Sign In</a></p>
+                        </div>
+                    </form>
+                </div>
+        
+                <!-- Registration form -->
+                <div class="form-box register">
+                    <h2>Registration</h2>
+                    <form id="register-form" action="/users" method="POST">
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="person"></ion-icon></span>
+                            <input type="text" id="register-name" required>
+                            <label for="register-name">Username</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                            <input type="email" id="register-email" required>
+                            <label for="register-email">Email</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                            <input type="password" id="register-password" required>
+                            <label for="register-password">Password</label>
+                        </div>
+                        <button type="submit" class="btn" id="register-button">Register</button>
+                        <div class="login-register">
+                            <p>Already have an account? <a href="#" class="login-link">Login</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <main>
             <section class="hero">
                 <div class="hero-text text-center">
@@ -99,9 +227,65 @@
             </section>
 
         </main>
+
+        <!-- footer section -->
         <footer>
-            <!-- place footer here -->
+            <div class="footer-row">
+            <div class="footer-col footer-logo">
+                <div class="footer-logo-img">
+                <img src="images/logo/ReThink Logo - Green.png" alt = "logo">
+                </div>
+            </div>
+            <div class="footer-col footer-nav">
+                <div class="footer-navbar">
+                    <h4>Resources</h4>
+                    <nav>
+                        <ul>
+                        <li><a href="#">Articles</a></li>
+                        <li><a href="html/event.html">Events</a></li>
+                        <li><a href="#">Carbon Footprint Calculator</a></li>
+                        </ul>
+                    </nav>
+                </div>
+    
+                <div class="footer-navbar">
+                <h4>Support</h4>
+                <nav>
+                    <ul>
+                    <li><a href="#">Donation</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </nav>
+                </div>
+    
+                <div class="footer-navbar">
+                <h4>About</h4>
+                <nav>
+                    <ul>
+                    <li><a href="html/about-us.html">About Us</a></li>
+                    <li><a href="#">Credits</a></li>
+                    </ul>
+                </nav>
+                </div>
+
+                <div class="footer-navbar">
+                    <h4>Account</h4>
+                    <nav>
+                        <ul>
+                        <li><a href="#">Sign In</a></li>
+                        <li><a href="#">Sign Up</a></li>
+                        <li><a href="#">Profile</a></li>
+                        </ul>
+                    </nav>
+                    </div>
+            </div>
+            </div>
+            <div class="copyright">
+            <p>Copyright © 2024 ReThink</p>
+            </div>
         </footer>
+
+        <script src="scripts/login-popup.js"></script>
 
         <!-- Bootstrap JavaScript Libraries -->
         <script

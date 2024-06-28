@@ -20,7 +20,7 @@ body {
     background-position: center;
 }
 
-body,
+main,
 .stats {
     max-width: 50rem;
     margin: auto;
