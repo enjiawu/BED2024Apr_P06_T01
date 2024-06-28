@@ -11,7 +11,10 @@
 
 
 ## Overview
-This project is a backend-focused assignment that includes a simple front-end interface. The primary goal of this project is to design and implement a RESTful API using express.js to perform CRUD (Create, Read, Update, Delete) operations on a database. This project was developed by a team of four members, each contributing to different features and functions.
+This project is a backend-focused assignment that includes a simple front-end interface. The primary goal of this project is to design and implement a RESTful API using express.js to perform CRUD (Create, Read, Update, Delete) operations on a database. This project was developed by a team of four members, each contributing to different features and functions.  
+  
+[Figma Sitemap](https://www.figma.com/board/nv7S5KvsDjxtC6Kox3NVgx/Untitled?node-id=1-127&t=4SBsDU8YbP7SYPoj-1)  
+[Figma Wireframe](https://www.figma.com/design/H7ZDSVtAHVsLTA5eA0g6Le/BED_Wireframe?node-id=0-1&t=4SBsDU8YbP7SYPoj-1)
 
 ## Contributions
 ### Team Member 1 - Wu Enjia
