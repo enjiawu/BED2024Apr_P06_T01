@@ -6,13 +6,13 @@ const dbConfig = require("./dbConfig.js");
 const staticMiddleware = express.static("public");
 
 //Importing Controllers
-const usersController = require("../controllers/usersController.js");
-const postsController = require("../controllers/communityForumPostController.js");
-const topicsController = require("../controllers/communityForumTopicsController.js");
-const reportsController = require("../controllers/reportsController.js");
-const eventsController = require("../controllers/eventsController.js");
-const messagesController = require("../controllers/messagesController.js");
-const repliesController = require("../controllers/repliesController.js");
+const usersController = require("./controllers/usersController.js");
+const postsController = require("./controllers/communityForumPostController.js");
+const topicsController = require("./controllers/communityForumTopicsController.js");
+const reportsController = require("./controllers/reportsController.js");
+const eventsController = require("./controllers/eventsController.js");
+const messagesController = require("./controllers/messagesController.js");
+const repliesController = require("./controllers/repliesController.js");
 
 //Instatiating the app
 const app = express();

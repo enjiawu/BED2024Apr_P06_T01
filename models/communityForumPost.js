@@ -1,5 +1,5 @@
 const sql = require("mssql");
-const dbConfig = require("../ReThink/dbConfig");
+const dbConfig = require("../dbConfig");
 
 class communityForumPost {
     constructor(
