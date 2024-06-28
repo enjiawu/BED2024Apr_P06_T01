@@ -6,8 +6,8 @@ const dbConfig = require("./dbConfig.js");
 //const staticMiddleware = express.static("public");
 
 //Importing Controllers
-const usersController = require("./controllers/usersController.js");
-const booksController = require("./controllers/booksController.js");
+const usersController = require("./controllers/userController.js");
+const booksController = require("./controllers/bookController.js");
 
 //Instatiating the app
 const app = express();

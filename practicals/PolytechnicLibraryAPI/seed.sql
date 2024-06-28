@@ -1,3 +1,22 @@
+/*Delete database if it exists*/
+USE master
+IF EXISTS (SELECT * FROM sys.databases WHERE name = 'poly_library')
+DROP DATABASE poly_library;
+GO
+
+CREATE DATABASE poly_library;
+GO
+USE poly_library;
+
+/*Delete tables (if they exist) before creating*/
+IF EXISTS (SELECT * FROM sysobjects WHERE id = object_id('Books') AND sysstat & 0xf = 3)
+DROP TABLE Books;
+GO
+
+IF EXISTS (SELECT * FROM sysobjects WHERE id = object_id('Users') AND sysstat & 0xf = 3)
+DROP TABLE Users;
+GO
+
 CREATE TABLE Users (
   user_id INT IDENTITY(1,1) PRIMARY KEY,
   username VARCHAR(255) NOT NULL UNIQUE,
