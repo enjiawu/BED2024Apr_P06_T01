@@ -58,7 +58,7 @@ This project is a backend-focused assignment that includes a simple front-end in
 3. **Install dependencies:**
 
    ```bash
-   npm install body-parser express joi mssql nodemon
+   npm install body-parser express joi mssql nodemon bcrypt
    
 5. **Start the server::**
 
