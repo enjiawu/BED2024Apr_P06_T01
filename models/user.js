@@ -1,5 +1,6 @@
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
+const bcrypt = require("bcrypt");
 
 class User {
     constructor(
@@ -9,7 +10,7 @@ class User {
         location,
         bio,
         profilePicture,
-        password
+        passwordHash
     ) {
         this.userId = userId;
         this.username = username;
@@ -17,7 +18,65 @@ class User {
         this.location = location;
         this.bio = bio;
         this.profilePicture = profilePicture;
-        this.password = password;
+        this.passwordHash = passwordHash;
+    }
+
+    static async getAllUsers() {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = 'SELECT * FROM Users';
+
+        const request = connection.request();
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+        return result.recordset.map(
+            (row) => new User(row.userId, row.username, row.email, row.location, row.bio, row.profilePicture, row.passwordHash)
+        );
+    }
+
+    static async authenticateUser(email, password) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = 'SELECT * FROM Users WHERE email = @Email';
+
+        const request = connection.request();
+        request.input("Email", email);
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        if (result.recordset.length === 0) {
+            throw new Error("User not found");
+        }
+
+        const user = result.recordset[0];
+        const passwordMatch = await bcrypt.compare(password, user.passwordHash);
+
+        if (!passwordMatch) {
+            throw new Error("Invalid password");
+        }
+
+        return new User(user.userId, user.username, user.email, user.passwordHash);
+    }
+
+    static async registerUser(newUserData) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = 'INSERT INTO Users (username, email, passwordHash) VALUES (@username, @email, @passwordHash); SELECT SCOPE_IDENTITY() AS id;';
+
+        const hashedPassword = await bcrypt.hash(newUserData.passwordHash, 10);
+
+        const request = connection.request();
+        request.input("username", newUserData.username);
+        request.input("email", newUserData.email);
+        request.input("passwordHash", hashedPassword);
+
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result;
     }
 
     static async getUsersWithPosts() {
