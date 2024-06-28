@@ -32,6 +32,11 @@ app.get("/communityforum/topics", topicsController.getAllTopics); // Get all for
 app.get("/communityforum/post-count", postsController.getPostCount); // Get total number of posts
 app.get("/communityforum/topic-count", topicsController.getTopicCount); // Get total number of topics
 app.get("/communityforum/likes-count", postsController.getAllLikes); // Get total number of likes across all posts
+//// Sorting Routes
+app.get("/communityforum/sort-by-likes-desc", postsController.sortPostsByLikesDesc); // Sort posts by likes in descending order
+app.get("/communityforum/sort-by-likes-asc", postsController.sortPostsByLikesAsc); // Sort posts by likes in ascending order
+app.get("/communityforum/sort-by-newest", postsController.sortPostsByNewest); // Sort posts by date in descending order
+app.get("/communityforum/sort-by-oldest", postsController.sortPostsByOldest); // Sort posts by date in ascending order
 //// Specific Post or Topic Routes
 app.get("/communityforum/topics/:id", topicsController.getTopicById); // Get a specific topic by ID
 app.get("/communityforum/posts-by-topic/:id", postsController.getPostsByTopic); // Get posts belonging to a specific topic
