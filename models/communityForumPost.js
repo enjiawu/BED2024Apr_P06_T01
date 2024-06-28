@@ -1,5 +1,5 @@
 const sql = require("mssql");
-const dbConfig = require("../dbConfig");
+const dbConfig = require("../ReThink/dbConfig");
 
 class communityForumPost {
     constructor(
@@ -175,7 +175,7 @@ class communityForumPost {
 
         connection.close();
 
-        return result.recordset;    
+        return result.recordset[0];    
     }
 
     static async sortPostsByLikesDesc(){

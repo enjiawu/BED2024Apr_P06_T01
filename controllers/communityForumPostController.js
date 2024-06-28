@@ -130,7 +130,25 @@ const sortPostsByLikesAsc = async (req, res) => {
     }
 };
 
+const sortPostsByNewest = async (req, res) => {
+    try {
+        const posts = await Post.sortPostsByNewest();
+        res.status(200).json(posts);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error sorting posts by newest");
+    }
+};
 
+const sortPostsByOldest = async (req, res) => {
+    try {
+        const posts = await Post.sortPostsByOldest();
+        res.status(200).json(posts);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error sorting posts by oldest");
+    }
+};
 
 
 module.exports = {
@@ -142,5 +160,9 @@ module.exports = {
     searchPosts,
     getPostCount,
     getPostsByTopic,
-    getAllLikes
+    getAllLikes,
+    sortPostsByLikesDesc,
+    sortPostsByLikesAsc,
+    sortPostsByNewest,
+    sortPostsByOldest
 };
