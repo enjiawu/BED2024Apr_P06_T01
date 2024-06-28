@@ -1,0 +1,181 @@
+main{
+    max-width: 1000px;
+}
+
+h1{
+    font-size: 40px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+a{
+    text-decoration: none;
+    color: #414833;
+}
+
+.search-bar{
+    border-radius: 3px;
+    max-width: 600px;
+    border: 1px solid;
+}
+
+.search-bar::placeholder{
+    font-size: 15px;
+}
+
+#forum-stats{
+    max-width: 400px;
+}
+
+#forum-stats p{
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+#forum-stats h2{
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: regular;
+    letter-spacing: 3px;
+}
+
+#forum-hero{
+    margin: 0 5%;
+}
+
+.circle{
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    background-color: #A4AC86;
+    display: inline-block;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+.topic{
+    font-size: 15px;
+    max-width: 100px;
+}
+
+#trending-topics{
+    margin-left: 30px;
+}
+
+#trending-topics h4{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+#create-post-button{
+    background-color: #414833;
+    color: white;
+    font-weight: 500;
+    margin-right: 1%;
+    transition: 0.2s;
+}
+
+#create-post-button:hover{
+    background-color: #A4AC86;
+    border: #414833 1px solid;
+}
+
+#create-post-button:active{
+    background-color: white;
+    color: #414833;
+}
+
+.dropdown .btn{
+    background-color: white;
+    border: #414833 1px solid;
+    color: #414833;
+}
+
+.dropdown-item:hover{
+    background-color: #A4AC86;
+}
+
+.dropdown-item:active{
+    background-color: #414833;
+}
+
+.card{
+    border: none;
+    background-color: #EBE3D2;
+}
+
+.number-of-likes{
+    font-size: 16px;
+    font-weight: 500;
+    margin: 4px 10px 0 0;
+    width: 35px;
+    height: 1ch;
+    text-align: center;
+}
+
+.like-true{
+    color: #414833;
+}
+
+.like-false{
+    color: gray;
+}
+
+.like-icon{
+    margin-right: 20px;
+    font-size: 19px;
+}
+
+.card-title{
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 30ch;
+    display: block; 
+}
+
+.card-text{
+    font-size: 15px;
+    font-weight: 300;
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 40ch; /* Adjust width as needed */
+    display: block;
+}
+
+.post-topic{
+    color: white;
+    font-size: 12px;
+    background-color: #414833;
+    border-radius: 20px;
+    padding: 2px 15px;
+    width: auto;
+}
+
+.post-comment-icon{
+    color: #414833;
+    font-size: 15px;
+    margin-top: 2px;
+}
+
+.post-date, .post-author{
+    margin: 0;
+    font-size: 14px;
+}
+
+.post-right{
+    margin-right: 8%;
+}
+
+.post-ellipsis{
+    color: #414833;
+}
+

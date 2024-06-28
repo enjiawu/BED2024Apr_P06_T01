@@ -1,0 +1,15 @@
+.host-event-card {
+    background-color: #EBE3D2;
+}
+
+.host-event-btn {
+    background-color: #414833;
+    color: white;
+}
+
+.host-event-btn:hover {
+    background-color: #303525;
+    border-color: #303525; 
+    color: white; 
+}
+

@@ -1,0 +1,27 @@
+.card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card-body ul {
+    padding-left: 0;
+}
+
+.card-body ul li {
+    margin-bottom: 10px;
+}
+
+.event-card {
+    background-color: #EBE3D2;
+}
+
+.participate-btn {
+    background-color: #414833;
+    color: white;
+}
+
+.participate-btn:hover {
+    background-color: #303525;
+    border-color: #303525; 
+    color: white; 
+}

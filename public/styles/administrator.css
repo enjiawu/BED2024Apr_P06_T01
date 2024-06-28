@@ -1,0 +1,78 @@
+img {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+}
+
+.staff-info {
+    list-style: none;
+}
+
+.staff-info li {
+    margin-top: 10px;
+}
+
+.report-card,
+.message-card {
+    background-color: #ede3d2;
+}
+
+.ignore-button,
+.remove-button,
+.reply-button {
+    color: #ede3d2;
+    background-color: #414833;
+}
+
+.ignore-button:hover,
+.ignore-button:active,
+.ignore-button:focus,
+.remove-button:hover,
+.remove-button:active,
+.remove-button:focus,
+.reply-button:hover,
+.reply-button:active,
+.reply-button:focus {
+    color: #ede3d2;
+    background-color: #737a5d;
+}
+
+.text-body-secondary {
+    --bs-secondary-color: rgba(65, 72, 51, 0.7);
+}
+
+.card-title,
+.card-subtitle,
+.card-body,
+.nav-link,
+.nav-link:hover,
+.nav-underline .nav-link.active,
+.nav-underline .show > .nav-link,
+.page-link {
+    color: #414833;
+}
+
+.page-link:hover,
+.page-link:active,
+.page-link:focus {
+    color: #10120c;
+    background-color: rgba(65, 72, 51, 0.2);
+}
+
+.active > .page-link,
+.page-link.active {
+    color: white;
+    background-color: #737a5d;
+}
+
+.disabled .page-link {
+    background-color: rgba(65, 72, 51, 0.2);
+}
+
+.focus-ring {
+    --bs-focus-ring-color: rgba(115, 122, 93, 0.4);
+}
+
+.hidden {
+    display: none;
+}
