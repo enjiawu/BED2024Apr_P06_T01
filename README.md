@@ -53,7 +53,7 @@ This project is a backend-focused assignment that includes a simple front-end in
 1. **Clone the repository:**
 
    ```bash
-   git clone [https://github.com/enjiawu/BED2024Apr_P06_T01.git](https://github.com/enjiawu/BED2024Apr_P06_T01.git)
+   git clone https://github.com/enjiawu/BED2024Apr_P06_T01.git
 
 3. **Install dependencies:**
 
