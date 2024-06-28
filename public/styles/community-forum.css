@@ -8,6 +8,11 @@ h1{
     letter-spacing: 2px;
 }
 
+a{
+    text-decoration: none;
+    color: #414833;
+}
+
 .search-bar{
     border-radius: 3px;
     max-width: 600px;
@@ -47,11 +52,12 @@ h1{
     background-color: #A4AC86;
     display: inline-block;
     margin-right: 10px;
-    margin-top: 3px;
+    margin-top: 5px;
 }
 
 .topic{
     font-size: 15px;
+    max-width: 100px;
 }
 
 #trending-topics{
@@ -62,10 +68,6 @@ h1{
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 20px;
-}
-
-.topic{
-    font-size: 14px;
 }
 
 #create-post-button{
@@ -106,9 +108,12 @@ h1{
 }
 
 .number-of-likes{
-    font-size: 19px;
+    font-size: 16px;
     font-weight: 500;
-    margin: 0 10px 0 0;
+    margin: 4px 10px 0 0;
+    width: 35px;
+    height: 1ch;
+    text-align: center;
 }
 
 .like-true{
@@ -125,12 +130,14 @@ h1{
 }
 
 .card-title{
-    font-size: 19px;
+    font-size: 16px;
     font-weight: bold;
     margin-bottom: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    width: 30ch;
+    display: block; 
 }
 
 .card-text{
@@ -140,6 +147,8 @@ h1{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    width: 40ch; /* Adjust width as needed */
+    display: block;
 }
 
 .post-topic{
@@ -148,6 +157,7 @@ h1{
     background-color: #414833;
     border-radius: 20px;
     padding: 2px 15px;
+    width: auto;
 }
 
 .post-comment-icon{
@@ -168,3 +178,4 @@ h1{
 .post-ellipsis{
     color: #414833;
 }
+

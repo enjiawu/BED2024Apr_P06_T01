@@ -44,7 +44,7 @@ class communityForumPost {
                     row.dateCreated
                 )
         );
-    }
+    };
 
     static async getPostById(postId) {
         const connection = await sql.connect(dbConfig);
@@ -150,17 +150,89 @@ class communityForumPost {
         return result.recordset[0];
     }
 
-    static async getPostCount() {
+    static async getPostsByTopic(topicId) {
         const connection = await sql.connect(dbConfig);
 
-        const sqlQuery = "SELECT COUNT(*) AS 'postCount' FROM CommunityPosts";
+        const sqlQuery = `SELECT * FROM CommunityPosts WHERE topicId = @topicId`;
 
         const request = connection.request();
+        request.input("topicId", topicId);
         const result = await request.query(sqlQuery);
 
         connection.close();
 
-        return result.recordset[0];
+        return result.recordset[0] ? result.recordset.map(
+            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
+        ) : null;
     }
+
+    static async getAllLikes(){
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `SELECT SUM(likes) AS totalLikes FROM CommunityPosts`;
+
+        const result = await connection.request().query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset[0];    
+    }
+
+    static async sortPostsByLikesDesc(){
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `SELECT * FROM CommunityPosts ORDER BY likes DESC`;
+
+        const result = await connection.request().query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset.map(
+            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
+        );
+    }
+
+    static async sortPostsByLikesAsc(){
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `SELECT * FROM CommunityPosts ORDER BY likes ASC`;
+
+        const result = await connection.request().query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset.map(
+            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
+        );
+    }
+
+    static async sortPostsByNewest(){
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `SELECT * FROM CommunityPosts ORDER BY dateCreated DESC`;
+
+        const result = await connection.request().query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset.map(
+            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
+        );
+    }
+
+    static async sortPostsByOldest(){
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `SELECT * FROM CommunityPosts ORDER BY dateCreated ASC`;
+
+        const result = await connection.request().query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset.map(
+            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
+        );
+    }
+
 }
 module.exports = communityForumPost;
