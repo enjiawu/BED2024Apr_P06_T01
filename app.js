@@ -49,6 +49,10 @@ app.get("/reports/:id", reportsController.getReportById);
 app.delete("/reports/:id", reportsController.deleteReport);
 
 //User Routes
+app.get("/users",usersController.getAllUsers);
+app.post("/users",usersController.registerUser);
+app.post("/users/login", usersController.loginUser);
+//app.post("/users/logout", usersController.logoutUser);
 app.get("/users/with-posts", usersController.getUsersWithPosts);
 app.post("/users/add-post", usersController.addPostsToUser);
 app.delete("/users/remove-post/:id", usersController.removePostsFromUser);
