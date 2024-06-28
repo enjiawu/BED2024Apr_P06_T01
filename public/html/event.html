@@ -14,10 +14,135 @@
         rel="stylesheet" />
         <link href="../styles/style.css" rel="stylesheet">
         <link href="../styles/event.css" rel="stylesheet">
+        <link rel="stylesheet" href="../styles/nav.css" />
     </head>
     
     <body>
-        <div class="container mt-5">
+
+        <header>
+            <div class="nav-container">
+                <div class="nav-left">
+                    <a href="../index.html"><img src="../images/logo/ReThink Logo - Green.png" alt="Logo" class="logo"></a>
+                </div>
+                <div class="nav-right">
+                    <ul class="nav-links">
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="about-us.html">About</a></li>
+                        <li><a href="#">Articles</a></li>
+                        <li class="dropdown">
+                            <a href="#">Community</a>
+                            <div class="dropdown-content">
+                                <a href="community-forum.html">Community Forum</a>
+                                <a href="event.html">Events</a>
+                                <a href="#">Donation</a>
+                            </div>
+                        </li>
+                        <li><a href="#">Carbon Footprint Calculator</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li class="user-dropdown" id="user-dropdown">
+                            <div class="profile-pic">
+                                <!-- Initially hidden, shown after login -->
+                                <img src="images/logo/ReThink Logo - Beige.png" alt="Profile Picture" class="avatar">
+                            </div>
+                            <div class="dropdown-content">
+                                <a href="#">Profile</a>
+                                <a href="#">Settings</a>
+                                <a href="#">Notifications</a>
+                                <a href="#" id="logout-button">Logout</a>
+                            </div>
+                        </li>
+                        <li class="login-btn-pop" id="login-button-nav"><a href="#">Login</a></li>
+                    </ul>
+                </div>
+                <!-- Menu button for mobile menu -->
+                <div class="icon menu-btn">
+                    <i class="fa fa-bars"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Login and Register Pop-up -->
+        <div class="wrapper-container">
+            <div id="login-container" class="wrapper">
+                <!-- Close button -->
+                <span class="icon-close">x</span>
+                
+                <!-- Login form -->
+                <div class="form-box login active">
+                    <h2>Sign In</h2>
+                    <form id="login-form" action="/users/login" method="POST">
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                            <input type="email" id="login-email" required>
+                            <label>Email</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                            <input type="password" id="login-password" required>
+                            <label>Password</label>
+                        </div>
+                        <div class="remember-forgot">
+                            <p>Forgot Password?</p>
+                        </div>
+                        <button type="submit" class="btn" id="login-button">Sign In</button>
+                        <div class="login-register">
+                            <p>Don't have an account? <a href="#" class="register-link">Register</a></p>
+                            <p>Are you a staff? <a href="#" class="staff-login-link">Staff Sign In</a></p>
+                        </div>
+                    </form>
+                </div>
+        
+                <!-- Staff Login form -->
+                <div class="form-box staff-login">
+                    <h2>Staff Sign In</h2>
+                    <form id="staff-login-form">
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="person"></ion-icon></span>
+                            <input type="text" id="staff-id" required>
+                            <label for="staff-id">Staff ID</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                            <input type="password" id="staff-password" required>
+                            <label for="staff-password">Password</label>
+                        </div>
+                        <button type="button" class="btn" id="staff-login-button">Staff Sign In</button>
+                        <div class="login-register">
+                            <p>Are you a user? <a href="#" class="login-link">User Sign In</a></p>
+                        </div>
+                    </form>
+                </div>
+        
+                <!-- Registration form -->
+                <div class="form-box register">
+                    <h2>Registration</h2>
+                    <form id="register-form" action="/users" method="POST">
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="person"></ion-icon></span>
+                            <input type="text" id="register-name" required>
+                            <label for="register-name">Username</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                            <input type="email" id="register-email" required>
+                            <label for="register-email">Email</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                            <input type="password" id="register-password" required>
+                            <label for="register-password">Password</label>
+                        </div>
+                        <button type="submit" class="btn" id="register-button">Register</button>
+                        <div class="login-register">
+                            <p>Already have an account? <a href="#" class="login-link">Login</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <div class="container mt-5">
             <h2 class="text-center">ReThink Events</h2>
             <p class="text-center">Participate in or Host Events to promote sustainability!</p>
             <div class="row justify-content-center mb-4">
@@ -63,9 +188,13 @@
                 <p>Date of Event: Date/Time</p>
             </div>
         </div>
+        </main>
+        
         <footer>
             <!--Footer-->
         </footer>
+
+        <script src="../scripts/login-popup.js"></script>
         
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

@@ -1,0 +1,512 @@
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    background-color: #a4ac86;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+
+.nav-left .logo {
+    height: 70px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+}
+
+ul.nav-links {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+ul.nav-links li {
+    position: relative;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    padding: 14px 20px;
+    display: block;
+}
+.nav-links a:hover {
+    color: #fea866;
+}
+
+.nav-links .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #a4ac86;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 13;
+    border: 1px solid #fff;
+}
+
+.dropdown-content a {
+    color: #fff;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border: 1px solid #fff;
+}
+
+.dropdown-content a:hover {
+    background-color: #fff;
+}
+
+
+/* login */
+.login-btn-pop {
+    background-color: #a4ac86;
+    cursor: pointer;
+    font-size: 1.1em;
+    border: none;
+    margin-top: 30px;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+
+.login-btn-pop:hover{
+    color: #fea866;
+}
+
+/* Example styles for profile picture and dropdown */
+.profile-pic {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.user-dropdown {
+    display: none;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.user-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+
+.wrapper-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* General styles for the wrapper */
+.wrapper {
+    position: fixed;
+    top: 15%;
+    width: 400px;
+    height: 500px;
+    background: rgba(255, 255, 255, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(50px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 30;
+    overflow: hidden;
+    transform: scale(0);
+    transition: transform .5s ease, height .2s ease;
+}
+
+.wrapper.pop-active {
+    transform: scale(1);
+}
+
+.wrapper.link-active-staff {
+    height: 460px;
+}
+
+.wrapper.link-active-register {
+    height: 520px;
+}
+
+.wrapper .form-box {
+    display: none; /* All forms hidden by default */
+    width: 100%;
+    padding: 40px;
+    transition: transform .18s ease;
+}
+
+.wrapper .form-box.active {
+    display: block; /* Show form when active */
+}
+
+.wrapper .form-box h2 {
+    font-size: 2em;
+    color: #fff;
+    text-align: center;
+}
+
+.wrapper .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid #414833;
+    margin: 30px 0;
+}
+
+.wrapper .input-box label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 1em;
+    color: #414833;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.wrapper .input-box input:focus ~ label,
+.wrapper .input-box input:valid ~ label {
+    top: -5px;
+}
+
+.wrapper .input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    color: #414833;
+    font-weight: 600;
+    padding: 0 35px 0 5px;
+}
+
+.wrapper .input-box .icon {
+    position: absolute;
+    right: 8px;
+    font-size: 1.2em;
+    color: #414833;
+    line-height: 57px;
+}
+
+.wrapper .remember-forgot {
+    font-size: .9em;
+    font-weight: 500;
+    color: #414833;
+    margin: -15px 0 0px;
+    text-align: end;
+    cursor: pointer;
+}
+
+.wrapper .remember-forgot:hover {
+    text-decoration: underline;
+}
+
+.wrapper .btn {
+    width: 100%;
+    height: 45px;
+    background-color: #414833;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    color: #fff;
+    font-weight: 500;
+}
+
+.wrapper .btn:hover {
+    background-color: #fea866;
+    color: #414833;
+}
+
+.wrapper .login-register {
+    font-size: .9em;
+    color: #414833;
+    text-align: center;
+    margin: 25px 0 10px;
+    font-weight: 500;
+}
+
+.wrapper .login-register p a {
+    color: #414833;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.wrapper .login-register p a:hover {
+    text-decoration: underline;
+}
+
+/* Specific styles for staff login form */
+.wrapper .form-box.staff-login {
+    transform: translateX(400px);
+}
+
+.wrapper .form-box.register {
+    transform: translateX(400px);
+}
+
+/* Active form visibility */
+.wrapper .form-box.active {
+    transform: translateX(0);
+}
+
+.wrapper .icon-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45px;
+    height: 45px;
+    background-color: #414833;
+    font-size: 1.5em;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 20px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.wrapper .icon-close:hover {
+    background-color: #fea866;
+}
+
+.wrapper .form-box h2 {
+    font-size: 2em;
+    color: #414833;
+    text-align: center;
+}
+
+/* Additional styles for the 'staff-login' class to differentiate */
+.wrapper .form-box.staff-login h2 {
+    color: #414833;
+}
+
+.wrapper .form-box.staff-login .btn {
+    background-color: #414833;
+}
+
+
+
+/* footer */
+footer{
+    background-color: #a4ac86;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    color: #fff;
+    padding: 0px 30px 0 30px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+
+footer p {
+    color: #f5fffb;
+}
+
+.footer-logo-img {
+    display: flex;
+    justify-content: center;
+}
+
+.footer-logo-img img{
+    width: 140px;
+}
+
+footer .social a i {
+    color: #f5fffb;
+    font-size: 40px;
+    padding: 20px 20px 0 20px;
+}
+
+.footer-col {
+    flex: 1;
+    text-align: center;
+}
+
+.footer-nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 0 0 20px 0;
+}
+
+.footer-nav h4{
+    margin-bottom: 10px;
+}
+
+.footer-nav ul {
+    margin: 0;
+    padding: 0;
+    max-width: 200px;
+}
+
+.footer-nav ul li {
+    list-style-type: none;
+}
+
+.footer-col a {
+    text-decoration: none;
+    color: #f5fffb;
+    font-size: 16px;
+}
+
+.footer-col a:hover{
+    color: #558E4C;
+}
+
+/* footer copyright */
+.copyright {
+    border-top: 1px solid #fff;
+    text-align: center;
+}
+
+.copyright p {
+    margin: 0;
+    padding: 10px 0;
+}
+
+/* Tablet view */
+@media screen and (min-width: 688px) {
+        /* header nav */
+
+        .navigationbar.sticky .menu-list li a{
+            color: #8d8b8a;
+        }
+        
+        .navigationbar.sticky .menu-list li a:hover{
+            color: #558E4C; 
+        }
+
+        .navigationbar.sticky .menu-list li.active a{
+            color: #404a3d;
+        }
+
+        .navigationbar.sticky .menu-list li.active a:hover{
+            color: #558E4C;
+        }
+
+        .menu-list li.active a:hover{
+            color: #558E4C;
+        }
+
+        .menu-list li.active a{
+            color: #404a3d;
+        }
+
+        .login-btn-pop {
+            margin-top: 0px;
+        }
+    
+        .navigationbar .menu-list {
+            position: sticky;
+            display: flex;
+            align-items: center;
+            background-color: transparent;
+            transform: none;
+            padding-top: 0;
+        }
+    
+        .navigationbar .menu-list li {
+            margin-top: 0px;
+        }
+        
+        .navigationbar .menu-list li a {
+            padding: 0 5px;
+        }
+
+        .navigationbar .menu-list li a:hover{
+            color: #404a3d;
+        }
+
+}
+
+/* destop view */
+@media screen and (min-width: 992px) {
+    .icon{
+        display: none;
+    }
+    .navigationbar,
+    footer {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
+    /* footer section */
+    .footer-row{
+        display: flex;
+    }
+
+    .footer-logo {
+        width: 25%;
+    }
+
+    .footer-nav {
+        width: 75%;
+        justify-content: space-around;
+    }
+    
+    .copyright {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .copyright p {
+        padding-top: 20px;
+    }
+
+    .footer-row{
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+    }
+
+    .footer-logo {
+        flex: 40%;
+    }
+
+    .footer-logo p,
+    .copyright p{
+        margin: 0;
+        padding: 10px 0;
+    }
+}
