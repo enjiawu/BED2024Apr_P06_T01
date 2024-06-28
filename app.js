@@ -6,8 +6,8 @@ const dbConfig = require("./dbConfig.js");
 const staticMiddleware = express.static("public");
 
 //Importing Controllers
-const usersController = require("./controllers/usersController");
-const postsController = require("./controllers/communityForumPostController");
+const usersController = require("./controllers/usersController.js");
+const postsController = require("./controllers/communityForumPostController.js");
 const topicsController = require("./controllers/communityForumTopicsController.js");
 const reportsController = require("./controllers/reportsController.js");
 const eventsController = require("./controllers/eventsController.js");
@@ -25,17 +25,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(staticMiddleware);
 
-//Community Forum Routes
-app.get("/communityforum", postsController.getAllPosts);
-app.get("/communityforum/topics", topicsController.getAllTopics);
-app.get("/communityforum/topic-count", postsController.getPostCount)
-app.get("/communityforum/topics/:id", topicsController.getTopicById);
-app.get("/communityforum/posts-by-topic/:id", postsController.getPostsByTopic);
-app.get("/communityforum/search", postsController.searchPosts)
-app.get("/communityforum/:id", postsController.getPostById)
-app.post("/communityforum", postsController.createPost)
-app.put("/communityforum/:id",postsController.updatePost)
-app.delete("/communityforum/:id", postsController.deletePost)
+// Community Forum Routes
+app.get("/communityforum", postsController.getAllPosts); // Get all forum posts
+app.get("/communityforum/topics", topicsController.getAllTopics); // Get all forum topics
+//// Community Forum - Statistics Routes
+app.get("/communityforum/post-count", postsController.getPostCount); // Get total number of posts
+app.get("/communityforum/topic-count", topicsController.getTopicCount); // Get total number of topics
+app.get("/communityforum/likes-count", postsController.getAllLikes); // Get total number of likes across all posts
+//// Specific Post or Topic Routes
+app.get("/communityforum/topics/:id", topicsController.getTopicById); // Get a specific topic by ID
+app.get("/communityforum/posts-by-topic/:id", postsController.getPostsByTopic); // Get posts belonging to a specific topic
+app.get("/communityforum/search", postsController.searchPosts); // Search for posts based on criteria
+//// Individual Post CRUD Routes
+app.get("/communityforum/:id", postsController.getPostById); // Get a specific post by ID
+app.post("/communityforum", postsController.createPost); // Create a new forum post
+app.put("/communityforum/:id", postsController.updatePost); // Update an existing forum post
+app.delete("/communityforum/:id", postsController.deletePost); // Delete a forum post
+
 
 //Report Routes
 app.get("/reports", reportsController.getAllReports);

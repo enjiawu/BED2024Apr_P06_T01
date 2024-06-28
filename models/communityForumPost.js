@@ -175,7 +175,7 @@ class communityForumPost {
 
         connection.close();
 
-        return result.recordset;    
+        return result.recordset[0];    
     }
 
     static async sortPostsByLikesDesc(){

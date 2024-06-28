@@ -48,7 +48,7 @@ class Topic {
 
         connection.close();
 
-        return result.recordset[0].topicCount;
+        return result.recordset[0];
     }
 
 }
