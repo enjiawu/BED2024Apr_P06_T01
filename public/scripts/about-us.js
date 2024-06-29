@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const userCountResponse = await fetch("/users/count");
         const userCountData = await userCountResponse.json();
 
-        const postCountResponse = await fetch("/community-forum/count");
+        const postCountResponse = await fetch("/communityforum/post-count");
         const postCountData = await postCountResponse.json();
 
         const eventCountResponse = await fetch("/events/count");

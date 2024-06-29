@@ -26,15 +26,13 @@ img {
 
 .ignore-button:hover,
 .ignore-button:active,
-.ignore-button:focus,
 .remove-button:hover,
 .remove-button:active,
-.remove-button:focus,
 .reply-button:hover,
-.reply-button:active,
-.reply-button:focus {
+:not(.btn-check) + .reply-button:active {
     color: #ede3d2;
     background-color: #737a5d;
+    border-color: #737a5d;
 }
 
 .text-body-secondary {

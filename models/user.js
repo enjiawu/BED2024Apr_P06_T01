@@ -21,24 +21,57 @@ class User {
         this.passwordHash = passwordHash;
     }
 
+    static async getUserById(userId) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = "SELECT * FROM Users WHERE userId = @userId";
+
+        const request = connection.request();
+        request.input("userId", userId);
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset[0]
+            ? new User(
+                  result.recordset[0].userId,
+                  result.recordset[0].username,
+                  result.recordset[0].email,
+                  result.recordset[0].location,
+                  result.recordset[0].bio,
+                  result.recordset[0].profilePicture,
+                  result.recordset[0].passwordHash
+              )
+            : null;
+    }
+
     static async getAllUsers() {
         const connection = await sql.connect(dbConfig);
 
-        const sqlQuery = 'SELECT * FROM Users';
+        const sqlQuery = "SELECT * FROM Users";
 
         const request = connection.request();
         const result = await request.query(sqlQuery);
 
         connection.close();
         return result.recordset.map(
-            (row) => new User(row.userId, row.username, row.email, row.location, row.bio, row.profilePicture, row.passwordHash)
+            (row) =>
+                new User(
+                    row.userId,
+                    row.username,
+                    row.email,
+                    row.location,
+                    row.bio,
+                    row.profilePicture,
+                    row.passwordHash
+                )
         );
     }
 
     static async authenticateUser(email, password) {
         const connection = await sql.connect(dbConfig);
 
-        const sqlQuery = 'SELECT * FROM Users WHERE email = @Email';
+        const sqlQuery = "SELECT * FROM Users WHERE email = @Email";
 
         const request = connection.request();
         request.input("Email", email);
@@ -57,13 +90,19 @@ class User {
             throw new Error("Invalid password");
         }
 
-        return new User(user.userId, user.username, user.email, user.passwordHash);
+        return new User(
+            user.userId,
+            user.username,
+            user.email,
+            user.passwordHash
+        );
     }
 
     static async registerUser(newUserData) {
         const connection = await sql.connect(dbConfig);
 
-        const sqlQuery = 'INSERT INTO Users (username, email, passwordHash) VALUES (@username, @email, @passwordHash); SELECT SCOPE_IDENTITY() AS id;';
+        const sqlQuery =
+            "INSERT INTO Users (username, email, passwordHash) VALUES (@username, @email, @passwordHash); SELECT SCOPE_IDENTITY() AS id;";
 
         const hashedPassword = await bcrypt.hash(newUserData.passwordHash, 10);
 

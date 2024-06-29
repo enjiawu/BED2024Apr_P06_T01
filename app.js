@@ -33,8 +33,14 @@ app.get("/communityforum/post-count", postsController.getPostCount); // Get tota
 app.get("/communityforum/topic-count", topicsController.getTopicCount); // Get total number of topics
 app.get("/communityforum/likes-count", postsController.getAllLikes); // Get total number of likes across all posts
 //// Sorting Routes
-app.get("/communityforum/sort-by-likes-desc", postsController.sortPostsByLikesDesc); // Sort posts by likes in descending order
-app.get("/communityforum/sort-by-likes-asc", postsController.sortPostsByLikesAsc); // Sort posts by likes in ascending order
+app.get(
+    "/communityforum/sort-by-likes-desc",
+    postsController.sortPostsByLikesDesc
+); // Sort posts by likes in descending order
+app.get(
+    "/communityforum/sort-by-likes-asc",
+    postsController.sortPostsByLikesAsc
+); // Sort posts by likes in ascending order
 app.get("/communityforum/sort-by-newest", postsController.sortPostsByNewest); // Sort posts by date in descending order
 app.get("/communityforum/sort-by-oldest", postsController.sortPostsByOldest); // Sort posts by date in ascending order
 //// Specific Post or Topic Routes
@@ -47,21 +53,21 @@ app.post("/communityforum", postsController.createPost); // Create a new forum p
 app.put("/communityforum/:id", postsController.updatePost); // Update an existing forum post
 app.delete("/communityforum/:id", postsController.deletePost); // Delete a forum post
 
-
 //Report Routes
 app.get("/reports", reportsController.getAllReports);
 app.get("/reports/:id", reportsController.getReportById);
 app.delete("/reports/:id", reportsController.deleteReport);
 
 //User Routes
-app.get("/users",usersController.getAllUsers);
-app.post("/users",usersController.registerUser);
+app.get("/users", usersController.getAllUsers);
+app.post("/users", usersController.registerUser);
 app.post("/users/login", usersController.loginUser);
 //app.post("/users/logout", usersController.logoutUser);
 app.get("/users/with-posts", usersController.getUsersWithPosts);
 app.post("/users/add-post", usersController.addPostsToUser);
 app.delete("/users/remove-post/:id", usersController.removePostsFromUser);
 app.get("/users/count", usersController.getUserCount);
+app.get("/users/:id", usersController.getUserById);
 
 //Event Routes
 app.get("/events", eventsController.getAllEvents);
