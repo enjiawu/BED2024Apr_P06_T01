@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     async function loadReports() {
         const reportsResponse = await fetch("/reports");
         const reports = await reportsResponse.json();
-        console.log(reports);
+        // console.log(reports);
 
         const reportsList = document.getElementsByClassName("reports-list")[0];
         const reportCardTemplate =
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 `/communityforum/${report.postId}`
             );
             const post = await postResponse.json();
-            console.log(post);
+            // console.log(post);
 
             let newReportCard = reportCardTemplate.cloneNode(true);
             reportsList.appendChild(newReportCard);
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
     async function loadMessages() {
         const messagesResponse = await fetch("/messages");
         const messages = await messagesResponse.json();
-        console.log(messages);
+        // console.log(messages);
 
         const messagesList =
             document.getElementsByClassName("messages-list")[0];
@@ -74,12 +74,14 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementsByClassName("message-card")[0];
 
         for (let message of messages) {
-            console.log(message);
+            // console.log(message);
             let newMessageCard = messageCardTemplate.cloneNode(true);
             messagesList.appendChild(newMessageCard);
 
             newMessageCard.querySelector(".name").innerText =
-                message.firstName + " " + message.lastName;
+                message.lastName !== null
+                    ? message.firstName + " " + message.lastName
+                    : message.firstName;
             newMessageCard.querySelector(".email").innerText = message.email;
             newMessageCard.querySelector(".message").innerText =
                 message.message;

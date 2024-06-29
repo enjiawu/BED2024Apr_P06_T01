@@ -186,6 +186,36 @@ class Event {
 
         return result.recordset[0];
     }
+
+    static async getEventsByStatus(status) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `SELECT * FROM Events WHERE status = @status`;
+
+        const request = connection.request();
+        request.input("status", status);
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset[0] ?
+        new Event(
+            result.recordset[0].eventId, 
+            result.recordset[0].title, 
+            result.recordset[0].description, 
+            result.recordset[0].image, 
+            result.recordset[0].datePosted, 
+            result.recordset[0].location, 
+            result.recordset[0].startDate, 
+            result.recordset[0].startTime,
+            result.recordset[0].status,
+            result.recordset[0].likes,
+            result.recordset[0].userId,
+            result.recordset[0].username,
+            result.recordset[0].staffId,
+            result.recordset[0].staffName,
+        ) : null;
+    }
 }
 
 module.exports = Event;

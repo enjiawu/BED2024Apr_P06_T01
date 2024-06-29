@@ -67,6 +67,10 @@ img {
     background-color: rgba(65, 72, 51, 0.2);
 }
 
+.badge {
+    background-color: #737a5d;
+}
+
 .focus-ring {
     --bs-focus-ring-color: rgba(115, 122, 93, 0.4);
 }
