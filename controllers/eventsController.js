@@ -86,6 +86,20 @@ const getEventCount = async (req, res) => {
     }
 };
 
+const getEventsByStatus = async (req, res) => {
+    const eventStatus = req.params.status;
+    try {
+        const event = await Event.getEventsByStatus(eventStatus);
+        if (!event) {
+            return res.status(404).send("Event not found");
+        }
+        res.json(event);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving event");
+    }
+};
+
 module.exports = {
     getAllEvents,
     getEventById,
@@ -94,4 +108,5 @@ module.exports = {
     deleteEvent,
     searchEvents,
     getEventCount,
+    getEventsByStatus
 };
