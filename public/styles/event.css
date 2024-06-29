@@ -10,8 +10,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 30ch;
-  }
-  .hostevent-btn {
+    white-space: nowrap;
+}
+  
+.hostevent-btn {
     background-color: #414833;
     color: white;
 }
