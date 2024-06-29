@@ -48,35 +48,35 @@ Rethink is a web platform designed to foster community engagement and promote su
   + Implemented endpoints for managing community forum posts and topics.
   + Implemented UI to allow users to view community forum posts
 
-* **API Endpoints**:
-#### `GET /communityforum` - Retrieve all posts from the community forum.
-##### Parameters
-- None
-##### Response
-- Status: `200 OK`
-- Body:
-```json
-[
-  {
-    "id": 1,
-    "title": "Sample Post",
-    "content": "Lorem ipsum...",
-    "createdAt": "2024-06-29T12:00:00Z",
-    "updatedAt": "2024-06-29T12:00:00Z",
-    "topicId": 1,
-    "userId": 123
-  },
-  {
-    "id": 2,
-    "title": "Another Post",
-    "content": "Lorem ipsum...",
-    "createdAt": "2024-06-29T13:00:00Z",
-    "updatedAt": "2024-06-29T13:00:00Z",
-    "topicId": 2,
-    "userId": 456
-  }
-]
-```
+**API Endpoints**:
+- #### `GET /communityforum` - Retrieve all posts from the community forum.
+	##### Parameters
+	- None
+	##### Response
+	- Status: `200 OK`
+	- Body:
+	```json
+	[
+	  {
+	    "id": 1,
+	    "title": "Sample Post",
+	    "content": "Lorem ipsum...",
+	    "createdAt": "2024-06-29T12:00:00Z",
+	    "updatedAt": "2024-06-29T12:00:00Z",
+	    "topicId": 1,
+	    "userId": 123
+	  },
+	  {
+	    "id": 2,
+	    "title": "Another Post",
+	    "content": "Lorem ipsum...",
+	    "createdAt": "2024-06-29T13:00:00Z",
+	    "updatedAt": "2024-06-29T13:00:00Z",
+	    "topicId": 2,
+	    "userId": 456
+	  }
+	]
+	```
 >   + **GET /communityforum/:id**: Retrieve a specific post by its ID.
 >   + **POST /communityforum**: Create a new post with provided data.
 >   + **PUT /communityforum/:id**: Update an existing post identified by its ID.
