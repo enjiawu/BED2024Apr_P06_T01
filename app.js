@@ -73,6 +73,7 @@ app.get("/users/:id", usersController.getUserById);
 app.get("/events", eventsController.getAllEvents);
 app.get("/events/count", eventsController.getEventCount);
 app.get("/events/search", eventsController.searchEvents);
+app.get("/events/status/:status", eventsController.getEventsByStatus);
 app.get("/events/:id", eventsController.getEventById);
 app.post("/events", eventsController.createEvent);
 app.put("/events/:id", eventsController.updateEvent);
