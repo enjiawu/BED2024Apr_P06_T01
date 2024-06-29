@@ -103,13 +103,8 @@ Rethink is a web platform designed to foster community engagement and promote su
 
    ```bash
    git clone https://github.com/enjiawu/BED2024Apr_P06_T01.git
-
-3. **Install dependencies:**
-
-   ```bash
-   npm install body-parser express joi mssql nodemon bcrypt
    
-5. **Start the server::**
+2. **Start the server::**
 
    ```bash
    npm start
