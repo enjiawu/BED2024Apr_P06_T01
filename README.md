@@ -13,8 +13,10 @@
 ## Overview
 This project is a backend-focused assignment that includes a simple front-end interface. The primary goal of this project is to design and implement a RESTful API using express.js to perform CRUD (Create, Read, Update, Delete) operations on a database. This project was developed by a team of four members, each contributing to different features and functions.  
   
-[Figma Sitemap](https://www.figma.com/board/nv7S5KvsDjxtC6Kox3NVgx/Untitled?node-id=1-127&t=4SBsDU8YbP7SYPoj-1)  
-[Figma Wireframe](https://www.figma.com/design/H7ZDSVtAHVsLTA5eA0g6Le/BED_Wireframe?node-id=0-1&t=4SBsDU8YbP7SYPoj-1)
+For detailed wireframes and sitemap, refer to:
+- [Figma Sitemap](https://www.figma.com/board/nv7S5KvsDjxtC6Kox3NVgx/Untitled?node-id=1-127&t=4SBsDU8YbP7SYPoj-1)
+- [Figma Wireframe](https://www.figma.com/design/H7ZDSVtAHVsLTA5eA0g6Le/BED_Wireframe?node-id=0-1&t=4SBsDU8YbP7SYPoj-1)
+
 
 ### Welcome to Rethink
 
@@ -46,8 +48,35 @@ Rethink is a web platform designed to foster community engagement and promote su
   + Implemented endpoints for managing community forum posts and topics.
   + Implemented UI to allow users to view community forum posts
 
-> * **API Endpoints**:
->   + **GET /communityforum**: Retrieve all posts from the community forum.
+* **API Endpoints**:
+#### `GET /communityforum` - Retrieve all posts from the community forum.
+##### Parameters
+- None
+##### Response
+- Status: `200 OK`
+- Body:
+```json
+[
+  {
+    "id": 1,
+    "title": "Sample Post",
+    "content": "Lorem ipsum...",
+    "createdAt": "2024-06-29T12:00:00Z",
+    "updatedAt": "2024-06-29T12:00:00Z",
+    "topicId": 1,
+    "userId": 123
+  },
+  {
+    "id": 2,
+    "title": "Another Post",
+    "content": "Lorem ipsum...",
+    "createdAt": "2024-06-29T13:00:00Z",
+    "updatedAt": "2024-06-29T13:00:00Z",
+    "topicId": 2,
+    "userId": 456
+  }
+]
+```
 >   + **GET /communityforum/:id**: Retrieve a specific post by its ID.
 >   + **POST /communityforum**: Create a new post with provided data.
 >   + **PUT /communityforum/:id**: Update an existing post identified by its ID.
