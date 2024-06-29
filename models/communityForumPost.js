@@ -10,7 +10,8 @@ class communityForumPost {
         topicId,
         likes,
         comments,
-        dateCreated
+        dateCreated,
+        dateUpdated
     ) {
         this.postId = postId;
         this.userId = userId;
@@ -20,6 +21,7 @@ class communityForumPost {
         this.likes = likes;
         this.comments = comments;
         this.dateCreated = dateCreated;
+        this.dateUpdated = dateUpdated;
     }
 
     static async getAllPosts() {
@@ -41,7 +43,8 @@ class communityForumPost {
                     row.topicId,
                     row.likes,
                     row.comments,
-                    row.dateCreated
+                    row.dateCreated,
+                    row.dateUpdated
                 )
         );
     };
@@ -66,7 +69,8 @@ class communityForumPost {
                   result.recordset[0].topicId,
                   result.recordset[0].likes,
                   result.recordset[0].comments,
-                  result.recordset[0].dateCreated
+                  result.recordset[0].dateCreated,
+                  result.recordset[0].dateUpdated
               )
             : null;
     }
@@ -94,9 +98,10 @@ class communityForumPost {
     static async updatePost(postId, newPostData) {
         const connection = await sql.connect(dbConfig);
 
-        const sqlQuery = `UPDATE CommunityPosts SET title = @title, description = @description, topicId = @topicId WHERE postId = @postId`;
+        const sqlQuery = `UPDATE CommunityPosts SET userId = @userId, title = @title, description = @description, topicId = @topicId, dateUpdated = GETDATE() WHERE postId = @postId`;
 
         const request = connection.request();
+        request.input("userId", newPostData.userId || null);
         request.input("title", newPostData.title || null);
         request.input("description", newPostData.description || null);
         request.input("topicId", newPostData.topicId || null);
@@ -162,7 +167,7 @@ class communityForumPost {
         connection.close();
 
         return result.recordset[0] ? result.recordset.map(
-            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
+            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated)
         ) : null;
     }
 
@@ -188,7 +193,7 @@ class communityForumPost {
         connection.close();
 
         return result.recordset.map(
-            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
+            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated)
         );
     }
 
@@ -202,7 +207,7 @@ class communityForumPost {
         connection.close();
 
         return result.recordset.map(
-            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
+            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated)
         );
     }
 
@@ -216,7 +221,7 @@ class communityForumPost {
         connection.close();
 
         return result.recordset.map(
-            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
+            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated)
         );
     }
 
@@ -230,7 +235,7 @@ class communityForumPost {
         connection.close();
 
         return result.recordset.map(
-            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated)
+            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated)
         );
     }
 
