@@ -82,7 +82,6 @@ Rethink is a web platform designed to foster community engagement and promote su
 >   + **PUT /communityforum/:id**: Update an existing post identified by its ID.
 >   + **DELETE /communityforum/:id**: Delete a post based on its ID.
 >   + **GET /communityforum/search**: Search posts by a specific term.
->   + **GET /communityforum/post-count**: Get the total count of posts.
 >   + **GET /communityforum/posts-by-topic/:id**: Retrieve posts filtered by a specific topic ID.
 >   + **GET /communityforum/likes-count**: Get the total count of likes across all posts.
 >   + **GET /communityforum/sort-by-likes-desc**: Retrieve posts sorted in descending order by likes.
