@@ -2,13 +2,22 @@ const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
 class Message {
-    constructor(messageId, firstName, lastName, email, phoneNumber, message) {
+    constructor(
+        messageId,
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        message,
+        status
+    ) {
         this.messageId = messageId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.message = message;
+        this.status = status;
     }
 
     static async getAllMessages() {
@@ -29,7 +38,8 @@ class Message {
                     row.lastName,
                     row.email,
                     row.phoneNumber,
-                    row.message
+                    row.message,
+                    row.status
                 )
         );
     }
@@ -52,7 +62,8 @@ class Message {
                   result.recordset[0].lastName,
                   result.recordset[0].email,
                   result.recordset[0].phoneNumber,
-                  result.recordset[0].message
+                  result.recordset[0].message,
+                  result.recordset[0].status
               )
             : null;
     }
