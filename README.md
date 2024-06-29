@@ -108,10 +108,26 @@ Rethink is a web platform designed to foster community engagement and promote su
 	+ **GET /communityforum**: Retrieve...
 
 ### Team Member 3 - Timothy Chai
-* **Community Forum**:
-	+ Implemented...
+* **Post Report**:
+	+ Implemented endpoints to retrieve and delete forum post reports.
+ 	+ Implemented front-end to allow administrators to manage forum post reports.
 * **API Endpoints**:
-	+ **GET /communityforum**: Retrieve...
+	+ **GET /reports**: Retrieve all community forum post reports.
+ 	+ **GET /reports/:id**: Retrieve a specific community forum post report.
+  	+ **DELETE /reports/:id**: Delete a specific community forum post report.
+  
+* **Contact Us Submission**:
+	+ Implemented endpoints to retrieve messages.
+ 	+ Implemented front-end to allow administrators to view and reply to messages.
+* **API Endpoints**:
+	+ **GET /messages**: Retrieve all messages.
+ 	+ **GET /messages/:id**: Retrieve a specific message.
+
+* **Contact Us Reply**:
+	+ Implemented endpoints to retrieve and add administrator replies.
+* **API Endpoints**:
+	+ **GET /replies/:id**: Retrieve a specific reply.
+ 	+ **POST /replies**: Create a new reply based on data input by administrator.
 
 ### Team Member 4 - Xue Wenya
 * **Community Forum**:
