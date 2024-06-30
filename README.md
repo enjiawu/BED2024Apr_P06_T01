@@ -147,10 +147,19 @@ Rethink is a web platform designed to foster community engagement and promote su
  	+ **POST /replies**: Create a new reply based on data input by administrator.
 
 ### Team Member 4 - Xue Wenya
-* **Community Forum**:
-	+ Implemented...
+* **User Accounts**:
+	+ Implemented endpoints for manage user account.
+ 	+ Implemented UI to allow user to register and login their account. 
 * **API Endpoints**:
-	+ **GET /communityforum**: Retrieve...
+	+ **POST /users**: Create new account based on data input by user.
+ 	+ **POST /users/login**: Authenticate user credentials and log in the user.
+  	+ **GET /users/:id**: Retrieve specific user account details.
+
+* **Contact Us Submissions**:
+	+ Implemented endpoints for manage contact form.
+ 	+ Implemented UI to allow user to submit contact form. 
+* **API Endpoints**:
+	+ **POST /messages**:Create a new message based on data input by user in the contact us form.
 
 ## Setup and Installation
 **Getting Started:**
