@@ -1,0 +1,192 @@
+main {
+    background-color: #f9f9f9;
+}
+
+.contact-detail {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.contact-form {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.contact-form h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.contact-form p {
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #c3e6cb;
+    outline: none;
+}
+
+.form-group.text-center {
+    text-align: center;
+}
+
+.padding-bottom {
+    padding-bottom: 40px;
+}
+
+.contact-btn {
+    background-color: #737a5d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    text-align: center;
+}
+
+.contact-btn:hover {
+    background-color: #5a6149; /* Darker shade for hover effect */
+}
+
+.contact-btn:focus,
+.contact-btn:active {
+    background-color: #737a5d; /* Maintain the same color when clicked or focused */
+    color: white;
+    outline: none; /* Remove the default outline */
+    box-shadow: none; /* Remove the default box shadow */
+}
+
+.alert {
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* General Section Styling */
+.hear-from-you {
+    background-color: #fff; /* Light grey background */
+    padding-top: 60px; /* Extra space on top */
+    padding-bottom: 60px; /* Extra space on bottom */
+}
+
+.hear-from-you h2 {
+    color: #333; /* Dark text color */
+    font-size: 2.5rem; /* Larger font size */
+    font-weight: 700; /* Bold text */
+    text-align: center;
+}
+
+.hear-from-you p {
+    color: #555; /* Slightly lighter text color */
+    font-size: 1.125rem; /* Slightly larger font size */
+    text-align: center;
+}
+
+.card {
+    border: none; /* Remove default border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    display: flex; /* Flex container for card body */
+    flex-direction: column; /* Ensure card body grows with flexbox */
+}
+
+.card-body {
+    padding: 20px; /* Padding inside the card */
+    background-color: #ebeee8; /* White background */
+    display: flex; /* Flex container for card body */
+    flex-direction: column; /* Ensure card body grows with flexbox */
+    justify-content: space-between; /* Ensure card body content is spaced evenly */
+    align-items: center; /* Center align the card body content */
+}
+
+.card-title {
+    font-size: 2rem; /* Icon size */
+    color: #737a5d; /* Primary color */
+    margin-bottom: 10px; /* Space below the icon */
+}
+
+.card-text {
+    font-size: 1.125rem; /* Slightly larger text size */
+    color: #333; /* Dark text color */
+    margin-bottom: 10px; /* Space below the text */
+    text-align: center;
+}
+
+.card-link {
+    color: #737a5d; /* Primary color for links */
+    text-decoration: none; /* Remove underline */
+    font-size: 1rem; /* Font size for links */
+}
+
+.card-link:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* Flexbox utilities to make columns equal height */
+.d-flex {
+    display: flex;
+}
+
+.flex-fill {
+    flex: 1; /* Allow card to fill available space */
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .card-title {
+        font-size: 1.5rem; /* Smaller icon size on small screens */
+    }
+
+    .card-text {
+        font-size: 1rem; /* Smaller text size on small screens */
+    }
+}

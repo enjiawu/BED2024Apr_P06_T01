@@ -76,6 +76,7 @@ app.delete("/events/:id", eventsController.deleteEvent);
 //Message Routes
 app.get("/messages", messagesController.getAllMessages);
 app.get("/messages/:id", messagesController.getMessageById);
+app.post("/messages",messagesController.sendMessage);
 
 //Reply Routes
 app.get("/replies/:id", repliesController.getReplyById);
