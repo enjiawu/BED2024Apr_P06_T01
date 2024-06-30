@@ -119,7 +119,7 @@ Rethink is a web platform designed to foster community engagement and promote su
 
 
 * **Host Event Page**:
-    + Implemented endpoint to post events based on the relevant fields such as: image of event, description..etc
+    + Implemented endpoint to add/post events with the provided user data such as: event title, description..etc
 	+ Implemented front-end to allow users to fill in the relevant fields needed to host their event
 * **API Endpoints**:
     + **POST /events**: Create new events with the provided data
