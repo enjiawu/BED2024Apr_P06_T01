@@ -82,7 +82,6 @@ Rethink is a web platform designed to foster community engagement and promote su
 >   + **PUT /communityforum/:id**: Update an existing post identified by its ID.
 >   + **DELETE /communityforum/:id**: Delete a post based on its ID.
 >   + **GET /communityforum/search**: Search posts by a specific term.
->   + **GET /communityforum/post-count**: Get the total count of posts.
 >   + **GET /communityforum/posts-by-topic/:id**: Retrieve posts filtered by a specific topic ID.
 >   + **GET /communityforum/likes-count**: Get the total count of likes across all posts.
 >   + **GET /communityforum/sort-by-likes-desc**: Retrieve posts sorted in descending order by likes.
@@ -102,10 +101,28 @@ Rethink is a web platform designed to foster community engagement and promote su
 
 
 ### Team Member 2 - Joseph Wan
-* **Community Forum**:
-	+ Implemented...
+* **Events Page**:
+	+ Implemented endpoints to retrieve events
+	+ Implemented front-end to allow users to view events on the main event page.
 * **API Endpoints**:
-	+ **GET /communityforum**: Retrieve...
+	+ **GET /events**: Retrieve all events for the event page.
+	+ **GET /events/count**: Retrieve event count
+	+ **GET /events/search**: Search function to search for events
+	+ **GET /events/status/:status**: Retrieve events filtered by a specific status
+
+
+* **Participate Events Page**:
+    + Implemented endpoints to view information of the specific event
+    + Implemented front-end to allow users to view the specific event
+* **API Endpoints**:
+    + **GET /events/:id**: Retrieve a specific event and its contents by its ID
+
+
+* **Host Event Page**:
+    + Implemented endpoint to post events based on the relevant fields such as: image of event, description..etc
+	+ Implemented front-end to allow users to fill in the relevant fields needed to host their event
+* **API Endpoints**:
+    + **POST /events**: Create new events with the provided data
 
 ### Team Member 3 - Timothy Chai
 * **Post Report**:
