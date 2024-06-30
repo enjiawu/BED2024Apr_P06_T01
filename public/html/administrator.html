@@ -21,11 +21,15 @@
         <link rel="stylesheet" href="../styles/nav.css" />
     </head>
     <body>
-
         <header>
             <div class="nav-container">
                 <div class="nav-left">
-                    <a href="../index.html"><img src="../images/logo/ReThink Logo - Green.png" alt="Logo" class="logo"></a>
+                    <a href="../index.html"
+                        ><img
+                            src="../images/logo/ReThink Logo - Green.png"
+                            alt="Logo"
+                            class="logo"
+                    /></a>
                 </div>
                 <div class="nav-right">
                     <ul class="nav-links">
@@ -35,7 +39,9 @@
                         <li class="dropdown">
                             <a href="#">Community</a>
                             <div class="dropdown-content">
-                                <a href="community-forum.html">Community Forum</a>
+                                <a href="community-forum.html"
+                                    >Community Forum</a
+                                >
                                 <a href="event.html">Events</a>
                                 <a href="#">Donation</a>
                             </div>
@@ -45,7 +51,11 @@
                         <li class="user-dropdown" id="user-dropdown">
                             <div class="profile-pic">
                                 <!-- Initially hidden, shown after login -->
-                                <img src="images/logo/ReThink Logo - Beige.png" alt="Profile Picture" class="avatar">
+                                <img
+                                    src="images/logo/ReThink Logo - Beige.png"
+                                    alt="Profile Picture"
+                                    class="avatar"
+                                />
                             </div>
                             <div class="dropdown-content">
                                 <a href="#">Profile</a>
@@ -54,7 +64,9 @@
                                 <a href="#" id="logout-button">Logout</a>
                             </div>
                         </li>
-                        <li class="login-btn-pop" id="login-button-nav"><a href="#">Login</a></li>
+                        <li class="login-btn-pop" id="login-button-nav">
+                            <a href="#">Login</a>
+                        </li>
                     </ul>
                 </div>
                 <!-- Menu button for mobile menu -->
@@ -69,75 +81,125 @@
             <div id="login-container" class="wrapper">
                 <!-- Close button -->
                 <span class="icon-close">x</span>
-                
+
                 <!-- Login form -->
                 <div class="form-box login active">
                     <h2>Sign In</h2>
                     <form id="login-form" action="/users/login" method="POST">
                         <div class="input-box">
-                            <span class="icon"><ion-icon name="mail"></ion-icon></span>
-                            <input type="email" id="login-email" required>
+                            <span class="icon"
+                                ><ion-icon name="mail"></ion-icon
+                            ></span>
+                            <input type="email" id="login-email" required />
                             <label>Email</label>
                         </div>
                         <div class="input-box">
-                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
-                            <input type="password" id="login-password" required>
+                            <span class="icon"
+                                ><ion-icon name="lock-closed"></ion-icon
+                            ></span>
+                            <input
+                                type="password"
+                                id="login-password"
+                                required
+                            />
                             <label>Password</label>
                         </div>
                         <div class="remember-forgot">
                             <p>Forgot Password?</p>
                         </div>
-                        <button type="submit" class="btn" id="login-button">Sign In</button>
+                        <button type="submit" class="btn" id="login-button">
+                            Sign In
+                        </button>
                         <div class="login-register">
-                            <p>Don't have an account? <a href="#" class="register-link">Register</a></p>
-                            <p>Are you a staff? <a href="#" class="staff-login-link">Staff Sign In</a></p>
+                            <p>
+                                Don't have an account?
+                                <a href="#" class="register-link">Register</a>
+                            </p>
+                            <p>
+                                Are you a staff?
+                                <a href="#" class="staff-login-link"
+                                    >Staff Sign In</a
+                                >
+                            </p>
                         </div>
                     </form>
                 </div>
-        
+
                 <!-- Staff Login form -->
                 <div class="form-box staff-login">
                     <h2>Staff Sign In</h2>
                     <form id="staff-login-form">
                         <div class="input-box">
-                            <span class="icon"><ion-icon name="person"></ion-icon></span>
-                            <input type="text" id="staff-id" required>
+                            <span class="icon"
+                                ><ion-icon name="person"></ion-icon
+                            ></span>
+                            <input type="text" id="staff-id" required />
                             <label for="staff-id">Staff ID</label>
                         </div>
                         <div class="input-box">
-                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
-                            <input type="password" id="staff-password" required>
+                            <span class="icon"
+                                ><ion-icon name="lock-closed"></ion-icon
+                            ></span>
+                            <input
+                                type="password"
+                                id="staff-password"
+                                required
+                            />
                             <label for="staff-password">Password</label>
                         </div>
-                        <button type="button" class="btn" id="staff-login-button">Staff Sign In</button>
+                        <button
+                            type="button"
+                            class="btn"
+                            id="staff-login-button"
+                        >
+                            Staff Sign In
+                        </button>
                         <div class="login-register">
-                            <p>Are you a user? <a href="#" class="login-link">User Sign In</a></p>
+                            <p>
+                                Are you a user?
+                                <a href="#" class="login-link">User Sign In</a>
+                            </p>
                         </div>
                     </form>
                 </div>
-        
+
                 <!-- Registration form -->
                 <div class="form-box register">
                     <h2>Registration</h2>
                     <form id="register-form" action="/users" method="POST">
                         <div class="input-box">
-                            <span class="icon"><ion-icon name="person"></ion-icon></span>
-                            <input type="text" id="register-name" required>
+                            <span class="icon"
+                                ><ion-icon name="person"></ion-icon
+                            ></span>
+                            <input type="text" id="register-name" required />
                             <label for="register-name">Username</label>
                         </div>
                         <div class="input-box">
-                            <span class="icon"><ion-icon name="mail"></ion-icon></span>
-                            <input type="email" id="register-email" required>
+                            <span class="icon"
+                                ><ion-icon name="mail"></ion-icon
+                            ></span>
+                            <input type="email" id="register-email" required />
                             <label for="register-email">Email</label>
                         </div>
                         <div class="input-box">
-                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
-                            <input type="password" id="register-password" required>
+                            <span class="icon"
+                                ><ion-icon name="lock-closed"></ion-icon
+                            ></span>
+                            <input
+                                type="password"
+                                id="register-password"
+                                required
+                            />
                             <label for="register-password">Password</label>
                         </div>
-                        <button type="submit" class="btn" id="register-button">Register</button>
+                        <button type="submit" class="btn" id="register-button">
+                            Register
+                        </button>
                         <div class="login-register">
-                            <p>Already have an account? <a href="#" class="login-link">Login</a></p>
+                            <p>
+                                Already have an account?
+                                <a href="#" class="login-link">Login</a>
+                            </p>
                         </div>
                     </form>
                 </div>
@@ -146,370 +208,400 @@
 
         <main>
             <section>
-            <div class="container">
-                <div class="row">
-                    <div class="col-10 col-lg-4 flex-grow-1 mt-5">
-                        <aside class="card">
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <img
-                                        class="mb-4"
-                                        src="../images/about-us/about-us.jpg"
-                                    />
-                                    <h4>
-                                        <strong>Staff Name</strong>
-                                    </h4>
-                                    <p
-                                        class="card-subtitle text-body-secondary mb-4"
-                                    >
-                                        Admin Management
-                                    </p>
-                                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-10 col-lg-4 flex-grow-1 mt-5">
+                            <aside class="card">
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <img
+                                            class="mb-4"
+                                            src="../images/about-us/about-us.jpg"
+                                        />
+                                        <h4>
+                                            <strong>Staff Name</strong>
+                                        </h4>
+                                        <p
+                                            class="card-subtitle text-body-secondary mb-4"
+                                        >
+                                            Admin Management
+                                        </p>
+                                    </div>
 
-                                <button
-                                    class="btn focus-ring"
-                                    type="button"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target=".staff-info"
-                                    aria-controls="staff-info"
-                                >
-                                    &#x25BC; Staff Information
-                                </button>
-                                <hr />
-                                <ul class="collapse staff-info">
-                                    <button class="btn focus-ring">Edit</button>
-                                    <li>
-                                        <span><strong>ID</strong></span>
-                                        <div>Staff ID</div>
-                                    </li>
-                                    <li>
-                                        <span><strong>Name</strong></span>
-                                        <div>Staff Name</div>
-                                    </li>
-                                    <li>
-                                        <span><strong>Email</strong></span>
-                                        <div>Staff Name</div>
-                                    </li>
-                                    <li>
-                                        <span><strong>Department</strong></span>
-                                        <div>Admin Management</div>
-                                    </li>
-                                    <li>
-                                        <span><strong>Location</strong></span>
-                                        <div>Singapore</div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </aside>
-                    </div>
-                    <div class="col-10 col-lg-8 flex-grow-1 mt-5">
-                        <div class="card">
-                            <div class="card-header">
-                                <ul
-                                    class="nav nav-underline mb-3 justify-content-center"
-                                    id="admin-tab"
-                                    role="tablist"
-                                >
-                                    <li
-                                        class="nav-item me-5"
-                                        role="presentation"
+                                    <button
+                                        class="btn"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target=".staff-info"
+                                        aria-controls="staff-info"
                                     >
-                                        <button
-                                            class="nav-link active focus-ring admin-reports-tab"
-                                            id="admin-reports-tab"
-                                            data-bs-toggle="pill"
-                                            data-bs-target="#admin-reports"
-                                            type="button"
-                                            role="tab"
-                                            aria-controls="admin-reports"
-                                            aria-selected="true"
-                                        >
-                                            Reports
+                                        &#x25BC; Staff Information
+                                    </button>
+                                    <hr />
+                                    <ul class="collapse staff-info">
+                                        <button class="btn focus-ring">
+                                            Edit
                                         </button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button
-                                            class="nav-link focus-ring admin-messages-tab"
-                                            id="admin-messages-tab"
-                                            data-bs-toggle="pill"
-                                            data-bs-target="#admin-messsages"
-                                            type="button"
-                                            role="tab"
-                                            aria-controls="admin-messsages"
-                                            aria-selected="false"
+                                        <li>
+                                            <span><strong>ID</strong></span>
+                                            <div>Staff ID</div>
+                                        </li>
+                                        <li>
+                                            <span><strong>Name</strong></span>
+                                            <div>Staff Name</div>
+                                        </li>
+                                        <li>
+                                            <span><strong>Email</strong></span>
+                                            <div>Staff Name</div>
+                                        </li>
+                                        <li>
+                                            <span
+                                                ><strong
+                                                    >Department</strong
+                                                ></span
+                                            >
+                                            <div>Admin Management</div>
+                                        </li>
+                                        <li>
+                                            <span
+                                                ><strong>Location</strong></span
+                                            >
+                                            <div>Singapore</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </aside>
+                        </div>
+                        <div class="col-10 col-lg-8 flex-grow-1 mt-5">
+                            <div class="card">
+                                <div class="card-header">
+                                    <ul
+                                        class="nav nav-underline mb-3 justify-content-center"
+                                        id="admin-tab"
+                                        role="tablist"
+                                    >
+                                        <li
+                                            class="nav-item me-5"
+                                            role="presentation"
                                         >
-                                            Messages
-                                        </button>
-                                    </li>
-                                </ul>
-                                <div
-                                    class="tab-content card-body"
-                                    id="admin-tabContent"
-                                >
+                                            <button
+                                                class="nav-link active admin-reports-tab"
+                                                id="admin-reports-tab"
+                                                data-bs-toggle="pill"
+                                                data-bs-target="#admin-reports"
+                                                type="button"
+                                                role="tab"
+                                                aria-controls="admin-reports"
+                                                aria-selected="true"
+                                            >
+                                                Reports
+                                            </button>
+                                        </li>
+                                        <li
+                                            class="nav-item"
+                                            role="presentation"
+                                        >
+                                            <button
+                                                class="nav-link admin-messages-tab"
+                                                id="admin-messages-tab"
+                                                data-bs-toggle="pill"
+                                                data-bs-target="#admin-messsages"
+                                                type="button"
+                                                role="tab"
+                                                aria-controls="admin-messsages"
+                                                aria-selected="false"
+                                            >
+                                                Messages
+                                            </button>
+                                        </li>
+                                    </ul>
                                     <div
-                                        class="tab-pane fade show active focus-ring admin-reports"
-                                        id="admin-reports"
-                                        role="tabpanel"
-                                        aria-labelledby="admin-reports-tab"
-                                        tabindex="0"
+                                        class="tab-content card-body"
+                                        id="admin-tabContent"
                                     >
-                                        <div class="reports-list">
-                                            <div class="card report-card mb-4">
+                                        <div
+                                            class="tab-pane fade show active focus-ring admin-reports"
+                                            id="admin-reports"
+                                            role="tabpanel"
+                                            aria-labelledby="admin-reports-tab"
+                                            tabindex="0"
+                                        >
+                                            <div class="reports-list">
                                                 <div
-                                                    class="container card-body"
+                                                    class="card report-card hidden mb-4"
                                                 >
                                                     <div
-                                                        class="row justify-content-start"
+                                                        class="container card-body"
                                                     >
-                                                        <div class="col-8">
-                                                            <strong
-                                                                class="post-title"
+                                                        <div
+                                                            class="row justify-content-start"
+                                                        >
+                                                            <div class="col-8">
+                                                                <strong
+                                                                    class="post-title"
+                                                                >
+                                                                    Post Title
+                                                                </strong>
+                                                            </div>
+                                                            <div
+                                                                class="col-4 text-end post-likes"
                                                             >
-                                                                Post Title
-                                                            </strong>
+                                                                &uarr; 0000
+                                                            </div>
                                                         </div>
-                                                        <div
-                                                            class="col-4 text-end post-likes"
-                                                        >
-                                                            &uarr; 0000
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-8">
-                                                            <span
-                                                                class="card-subtitle post-description"
-                                                                >Post
-                                                                Description</span
+                                                        <div class="row">
+                                                            <div class="col-8">
+                                                                <span
+                                                                    class="card-subtitle post-description"
+                                                                    >Post
+                                                                    Description</span
+                                                                >
+                                                            </div>
+                                                            <div
+                                                                class="col-4 text-end text-body-secondary original-poster"
                                                             >
+                                                                @user
+                                                            </div>
                                                         </div>
+                                                        <div class="row">
+                                                            <div
+                                                                class="col-8"
+                                                            ></div>
+                                                            <div
+                                                                class="col-4 text-end text-body-secondary post-comments"
+                                                            >
+                                                                0000 c
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-8">
+                                                                <span
+                                                                    class="post-topics badge rounded-pill"
+                                                                >
+                                                                    Topic
+                                                                </span>
+                                                            </div>
+                                                            <div
+                                                                class="col-4 text-end text-body-secondary date-posted"
+                                                            >
+                                                                Date Posted
+                                                            </div>
+                                                        </div>
+                                                        <hr />
                                                         <div
-                                                            class="col-4 text-end text-body-secondary original-poster"
+                                                            class="row text-body-secondary"
                                                         >
-                                                            @user
+                                                            <div
+                                                                class="col date-reported"
+                                                            >
+                                                                Date Reported
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
                                                         <div
-                                                            class="col-8"
-                                                        ></div>
-                                                        <div
-                                                            class="col-4 text-end text-body-secondary post-comments"
+                                                            class="row text-body-secondary"
                                                         >
-                                                            0000 c
+                                                            <div
+                                                                class="col post-reporter"
+                                                            >
+                                                                @user
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div
-                                                            class="col-8 post-topics"
-                                                        >
-                                                            Topics
-                                                        </div>
-                                                        <div
-                                                            class="col-4 text-end text-body-secondary date-posted"
-                                                        >
-                                                            Date Posted
-                                                        </div>
-                                                    </div>
-                                                    <hr />
-                                                    <div
-                                                        class="row text-body-secondary"
-                                                    >
-                                                        <div
-                                                            class="col date-reported"
-                                                        >
-                                                            Date Reported
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        class="row text-body-secondary"
-                                                    >
-                                                        <div
-                                                            class="col post-reporter"
-                                                        >
-                                                            @user
-                                                        </div>
-                                                    </div>
 
-                                                    <div class="row">
+                                                        <div class="row">
+                                                            <div>
+                                                                <strong
+                                                                    class="col report-reason"
+                                                                    >Report
+                                                                    Reason
+                                                                </strong>
+                                                            </div>
+                                                        </div>
                                                         <div
-                                                            class="col report-reason"
+                                                            class="row justify-content-between mt-4"
                                                         >
-                                                            Report Reason
+                                                            <div
+                                                                class="col flex-grow-0 text-nowrap"
+                                                            >
+                                                                <button
+                                                                    class="btn ignore-button focus-ring"
+                                                                >
+                                                                    Ignore
+                                                                    Report
+                                                                </button>
+                                                            </div>
+                                                            <div
+                                                                class="col flex-grow-0 text-nowrap"
+                                                            >
+                                                                <button
+                                                                    class="btn remove-button focus-ring"
+                                                                >
+                                                                    Remove Post
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div
-                                                        class="row justify-content-between mt-4"
+                                                </div>
+                                            </div>
+                                            <nav
+                                                class="mt-5"
+                                                aria-label="Reports navigation"
+                                            >
+                                                <ul
+                                                    class="pagination justify-content-center"
+                                                >
+                                                    <li
+                                                        class="page-item disabled"
                                                     >
-                                                        <div
-                                                            class="col flex-grow-0 text-nowrap"
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            >Previous</a
                                                         >
-                                                            <button
-                                                                class="btn ignore-button focus-ring"
-                                                            >
-                                                                Ignore Report
-                                                            </button>
-                                                        </div>
-                                                        <div
-                                                            class="col flex-grow-0 text-nowrap"
+                                                    </li>
+                                                    <li
+                                                        class="page-item active"
+                                                    >
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >1</a
                                                         >
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >2</a
+                                                        >
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >3</a
+                                                        >
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >Next</a
+                                                        >
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                        <div
+                                            class="tab-pane fade focus-ring"
+                                            id="admin-messsages"
+                                            role="tabpanel"
+                                            aria-labelledby="admin-messsages-tab"
+                                            tabindex="0"
+                                        >
+                                            <div class="messages-list">
+                                                <div
+                                                    class="card message-card hidden mb-4"
+                                                >
+                                                    <div class="card-body">
+                                                        <p
+                                                            class="card-title text-body-secondary name"
+                                                        >
+                                                            First Name Last Name
+                                                        </p>
+                                                        <p
+                                                            class="card-subtitle text-body-secondary email"
+                                                        >
+                                                            email
+                                                        </p>
+                                                        <p
+                                                            class="card-subtitle text-body-secondary phone-number"
+                                                        >
+                                                            Phone Number
+                                                        </p>
+                                                        <p
+                                                            class="card-text message"
+                                                        >
+                                                            Message
+                                                        </p>
+
+                                                        <div
+                                                            class="input-group"
+                                                        >
+                                                            <input
+                                                                type="text"
+                                                                class="form-control focus-ring"
+                                                                placeholder="Reply"
+                                                                aria-label="Reply and send"
+                                                                aria-describedby="reply-button"
+                                                            />
                                                             <button
-                                                                class="btn remove-button focus-ring"
+                                                                class="btn btn-primary reply-button focus-ring"
+                                                                type="button"
                                                             >
-                                                                Remove Post
+                                                                Reply
                                                             </button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <nav
-                                            class="mt-5"
-                                            aria-label="Reports navigation"
-                                        >
-                                            <ul
-                                                class="pagination justify-content-center"
+                                            <nav
+                                                class="mt-5"
+                                                aria-label="Reports navigation"
                                             >
-                                                <li class="page-item disabled">
-                                                    <a
-                                                        class="page-link focus-ring"
-                                                        >Previous</a
+                                                <ul
+                                                    class="pagination justify-content-center"
+                                                >
+                                                    <li
+                                                        class="page-item disabled"
                                                     >
-                                                </li>
-                                                <li class="page-item active">
-                                                    <a
-                                                        class="page-link focus-ring"
-                                                        href="#"
-                                                        >1</a
-                                                    >
-                                                </li>
-                                                <li class="page-item">
-                                                    <a
-                                                        class="page-link focus-ring"
-                                                        href="#"
-                                                        >2</a
-                                                    >
-                                                </li>
-                                                <li class="page-item">
-                                                    <a
-                                                        class="page-link focus-ring"
-                                                        href="#"
-                                                        >3</a
-                                                    >
-                                                </li>
-                                                <li class="page-item">
-                                                    <a
-                                                        class="page-link focus-ring"
-                                                        href="#"
-                                                        >Next</a
-                                                    >
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                    <div
-                                        class="tab-pane fade focus-ring"
-                                        id="admin-messsages"
-                                        role="tabpanel"
-                                        aria-labelledby="admin-messsages-tab"
-                                        tabindex="0"
-                                    >
-                                        <div class="messages-list">
-                                            <div class="card message-card mb-4">
-                                                <div class="card-body">
-                                                    <p
-                                                        class="card-title text-body-secondary name"
-                                                    >
-                                                        First Name Last Name
-                                                    </p>
-                                                    <p
-                                                        class="card-subtitle text-body-secondary email"
-                                                    >
-                                                        email
-                                                    </p>
-                                                    <p
-                                                        class="card-subtitle text-body-secondary phone-number"
-                                                    >
-                                                        Phone Number
-                                                    </p>
-                                                    <p
-                                                        class="card-text message"
-                                                    >
-                                                        Message
-                                                    </p>
-
-                                                    <div class="input-group">
-                                                        <input
-                                                            type="text"
-                                                            class="form-control focus-ring"
-                                                            placeholder="Reply"
-                                                            aria-label="Reply and send"
-                                                            aria-describedby="reply-button"
-                                                        />
-                                                        <button
-                                                            class="btn btn-primary reply-button focus-ring"
-                                                            type="button"
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            >Previous</a
                                                         >
-                                                            Reply
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                    </li>
+                                                    <li
+                                                        class="page-item active"
+                                                    >
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >1</a
+                                                        >
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >2</a
+                                                        >
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >3</a
+                                                        >
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >Next</a
+                                                        >
+                                                    </li>
+                                                </ul>
+                                            </nav>
                                         </div>
-                                        <nav
-                                            class="mt-5"
-                                            aria-label="Reports navigation"
-                                        >
-                                            <ul
-                                                class="pagination justify-content-center"
-                                            >
-                                                <li class="page-item disabled">
-                                                    <a
-                                                        class="page-link focus-ring"
-                                                        >Previous</a
-                                                    >
-                                                </li>
-                                                <li class="page-item active">
-                                                    <a
-                                                        class="page-link focus-ring"
-                                                        href="#"
-                                                        >1</a
-                                                    >
-                                                </li>
-                                                <li class="page-item">
-                                                    <a
-                                                        class="page-link focus-ring"
-                                                        href="#"
-                                                        >2</a
-                                                    >
-                                                </li>
-                                                <li class="page-item">
-                                                    <a
-                                                        class="page-link focus-ring"
-                                                        href="#"
-                                                        >3</a
-                                                    >
-                                                </li>
-                                                <li class="page-item">
-                                                    <a
-                                                        class="page-link focus-ring"
-                                                        href="#"
-                                                        >Next</a
-                                                    >
-                                                </li>
-                                            </ul>
-                                        </nav>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
         </main>
 
         <script src="../scripts/login-popup.js"></script>
-        
+
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
             integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

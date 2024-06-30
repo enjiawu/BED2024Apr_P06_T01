@@ -1,6 +1,6 @@
 module.exports = {
     user: "library_user",
-    password: "password",
+    password: "polylibrarypassword",
     server: "localhost",
     database: "poly_library",
     trustServerCertificate: true,

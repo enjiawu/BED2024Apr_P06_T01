@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     async function loadReports() {
         const reportsResponse = await fetch("/reports");
         const reports = await reportsResponse.json();
-        console.log(reports);
+        // console.log(reports);
 
         const reportsList = document.getElementsByClassName("reports-list")[0];
         const reportCardTemplate =
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 `/communityforum/${report.postId}`
             );
             const post = await postResponse.json();
-            console.log(post);
+            // console.log(post);
 
             let newReportCard = reportCardTemplate.cloneNode(true);
             reportsList.appendChild(newReportCard);
@@ -23,16 +23,19 @@ document.addEventListener("DOMContentLoaded", function () {
             newReportCard.querySelector(".post-description").innerText =
                 post.description;
 
-            // const originalPosterResponse = await fetch(`/users/${post.userId}`);
-            // const originalPoster = await originalPosterResponse.json();
-
-            // newReportCard.querySelector(".original-poster").innerText =
-            //     originalPoster.username;
+            const originalPosterResponse = await fetch(`/users/${post.userId}`);
+            const originalPoster = await originalPosterResponse.json();
+            newReportCard.querySelector(".original-poster").innerText =
+                originalPoster.username;
 
             newReportCard.querySelector(".post-comments").innerText =
                 post.comments;
-            // newReportCard.querySelector(".post-topics").innerText =
-            //     post.topicId;
+
+            const topicResponse = await fetch(
+                `/communityforum/topics/${post.topicId}`
+            );
+            const topic = await topicResponse.json();
+            newReportCard.querySelector(".post-topics").innerText = topic.topic;
 
             newReportCard.querySelector(".date-posted").innerText =
                 post.dateCreated.slice(0, 10) +
@@ -46,20 +49,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 report.dateReported.slice(11, 19) +
                 report.dateReported.slice(23);
 
-            // newReportCard.querySelector(".post-reporter").innerText =
-            //     report.userId;
+            const reporterResponse = await fetch(`/users/${report.userId}`);
+            const reporter = await reporterResponse.json();
+            newReportCard.querySelector(".post-reporter").innerText =
+                reporter.username;
 
             newReportCard.querySelector(".report-reason").innerText =
                 report.reason;
+
+            newReportCard.classList.remove("hidden");
         }
 
-        reportCardTemplate.classList.add("hidden");
+        // reportCardTemplate.classList.add("hidden");
     }
 
     async function loadMessages() {
         const messagesResponse = await fetch("/messages");
         const messages = await messagesResponse.json();
-        console.log(messages);
+        // console.log(messages);
 
         const messagesList =
             document.getElementsByClassName("messages-list")[0];
@@ -67,20 +74,24 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementsByClassName("message-card")[0];
 
         for (let message of messages) {
-            console.log(message);
+            // console.log(message);
             let newMessageCard = messageCardTemplate.cloneNode(true);
             messagesList.appendChild(newMessageCard);
 
             newMessageCard.querySelector(".name").innerText =
-                message.firstName + " " + message.lastName;
+                message.lastName !== null
+                    ? message.firstName + " " + message.lastName
+                    : message.firstName;
             newMessageCard.querySelector(".email").innerText = message.email;
             newMessageCard.querySelector(".message").innerText =
                 message.message;
             newMessageCard.querySelector(".phone-number").innerText =
                 message.phoneNumber;
+
+            newMessageCard.classList.remove("hidden");
         }
 
-        messageCardTemplate.classList.add("hidden");
+        // messageCardTemplate.classList.add("hidden");
     }
 
     const reportsTab = document.getElementsByClassName("admin-reports-tab")[0];
