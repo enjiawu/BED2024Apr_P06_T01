@@ -55,10 +55,10 @@ const deletePost = async (req, res) => {
     const postId = parseInt(req.params.id);
     try {
         const success = await Post.deletePost(postId);
-        if (success === -1) {
+        if (success != 1) {
             return res.status(404).send("Post not found");
         }
-        res.status(201).send();
+        res.status(201).send("Post has been deleted");
     } catch (error) {
         console.error(error);
         res.status(500).send("Error deleting post");
