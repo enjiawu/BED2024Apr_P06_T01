@@ -67,6 +67,27 @@ class Message {
               )
             : null;
     }
+
+    static async sendMessage(newMessageData) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery =
+            "INSERT INTO ContactUsSubmissions (firstName, lastName, email, phoneNumber, message) VALUES (@firstName, @lastName, @email, @phoneNumber, @message); SELECT SCOPE_IDENTITY() AS id;";
+
+
+        const request = connection.request();
+        request.input('firstName', sql.VarChar, newMessageData.firstName);
+        request.input('lastName', sql.VarChar, newMessageData.lastName || null);
+        request.input('email', sql.VarChar, newMessageData.email);
+        request.input('phoneNumber', sql.VarChar, newMessageData.phoneNumber || null);
+        request.input('message', sql.Text, newMessageData.message);
+
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset[0].id;
+    }
 }
 
 module.exports = Message;

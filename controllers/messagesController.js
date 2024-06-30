@@ -24,7 +24,21 @@ const getMessageById = async (req, res) => {
     }
 };
 
+const sendMessage = async (req, res) => {
+    const newMessage = req.body;
+    console.log("Received message data:", newMessage); // Debug: Log received data
+
+    try {
+        const sendedMessage = await Message.sendMessage(newMessage);
+        res.status(201).json({ id: sendedMessage });
+    } catch (error) {
+        console.error("Error details:", error);
+        res.status(500).send("Error sending message: " + error.message);
+    }
+};
+
 module.exports = {
     getAllMessages,
     getMessageById,
+    sendMessage
 };
