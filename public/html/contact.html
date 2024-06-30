@@ -162,38 +162,42 @@
 
         <main>
             <!-- contact page banner -->
-            <section class = "hear-from-you py-5">
-                <h2 class = "text-center mb-4">We'd love to hear from you</h2>
-                <p>Our friendly team are always here for you</p>
+            <section class="hear-from-you py-5">
+                <h2 class="text-center mb-4">We'd Love to Hear From You</h2>
+                <p class="text-center mb-4">Our friendly team is always here for you</p>
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-4 mb-4">
-                            <div class="card">
-                                <div class="card-body d-flex flex-column align-content-between">
-                                    <h5 class="card-title"><i class="fa fa-envelope" aria-hidden="true"></i></h5>
-                                    <p class="card-text">Chat to support</p>
-                                    <a href="#">support@rethink.io</a>
+                        <div class="col-lg-4 mb-4 d-flex">
+                            <div class="card flex-fill">
+                                <div class="card-body d-flex flex-column align-items-center text-center">
+                                    <h5 class="card-title">
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    </h5>
+                                    <p class="card-text">Chat to Support</p>
+                                    <a href="mailto:support@rethink.io" class="card-link">support@rethink.io</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 mb-4">
-                            <div class="card">
-                                <div class="card-body d-flex flex-column align-content-between">
-                                    <h5 class="card-title"><i class="fa fa-map-marker" aria-hidden="true"></i></h5>
-                                    <p class="card-text">Visit us</p>
-                                    <a href="#">535 Clementi Road, Singapore 599489</a>
+                        <div class="col-lg-4 mb-4 d-flex">
+                            <div class="card flex-fill">
+                                <div class="card-body d-flex flex-column align-items-center text-center">
+                                    <h5 class="card-title">
+                                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                    </h5>
+                                    <p class="card-text">Visit Us</p>
+                                    <a href="https://maps.google.com/?q=535+Clementi+Road,+Singapore+599489" class="card-link" target="_blank">535 Clementi Road, Singapore 599489</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 mb-4">
-                            <div class="card">
-                                <div class="card-body d-flex flex-column align-content-between">
-                                    <h5 class="card-title"><i class="fa fa-phone" aria-hidden="true"></i></h5>
-                                    <p class="card-text">
-                                        Call us
-                                    </p>
-                                    <a href="#">1244 234 6688</a>
-                                    <a href="#">1244 234 6000</a>
+                        <div class="col-lg-4 mb-4 d-flex">
+                            <div class="card flex-fill">
+                                <div class="card-body d-flex flex-column align-items-center text-center">
+                                    <h5 class="card-title">
+                                        <i class="fa fa-phone" aria-hidden="true"></i>
+                                    </h5>
+                                    <p class="card-text">Call Us</p>
+                                    <a href="tel:+12442346688" class="card-link">1244 234 6688</a>
+                                    <a href="tel:+12442346000" class="card-link">1244 234 6000</a>
                                 </div>
                             </div>
                         </div>
@@ -205,37 +209,46 @@
             <section class="contact-detail">
               <!-- contact form -->
               <div class="contact-form">
-                <h3>Get in touch</h3>
-                <div id="add-update-contact">
+                <h3 class="text-center">Get in touch</h3>
+                <p class="text-center">We’d love to hear from you.</p>
+                <p class="text-center padding-bottom">Please fill out your issue in this form.</p>
+                <div id="add-update-contact" style="display: none;">
                   <div class="alert alert-success" role="alert">
                     <p>Your Message Has Been Submitted Successfully.</p>
                     <p>We'll Get in Touch with You Soon.</p>
                   </div>
                 </div>
                 <div class="form" id="add-contact">
-                  <form id="add-contact-form">
-                    <div class="form-group">
-                      <label for="contact-name">Name</label>
-                        <input type="text" id="contact-name" class="form-control" name="name" placeholder="Your name.." required>
-                    </div>
+                    <form id="add-contact-form" action="/messages" method="POST">
+                        <div class="form-group">
+                            <label for="contact-first-name">First Name</label>
+                            <input type="text" id="contact-first-name" class="form-control" name="firstName" placeholder="Your first name.." required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contact-last-name">Last Name</label>
+                            <input type="text" id="contact-last-name" class="form-control" name="lastName" placeholder="Your last name..">
+                        </div>
                     
-                    <div class="form-group">
-                      <label for="contact-email">Email</label>
-                        <input type="email" id="contact-email" class="form-control" name="email" placeholder="Your email.." required>
-                    </div>
-        
-                    <div class="form-group">
-                      <label for="contact-subject">Subject</label>
-                        <input type="text" id="contact-subject" class="form-control" name="subject" placeholder="subject.." required>
-                    </div>
-        
-                    <div class="form-group">
-                      <label for="contact-msg">Message</label>
-                        <textarea id="contact-msg" class="form-control" name="message" placeholder="Your problem.." style="height:200px" required></textarea>
-                    </div>
+                        <div class="form-group">
+                            <label for="contact-email">Email</label>
+                            <input type="email" id="contact-email" class="form-control" name="email" placeholder="Your email.." required>
+                        </div>
                     
-                    <input class="contact-btn btn btn-primary" id="contact-submit" type="submit" value="Send">
-                  </form>
+                        <div class="form-group">
+                            <label for="contact-phone-number">Phone Number</label>
+                            <input type="tel" id="contact-phone-number" class="form-control" name="phoneNumber" placeholder="Your phone number..">
+                        </div>
+                    
+                        <div class="form-group">
+                            <label for="contact-msg">Message</label>
+                            <textarea id="contact-msg" class="form-control" name="message" placeholder="Your message.." style="height:200px" required></textarea>
+                        </div>
+                        
+                        <div class="form-group text-center">
+                            <input class="contact-btn btn btn-primary" id="contact-submit" type="submit" value="Send Message">
+                        </div>
+                    </form>
                 </div>
               </div>
         
@@ -300,6 +313,7 @@
         </footer>
 
         <script src="../scripts/login-popup.js"></script>
+        <script src="../scripts/contact.js"></script>
 
         <!-- Bootstrap JavaScript Libraries -->
         <script
