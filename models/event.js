@@ -137,6 +137,7 @@ class Event {
         request.input("startDate", newEvent.startDate);
         request.input("startTime", newEvent.startTime);
         request.input("status", newEvent.status);
+        request.input("eventId", eventId);
 
         await request.query(sqlQuery);
 
