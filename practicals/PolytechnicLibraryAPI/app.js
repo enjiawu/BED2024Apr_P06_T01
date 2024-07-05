@@ -3,14 +3,12 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const sql = require("mssql");
 const dbConfig = require("./dbConfig.js");
+//const validateUser = require("./middlewares/validateUser")
 //const staticMiddleware = express.static("public");
 
 //Importing Controllers
 const usersController = require("./controllers/userController.js");
 const booksController = require("./controllers/bookController.js");
-
-//Importing Middleware
-const verifyJWT = require("./middleware/verifyJWT.js");
 
 //Instatiating the app
 const app = express();
@@ -19,6 +17,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 //Middleware
+const verifyJWT = require("./middleware/verifyJWT.js");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(staticMiddleware);
@@ -26,11 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Routes
 app.get("/books", booksController.getAllBooks);
 app.get("/books/:id", booksController.getBookById);
-app.put(
-    "/books/:id/availability",
-
-    booksController.updateBookAvailability
-);
+app.put("/books/:id/availability", booksController.updateBookAvailability);
 
 app.get("/users", usersController.getAllUsers);
 app.get("/users/:username", usersController.getUserByUsername);

@@ -33,12 +33,10 @@ class User {
         }
     }
 
-    static async createUser(username, password, role) {
-        // validate user input
+    static async createUser(username, passwordHash, role) {
 
         try {
             let pool = await sql.connect(dbConfig);
-            let passwordHash = await bcrypt.hashSync(password, 10);
             let user = await pool
                 .request()
                 .input("username", username)

@@ -54,7 +54,7 @@ async function registerUser(req, res) {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         // Create user in database
-        const newUser = await User.createUser(username, hashedPassword, role);
+        await User.createUser(username, hashedPassword, role);
 
         return res.status(201).json({ message: "User created successfully" });
     } catch (err) {
@@ -69,8 +69,9 @@ async function login(req, res) {
     try {
         // Validate user credentials
         const user = await User.getUserByUsername(username);
+        console.log(user.passwordHash);
+
         if (!user) {
-            console.log("1");
             return res.status(401).json({ message: "Invalid credentials" });
         }
 
@@ -78,7 +79,6 @@ async function login(req, res) {
         const isMatch = await bcrypt.compare(password, user.passwordHash);
 
         if (!isMatch) {
-            console.log("2");
             return res.status(401).json({ message: "Invalid credentials" });
         }
 
