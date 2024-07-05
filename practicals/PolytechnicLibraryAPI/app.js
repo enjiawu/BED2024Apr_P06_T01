@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const sql = require("mssql");
 const dbConfig = require("./dbConfig.js");
+//const validateUser = require("./middlewares/validateUser")
 //const staticMiddleware = express.static("public");
 
 //Importing Controllers
