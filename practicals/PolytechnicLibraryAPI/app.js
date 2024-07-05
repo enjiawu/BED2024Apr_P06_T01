@@ -22,12 +22,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-app.get("/books", verifyJWT(), booksController.getAllBooks);
-app.get("/books/:id", verifyJWT(), booksController.getBookById);
-app.put("/books/:id/availability", verifyJWT(), booksController.updateBookAvailability);
+app.get("/books", verifyJWT, booksController.getAllBooks);
+app.get("/books/:id", verifyJWT, booksController.getBookById);
+app.put("/books/:id/availability", verifyJWT, booksController.updateBookAvailability);
 
-app.get("/users", verifyJWT(), usersController.getAllUsers);
-app.get("/users/:username", verifyJWT(), usersController.getUserByUsername);
+app.get("/users", verifyJWT, usersController.getAllUsers);
+app.get("/users/:username", verifyJWT, usersController.getUserByUsername);
 app.post("/register", usersController.registerUser);
 app.get("/login", usersController.login);
 
