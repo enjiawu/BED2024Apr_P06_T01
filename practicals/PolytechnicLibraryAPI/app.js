@@ -9,9 +9,6 @@ const dbConfig = require("./dbConfig.js");
 const usersController = require("./controllers/userController.js");
 const booksController = require("./controllers/bookController.js");
 
-//Importing Middleware
-const verifyJWT = require("./middleware/verifyJWT.js");
-
 //Instatiating the app
 const app = express();
 
@@ -19,17 +16,18 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 //Middleware
+const verifyJWT = require("./middleware/verifyJWT.js");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(staticMiddleware);
 
 // Routes
-app.get("/books", verifyJWT(), booksController.getAllBooks);
-app.get("/books/:id", verifyJWT(), booksController.getBookById);
-app.put("/books/:id/availability",verifyJWT(), booksController.updateBookAvailability);
+app.get("/books", booksController.getAllBooks);
+app.get("/books/:id", booksController.getBookById);
+app.put("/books/:id/availability", booksController.updateBookAvailability);
 
-app.get("/users", verifyJWT(), usersController.getAllUsers);
-app.get("/users/:username", verifyJWT(), usersController.getUserByUsername);
+app.get("/users", usersController.getAllUsers);
+app.get("/users/:username", usersController.getUserByUsername);
 app.post("/register", usersController.registerUser);
 
 app.listen(port, async () => {

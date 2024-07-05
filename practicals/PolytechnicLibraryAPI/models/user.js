@@ -40,10 +40,18 @@ class User {
         }
     }
 
-    static async registerUser(username, password, role) {
-        // validate user input
-        
+    static async createUser(username, password, role) {
         try {
+            // validate user input
+            this.validateUsername(username);
+            this.validatePassword(password);
+            this.validateRole(role);
+
+            // check if username is unique
+            const existingUser = await this.getUserByUsername(username);
+            if (existingUser) {
+                throw new Error ('Username already exists')
+            }
             let pool = await sql.connect(dbConfig);
             let passwordHash = await bcrypt.hashSync(password, 10);
             let user = await pool
@@ -70,6 +78,26 @@ class User {
             return user;
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    // Validation functions
+    static validateUsername(username) {
+        if (typeof username !== 'string' || username.length < 3 || username.length > 30 || !/^[a-zA-Z0-9]+$/.test(username)) {
+            throw new Error('Invalid username. It must be an alphanumeric string between 3 and 30 characters.');
+        }
+    }
+
+    static validatePassword(password) {
+        if (typeof password !== 'string' || password.length < 8 || password.length > 100) {
+            throw new Error('Invalid password. It must be a string between 8 and 100 characters.');
+        }
+    }
+
+    static validateRole(role) {
+        const validRoles = ['librarian', 'member'];
+        if (!validRoles.includes(role)) {
+            throw new Error(`Invalid role. Valid roles are: ${validRoles.join(', ')}.`);
         }
     }
 
