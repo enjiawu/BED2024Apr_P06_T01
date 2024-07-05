@@ -21,6 +21,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(staticMiddleware);
 
 // Routes
+app.get("/books", booksController.getAllBooks);
+app.get("/books/:id", booksController.getBookById);
+app.put("/books/:id/availability", booksController.updateBookAvailability);
 
 app.listen(port, async () => {
     try {
