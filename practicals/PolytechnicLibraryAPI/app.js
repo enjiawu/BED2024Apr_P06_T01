@@ -29,6 +29,7 @@ app.put("/books/:id/availability", booksController.updateBookAvailability);
 app.get("/users", usersController.getAllUsers);
 app.get("/users/:username", usersController.getUserByUsername);
 app.post("/register", usersController.registerUser);
+app.get("/login", usersController.login);
 
 app.listen(port, async () => {
     try {
