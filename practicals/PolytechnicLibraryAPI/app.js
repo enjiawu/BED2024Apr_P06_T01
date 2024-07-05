@@ -1,10 +1,9 @@
+require("dotenv").config(); // Load environment variables from a .env file into process.env
 //Importing modules/packages
 const express = require("express");
 const bodyParser = require("body-parser");
 const sql = require("mssql");
 const dbConfig = require("./dbConfig.js");
-//const validateUser = require("./middlewares/validateUser")
-//const staticMiddleware = express.static("public");
 
 //Importing Controllers
 const usersController = require("./controllers/userController.js");
@@ -17,18 +16,18 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 //Middleware
-const verifyJWT = require("./middleware/verifyJWT.js");
+const verifyJWT = require("./middleware/verifyJWT");
+//const validateUser = require("./middleware/validateUser")
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(staticMiddleware);
 
 // Routes
-app.get("/books", booksController.getAllBooks);
-app.get("/books/:id", booksController.getBookById);
-app.put("/books/:id/availability", booksController.updateBookAvailability);
+app.get("/books", verifyJWT(), booksController.getAllBooks);
+app.get("/books/:id", verifyJWT(), booksController.getBookById);
+app.put("/books/:id/availability", verifyJWT(), booksController.updateBookAvailability);
 
-app.get("/users", usersController.getAllUsers);
-app.get("/users/:username", usersController.getUserByUsername);
+app.get("/users", verifyJWT(), usersController.getAllUsers);
+app.get("/users/:username", verifyJWT(), usersController.getUserByUsername);
 app.post("/register", usersController.registerUser);
 app.get("/login", usersController.login);
 
