@@ -3,12 +3,7 @@ const dbConfig = require("../dbConfig");
 const bcrypt = require("bcryptjs");
 
 class User {
-    constructor(
-        user_id,
-        username,
-        passwordHash,
-        role
-    ) {
+    constructor(user_id, username, passwordHash, role) {
         this.user_id = user_id;
         this.username = username;
         this.passwordHash = passwordHash;
@@ -18,16 +13,14 @@ class User {
     static async getAllUsers() {
         try {
             let pool = await sql.connect(dbConfig);
-            let users = await pool
-                .request()
-                .query("SELECT * FROM Users");
+            let users = await pool.request().query("SELECT * FROM Users");
             return users.recordset;
         } catch (error) {
             console.log(error);
         }
     }
 
-    static async getUserByUsername(username){
+    static async getUserByUsername(username) {
         try {
             let pool = await sql.connect(dbConfig);
             let user = await pool
@@ -40,9 +33,9 @@ class User {
         }
     }
 
-    static async registerUser(username, password, role) {
+    static async createUser(username, password, role) {
         // validate user input
-        
+
         try {
             let pool = await sql.connect(dbConfig);
             let passwordHash = await bcrypt.hashSync(password, 10);
@@ -72,7 +65,6 @@ class User {
             console.log(error);
         }
     }
-
 }
 
 module.exports = User;

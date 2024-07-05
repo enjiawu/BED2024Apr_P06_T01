@@ -24,13 +24,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(staticMiddleware);
 
 // Routes
-app.get("/books", verifyJWT(), booksController.getAllBooks);
-app.get("/books/:id", verifyJWT(), booksController.getBookById);
-app.put("/books/:id/availability",verifyJWT(), booksController.updateBookAvailability);
+app.get("/books", booksController.getAllBooks);
+app.get("/books/:id", booksController.getBookById);
+app.put(
+    "/books/:id/availability",
 
-app.get("/users", verifyJWT(), usersController.getAllUsers);
-app.get("/users/:username", verifyJWT(), usersController.getUserByUsername);
+    booksController.updateBookAvailability
+);
+
+app.get("/users", usersController.getAllUsers);
+app.get("/users/:username", usersController.getUserByUsername);
 app.post("/register", usersController.registerUser);
+app.get("/login", usersController.login);
 
 app.listen(port, async () => {
     try {
