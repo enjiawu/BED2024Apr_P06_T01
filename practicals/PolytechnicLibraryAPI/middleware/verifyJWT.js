@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
+require("dotenv").config(); // Load environment variables from a .env file into process.env
 
 function verifyJWT(req, res, next) {
+    console.log(req);
     const token =
         req.headers.authorization && req.headers.authorization.split(" ")[1];
 
@@ -8,7 +10,7 @@ function verifyJWT(req, res, next) {
         return res.status(401).json({ message: "Unauthorized" });
     }
 
-    jwt.verify(token, "your_secret_key", (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
         if (err) {
             return res.status(403).json({ message: "Forbidden" });
         }

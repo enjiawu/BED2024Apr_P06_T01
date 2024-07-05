@@ -87,7 +87,7 @@ async function login(req, res) {
             id: user.id,
             role: user.role,
         };
-        const token = jwt.sign(payload, "your_secret_key", {
+        const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
             expiresIn: "3600s",
         }); // Expires in 1 hour
 

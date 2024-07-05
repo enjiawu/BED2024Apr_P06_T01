@@ -1,8 +1,8 @@
 module.exports = {
-    user: "library_user",
-    password: "polylibrarypassword",
-    server: "localhost",
-    database: "poly_library",
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    server: process.env.DB_SERVER,
+    database: process.env.DB_DATABASE,
     trustServerCertificate: true,
     options: {
         port: 1433, // Default SQL Server port
