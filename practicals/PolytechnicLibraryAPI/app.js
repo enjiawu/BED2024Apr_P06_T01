@@ -4,6 +4,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const sql = require("mssql");
 const dbConfig = require("./dbConfig.js");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger-output.json"); // Import generated spec
 
 //Importing Controllers
 const usersController = require("./controllers/userController.js");
@@ -20,11 +22,17 @@ const verifyJWT = require("./middleware/verifyJWT");
 //const validateUser = require("./middleware/validateUser")
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+// Serve the Swagger UI at a specific route
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Routes
 app.get("/books", verifyJWT, booksController.getAllBooks);
 app.get("/books/:id", verifyJWT, booksController.getBookById);
-app.put("/books/:id/availability", verifyJWT, booksController.updateBookAvailability);
+app.put(
+    "/books/:id/availability",
+    verifyJWT,
+    booksController.updateBookAvailability
+);
 
 app.get("/users", verifyJWT, usersController.getAllUsers);
 app.get("/users/:username", verifyJWT, usersController.getUserByUsername);
