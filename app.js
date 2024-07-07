@@ -1,3 +1,4 @@
+require("dotenv").config(); // Load environment variables from a .env file into process.env
 //Importing modules/packages
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -28,24 +29,32 @@ app.use(staticMiddleware);
 // Community Forum Routes
 app.get("/communityforum", postsController.getAllPosts); // Get all forum posts
 app.get("/communityforum/topics", topicsController.getAllTopics); // Get all forum topics
+
 //// Community Forum - Statistics Routes
 app.get("/communityforum/post-count", postsController.getPostCount); // Get total number of posts
 app.get("/communityforum/topic-count", topicsController.getTopicCount); // Get total number of topics
 app.get("/communityforum/likes-count", postsController.getAllLikes); // Get total number of likes across all posts
-//// Sorting Routes
+
+//// Community Forum - Sorting Routes
 app.get("/communityforum/sort-by-likes-desc", postsController.sortPostsByLikesDesc); // Sort posts by likes in descending order
 app.get("/communityforum/sort-by-likes-asc", postsController.sortPostsByLikesAsc); // Sort posts by likes in ascending order
 app.get("/communityforum/sort-by-newest", postsController.sortPostsByNewest); // Sort posts by date in descending order
 app.get("/communityforum/sort-by-oldest", postsController.sortPostsByOldest); // Sort posts by date in ascending order
-//// Specific Post or Topic Routes
+
+//// Community Forum - Specific Post or Topic Routes
 app.get("/communityforum/topics/:id", topicsController.getTopicById); // Get a specific topic by ID
 app.get("/communityforum/posts-by-topic/:id", postsController.getPostsByTopic); // Get posts belonging to a specific topic
 app.get("/communityforum/search", postsController.searchPosts); // Search for posts based on criteria
-//// Individual Post CRUD Routes
+app.get("/communityforum/trending-topics", postsController.getTrendingTopics); // Get the id and number of posts for the trending topics
+
+//// Community Forum - Individual Post CRUD Routes
 app.get("/communityforum/:id", postsController.getPostById); // Get a specific post by ID
 app.post("/communityforum", postsController.createPost); // Create a new forum post
 app.put("/communityforum/:id", postsController.updatePost); // Update an existing forum post
 app.delete("/communityforum/:id", postsController.deletePost); // Delete a forum post
+
+//// Community Forum - Report Routes
+app.get("/communityforum/report-post", postsController.reportPost); // Get all reports
 
 //Report Routes
 app.get("/reports", reportsController.getAllReports);
