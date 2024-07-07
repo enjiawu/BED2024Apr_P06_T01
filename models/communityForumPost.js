@@ -239,5 +239,38 @@ class communityForumPost {
         );
     }
 
+    static async getAllTopicCountsByPost() {
+        const connection = await sql.connect(dbConfig);
+      
+        const sqlQuery = `SELECT t.topicId, t.topic, COUNT(*) as postCount FROM CommunityPosts cp INNER JOIN CommunityForumTopics t ON cp.topicId = t.topicId GROUP BY t.topicId, t.topic`;
+      
+        const result = await connection.request().query(sqlQuery);
+      
+        connection.close();
+      
+        return result.recordset.map(row => ({
+          topicId: row.topicId,
+          topic: row.topic,
+          postCount: row.postCount
+        }));
+    }
+
+    static async reportPost(postId, userId, reason) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `INSERT INTO PostReports (postId, userId, dateReported, reason) VALUES (@postId, @userId, dateReported = GETDATE(), @reason)`;
+
+        const request = connection.request();
+        request.input("postId", postId);
+        request.input("userId", userId);
+        request.input("reason", reason);
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result.rowsAffected > 0;
+    }
+
 }
+
 module.exports = communityForumPost;
