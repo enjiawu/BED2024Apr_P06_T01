@@ -199,23 +199,25 @@ class Event {
 
         connection.close();
 
-        return result.recordset[0] ?
-        new Event(
-            result.recordset[0].eventId, 
-            result.recordset[0].title, 
-            result.recordset[0].description, 
-            result.recordset[0].image, 
-            result.recordset[0].datePosted, 
-            result.recordset[0].location, 
-            result.recordset[0].startDate, 
-            result.recordset[0].startTime,
-            result.recordset[0].status,
-            result.recordset[0].likes,
-            result.recordset[0].userId,
-            result.recordset[0].username,
-            result.recordset[0].staffId,
-            result.recordset[0].staffName,
-        ) : null;
+        return result.recordset.map(
+        (event) => 
+            new Event(
+                event.eventId,
+                event.title,
+                event.description,
+                event.image,
+                event.datePosted,
+                event.location,
+                event.startDate,
+                event.startTime,
+                event.status,
+                event.likes,
+                event.userId,
+                event.username,
+                event.staffId,
+                event.staffName    
+            )
+        )
     }
 }
 
