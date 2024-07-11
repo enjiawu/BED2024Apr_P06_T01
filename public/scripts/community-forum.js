@@ -175,6 +175,48 @@ async function formatPost(post, postList){
     dropdownMenu.classList.add("dropdown-menu", "show");
     dropdownMenu.style.display = "none";
 
+     // Event listener for the ellipsis and report
+     let reportOptionVisible = false;
+     let postEllipsisVisible = false;
+ 
+     postEllipsis.addEventListener("click", function() {
+         if (postEllipsisVisible) {
+             postEllipsisVisible = false;
+             dropdownMenu.style.display = "none";
+         }
+         else {
+             postEllipsisVisible = true;
+             dropdownMenu.style.display = "block";
+         }
+     });
+     
+     // Add event listener to close icon
+     closeIcon.addEventListener("click", function() {
+         reportContainer.style.display = "none";
+     });
+     
+     // Add event listener to submit button
+     submitButton.addEventListener("click", function() {
+         const reportReason = reportReasonInput.value;
+         if (reportReason === "") {
+             alert("Please enter a reason for reporting the post.");
+             return;
+         }
+         alert("Post has been reported! Our staff will review it shortly.");
+         reportContainer.style.display = "none";
+     });
+ 
+     reportOption.addEventListener("click", function() {
+         if (reportOptionVisible) {
+             reportOptionVisible = false;
+             reportContainer.style.display = "none";
+         }
+         else {
+             reportOptionVisible = true;  
+             reportContainer.style.display = "flex";
+         }
+     });
+
     dropdownMenu.appendChild(reportOption);
 
     postEllipsis.appendChild(dropdownMenu);
@@ -188,49 +230,6 @@ async function formatPost(post, postList){
 
     postItem.appendChild(postBody);
     postList.appendChild(postItem);
-    
-    // Event listener for the ellipsis and report
-    let reportOptionVisible = false;
-    let postEllipsisVisible = false;
-
-    postEllipsis.addEventListener("click", function() {
-        if (postEllipsisVisible) {
-            postEllipsisVisible = false;
-            dropdownMenu.style.display = "none";
-        }
-        else {
-            postEllipsisVisible = true;
-            dropdownMenu.style.display = "block";
-        }
-    });
-    
-    // Add event listener to close icon
-    closeIcon.addEventListener("click", function() {
-        reportContainer.style.display = "none";
-    });
-    
-    // Add event listener to submit button
-    submitButton.addEventListener("click", function() {
-        const reportReason = reportReasonInput.value;
-        if (reportReason === "") {
-            alert("Please enter a reason for reporting the post.");
-            return;
-        }
-        alert("Post has been reported! Our staff will review it shortly.");
-        reportContainer.style.display = "none";
-    });
-
-    reportOption.addEventListener("click", function() {
-        if (reportOptionVisible) {
-            reportOptionVisible = false;
-            reportContainer.style.display = "none";
-        }
-        else {
-            reportOptionVisible = true;  
-            reportContainer.style.display = "flex";
-        }
-    });
-
 }
 
 // Function to format the date
@@ -247,9 +246,10 @@ async function fetchPosts() {
   
     const postList = document.getElementById("forum-posts");
 
-    postData.forEach((post) => {
-        formatPost(post, postList); // Call the function to format the post data and display it on the page for each post
-    });
+    for (let i = 0; i < postData.length; i++) {
+        const post = postData[i];
+        await formatPost(post, postList); // Call the formatPost function for each post
+    }
 }
 
 // Function to fetch the forum stats from the server
@@ -284,9 +284,10 @@ async function searchPosts(){
     if (data.length === 0) {
         alert("No posts found!"); // Alert the user if no posts were found
     } else {
-        data.forEach((post) => {
-            formatPost(post, postList); // Call the function to format the post data and display it on the page for each post
-        });
+        for (let i = 0; i < data.length; i++) {
+            const post = data[i];
+            await formatPost(post, postList); // Call the formatPost function for each post
+        }
     }
 }
 
@@ -307,9 +308,10 @@ async function sortPostsByNewest(){
     const postList = document.getElementById("forum-posts");
     postList.innerHTML = ""; // Clear the existing posts
 
-    data.forEach((post) => {
-        formatPost(post, postList); // Call the function to format the post data and display it on the page for each post
-    });
+    for (let i = 0; i < data.length; i++) {
+        const post = data[i];
+        await formatPost(post, postList); // Call the formatPost function for each post
+    }
 }
 
 // Function to sort posts by date from oldest to newest
@@ -319,9 +321,11 @@ async function sortPostsByOldest(){
     const postList = document.getElementById("forum-posts");
     postList.innerHTML = ""; // Clear the existing posts
 
-    data.forEach((post) => {
-        formatPost(post, postList); // Call the function to format the post data and display it on the page for each post
-    });
+    
+    for (let i = 0; i < data.length; i++) {
+        const post = data[i];
+        await formatPost(post, postList); // Call the formatPost function for each post
+    }
 }
 
 // Function to sort posts by likes in descending order
@@ -331,21 +335,24 @@ async function sortPostsByLikesDesc(){
     const postList = document.getElementById("forum-posts");
     postList.innerHTML = ""; // Clear the existing posts
 
-    data.forEach((post) => {
-        formatPost(post, postList); // Call the function to format the post data and display it on the page for each post
-    });
+    for (let i = 0; i < data.length; i++) {
+        const post = data[i];
+        await formatPost(post, postList); // Call the formatPost function for each post
+    }
 }
 
 // Function to sort posts by likes in ascending order
 async function sortPostsByLikesAsc(){
     const response = await fetch("/communityforum/sort-by-likes-asc");
     const data = await response.json();
+
     const postList = document.getElementById("forum-posts");
     postList.innerHTML = ""; // Clear the existing posts
 
-    data.forEach((post) => {
-        formatPost(post, postList); // Call the function to format the post data and display it on the page for each post
-    });
+    for (let i = 0; i < data.length; i++) {
+        const post = data[i];
+        await formatPost(post, postList); // Call the formatPost function for each post
+    }
 }
 
 // Function to sort post by topic
@@ -359,9 +366,10 @@ async function sortPostsByTopic(topicId){
     if (data.error) {
         alert("No posts found!"); // Alert the user if no posts were found
     } else {
-        data.forEach((post) => {
-            formatPost(post, postList); // Call the function to format the post data and display it on the page for each post
-        });
+        for (let i = 0; i < data.length; i++) {
+            const post = data[i];
+            await formatPost(post, postList); // Call the formatPost function for each post
+        }
     }
 }
 
@@ -397,6 +405,7 @@ async function populateTopicsDropdown(){
         topicDropdownButton.textContent = selectedTopic;
 
         if (selectedTopic === "All Topics") {
+            document.getElementById("forum-posts").innerHTML = ""; // Clear the existing posts
             fetchPosts();
         } else{
             sortPostsByTopic(topicId);
@@ -418,13 +427,14 @@ sortByDropdownItems.forEach((item) => {
     sortByDropdownButton.textContent = selectedText;
 
     if (selectedValue === "newest") {
-      sortPostsByNewest();
+        console.log("Newest")
+        sortPostsByNewest();
     } else if (selectedValue === "oldest") {
-      sortPostsByOldest();
+        sortPostsByOldest();
     } else if (selectedValue === "likes-desc") {
-      sortPostsByLikesDesc();
+        sortPostsByLikesDesc();
     } else if (selectedValue === "likes-asc") {
-      sortPostsByLikesAsc();
+        sortPostsByLikesAsc();
     }
   });
 });
