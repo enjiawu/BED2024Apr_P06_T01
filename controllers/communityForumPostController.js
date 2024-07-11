@@ -171,6 +171,20 @@ const reportPost = async (req, res) => {
     }
 }
 
+const likePost = async (req, res) => {
+    const postId = parseInt(req.params.id);
+    try {
+        const post = await Post.likePost(postId);
+        if (!post) {
+            return res.status(404).json({ error: "Post not found"});
+        }
+        res.json(post);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error liking post");
+    }
+};
+
 module.exports = {
     getAllPosts,
     getPostById,
