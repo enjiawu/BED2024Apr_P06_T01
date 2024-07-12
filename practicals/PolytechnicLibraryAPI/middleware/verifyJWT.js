@@ -1,41 +1,45 @@
 const jwt = require("jsonwebtoken");
+require("dotenv").config(); // Load environment variables from a .env file into process.env
 
 function verifyJWT(req, res, next) {
-  const token =
-    req.headers.authorization && req.headers.authorization.split(" ")[1];
+    console.log(req);
+    const token =
+        req.headers.authorization && req.headers.authorization.split(" ")[1];
 
-  if (!token) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
-
-  jwt.verify(token, "your_secret_key", (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: "Forbidden" });
+    if (!token) {
+        return res.status(401).json({ message: "Unauthorized" });
     }
 
-    // Check user role for authorization (replace with your logic)
-    const authorizedRoles = {
-      "/books": ["member", "librarian"], // Anyone can view books
-      "/books/[0-9]+/availability": ["librarian"], // Only librarians can update availability
-    };
+    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
+        if (err) {
+            return res.status(403).json({ message: "Forbidden" });
+        }
 
-    const requestedEndpoint = req.url;
-    const userRole = decoded.role;
+        // Check user role for authorization (replace with your logic)
+        const authorizedRoles = {
+            "/books": ["member", "librarian"], // Anyone can view books
+            "/books/[0-9]+/availability": ["librarian"], // Only librarians can update availability
+        };
 
-    const authorizedRole = Object.entries(authorizedRoles).find(
-      ([endpoint, roles]) => {
-        const regex = new RegExp(`^${endpoint}$`); // Create RegExp from endpoint
-        return regex.test(requestedEndpoint) && roles.includes(userRole);
-      }
-    );
+        const requestedEndpoint = req.url;
+        const userRole = decoded.role;
 
-    if (!authorizedRole) {
-      return res.status(403).json({ message: "Forbidden" });
-    }
+        const authorizedRole = Object.entries(authorizedRoles).find(
+            ([endpoint, roles]) => {
+                const regex = new RegExp(`^${endpoint}$`); // Create RegExp from endpoint
+                return (
+                    regex.test(requestedEndpoint) && roles.includes(userRole)
+                );
+            }
+        );
 
-    req.user = decoded; // Attach decoded user information to the request object
-    next();
-  });
+        if (!authorizedRole) {
+            return res.status(403).json({ message: "Forbidden" });
+        }
+
+        req.user = decoded; // Attach decoded user information to the request object
+        next();
+    });
 }
 
 module.exports = verifyJWT;

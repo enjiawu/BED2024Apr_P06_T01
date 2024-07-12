@@ -15,7 +15,7 @@ const getPostById = async (req, res) => {
     try {
         const post = await Post.getPostById(postId);
         if (!post) {
-            return res.status(404).send("Post not found");
+            return res.status(404).json({ error: "Post not found"});
         }
         res.json(post);
     } catch (error) {
@@ -42,7 +42,7 @@ const updatePost = async (req, res) => {
     try {
         const post = await Post.updatePost(postId, newPostData);
         if (!post) {
-            return res.status(404).send("Post not found");
+            return res.status(404).json({ error: "Post not found"});
         }
         res.json(post);
     } catch (error) {
@@ -91,7 +91,7 @@ const getPostsByTopic = async (req, res) => {
     try {
         const posts = await Post.getPostsByTopic(topicId);
         if (!posts){
-            return res.status(404).send("No posts found");
+            return res.status(404).json({ error: "No posts found" });
         }
         res.json(posts);
     } catch (error) {
@@ -150,6 +150,40 @@ const sortPostsByOldest = async (req, res) => {
     }
 };
 
+const getTrendingTopics = async (req, res) => {
+    try{
+        const topicCounts = await Post.getAllTopicCountsByPost();
+        topicCounts.sort((a, b) => b.postCount - a.postCount);
+        res.json(topicCounts.slice(0, 5));
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving topic counts");
+    }
+};
+
+const reportPost = async (req, res) => {
+    try {
+        const report = await Post.reportPost();
+        res.status(200).json(report);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error reporting post");
+    }
+}
+
+const likePost = async (req, res) => {
+    const postId = parseInt(req.params.id);
+    try {
+        const post = await Post.likePost(postId);
+        if (!post) {
+            return res.status(404).json({ error: "Post not found"});
+        }
+        res.json(post);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error liking post");
+    }
+};
 
 module.exports = {
     getAllPosts,
@@ -164,5 +198,7 @@ module.exports = {
     sortPostsByLikesDesc,
     sortPostsByLikesAsc,
     sortPostsByNewest,
-    sortPostsByOldest
+    sortPostsByOldest,
+    getTrendingTopics,
+    reportPost
 };

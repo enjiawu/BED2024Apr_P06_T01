@@ -157,7 +157,7 @@
         <main class = "d-flex justify-content-center align-content-center flex-column mx-auto">
             <section id = "forum-hero" class = "d-flex flex-column justify-content-center align-content-center border-bottom pb-4 border-dark-subtle">
                 <h1 class="text-center mt-5">ReThink Community</h1>
-                <input class="search-bar w-75 px-3 py-1 mt-3 mx-auto" type="text" placeholder="&#x1F50E;&#xFE0E;  Search" />
+                <input id ="search" class="search-bar w-75 px-3 py-1 mt-3 mx-auto" type="text" placeholder="&#x1F50E;&#xFE0E;  Search" />
                 <div id = "forum-stats" class="d-flex justify-content-between w-50 mx-auto mt-5">
                     <div class="d-flex flex-column align-items-center">
                         <h2 id = "likes-stats">...</h2>
@@ -180,22 +180,22 @@
                             <a id = "create-post-button" href="community-forum-post-details.html" class = "btn flex-grow-1">Create Post</a>
                             <div class = "d-flex flex-row">
                                 <div class="dropdown mx-1">
-                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button id = "topic-dropdown-button" class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         All Topics
                                     </button>
                                     <ul id = "topic-dropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <li><a class="dropdown-item" href="#">Newest</a></li>
+                                        <li><a class="dropdown-item" data-topic-id ="All Topics">All Topics</a></li>
                                     </ul>
                                 </div>
                                 <div class="dropdown">
-                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button id = "sort-by-dropdown-button" class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Sort By
                                     </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <li><a class="dropdown-item" href="#">Newest</a></li>
-                                        <li><a class="dropdown-item" href="#">Oldest</a></li>
-                                        <li><a class="dropdown-item" href="#">Popularity &darr;</i></a></li>
-                                        <li><a class="dropdown-item" href="#">Popularity &uarr;</i></a></li>
+                                    <ul id = "sort-by-dropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <li><a class="dropdown-item" value = "newest">Newest</a></li>
+                                        <li><a class="dropdown-item" value = "oldest">Oldest</a></li>
+                                        <li><a class="dropdown-item" value = "likes-desc">Popularity &darr;</i></a></li>
+                                        <li><a class="dropdown-item" value = "likes-asc">Popularity &uarr;</i></a></li>
                                     </ul>
                                 </div>
                             </div>

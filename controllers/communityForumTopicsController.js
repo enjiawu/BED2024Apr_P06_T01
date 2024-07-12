@@ -15,7 +15,7 @@ const getTopicById = async (req, res) => {
     try {
         const topic = await Topic.getTopicById(topicId);
         if (!topic) {
-            return res.status(404).send("Topic not found");
+            return res.status(404).json({ error: "Topic not found"});
         }
         res.json(topic);
     } catch (error) {
