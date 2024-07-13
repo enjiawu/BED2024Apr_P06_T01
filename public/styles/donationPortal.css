@@ -1,0 +1,33 @@
+.card-custom {
+    margin: 20px 0;
+    padding-top: 50px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+.card-custom .card-img-top {
+    width: 175px;
+    height: 175px;
+    border-radius: 50%;
+    background: white;
+    padding: 5px;
+    border: 1px solid #ddd;
+}
+.card-custom .card-body {
+    padding: 20px;
+}
+
+.card-custom:hover {
+    transform: scale(1.05);
+}
+.donateBtn {
+    background-color: #414833;
+    color: white;
+}
+
+.donateBtn:hover {
+    background-color: #303525;
+    border-color: #303525; 
+    color: white; 
+}

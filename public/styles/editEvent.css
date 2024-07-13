@@ -1,0 +1,42 @@
+.edit-event-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #EBE3D2;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+.edit-event-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+.event-thumbnail img {
+    width: 100%;
+    height: auto;
+}
+
+
+.updateBtn {
+    background-color: #414833;
+    color: white;
+}
+
+.updateBtn:hover {
+    background-color: #303525;
+    border-color: #303525; 
+    color: white; 
+}
+.choose-img {
+    width: 327px;
+}
+
+.event-card {
+    background-color: #EBE3D2;
+    border-color: black;
+}
+
+.status-and-location {
+    background-color: #EBE3D2;
+    border: 0;
+}
