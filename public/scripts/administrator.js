@@ -1,66 +1,72 @@
 document.addEventListener("DOMContentLoaded", function () {
-    async function loadReports() {
-        const reportsResponse = await fetch("/post-reports");
-        const reports = await reportsResponse.json();
-        // console.log(reports);
+    async function loadPostReports() {
+        const postReportsResponse = await fetch("/post-reports");
+        const postReports = await postReportsResponse.json();
+        // console.log(postReports);
 
-        const reportsList = document.getElementsByClassName("reports-list")[0];
-        const reportCardTemplate =
-            document.getElementsByClassName("report-card")[0];
+        const postReportsList =
+            document.getElementsByClassName("post-reports-list")[0];
+        const postReportCardTemplate =
+            document.getElementsByClassName("post-report-card")[0];
 
-        for (let report of reports) {
+        for (let postReport of postReports) {
             const postResponse = await fetch(
-                `/communityforum/${report.postId}`
+                `/communityforum/${postReport.postId}`
             );
             const post = await postResponse.json();
             // console.log(post);
 
-            let newReportCard = reportCardTemplate.cloneNode(true);
-            reportsList.appendChild(newReportCard);
+            let newPostReportCard = postReportCardTemplate.cloneNode(true);
+            postReportsList.appendChild(newPostReportCard);
 
-            newReportCard.querySelector(".post-title").innerText = post.title;
-            newReportCard.querySelector(".post-likes").innerText = post.likes;
-            newReportCard.querySelector(".post-description").innerText =
+            newPostReportCard.querySelector(".post-title").innerText =
+                post.title;
+            newPostReportCard.querySelector(".post-likes").innerText =
+                post.likes;
+            newPostReportCard.querySelector(".post-description").innerText =
                 post.description;
 
             const originalPosterResponse = await fetch(`/users/${post.userId}`);
             const originalPoster = await originalPosterResponse.json();
-            newReportCard.querySelector(".original-poster").innerText =
+            newPostReportCard.querySelector(".original-poster").innerText =
                 originalPoster.username;
 
-            newReportCard.querySelector(".post-comments").innerText =
+            newPostReportCard.querySelector(".post-comments").innerText =
                 post.comments;
 
             const topicResponse = await fetch(
                 `/communityforum/topics/${post.topicId}`
             );
             const topic = await topicResponse.json();
-            newReportCard.querySelector(".post-topics").innerText = topic.topic;
+            newPostReportCard.querySelector(".post-topics").innerText =
+                topic.topic;
 
-            newReportCard.querySelector(".date-posted").innerText =
+            newPostReportCard.querySelector(".date-posted").innerText =
                 post.dateCreated.slice(0, 10) +
                 " " +
                 post.dateCreated.slice(11, 19) +
                 post.dateCreated.slice(23);
 
-            newReportCard.querySelector(".date-reported").innerText =
-                report.dateReported.slice(0, 10) +
+            newPostReportCard.querySelector(".date-reported").innerText =
+                postReport.dateReported.slice(0, 10) +
                 " " +
-                report.dateReported.slice(11, 19) +
-                report.dateReported.slice(23);
+                postReport.dateReported.slice(11, 19) +
+                postReport.dateReported.slice(23);
 
-            const reporterResponse = await fetch(`/users/${report.userId}`);
-            const reporter = await reporterResponse.json();
-            newReportCard.querySelector(".post-reporter").innerText =
-                reporter.username;
+            const postReporterResponse = await fetch(
+                `/users/${postReport.userId}`
+            );
+            const postReporter = await postReporterResponse.json();
+            newPostReportCard.querySelector(".post-reporter").innerText =
+                postReporter.username;
 
-            newReportCard.querySelector(".report-reason").innerText =
-                report.reason;
+            newPostReportCard.querySelector(".report-reason").innerText =
+                postReport.reason;
 
-            newReportCard.classList.remove("hidden");
+            newPostReportCard.classList.remove("hidden");
         }
 
-        // reportCardTemplate.classList.add("hidden");
+        // PostReportCardTemplate.classList.add("hidden");
     }
 
     async function loadMessages() {
@@ -94,15 +100,17 @@ document.addEventListener("DOMContentLoaded", function () {
         // messageCardTemplate.classList.add("hidden");
     }
 
-    const reportsTab = document.getElementsByClassName("admin-reports-tab")[0];
-    reportsTab.addEventListener("click", loadReports);
+    const postReportsTab = document.getElementsByClassName(
+        "admin-post-reports-tab"
+    )[0];
+    postReportsTab.addEventListener("click", loadPostReports);
 
     const messagesTab =
         document.getElementsByClassName("admin-messages-tab")[0];
     messagesTab.addEventListener("click", loadMessages);
 
-    if (reportsTab.classList.contains("active")) {
-        loadReports();
+    if (postReportsTab.classList.contains("active")) {
+        loadPostReports();
     } else if (messagesTab.classList.contains("active")) {
         loadMessages();
     }
