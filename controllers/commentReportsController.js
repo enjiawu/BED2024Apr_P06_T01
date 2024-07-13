@@ -1,8 +1,8 @@
-const Report = require("../models/report");
+const CommentReport = require("../models/commentReport");
 
-const getAllReports = async (req, res) => {
+const getAllCommentReports = async (req, res) => {
     try {
-        const reports = await Report.getAllReports();
+        const reports = await CommentReport.getAllCommentReports();
         res.json(reports);
     } catch (error) {
         console.error(error);
@@ -10,10 +10,10 @@ const getAllReports = async (req, res) => {
     }
 };
 
-const getReportById = async (req, res) => {
+const getCommentReportById = async (req, res) => {
     const reportId = parseInt(req.params.id);
     try {
-        const report = await Report.getReportById(reportId);
+        const report = await CommentReport.getCommentReportById(reportId);
         if (!report) {
             return res.status(404).send("Report not found");
         }
@@ -24,10 +24,10 @@ const getReportById = async (req, res) => {
     }
 };
 
-const deleteReport = async (req, res) => {
+const deleteCommentReport = async (req, res) => {
     const reportId = parseInt(req.params.id);
     try {
-        const success = await Report.deleteReport(reportId);
+        const success = await CommentReport.deleteCommentReport(reportId);
         if (!success) {
             return res.status(404).send("Report not found");
         }
@@ -39,7 +39,7 @@ const deleteReport = async (req, res) => {
 };
 
 module.exports = {
-    getAllReports,
-    getReportById,
-    deleteReport,
+    getAllCommentReports,
+    getCommentReportById,
+    deleteCommentReport,
 };
