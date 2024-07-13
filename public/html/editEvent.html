@@ -154,57 +154,54 @@
                     <div class="col">
                       <div class="card event-card mb-3">
                         <div class="card-body"> 
-                          <div class="form-group">
-                            <label for="eventImage">Event Thumbnail/Image</label>
-                            <img src="https://via.placeholder.com/500x500" alt="Event Thumbnail" id="eventImage" class="img-fluid mb-2">
-                            <div class="custom-file">
-                              <input type="file" class="form-control" id="customFile">
-                            </div>
-                          </div>
-                          <div class="form-group mt-3">
-                            <textarea class="form-control" id="eventDetails" placeholder="Event Details & Description"></textarea>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-              
-                    <div class="col">
-                      <div class="card event-card">
-                        <div class="card-body">
-                          <div class="form-group">
-                            <label for="eventDate">Event Host Date</label>
-                            <input type="date" class="form-control" id="eventDate">
-                          </div>
-                          <div class="form-group">
-                            <label for="eventTime">Event Host Time</label>
-                            <input type="time" class="form-control" id="eventTime">
-                          </div>
-                        </div>
-                    </div>
-    
-                    <div class="col">
-                        <div class="card status-and-location">
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="eventStatus">Status:</label>
-                                    <select id="eventStatus">
-                                        <option>Open</option>
-                                        <option>Closed</option>
-                                        <option>Cancelled</option>
-                                    </select>
-                                  </div>
-                                  <div class="form-group mt-3">
-                                    <label for="eventLocation">Location</label>
-                                    <input type="text" class="form-control" id="eventLocation" placeholder="Edit Location">
-                                  </div>
+                            <div class="form-group">
+                                <label for="eventImage">Event Thumbnail/Image</label>
+                                <img src="https://via.placeholder.com/500x500" alt="Event Thumbnail" id="eventImage" class="img-fluid mb-2">
+                                <div class="custom-file">
+                                    <input type="file" class="form-control" id="customFile">
                                 </div>
                             </div>
+                            <div class="form-group mt-3">
+                                <textarea class="form-control" id="eventDetails" placeholder="Event Details & Description"></textarea>
+                            </div>
                         </div>
                     </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn updateBtn">Update Event</button>
-                    </div>
                 </div>
+
+                <div class="col">
+                    <div class="card event-card">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="eventDate">Event Host Date</label>
+                                <input type="date" class="form-control" id="eventDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="eventTime">Event Host Time</label>
+                                <input type="time" class="form-control" id="eventTime">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card status-and-location">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="eventStatus">Status:</label>
+                                <select id="eventStatus">
+                                    <option>Open</option>
+                                    <option>Closed</option>
+                                    <option>Cancelled</option>
+                                </select>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="eventLocation">Location</label>
+                                <input type="text" class="form-control" id="eventLocation" placeholder="Edit Location">
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn updateBtn">Update Event</button>
             </div>
         </main>
           
