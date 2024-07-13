@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     async function loadReports() {
-        const reportsResponse = await fetch("/reports");
+        const reportsResponse = await fetch("/post-reports");
         const reports = await reportsResponse.json();
         // console.log(reports);
 
