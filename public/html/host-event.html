@@ -13,7 +13,7 @@
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet" />
         <link href="../styles/style.css" rel="stylesheet">
-        <link href="../styles/hostEvent.css" rel="stylesheet">
+        <link href="../styles/host-event.css" rel="stylesheet">
         <link rel="stylesheet" href="../styles/nav.css" />
     </head>
 
@@ -142,34 +142,34 @@
         </div>
 
         <!-- Host Event Form -->
-         <main>
+        <main>
             <div class="container mt-3">
             <h1 class="text-center">Host Event</h1>
             <div class="card mt-4 p-4 host-event-card">
                 <form id="hostEventForm">
                     <div class="mb-3">
                         <label for="eventImage" class="form-label">Choose a suitable image for your event:</label>
-                        <input type="file" class="form-control" id="eventImage" name="eventImage" aria-describedby="imageHelp">
+                        <input type="file" class="form-control" id="eventImage" name="eventImage" aria-describedby="imageHelp" required>
                     </div>
                     <div class="mb-3">
                         <label for="eventTitle" class="form-label">Event Title</label>
-                        <input type="text" class="form-control" id="eventTitle" name="eventTitle">
+                        <input type="text" class="form-control" id="eventTitle" name="eventTitle" required>
                     </div>
                     <div class="mb-3">
                         <label for="eventDescription" class="form-label">Event Description</label>
-                        <textarea class="form-control" id="eventDescription" name="eventDescription" rows="3"></textarea>
+                        <textarea class="form-control" id="eventDescription" name="eventDescription" rows="3" required></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="eventDate" class="form-label">When would you like to host the event?</label>
-                        <input type="date" class="form-control" id="eventDate" name="eventDate">
+                        <input type="date" class="form-control" id="eventDate" name="eventDate" required>
                     </div>
                     <div class="mb-3">
                         <label for="eventTime" class="form-label">Time</label>
-                        <input type="time" class="form-control" id="eventTime" name="eventTime">
+                        <input type="time" class="form-control" id="eventTime" name="eventTime" required>
                     </div>
                     <div class="mb-3">
                         <label for="eventLocation" class="form-label">Where would you like to host the event?</label>
-                        <input type="text" class="form-control" id="eventLocation" name="eventLocation">
+                        <input type="text" class="form-control" id="eventLocation" name="eventLocation" required>
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn host-event-btn">Host Event</button>
@@ -177,7 +177,7 @@
                 </form>
                 <div id="feedback" class="text-center mt-3"></div>
             </div>
-         </main>
+        </main>
         
         <!-- Footer -->
         <footer>
