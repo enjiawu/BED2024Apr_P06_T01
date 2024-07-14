@@ -39,12 +39,12 @@ router.put("/like-post/:id", postsController.likePost); // Like a post
 router.put("/unlike-post/:id", postsController.unlikePost); // Unlike a post
 
 // Comment routes
-router.get("/comments/:id", postsController.getCommentsByPost); // Get all comments for a post
-router.post("/comments/:id", postsController.createComment); // Add a comment to a post
-router.put("/comments/:id", postsController.updateComment); // Update a comment
-router.delete("/comments/:id", postsController.deleteComment); // Delete a comment
-router.post("/comments/:id/reply", postsController.replyToComment); // Reply to a comment
-router.get("/comments/:id/replies", postsController.getRepliesByComment); // Get all replies to a comment
+router.get(":id/comments", postsController.getCommentsByPost); // Get all comments for a post by post id
+router.post(":id/comments", postsController.createComment); // Add a comment to a post by post id
+router.put("/comments/:id", postsController.updateComment); // Update a comment by comment id
+router.delete("/comments/:id", postsController.deleteComment); // Delete a comment by comment id
+router.post("/comments/:id/reply", postsController.replyToComment); // Reply to a comment by parent comment id
+router.get("/comments/:id/replies", postsController.getRepliesByComment); // Get all replies to a comment by parent comment id
 
 // Report Routes
 router.post("/report-post", postsController.reportPost); // Get all reports
