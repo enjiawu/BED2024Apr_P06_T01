@@ -6,7 +6,7 @@ const express = require("express");
 const router = express.Router();
 
 // Importing Controllers
-const carbonFootprintCalculatorController = require("../controllers/carbonFootprintCalculatorController.js");
+const carbonFootprintCalculatorController = require("../controllers/carbonFootprintController.js");
 
 // Calculate carbon footprint route
 router.get("/", carbonFootprintCalculatorController.calculateCarbonFootprint);

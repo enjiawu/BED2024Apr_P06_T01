@@ -4,20 +4,7 @@ require("dotenv").config(); // Import dotenv package to read environment variabl
 
 const axios = require("axios"); // Import axios library to make HTTP requests to the API 
 
-function createOptions(path, params) { // Function to create options for the HTTP request
-  return {
-    method: 'GET',
-    hostname: 'carbonfootprint1.p.rapidapi.com',
-    port: null,
-    path: `${path}?${Object.keys(params).map((key) => `${key}=${params[key]}`).join('&')}`,
-    headers: {
-      'x-rapidapi-key': process.env.CFC_API_KEY,
-      'x-rapidapi-host': 'carbonfootprint1.p.rapidapi.com'
-    }
-  };
-}
-
-class CarbonFootprintCalculator {
+class CarbonFootprint {
   constructor(data) {
     this.fuelUsage = data.fuelUsage;
     this.carTravel = data.carTravel;
@@ -28,7 +15,7 @@ class CarbonFootprintCalculator {
   }
 
   // Calculate carbon footprint
-  async calculateCarbonFootprint() {
+  static async calculateCarbonFootprint() {
     const options = [
       createOptions('/CarbonFootprintFromCarTravel', { distance: this.carTravel.distance, vehicle: this.carTravel.vehicle }),
       createOptions('/CarbonFootprintFromFlight', { distance: this.flight.distance, type: this.flight.type }),
@@ -41,7 +28,7 @@ class CarbonFootprintCalculator {
       return axios.get(`https://${option.hostname}${option.path}`, {
         headers: option.headers
       }).then((response) => {
-        return response.data; // Extract only the response data
+        return response.data;
       });
     });
 
@@ -49,11 +36,23 @@ class CarbonFootprintCalculator {
     const totalCarbonFootprint = results.reduce((acc, current) => acc + current, 0);
 
     // Store the results in the database
-    await this.storeCarbonFootprintInDatabase(totalCarbonFootprint);
+    await this.getTreeEquivalent(totalCarbonFootprint); // Get number of trees needed to offset carbon footprint
+  }
+
+  // Get number of trees needed to offset carbon footprint
+  static async getTreeEquivalent(weight) {
+    const option = createOptions('/TreeEquivalent', { unit: "kg", weight: weight });
+
+    const response = await axios.get(`https://${option.hostname}${option.path}`, {
+      headers: option.headers
+    });
+
+    console.log(response.data);
+    return response.data;
   }
 
   // Store carbon footprint in database
-  async storeCarbonFootprintInDatabase(totalCarbonFootprint) {
+  static async storeCarbonFootprintInDatabase(carbonFootprint) {
     const connection = await sql.connect(dbConfig);
 
     const sqlQuery = `INSERT INTO CarbonFootprints (fuelUsage, carTravel, publicTransport, flight, motorBike, treeEquivalent, totalCarbonFootprint) 
@@ -74,7 +73,20 @@ class CarbonFootprintCalculator {
   }
 }
 
-module.exports = CarbonFootprintCalculator;
+function createOptions(path, params) {
+  return {
+    method: 'GET',
+    hostname: 'carbonfootprint1.p.rapidapi.com',
+    port: null,
+    path: `${path}?${Object.keys(params).map((key) => `${key}=${params[key]}`).join('&')}`,
+    headers: {
+      'x-rapidapi-key': process.env.CFC_API_KEY,
+      'x-rapidapi-host': 'carbonfootprint1.p.rapidapi.com'
+    }
+  };
+}
+
+module.exports = CarbonFootprint;
 
 /*
 Carbon Footprint Calculator

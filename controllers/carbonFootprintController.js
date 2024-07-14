@@ -1,4 +1,4 @@
-const carbonFootprintCalculator = require('../models/carbonFootprintCalculator');
+const carbonFootprintCalculator = require('../models/carbonFootprint');
 
 const calculateCarbonFootprint = async (req, res) => {
     try {
