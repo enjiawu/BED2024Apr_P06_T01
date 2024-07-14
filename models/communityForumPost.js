@@ -1,7 +1,7 @@
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
-class communityForumPost {
+class CommunityForumPost {
     constructor(
         postId,
         userId,
@@ -511,7 +511,7 @@ class communityForumPost {
     }
 }
 
-module.exports = communityForumPost;
+module.exports = CommunityForumPost;
 
 
 /*
@@ -563,14 +563,3 @@ Community Management (Moderators/Admins):
 
 */
 
-/*
-Carbon Footprint Calculator
-
-General Features:
-- Manually caluclate user input: Use a formula to calculate the carbon footprint of a user based on their input.
-- Get number of trees needed to offset carbon footprint: Calculate the number of trees needed to offset the user's carbon footprint using a third party API.
-- Load carbon footprint suggestions based on user input: Provide suggestions on how to reduce carbon footprint based on the user's input.
-- Implement sharing feature: Allow users to share their carbon footprint and offsetting efforts on social media platforms.
-
-- View carbon footprint in comparison to others: Display the user's carbon footprint in comparison to other users or the average carbon footprint in a chart or graph.
- */
