@@ -1,7 +1,7 @@
 // Fetch events from the server
 async function fetchEvents() {
     try {
-        const response = await fetch('/events'); 
+        const response = await fetch('/events/listed'); 
         if (!response.ok) {
             throw new Error('Failed to fetch events');
         }

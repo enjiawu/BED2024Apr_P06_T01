@@ -100,6 +100,68 @@ const getEventsByStatus = async (req, res) => {
     }
 };
 
+const getListedEvents = async (req, res) => {
+    try{
+        const events = await Event.getListedEvents();
+        res.status(200).json(events);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving events");
+    }
+};
+
+const getPendingEvents = async (req, res) => {
+    try{
+        const events = await Event.getPendingEvents();
+        res.status(200).json(events);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving events");
+    }
+};
+
+const getDeniedEvents = async (req, res) => {
+    try{
+        const events = await Event.getDeniedEvents();
+        res.status(200).json(events);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving events");
+    }
+};
+
+const approveEvent = async (req, res) => {
+    const newEvent = req.body;
+    const eventId = parseInt(req.params.id);
+
+    try {
+        const event = await Event.approveEvent(eventId, newEvent);
+        if (!event) {
+            return res.status(404).send("Event not found");
+        }
+        res.json(event);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error approving event");
+    }
+};
+
+const denyEvent = async (req, res) => {
+    const newEvent = req.body;
+    const eventId = parseInt(req.params.id);
+
+    try {
+        const event = await Event.denyEvent(eventId, newEvent);
+        if (!event) {
+            return res.status(404).send("Event not found");
+        }
+        res.json(event);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error denying event");
+    }
+};
+
 module.exports = {
     getAllEvents,
     getEventById,
@@ -108,5 +170,10 @@ module.exports = {
     deleteEvent,
     searchEvents,
     getEventCount,
-    getEventsByStatus
+    getEventsByStatus,
+    getListedEvents,
+    getPendingEvents,
+    getDeniedEvents,
+    approveEvent,
+    denyEvent
 };
