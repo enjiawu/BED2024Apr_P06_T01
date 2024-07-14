@@ -1,4 +1,6 @@
 const Reply = require("../models/reply");
+var nodemailer = require("nodemailer");
+require("dotenv").config();
 
 const getReplyById = async (req, res) => {
     const replyId = parseInt(req.params.id);
@@ -16,7 +18,27 @@ const getReplyById = async (req, res) => {
 
 const addReply = async (req, res) => {
     const newReply = req.body;
+
     try {
+        var transporter = nodemailer.createTransport({
+            host: "smtp.office365.com",
+            port: 587,
+            secure: false,
+            auth: {
+                user: process.env.RETHINK_REPLY_EMAIL,
+                pass: process.env.RETHINK_REPLY_EMAIL_APP_PASS,
+            },
+        });
+
+        var mailOptions = {
+            from: process.env.RETHINK_REPLY_EMAIL,
+            to: newReply.senderEmail,
+            subject: "[ReThink] Your message has been replied to!",
+            text: newReply.replyDescription,
+        };
+
+        await transporter.sendMail(mailOptions);
+
         const addedReply = await Reply.addReply(newReply);
         res.status(201).json(addedReply);
     } catch (error) {

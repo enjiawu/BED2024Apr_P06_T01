@@ -1,7 +1,7 @@
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
-class Report {
+class PostReport {
     constructor(reportId, postId, userId, dateReported, reason) {
         this.reportId = reportId;
         this.postId = postId;
@@ -10,7 +10,7 @@ class Report {
         this.reason = reason;
     }
 
-    static async getAllReports() {
+    static async getAllPostReports() {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = "SELECT * FROM PostReports";
@@ -22,7 +22,7 @@ class Report {
 
         return result.recordset.map(
             (row) =>
-                new Report(
+                new PostReport(
                     row.reportId,
                     row.postId,
                     row.userId,
@@ -32,7 +32,7 @@ class Report {
         );
     }
 
-    static async getReportById(reportId) {
+    static async getPostReportById(reportId) {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = "SELECT * FROM PostReports WHERE reportId = @reportId";
@@ -43,7 +43,7 @@ class Report {
         const result = await request.query(sqlQuery);
 
         return result.recordset[0]
-            ? new Report(
+            ? new PostReport(
                   result.recordset[0].reportId,
                   result.recordset[0].postId,
                   result.recordset[0].userId,
@@ -53,7 +53,7 @@ class Report {
             : null;
     }
 
-    static async deleteReport(reportId) {
+    static async deletePostReport(reportId) {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = "DELETE FROM PostReports WHERE reportId = @reportId";
@@ -69,4 +69,4 @@ class Report {
     }
 }
 
-module.exports = Report;
+module.exports = PostReport;
