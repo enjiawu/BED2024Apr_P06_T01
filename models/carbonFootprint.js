@@ -5,71 +5,73 @@ require("dotenv").config(); // Import dotenv package to read environment variabl
 const axios = require("axios"); // Import axios library to make HTTP requests to the API 
 
 class CarbonFootprint {
-  constructor(data) {
-    this.fuelUsage = data.fuelUsage;
-    this.carTravel = data.carTravel;
-    this.publicTransport = data.publicTransport;
-    this.flight = data.flight;
-    this.motorBike = data.motorBike;
-    this.treeEquivalent = data.treeEquivalent;
+  constructor(
+    carTravel,
+    publicTransport,
+    flight,
+    motorBike,
+    treeEquivalent,
+    grade
+  ) {
+    this.carTravel = carTravel;
+    this.publicTransport = publicTransport;
+    this.flight = flight;
+    this.motorBike = motorBike;
+    this.treeEquivalent = treeEquivalent;
+    this.grade = grade;
   }
-
+  
   // Calculate carbon footprint
-  static async calculateCarbonFootprint() {
+  static async calculateCarbonFootprint(carTravel, publicTransport, flight, motorBike) {
     const options = [
-      createOptions('/CarbonFootprintFromCarTravel', { distance: this.carTravel.distance, vehicle: this.carTravel.vehicle }),
-      createOptions('/CarbonFootprintFromFlight', { distance: this.flight.distance, type: this.flight.type }),
-      createOptions('/CarbonFootprintFromMotorBike', { type: this.motorBike.type, distance: this.motorBike.distance }),
-      createOptions('/CarbonFootprintFromPublicTransit', { distance: this.publicTransport.distance, type: this.publicTransport.type }),
-      createOptions('/FuelToC02e', { type: this.fuelUsage.type, litres: this.fuelUsage.litres }),
+      createOptions('/CarbonFootprintFromCarTravel', { distance: carTravel.distance, vehicle: carTravel.vehicle }),
+      createOptions('/CarbonFootprintFromFlight', { distance: flight.distance, type: flight.type }),
+      createOptions('/CarbonFootprintFromMotorBike', { type: motorBike.type, distance: motorBike.distance }),
+      createOptions('/CarbonFootprintFromPublicTransit', { distance: publicTransport.distance, type: publicTransport.type }),
     ];
-
+  
     const promises = options.map((option) => {
       return axios.get(`https://${option.hostname}${option.path}`, {
         headers: option.headers
       }).then((response) => {
-        return response.data;
+        return response.data.carbonEquivalent; // Extract the carbon footprint value from the object
       });
     });
-
+  
     const results = await Promise.all(promises);
     const totalCarbonFootprint = results.reduce((acc, current) => acc + current, 0);
+    const roundedTotalCarbonFootprint = parseFloat(totalCarbonFootprint.toFixed(4));
 
-    // Store the results in the database
-    await this.getTreeEquivalent(totalCarbonFootprint); // Get number of trees needed to offset carbon footprint
+    return roundedTotalCarbonFootprint;
   }
 
   // Get number of trees needed to offset carbon footprint
   static async getTreeEquivalent(weight) {
-    const option = createOptions('/TreeEquivalent', { unit: "kg", weight: weight });
+    const option = createOptions('/TreeEquivalent', { weight: weight.toString(), unit: "kg"});
 
     const response = await axios.get(`https://${option.hostname}${option.path}`, {
       headers: option.headers
     });
 
-    console.log(response.data);
-    return response.data;
+    
+    const treeEquivalent = response.data.numberOfTrees;
+    const roundedTreeEquivalent = parseFloat(treeEquivalent.toFixed(4));
+
+    return roundedTreeEquivalent;
   }
 
-  // Store carbon footprint in database
-  static async storeCarbonFootprintInDatabase(carbonFootprint) {
-    const connection = await sql.connect(dbConfig);
+  static async getTipsByGrade(grade) {
+     const connection = await sql.connect(dbConfig);
 
-    const sqlQuery = `INSERT INTO CarbonFootprints (fuelUsage, carTravel, publicTransport, flight, motorBike, treeEquivalent, totalCarbonFootprint) 
-      VALUES (@fuelUsage, @carTravel, @publicTransport, @flight, @motorBike, @treeEquivalent, @totalCarbonFootprint)`;
+    const sqlQuery = `SELECT * FROM CarbonFootprintPossibleActions WHERE grade = @grade`;
 
     const request = connection.request();
-    request.input("fuelUsage", this.fuelUsage.litres);
-    request.input("carTravel", this.carTravel.distance);
-    request.input("publicTransport", this.publicTransport.distance);
-    request.input("flight", this.flight.distance);
-    request.input("motorBike", this.motorBike.distance);
-    request.input("treeEquivalent", this.treeEquivalent);
-    request.input("totalCarbonFootprint", totalCarbonFootprint);
+    request.input("grade", grade);
 
-    await request.query(sqlQuery);
-
+    const result = await request.query(sqlQuery);
     connection.close();
+
+    return result.recordset;
   }
 }
 
@@ -96,6 +98,5 @@ General Features:
 - Get number of trees needed to offset carbon footprint: Calculate the number of trees needed to offset the user's carbon footprint using a RapidAPI.
 - Load carbon footprint suggestions based on user input: Provide suggestions on how to reduce carbon footprint based on the user's input.
 - Implement sharing feature: Allow users to share their carbon footprint and offsetting efforts on social media platforms.
-
 - View carbon footprint in comparison to others: Display the user's carbon footprint in comparison to other users or the average carbon footprint in a chart or graph.
  */

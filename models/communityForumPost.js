@@ -38,7 +38,7 @@ class CommunityForumPost {
 
         return result.recordset.map(
             (row) =>
-                new communityForumPost(
+                new CommunityForumPost(
                     row.postId,
                     row.userId,
                     row.title,
@@ -66,7 +66,7 @@ class CommunityForumPost {
         connection.close();
 
         return result.recordset[0]
-            ? new communityForumPost(
+            ? new CommunityForumPost(
                   result.recordset[0].postId,
                   result.recordset[0].userId,
                   result.recordset[0].title,
@@ -210,7 +210,7 @@ class CommunityForumPost {
         connection.close();
 
         return result.recordset.map(
-            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
+            row => new CommunityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
         );
     }
 
@@ -224,7 +224,7 @@ class CommunityForumPost {
         connection.close();
 
         return result.recordset.map(
-            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
+            row => new CommunityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
         );
     }
 
@@ -238,7 +238,7 @@ class CommunityForumPost {
         connection.close();
 
         return result.recordset.map(
-            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
+            row => new CommunityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
         );
     }
 
@@ -252,7 +252,7 @@ class CommunityForumPost {
         connection.close();
 
         return result.recordset.map(
-            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
+            row => new CommunityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
         );
     }
 
@@ -417,17 +417,17 @@ class CommunityForumPost {
     }
 
     // Updating the comment if it belongs to the user
-    static async updateComment(commentId, newCommentData) {
+    static async updateComment(postId, commentId, newCommentData) {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = `UPDATE Comments SET userId = @userId, postId = @postId, description = @description, dateUpdated = GETDATE() WHERE commentId = @commentId`;
 
         const request = connection.request();
         request.input("userId", newCommentData.userId || null);
-        request.input("postId", newCommentData.postId || null);
+        request.input("postId", postId || null);
         request.input("description", newCommentData.description || null);
         request.input("commentId", commentId);
-        const result = await request.query(sqlQuery);
+        await request.query(sqlQuery);
 
         connection.close();
 
@@ -475,7 +475,7 @@ class CommunityForumPost {
     }
 
     // Reply to comments on a specific post
-    static async replyToComment(commentId, newReplyData) {
+    static async replyToComment(postId, commentId, newReplyData) {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = `INSERT INTO Comments (userId, postId, description, dateCreated, parentCommentId) 
@@ -485,7 +485,7 @@ class CommunityForumPost {
 
         const request = connection.request();
         request.input("userId", newReplyData.userId);
-        request.input("postId", newReplyData.postId);
+        request.input("postId", postId);
         request.input("description", newReplyData.description);
         request.input("parentCommentId", commentId);
         const result = await request.query(sqlQuery);
