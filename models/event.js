@@ -100,7 +100,7 @@ class Event {
 
         const sqlQuery = `INSERT INTO Events (title, description, image, datePosted, location, startDate, startTime, status, likes, userId, username, staffId, staffName) 
         VALUES 
-        (@title, @description, @image, GETDATE(), @location, @startDate, @startTime, @status, 0, @userId, @username, @staffId, @staffName);
+        (@title, @description, @image, GETDATE(), @location, @startDate, @startTime, @status, 0, @userId, @username, null, null);
         SELECT SCOPE_IDENTITY() AS eventId;`;
 
         const request = connection.request();
@@ -115,8 +115,6 @@ class Event {
         request.input("likes", newEvent.likes);
         request.input("userId", newEvent.userId);
         request.input("username", newEvent.username);
-        request.input("staffId", newEvent.staffId);
-        request.input("staffName", newEvent.staffName);
         const result = await request.query(sqlQuery);
 
         connection.close();
@@ -163,7 +161,7 @@ class Event {
     static async searchEvents(searchTerm) {
         const connection = await sql.connect(dbConfig);
         try {
-            const sqlQuery = `SELECT * FROM Events WHERE title LIKE '%${searchTerm}%';`;
+            const sqlQuery = `SELECT * FROM Events WHERE title LIKE '%${searchTerm}%' AND status IN ('Open', 'Closed', 'Cancelled');`;
 
             const result = await connection.request().query(sqlQuery);
 
@@ -218,6 +216,135 @@ class Event {
                 event.staffName    
             )
         )
+    }
+
+    static async getListedEvents() {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = "SELECT * FROM Events WHERE status IN ('Open', 'Closed', 'Cancelled')";
+
+        const request = connection.request();
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset.map(
+        (event) => 
+            new Event(
+                event.eventId,
+                event.title,
+                event.description,
+                event.image,
+                event.datePosted,
+                event.location,
+                event.startDate,
+                event.startTime,
+                event.status,
+                event.likes,
+                event.userId,
+                event.username,
+                event.staffId,
+                event.staffName
+            )
+        )
+    }
+
+    static async getPendingEvents() {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = "SELECT * FROM Events WHERE status = 'Pending'";
+
+        const request = connection.request();
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset.map(
+        (event) => 
+            new Event(
+                event.eventId,
+                event.title,
+                event.description,
+                event.image,
+                event.datePosted,
+                event.location,
+                event.startDate,
+                event.startTime,
+                event.status,
+                event.likes,
+                event.userId,
+                event.username,
+                event.staffId,
+                event.staffName
+            )
+        )
+    }
+
+    static async getDeniedEvents() {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = "SELECT * FROM Events WHERE status = 'Denied'";
+
+        const request = connection.request();
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset.map(
+        (event) => 
+            new Event(
+                event.eventId,
+                event.title,
+                event.description,
+                event.image,
+                event.datePosted,
+                event.location,
+                event.startDate,
+                event.startTime,
+                event.status,
+                event.likes,
+                event.userId,
+                event.username,
+                event.staffId,
+                event.staffName
+            )
+        )
+    }
+
+    static async approveEvent(eventId, newEvent) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `UPDATE Events SET status = 'Open', staffId = @staffId, staffName = @staffName WHERE eventId = @eventId`;
+
+        const request = connection.request();
+        request.input("status", newEvent.status);
+        request.input("staffId", newEvent.staffId);
+        request.input("staffName", newEvent.staffName);
+        request.input("eventId", eventId);
+
+        await request.query(sqlQuery);
+
+        connection.close();
+
+        return this.getEventById(eventId);
+    }
+
+    static async denyEvent(eventId, newEvent) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `UPDATE Events SET status = 'Denied', staffId = @staffId, staffName = @staffName WHERE eventId = @eventId`;
+
+        const request = connection.request();
+        request.input("status", newEvent.status);
+        request.input("staffId", newEvent.staffId);
+        request.input("staffName", newEvent.staffName);
+        request.input("eventId", eventId);
+
+        await request.query(sqlQuery);
+
+        connection.close();
+
+        return this.getEventById(eventId);
     }
 }
 
