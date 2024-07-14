@@ -9,6 +9,13 @@ const router = express.Router();
 const postsController = require("../controllers/communityForumPostController.js");
 const topicsController = require("../controllers/communityForumTopicsController.js");
 
+// Importing Middleware
+const validateCommunityForumPost = require("../middlewares/validateCommunityForumPost.js");
+const validateCommunityForumComment = require("../middlewares/validateCommunityForumComment.js");
+const validateCommunityForumPostReport = require("../middlewares/validateCommunityForumPostReport.js");
+const validateCommunityForumCommentReport = require("../middlewares/validateCommunityForumCommentReport.js");
+const validateLikes = require("../middlewares/validateLikes.js");
+
 // Get all topics and post routes
 router.get("/", postsController.getAllPosts); // Get all forum posts
 router.get("/topics", topicsController.getAllTopics); // Get all forum topics
@@ -30,25 +37,25 @@ router.get("/posts-by-topic/:id", postsController.getPostsByTopic); // Get posts
 
 // Post modification routes
 router.get("/:id", postsController.getPostById); // Get a specific post by ID
-router.post("", postsController.createPost); // Create a new forum post
-router.put("/:id", postsController.updatePost); // Update an existing forum post
+router.post("", validateCommunityForumPost, postsController.createPost); // Create a new forum post
+router.put("/:id", validateCommunityForumPost, postsController.updatePost); // Update an existing forum post
 router.delete("/:id", postsController.deletePost); // Delete a forum post
 
 // Like Routes
-router.put("/like-post/:id", postsController.likePost); // Like a post
-router.put("/unlike-post/:id", postsController.unlikePost); // Unlike a post
+router.put("/like-post/:id", validateLikes, postsController.likePost); // Like a post
+router.put("/unlike-post/:id", validateLikes, postsController.unlikePost); // Unlike a post
 
 // Comment routes
-router.get(":id/comments", postsController.getCommentsByPost); // Get all comments for a post by post id
-router.post(":id/comments", postsController.createComment); // Add a comment to a post by post id
-router.put("/comments/:id", postsController.updateComment); // Update a comment by comment id
+router.get("/:id/comments", postsController.getCommentsByPost); // Get all comments for a post by post id
+router.post("/:id/comments", validateCommunityForumComment, postsController.createComment); // Add a comment to a post by post id
+router.put(":postId/comments/:commentId", validateCommunityForumComment, postsController.updateComment); // Update a comment by comment id
 router.delete("/comments/:id", postsController.deleteComment); // Delete a comment by comment id
-router.post("/comments/:id/reply", postsController.replyToComment); // Reply to a comment by parent comment id
-router.get("/comments/:id/replies", postsController.getRepliesByComment); // Get all replies to a comment by parent comment id
+router.post(":postId/comments/:commentId/reply", validateCommunityForumComment, postsController.replyToComment); // Reply to a comment by parent comment id
+router.get("comments/:id/replies", postsController.getRepliesByComment); // Get all replies to a comment by parent comment id
 
 // Report Routes
-router.post("/report-post", postsController.reportPost); // Get all reports
-router.post("/report-comment", postsController.reportComment); // Report a comment
+router.post("/report-post", validateCommunityForumPostReport, postsController.reportPost); // Get all reports
+router.post("/report-comment", validateCommunityForumCommentReport, postsController.reportComment); // Report a comment
 
 // Other routes
 router.get("/search", postsController.searchPosts); // Search for posts based on criteria

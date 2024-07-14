@@ -6,9 +6,12 @@ const express = require("express");
 const router = express.Router();
 
 // Importing Controllers
-const carbonFootprintCalculatorController = require("../controllers/carbonFootprintCalculatorController.js");
+const carbonFootprintCalculatorController = require("../controllers/carbonFootprintController.js");
+
+// Importing Middleware
+const validateCarbonFootprint = require("../middlewares/validateCarbonFootprint.js");
 
 // Calculate carbon footprint route
-router.get("/", carbonFootprintCalculatorController.calculateCarbonFootprint);
+router.get("/",validateCarbonFootprint, carbonFootprintCalculatorController.calculateCarbonFootprint); // Calculate carbon footprint
 
 module.exports = router; // Export the router
