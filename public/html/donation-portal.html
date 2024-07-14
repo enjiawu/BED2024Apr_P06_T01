@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ReThink Events - Edit Event</title>
+        <title>ReThink - Donation</title>
     
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
@@ -15,12 +15,11 @@
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <link href="../styles/style.css" rel="stylesheet">
-        <link href="../styles/editEvent.css" rel="stylesheet">
-        <link href="../styles/nav.css" rel="stylesheet">
+        <link href="../styles/donation-portal.css" rel="stylesheet">
+        <link rel="stylesheet" href="../styles/nav.css" />
     </head>
-    
+
     <body>
-        <!-- Navbar -->
         <header>
             <div class="nav-container">
                 <div class="nav-left">
@@ -36,7 +35,7 @@
                             <div class="dropdown-content">
                                 <a href="community-forum.html">Community Forum</a>
                                 <a href="event.html">Events</a>
-                                <a href="#">Donation</a>
+                                <a href="donation-portal.html">Donation</a>
                             </div>
                         </li>
                         <li><a href="#">Carbon Footprint Calculator</a></li>
@@ -143,73 +142,113 @@
             </div>
         </div>
 
-        <!-- Event Details -->
+
         <main>
-            <h2 class="edit-event-header mt-3">Edit Event</h2>
-            <div class="edit-event-container">
-                <div class="form-group text-center mb-3">
-                    <input type="text" class="form-control text-center" id="eventTitle" placeholder="Event Title">
+            <div class="container mt-4">
+                <div class="text-center">
+                    <h2>Even just a small donation still means a lot!</h2>
+                    <p>Whether it be contributions that promote renewable energy, conservation efforts, and equitable economic growth to ensure a better future for all.</p>
                 </div>
-                <div class="row">
-                    <div class="col">
-                      <div class="card event-card mb-3">
-                        <div class="card-body"> 
-                            <div class="form-group">
-                                <label for="eventImage">Event Thumbnail/Image</label>
-                                <img src="https://via.placeholder.com/500x500" alt="Event Thumbnail" id="eventImage" class="img-fluid mb-2">
-                                <div class="custom-file">
-                                    <input type="file" class="form-control" id="customFile">
+    
+                <section>
+                    <h2 class="text-center">Charities</h2>
+                    <div class="row justify-content-center">
+                        <!-- Card 1 -->
+                        <div class="col-md-4 mb-4">
+                            <div class="card card-custom text-center">
+                                <img src="../images/donation/Singapore_Red_Cross.jpg" class="card-img-top mx-auto" alt="Charity 1">
+                                <div class="card-body">
+                                    <h5 class="card-title">Singapore Red Cross Society</h5>
+                                    <p class="card-text">Providing humanitarian aid and emergency response services.</p>
+                                    <button class="btn donateBtn">Donate Now</button>
                                 </div>
                             </div>
-                            <div class="form-group mt-3">
-                                <textarea class="form-control" id="eventDetails" placeholder="Event Details & Description"></textarea>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="col-md-4 mb-4">
+                            <div class="card card-custom text-center">
+                                <img src="../images/donation/zero-waste.jpg" class="card-img-top mx-auto" alt="Charity 2">
+                                <div class="card-body">
+                                    <h5 class="card-title">Zero Waste SG</h5>
+                                    <p class="card-text">Promoting zero waste and reducing waste generation in Singapore.</p>
+                                    <button class="btn donateBtn">Donate Now</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card 3 -->
+                        <div class="col-md-4 mb-4">
+                            <div class="card card-custom text-center">
+                                <img src="../images/donation/WWF_Logo.jpg" class="card-img-top mx-auto" alt="Charity 3">
+                                <div class="card-body">
+                                    <h5 class="card-title">WWF Singapore</h5>
+                                    <p class="card-text">Focusing on conservation and sustainability initiatives in Singapore and Southeast Asia.</p>
+                                    <button class="btn donateBtn">Donate Now</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="col">
-                    <div class="card event-card">
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="eventDate">Event Host Date</label>
-                                <input type="date" class="form-control" id="eventDate">
-                            </div>
-                            <div class="form-group">
-                                <label for="eventTime">Event Host Time</label>
-                                <input type="time" class="form-control" id="eventTime">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card status-and-location">
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="eventStatus">Status:</label>
-                                <select id="eventStatus">
-                                    <option>Open</option>
-                                    <option>Closed</option>
-                                    <option>Cancelled</option>
-                                </select>
-                            </div>
-                            <div class="form-group mt-3">
-                                <label for="eventLocation">Location</label>
-                                <input type="text" class="form-control" id="eventLocation" placeholder="Edit Location">
-                            </div>
-                        </div>
-                    </div>   
-                </div>
-            </div>
-            <div class="text-center">
-                <button type="submit" class="btn updateBtn">Update Event</button>
+                </section>
             </div>
         </main>
-          
-        
-    
-        <!-- Scripts -->
-        <script src="../scripts/login-popup.js"></script>
 
+        <footer>
+            <div class="footer-row">
+            <div class="footer-col footer-logo">
+                <div class="footer-logo-img">
+                <img src="../images/logo/ReThink Logo - Green.png" alt = "logo">
+                </div>
+            </div>
+            <div class="footer-col footer-nav">
+                <div class="footer-navbar">
+                    <h4>Resources</h4>
+                    <nav>
+                        <ul>
+                        <li><a href="#">Articles</a></li>
+                        <li><a href="html/event.html">Events</a></li>
+                        <li><a href="#">Carbon Footprint Calculator</a></li>
+                        </ul>
+                    </nav>
+                </div>
+    
+                <div class="footer-navbar">
+                <h4>Support</h4>
+                <nav>
+                    <ul>
+                    <li><a href="donation-portal.html">Donation</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </nav>
+                </div>
+    
+                <div class="footer-navbar">
+                <h4>About</h4>
+                <nav>
+                    <ul>
+                    <li><a href="html/about-us.html">About Us</a></li>
+                    <li><a href="#">Credits</a></li>
+                    </ul>
+                </nav>
+                </div>
+
+                <div class="footer-navbar">
+                    <h4>Account</h4>
+                    <nav>
+                        <ul>
+                        <li><a href="#">Sign In</a></li>
+                        <li><a href="#">Sign Up</a></li>
+                        <li><a href="#">Profile</a></li>
+                        </ul>
+                    </nav>
+                    </div>
+            </div>
+            </div>
+            <div class="copyright">
+            <p>Copyright © 2024 ReThink</p>
+            </div>
+        </footer>
+
+        <script src="../scripts/login-popup.js"></script>
+        
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>
@@ -217,5 +256,13 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
+
+         <!-- JavaScript files -->
+         <script src="../scripts/donation-portal.js"></script>
     </body>
 </html>
+    
+
+
+
+    

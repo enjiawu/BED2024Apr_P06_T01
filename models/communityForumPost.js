@@ -1,7 +1,7 @@
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
-class communityForumPost {
+class CommunityForumPost {
     constructor(
         postId,
         userId,
@@ -38,7 +38,7 @@ class communityForumPost {
 
         return result.recordset.map(
             (row) =>
-                new communityForumPost(
+                new CommunityForumPost(
                     row.postId,
                     row.userId,
                     row.title,
@@ -66,7 +66,7 @@ class communityForumPost {
         connection.close();
 
         return result.recordset[0]
-            ? new communityForumPost(
+            ? new CommunityForumPost(
                   result.recordset[0].postId,
                   result.recordset[0].userId,
                   result.recordset[0].title,
@@ -210,7 +210,7 @@ class communityForumPost {
         connection.close();
 
         return result.recordset.map(
-            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
+            row => new CommunityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
         );
     }
 
@@ -224,7 +224,7 @@ class communityForumPost {
         connection.close();
 
         return result.recordset.map(
-            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
+            row => new CommunityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
         );
     }
 
@@ -238,7 +238,7 @@ class communityForumPost {
         connection.close();
 
         return result.recordset.map(
-            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
+            row => new CommunityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
         );
     }
 
@@ -252,7 +252,7 @@ class communityForumPost {
         connection.close();
 
         return result.recordset.map(
-            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
+            row => new CommunityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
         );
     }
 
@@ -417,17 +417,17 @@ class communityForumPost {
     }
 
     // Updating the comment if it belongs to the user
-    static async updateComment(commentId, newCommentData) {
+    static async updateComment(postId, commentId, newCommentData) {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = `UPDATE Comments SET userId = @userId, postId = @postId, description = @description, dateUpdated = GETDATE() WHERE commentId = @commentId`;
 
         const request = connection.request();
         request.input("userId", newCommentData.userId || null);
-        request.input("postId", newCommentData.postId || null);
+        request.input("postId", postId || null);
         request.input("description", newCommentData.description || null);
         request.input("commentId", commentId);
-        const result = await request.query(sqlQuery);
+        await request.query(sqlQuery);
 
         connection.close();
 
@@ -475,7 +475,7 @@ class communityForumPost {
     }
 
     // Reply to comments on a specific post
-    static async replyToComment(commentId, newReplyData) {
+    static async replyToComment(postId, commentId, newReplyData) {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = `INSERT INTO Comments (userId, postId, description, dateCreated, parentCommentId) 
@@ -485,7 +485,7 @@ class communityForumPost {
 
         const request = connection.request();
         request.input("userId", newReplyData.userId);
-        request.input("postId", newReplyData.postId);
+        request.input("postId", postId);
         request.input("description", newReplyData.description);
         request.input("parentCommentId", commentId);
         const result = await request.query(sqlQuery);
@@ -511,7 +511,7 @@ class communityForumPost {
     }
 }
 
-module.exports = communityForumPost;
+module.exports = CommunityForumPost;
 
 
 /*
@@ -563,14 +563,3 @@ Community Management (Moderators/Admins):
 
 */
 
-/*
-Carbon Footprint Calculator
-
-General Features:
-- Manually caluclate user input: Use a formula to calculate the carbon footprint of a user based on their input.
-- Get number of trees needed to offset carbon footprint: Calculate the number of trees needed to offset the user's carbon footprint using a third party API.
-- Load carbon footprint suggestions based on user input: Provide suggestions on how to reduce carbon footprint based on the user's input.
-- Implement sharing feature: Allow users to share their carbon footprint and offsetting efforts on social media platforms.
-
-- View carbon footprint in comparison to others: Display the user's carbon footprint in comparison to other users or the average carbon footprint in a chart or graph.
- */

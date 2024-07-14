@@ -268,9 +268,10 @@ const createComment = async (req, res) => {
 
 const updateComment = async (req, res) => {
     const newCommentData = req.body;
-    const commentId = parseInt(req.params.id);
+    const commentId = parseInt(req.params.commentId);
+    const postId = parseInt(req.body.postId);
     try {
-        const comment = await Post.updateComment(commentId, newCommentData);
+        const comment = await Post.updateComment(postId, commentId, newCommentData);
         if (!comment) {
             return res.status(404).json({ error: "Comment not found" });
         }
@@ -307,10 +308,11 @@ const reportComment = async (req, res) => {
 };
 
 const replyToComment = async (req, res) => {
-    const commentId = parseInt(req.params.id);
+    const commentId = parseInt(req.params.commentId);
+    const postId = parseInt(req.params.postId);
     const newReplyData = req.body;
     try {
-        const reply = await Post.replyToComment(commentId, newReplyData);
+        const reply = await Post.replyToComment(postId, commentId, newReplyData);
         res.status(201).send(reply);
     } catch (error) {
         console.error(error);

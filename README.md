@@ -49,34 +49,7 @@ Rethink is a web platform designed to foster community engagement and promote su
   + Implemented UI to allow users to view community forum posts
 
 **API Endpoints**:
-- #### `GET /communityforum` - Retrieve all posts from the community forum.
-	##### Parameters
-	- None
-	##### Response
-	- Status: `200 OK`
-	- Body:
-	```json
-	[
-	  {
-	    "id": 1,
-	    "title": "Sample Post",
-	    "content": "Lorem ipsum...",
-	    "createdAt": "2024-06-29T12:00:00Z",
-	    "updatedAt": "2024-06-29T12:00:00Z",
-	    "topicId": 1,
-	    "userId": 123
-	  },
-	  {
-	    "id": 2,
-	    "title": "Another Post",
-	    "content": "Lorem ipsum...",
-	    "createdAt": "2024-06-29T13:00:00Z",
-	    "updatedAt": "2024-06-29T13:00:00Z",
-	    "topicId": 2,
-	    "userId": 456
-	  }
-	]
-	```
+>   + **GET /communityforum** - Retrieve all posts from the community forum.
 >   + **GET /communityforum/:id**: Retrieve a specific post by its ID.
 >   + **POST /communityforum**: Create a new post with provided data.
 >   + **PUT /communityforum/:id**: Update an existing post identified by its ID.
@@ -175,7 +148,12 @@ Rethink is a web platform designed to foster community engagement and promote su
    ```bash
    git clone https://github.com/enjiawu/BED2024Apr_P06_T01.git
    
-2. **Start the server::**
+2. **Install Dependencies:**
+   
+   ```bash
+   npm install axios bcrypt bcryptjs body-parser dotenv env express joi mssql nodemon swagger nodemailer swagger-autogen swagger-ui-express
+
+3. **Start the server::**
 
    ```bash
    npm start
