@@ -298,7 +298,25 @@
                                             </button>
                                         </li>
                                         <li
-                                            class="nav-item"
+                                            class="nav-item me-5"
+                                            role="presentation"
+                                        >
+                                            <button
+                                                class="nav-link admin-comment-reports-tab"
+                                                id="admin-comment-reports-tab"
+                                                data-bs-toggle="pill"
+                                                data-bs-target="#admin-comment-reports"
+                                                type="button"
+                                                role="tab"
+                                                aria-controls="admin-comment-reports"
+                                                aria-selected="false"
+                                            >
+                                                Comment Reports
+                                            </button>
+                                        </li>
+                                        <div class="vr"></div>
+                                        <li
+                                            class="nav-item ms-5"
                                             role="presentation"
                                         >
                                             <button
@@ -491,6 +509,187 @@
                                             </nav>
                                         </div>
                                         <div
+                                            class="tab-pane fade focus-ring admin-comment-reports"
+                                            id="admin-comment-reports"
+                                            role="tabpanel"
+                                            aria-labelledby="admin-comment-reports-tab"
+                                            tabindex="0"
+                                        >
+                                            <div class="comment-reports-list">
+                                                <div
+                                                    class="card comment-report-card hidden mb-4"
+                                                >
+                                                    <div
+                                                        class="container card-body"
+                                                    >
+                                                        <div
+                                                            class="row justify-content-start"
+                                                        >
+                                                            <div
+                                                                class="col-8 text-body-secondary original-commenter"
+                                                            >
+                                                                Original
+                                                                Commenter
+                                                            </div>
+                                                            <div
+                                                                class="col-4 text-end text-body-secondary date-commented"
+                                                            >
+                                                                Date Commented
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-8">
+                                                                <span
+                                                                    class="card-subtitle comment-body"
+                                                                    >Comment
+                                                                    Body</span
+                                                                >
+                                                            </div>
+                                                            <div
+                                                                class="col-4 text-end text-body-secondary comment-likes"
+                                                            >
+                                                                0000
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="row justify-content-center mt-2"
+                                                        >
+                                                            <button
+                                                                class="btn view-post-button focus-ring"
+                                                            >
+                                                                View Original
+                                                                Post
+                                                            </button>
+                                                        </div>
+                                                        <!-- <div class="row">
+                                                            <div
+                                                                class="col-8"
+                                                            ></div>
+                                                            <div
+                                                                class="col-4 text-end text-body-secondary post-comments"
+                                                            >
+                                                                0000 c
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-8">
+                                                                <span
+                                                                    class="post-topics badge rounded-pill"
+                                                                >
+                                                                    Topic
+                                                                </span>
+                                                            </div>
+                                                            <div
+                                                                class="col-4 text-end text-body-secondary date-posted"
+                                                            >
+                                                                Date Posted
+                                                            </div>
+                                                        </div> -->
+                                                        <hr />
+                                                        <div
+                                                            class="row text-body-secondary"
+                                                        >
+                                                            <div
+                                                                class="col date-reported"
+                                                            >
+                                                                Date Reported
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="row text-body-secondary"
+                                                        >
+                                                            <div
+                                                                class="col comment-reporter"
+                                                            >
+                                                                @user
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div>
+                                                                <strong
+                                                                    class="col report-reason"
+                                                                    >Report
+                                                                    Reason
+                                                                </strong>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="row justify-content-between mt-4"
+                                                        >
+                                                            <div
+                                                                class="col flex-grow-0 text-nowrap"
+                                                            >
+                                                                <button
+                                                                    class="btn ignore-button focus-ring"
+                                                                >
+                                                                    Ignore
+                                                                    Report
+                                                                </button>
+                                                            </div>
+                                                            <div
+                                                                class="col flex-grow-0 text-nowrap"
+                                                            >
+                                                                <button
+                                                                    class="btn remove-button focus-ring"
+                                                                >
+                                                                    Remove
+                                                                    Comment
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <nav
+                                                class="mt-5"
+                                                aria-label="comment-reports navigation"
+                                            >
+                                                <ul
+                                                    class="pagination justify-content-center"
+                                                >
+                                                    <li
+                                                        class="page-item disabled"
+                                                    >
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            >Previous</a
+                                                        >
+                                                    </li>
+                                                    <li
+                                                        class="page-item active"
+                                                    >
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >1</a
+                                                        >
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >2</a
+                                                        >
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >3</a
+                                                        >
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >Next</a
+                                                        >
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                        <div
                                             class="tab-pane fade focus-ring"
                                             id="admin-messsages"
                                             role="tabpanel"
@@ -545,7 +744,7 @@
                                             </div>
                                             <nav
                                                 class="mt-5"
-                                                aria-label="post-reports navigation"
+                                                aria-label="messages navigation"
                                             >
                                                 <ul
                                                     class="pagination justify-content-center"

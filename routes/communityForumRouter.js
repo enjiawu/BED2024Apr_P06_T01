@@ -40,6 +40,7 @@ router.put("/unlike-post/:id", postsController.unlikePost); // Unlike a post
 
 // Comment routes
 router.get("/comments/:id", postsController.getCommentsByPost); // Get all comments for a post
+router.get("/comments/:id", postsController.getCommentById); // Get a specific comment by ID
 router.post("/comments/:id", postsController.createComment); // Add a comment to a post
 router.put("/comments/:id", postsController.updateComment); // Update a comment
 router.delete("/comments/:id", postsController.deleteComment); // Delete a comment
