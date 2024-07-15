@@ -7,6 +7,7 @@ const staffsRouter = require("../routes/staffsRouter"); // Correct import
 const eventsRouter = require("../routes/eventsRouter");
 const messagesRouter = require("../routes/messagesRouter");
 const repliesRouter = require("../routes/repliesRouter");
+const calculateCarbonFootprintRouter = require("../routes/carbonFootprintCalculatorRouter");
 
 module.exports = function(app) {
     app.use(express.json());
@@ -18,4 +19,5 @@ module.exports = function(app) {
     app.use("/events", eventsRouter);
     app.use("/messages", messagesRouter);
     app.use("/replies", repliesRouter);
+    app.use("/calculatecarbonfootprint", calculateCarbonFootprintRouter);
 }

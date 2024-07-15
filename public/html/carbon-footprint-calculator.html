@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ReThink | Carbon Footprint Calculator</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+            crossorigin="anonymous"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="../styles/style.css" />
+        <link rel="stylesheet" href="../styles/nav.css" />
+        <link rel="stylesheet" href="../styles/carbon-footprint-calculator.css" />
+    </head>
+    <body>
+
+        <header>
+            <div class="nav-container">
+                <div class="nav-left">
+                    <a href="../index.html"><img src="../images/logo/ReThink Logo - Green.png" alt="Logo" class="logo"></a>
+                </div>
+                <div class="nav-right">
+                    <ul class="nav-links">
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="about-us.html">About</a></li>
+                        <li><a href="#">Articles</a></li>
+                        <li class="dropdown">
+                            <a href="#">Community</a>
+                            <div class="dropdown-content">
+                                <a href="community-forum.html">Community Forum</a>
+                                <a href="event.html">Events</a>
+                                <a href="donation-portal.html">Donation</a>
+                            </div>
+                        </li>
+                        <li><a href="carbon-footprint-calculator-output.html">Carbon Footprint Calculator</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li class="user-dropdown" id="user-dropdown">
+                            <div class="profile-pic">
+                                <!-- Initially hidden, shown after login -->
+                                <img src="images/logo/ReThink Logo - Beige.png" alt="Profile Picture" class="avatar">
+                            </div>
+                            <div class="dropdown-content">
+                                <a href="#">Profile</a>
+                                <a href="#">Settings</a>
+                                <a href="#">Notifications</a>
+                                <a href="#" id="logout-button">Logout</a>
+                            </div>
+                        </li>
+                        <li class="login-btn-pop" id="login-button-nav"><a href="#">Login</a></li>
+                    </ul>
+                </div>
+                <!-- Menu button for mobile menu -->
+                <div class="icon menu-btn">
+                    <i class="fa fa-bars"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Login and Register Pop-up -->
+        <div class="wrapper-container">
+            <div id="login-container" class="wrapper">
+                <!-- Close button -->
+                <span class="icon-close">x</span>
+                
+                <!-- Login form -->
+                <div class="form-box login active">
+                    <h2>Sign In</h2>
+                    <form id="login-form" action="/users/login" method="POST">
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                            <input type="email" id="login-email" required>
+                            <label>Email</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                            <input type="password" id="login-password" required>
+                            <label>Password</label>
+                        </div>
+                        <div class="remember-forgot">
+                            <p>Forgot Password?</p>
+                        </div>
+                        <button type="submit" class="btn" id="login-button">Sign In</button>
+                        <div class="login-register">
+                            <p>Don't have an account? <a href="#" class="register-link">Register</a></p>
+                            <p>Are you a staff? <a href="#" class="staff-login-link">Staff Sign In</a></p>
+                        </div>
+                    </form>
+                </div>
+        
+                <!-- Staff Login form -->
+                <div class="form-box staff-login">
+                    <h2>Staff Sign In</h2>
+                    <form id="staff-login-form">
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="person"></ion-icon></span>
+                            <input type="text" id="staff-id" required>
+                            <label for="staff-id">Staff ID</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                            <input type="password" id="staff-password" required>
+                            <label for="staff-password">Password</label>
+                        </div>
+                        <button type="button" class="btn" id="staff-login-button">Staff Sign In</button>
+                        <div class="login-register">
+                            <p>Are you a user? <a href="#" class="login-link">User Sign In</a></p>
+                        </div>
+                    </form>
+                </div>
+        
+                <!-- Registration form -->
+                <div class="form-box register">
+                    <h2>Registration</h2>
+                    <form id="register-form" action="/users" method="POST">
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="person"></ion-icon></span>
+                            <input type="text" id="register-name" required>
+                            <label for="register-name">Username</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                            <input type="email" id="register-email" required>
+                            <label for="register-email">Email</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                            <input type="password" id="register-password" required>
+                            <label for="register-password">Password</label>
+                        </div>
+                        <button type="submit" class="btn" id="register-button">Register</button>
+                        <div class="login-register">
+                            <p>Already have an account? <a href="#" class="login-link">Login</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <main class = "main-container d-flex flex-column justify-content-center align-items-center">
+            <h1 class = "title text-center">Carbon Footprint Calculator</h1>
+            <h3 class = "subtitle text-center mb-5">Estimate your carbon footprint (in a year) here</h3>
+            <div>
+                <form id = "carbon-footprint-form" class = "d-flex flex-column justify-content-center align-content-center">
+                    <label class = "input-header text-center" for = "car-travel">Car Travel</label>
+                    <div class = "form-group d-flex flex-row align-items-center gap-4 mb-3">
+                        <select class="form-control" id="car-travel">
+                            <option value="0">Select type of car</option>
+                            <optgroup label="Diesel Cars">
+                              <option value="SmallDieselCar">Small Diesel Car</option>
+                              <option value="MediumDieselCar">Medium Diesel Car</option>
+                              <option value="LargeDieselCar">Large Diesel Car</option>
+                            </optgroup>
+                            <optgroup label="Hybrid Cars">
+                              <option value="MediumHybridCar">Medium Hybrid Car</option>
+                              <option value="LargeHybridCar">Large Hybrid Car</option>
+                            </optgroup>
+                            <optgroup label="LPG Cars">
+                              <option value="MediumLPGCar">Medium LPG Car</option>
+                              <option value="LargeLPGCar">Large LPG Car</option>
+                            </optgroup>
+                            <optgroup label="CNG Cars">
+                              <option value="MediumCNGCar">Medium CNG Car</option>
+                              <option value="LargeCNGCar">Large CNG Car</option>
+                            </optgroup>
+                            <optgroup label="Petrol Cars">
+                              <option value="SmallPetrolCar">Small Petrol Car</option>
+                              <option value="MediumPetrolCar">Medium Petrol Car</option>
+                              <option value="LargePetrolCar">Large Petrol Car</option>
+                            </optgroup>
+                            <optgroup label="Vans">
+                              <option value="SmallPetrolVan">Small Petrol Van</option>
+                              <option value="LargePetrolVan">Large Petrol Van</option>
+                              <option value="SmallDielselVan">Small Diesel Van</option>
+                              <option value="MediumDielselVan">Medium Diesel Van</option>
+                              <option value="LargeDielselVan">Large Diesel Van</option>
+                              <option value="LPGVan">LPG Van</option>
+                              <option value="CNGVan">CNG Van</option>
+                            </optgroup>
+                        </select>
+
+                        <div class = "d-flex flex-row align-items-center gap-1">
+                            <input type="number" class="form-control" id="car-travel-distance" placeholder="Distance" min="0">
+                            <span id="unit">km</span>
+                        </div>
+                    </div>
+
+                    <label class = "input-header text-center" for = "flight">Flight</label>
+                    <div class = "form-group d-flex flex-row align-items-center gap-4 mb-3">
+                        <select class="form-control" id="flight">
+                            <option value="0">Select type of flight</option>
+                            <optgroup label="Domestic Flights">
+                              <option value="DomesticFlight">Domestic Flight</option>
+                            </optgroup>
+                            <optgroup label="Short Flights">
+                              <option value="ShortEconomyClassFlight">Economy Class</option>
+                              <option value="ShortBusinessClassFlight">Business Class</option>
+                            </optgroup>
+                            <optgroup label="Long Flights">
+                              <option value="LongEconomyClassFlight">Economy Class</option>
+                              <option value="LongPremiumClassFlight">Premium Class</option>
+                              <option value="LongBusinessClassFlight">Business Class</option>
+                              <option value="LongFirstClassFlight">First Class</option>
+                            </optgroup>
+                          </select>
+
+                        <div class = "d-flex flex-row align-items-center gap-1">
+                            <input type="number" class="form-control" id="flight-travel-distance" placeholder="Distance" min="0">
+                            <span id="unit">km</span>
+                        </div>
+                    </div>
+
+                    <label class = "input-header text-center" for = "motorbike">Motorbike</label>
+                    <div class = "form-group d-flex flex-row align-items-center gap-4 mb-3">
+                        <select class="form-control" id="motorbike">
+                            <option value="0">Select type of motorbike</option>
+                            <option value="SmallMotorBike">Small Motorbike</option>
+                            <option value="MediumMotorBike">Medium Motorbike</option>
+                            <option value="LargeMotorBike">Large Motorbike</option>
+                        </select>
+
+                        <div class = "d-flex flex-row align-items-center gap-1">
+                            <input type="number" class="form-control" id="motorbike-travel-distance" placeholder="Distance" min="0">
+                            <span id="unit">km</span>
+                        </div>
+                    </div>
+
+                    <label class = "input-header text-center" for = "public-transit">Public Transit</label>
+                    <div class = "form-group d-flex flex-row align-items-center gap-4">
+                        <select class="form-control" id="public-transit">
+                            <option value="0">Select type of public transit</option>
+                            <optgroup label="Road">
+                              <option value="Taxi">Taxi</option>
+                              <option value="ClassicBus">Classic Bus</option>
+                              <option value="EcoBus">Eco Bus</option>
+                              <option value="Coach">Coach</option>
+                            </optgroup>
+                            <optgroup label="Rail">
+                              <option value="NationalTrain">National Train</option>
+                              <option value="LightRail">Light Rail</option>
+                              <option value="Subway">Subway</option>
+                            </optgroup>
+                            <optgroup label="Water">
+                              <option value="FerryOnFoot">Ferry on Foot</option>
+                              <option value="FerryInCar">Ferry in Car</option>
+                            </optgroup>
+                          </select>
+
+                        <div class = "d-flex flex-row align-items-center gap-1">
+                            <input type="number" class="form-control" id="public-transit-travel-distance" placeholder="Distance" min="0">
+                            <span id="unit">km</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-5 px-5 mx-auto">Calculate</button>
+                </form>
+            </div>
+        </main>
+        
+        <script src="../scripts/login-popup.js"></script>
+        <script src="../scripts/carbon-footprint-calculator.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+            integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+            crossorigin="anonymous"
+        ></script>
+
+    </body>
+</html>

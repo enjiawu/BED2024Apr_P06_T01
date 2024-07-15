@@ -1,0 +1,51 @@
+#carbon-footprint-output h2{
+    font-size: 32px;
+    font-weight: 500;
+    color: #414833;
+    margin: 20px 0;
+}
+
+#carbon-footprint-output p{
+    font-size: 20px;
+    font-weight: 300;
+    color: #414833;
+    margin: 5px;
+}
+
+#carbon-footprint-output span{
+    font-weight: 800;
+}
+
+#carbon-footprint{
+    font-size: 40px;
+}
+
+#number-of-trees{
+    font-size: 25px;
+    margin-right: 3px;
+}
+
+#grade{
+    font-weight: 700;
+    font-size: 21px;
+    color: #b6904a;
+}
+
+#tips-section h1{
+    font-size: 30px;
+    font-weight: 700;
+    color: #414833;
+    margin: 20px 0;
+}
+
+.tip{
+    border: none;
+    background-color: #EBE3D2;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.tip h3{
+    font-size: 25px;
+    font-weight: 700;
+    color: #414833;
+}

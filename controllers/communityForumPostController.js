@@ -1,5 +1,6 @@
 const Post = require("../models/communityForumPost");
 
+// Getting all posts to display
 const getAllPosts = async (req, res) => {
     try {
         const posts = await Post.getAllPosts();
@@ -10,12 +11,13 @@ const getAllPosts = async (req, res) => {
     }
 };
 
+// Getting post by id for the invidiual post page
 const getPostById = async (req, res) => {
     const postId = parseInt(req.params.id);
     try {
         const post = await Post.getPostById(postId);
         if (!post) {
-            return res.status(404).json({ error: "Post not found"});
+            return res.status(404).json({ error: "Post not found" });
         }
         res.json(post);
     } catch (error) {
@@ -24,6 +26,7 @@ const getPostById = async (req, res) => {
     }
 };
 
+// Creating the post if the user is logged in
 const createPost = async (req, res) => {
     const newPostData = req.body;
     try {
@@ -35,6 +38,7 @@ const createPost = async (req, res) => {
     }
 };
 
+// Updating the post if it belongs to the user
 const updatePost = async (req, res) => {
     const newPostData = req.body;
     const postId = parseInt(req.params.id);
@@ -42,7 +46,7 @@ const updatePost = async (req, res) => {
     try {
         const post = await Post.updatePost(postId, newPostData);
         if (!post) {
-            return res.status(404).json({ error: "Post not found"});
+            return res.status(404).json({ error: "Post not found" });
         }
         res.json(post);
     } catch (error) {
@@ -51,6 +55,7 @@ const updatePost = async (req, res) => {
     }
 };
 
+// Deleting the post if it belongs to the user or if its an admin
 const deletePost = async (req, res) => {
     const postId = parseInt(req.params.id);
     try {
@@ -65,6 +70,7 @@ const deletePost = async (req, res) => {
     }
 };
 
+// Searching for posts based on the title
 const searchPosts = async (req, res) => {
     const searchTerm = req.query.searchTerm;
     try {
@@ -76,6 +82,22 @@ const searchPosts = async (req, res) => {
     }
 };
 
+// Getting all posts by the specific topic
+const getPostsByTopic = async (req, res) => {
+    const topicId = parseInt(req.params.id);
+    try {
+        const posts = await Post.getPostsByTopic(topicId);
+        if (!posts) {
+            return res.status(404).json({ error: "No posts found" });
+        }
+        res.json(posts);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving posts");
+    }
+};
+
+// Statistics for Community Forum (Total number of posts and likes)
 const getPostCount = async (req, res) => {
     try {
         const postCount = await Post.getPostCount();
@@ -83,20 +105,6 @@ const getPostCount = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send("Error retrieving post count");
-    }
-};
-
-const getPostsByTopic = async (req, res) => {
-    const topicId = parseInt(req.params.id);
-    try {
-        const posts = await Post.getPostsByTopic(topicId);
-        if (!posts){
-            return res.status(404).json({ error: "No posts found" });
-        }
-        res.json(posts);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Error retrieving posts");
     }
 };
 
@@ -110,7 +118,8 @@ const getAllLikes = async (req, res) => {
     }
 };
 
-const sortPostsByLikesDesc =  async (req, res) => {
+// Sorting of posts by likes and date created
+const sortPostsByLikesDesc = async (req, res) => {
     try {
         const posts = await Post.sortPostsByLikesDesc();
         res.status(200).json(posts);
@@ -150,8 +159,9 @@ const sortPostsByOldest = async (req, res) => {
     }
 };
 
+// To get the top 5 trending topics based on the number of posts per topic
 const getTrendingTopics = async (req, res) => {
-    try{
+    try {
         const topicCounts = await Post.getAllTopicCountsByPost();
         topicCounts.sort((a, b) => b.postCount - a.postCount);
         res.json(topicCounts.slice(0, 5));
@@ -161,27 +171,169 @@ const getTrendingTopics = async (req, res) => {
     }
 };
 
+// Report post which redirects to admin
 const reportPost = async (req, res) => {
+    const reportData = req.body;
     try {
-        const report = await Post.reportPost();
+        const report = await Post.reportPost(reportData);
         res.status(200).json(report);
     } catch (error) {
         console.error(error);
         res.status(500).send("Error reporting post");
     }
-}
+};
 
+// Likes for the post if the
 const likePost = async (req, res) => {
     const postId = parseInt(req.params.id);
+    const userId = req.body.userId;
     try {
-        const post = await Post.likePost(postId);
+        // Check if the user has already liked the post
+        const existingLike = await Post.getLikeByUser(postId, userId);
+        if (existingLike) {
+            // If the user has already liked the post, return an error
+            return res.status(400).json({ error: "Post already liked" });
+        }
+
+        const post = await Post.likePost(postId, userId);
         if (!post) {
-            return res.status(404).json({ error: "Post not found"});
+            return res.status(404).json({ error: "Post not found" });
         }
         res.json(post);
     } catch (error) {
         console.error(error);
         res.status(500).send("Error liking post");
+    }
+};
+
+const unlikePost = async (req, res) => {
+    const postId = parseInt(req.params.id);
+    const userId = req.body.userId;
+    try {
+        // Check if the user has already liked the post
+        const existingLike = await Post.getLikeByUser(postId, userId);
+        if (!existingLike) {
+            // If the user has not liked the post, return an error
+            return res.status(400).json({ error: "Post already not liked" });
+        }
+
+        const post = await Post.unlikePost(postId, userId);
+        if (!post) {
+            return res.status(404).json({ error: "Post not found" });
+        }
+        res.json(post);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error unliking post");
+    }
+};
+
+// Comments
+const getCommentsByPost = async (req, res) => {
+    const postId = parseInt(req.params.id);
+    try {
+        const comments = await Post.getCommentsByPost(postId);
+        res.json(comments);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving comments");
+    }
+};
+
+const getCommentById = async (req, res) => {
+    const commentId = parseInt(req.params.id);
+    try {
+        const comment = await Post.getCommentById(commentId);
+        if (!comment) {
+            return res.status(404).json({ error: "Comment not found" });
+        }
+        res.json(comment);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving comment");
+    }
+};
+
+const createComment = async (req, res) => {
+    const postId = parseInt(req.params.id);
+    const newCommentData = req.body;
+    try {
+        const createdComment = await Post.createComment(postId, newCommentData);
+        res.status(201).send(createdComment);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error creating comment");
+    }
+};
+
+const updateComment = async (req, res) => {
+    const newCommentData = req.body;
+    const commentId = parseInt(req.params.commentId);
+    const postId = parseInt(req.body.postId);
+    try {
+        const comment = await Post.updateComment(postId, commentId, newCommentData);
+        if (!comment) {
+            return res.status(404).json({ error: "Comment not found" });
+        }
+        res.json(comment);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error updating comment");
+    }
+};
+
+const deleteComment = async (req, res) => {
+    const commentId = parseInt(req.params.id);
+    try {
+        const success = await Post.deleteComment(commentId);
+        if (success != 1) {
+            return res.status(404).json({ error: "Comment not found" });
+        }
+        res.status(201).send("Comment has been deleted");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error deleting comment");
+    }
+};
+
+const reportComment = async (req, res) => {
+    const reportData = req.body;
+    try {
+        const report = await Post.reportComment(reportData);
+        res.status(200).json(report);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error reporting comment");
+    }
+};
+
+const replyToComment = async (req, res) => {
+    const commentId = parseInt(req.params.commentId);
+    const postId = parseInt(req.params.postId);
+    const newReplyData = req.body;
+    try {
+        const reply = await Post.replyToComment(postId, commentId, newReplyData);
+        res.status(201).send(reply);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error replying to comment");
+    }
+};
+
+const getRepliesByComment = async (req, res) => {
+    const commentId = parseInt(req.params.id);
+    try {
+        const replies = await Post.getRepliesByComment(commentId);
+        if (!replies) {
+            // If the user has not liked the post, return an error
+            return res
+                .status(400)
+                .json({ error: "There are not replies to this comment" });
+        }
+        res.json(replies);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving replies");
     }
 };
 
@@ -200,5 +352,15 @@ module.exports = {
     sortPostsByNewest,
     sortPostsByOldest,
     getTrendingTopics,
-    reportPost
+    reportPost,
+    likePost,
+    unlikePost,
+    getCommentsByPost,
+    getCommentById,
+    createComment,
+    updateComment,
+    deleteComment,
+    reportComment,
+    replyToComment,
+    getRepliesByComment,
 };

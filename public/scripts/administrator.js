@@ -1,66 +1,139 @@
 document.addEventListener("DOMContentLoaded", function () {
-    async function loadReports() {
-        const reportsResponse = await fetch("/reports");
-        const reports = await reportsResponse.json();
-        // console.log(reports);
+    async function loadPostReports() {
+        const postReportsResponse = await fetch("/reports/posts");
+        const postReports = await postReportsResponse.json();
+        // console.log(postReports);
 
-        const reportsList = document.getElementsByClassName("reports-list")[0];
-        const reportCardTemplate =
-            document.getElementsByClassName("report-card")[0];
+        const postReportsList =
+            document.getElementsByClassName("post-reports-list")[0];
+        const postReportCardTemplate =
+            document.getElementsByClassName("post-report-card")[0];
+        postReportsList.replaceChildren(postReportCardTemplate);
 
-        for (let report of reports) {
+        for (let postReport of postReports) {
             const postResponse = await fetch(
-                `/communityforum/${report.postId}`
+                `/communityforum/${postReport.postId}`
             );
             const post = await postResponse.json();
             // console.log(post);
 
-            let newReportCard = reportCardTemplate.cloneNode(true);
-            reportsList.appendChild(newReportCard);
+            let newPostReportCard = postReportCardTemplate.cloneNode(true);
+            postReportsList.appendChild(newPostReportCard);
 
-            newReportCard.querySelector(".post-title").innerText = post.title;
-            newReportCard.querySelector(".post-likes").innerText = post.likes;
-            newReportCard.querySelector(".post-description").innerText =
+            newPostReportCard.querySelector(".post-title").innerText =
+                post.title;
+            newPostReportCard.querySelector(".post-likes").innerText =
+                post.likes;
+            newPostReportCard.querySelector(".post-description").innerText =
                 post.description;
 
             const originalPosterResponse = await fetch(`/users/${post.userId}`);
             const originalPoster = await originalPosterResponse.json();
-            newReportCard.querySelector(".original-poster").innerText =
+            newPostReportCard.querySelector(".original-poster").innerText =
                 originalPoster.username;
 
-            newReportCard.querySelector(".post-comments").innerText =
+            newPostReportCard.querySelector(".post-comments").innerText =
                 post.comments;
 
             const topicResponse = await fetch(
                 `/communityforum/topics/${post.topicId}`
             );
             const topic = await topicResponse.json();
-            newReportCard.querySelector(".post-topics").innerText = topic.topic;
+            newPostReportCard.querySelector(".post-topics").innerText =
+                topic.topic;
 
-            newReportCard.querySelector(".date-posted").innerText =
+            newPostReportCard.querySelector(".date-posted").innerText =
                 post.dateCreated.slice(0, 10) +
                 " " +
                 post.dateCreated.slice(11, 19) +
                 post.dateCreated.slice(23);
 
-            newReportCard.querySelector(".date-reported").innerText =
-                report.dateReported.slice(0, 10) +
+            newPostReportCard.querySelector(".date-reported").innerText =
+                postReport.dateReported.slice(0, 10) +
                 " " +
-                report.dateReported.slice(11, 19) +
-                report.dateReported.slice(23);
+                postReport.dateReported.slice(11, 19) +
+                postReport.dateReported.slice(23);
 
-            const reporterResponse = await fetch(`/users/${report.userId}`);
-            const reporter = await reporterResponse.json();
-            newReportCard.querySelector(".post-reporter").innerText =
-                reporter.username;
+            const postReporterResponse = await fetch(
+                `/users/${postReport.userId}`
+            );
+            const postReporter = await postReporterResponse.json();
+            newPostReportCard.querySelector(".post-reporter").innerText =
+                postReporter.username;
 
-            newReportCard.querySelector(".report-reason").innerText =
-                report.reason;
+            newPostReportCard.querySelector(".report-reason").innerText =
+                postReport.reason;
 
-            newReportCard.classList.remove("hidden");
+            newPostReportCard.classList.remove("hidden");
         }
 
-        // reportCardTemplate.classList.add("hidden");
+        // PostReportCardTemplate.classList.add("hidden");
+    }
+
+    async function loadCommentReports() {
+        const commentReportsResponse = await fetch("/reports/comments");
+        const commentReports = await commentReportsResponse.json();
+        // console.log(commentReports);
+
+        const commentReportsList = document.getElementsByClassName(
+            "comment-reports-list"
+        )[0];
+        const commentReportCardTemplate = document.getElementsByClassName(
+            "comment-report-card"
+        )[0];
+        commentReportsList.replaceChildren(commentReportCardTemplate);
+
+        for (let commentReport of commentReports) {
+            console.log(commentReport);
+            const commentResponse = await fetch(
+                `/communityforum/comments/${commentReport.commentId}`
+            );
+            const comment = await commentResponse.json();
+            // console.log(comment);
+
+            let newCommentReportCard =
+                commentReportCardTemplate.cloneNode(true);
+            commentReportsList.appendChild(newCommentReportCard);
+
+            newCommentReportCard.querySelector(".comment-likes").innerText =
+                comment.likes;
+            newCommentReportCard.querySelector(".comment-body").innerText =
+                comment.description;
+
+            const originalCommenterResponse = await fetch(
+                `/users/${comment.userId}`
+            );
+            const originalCommenter = await originalCommenterResponse.json();
+            newCommentReportCard.querySelector(
+                ".original-commenter"
+            ).innerText = originalCommenter.username;
+
+            newCommentReportCard.querySelector(".date-commented").innerText =
+                comment.dateCreated.slice(0, 10) +
+                " " +
+                comment.dateCreated.slice(11, 19) +
+                comment.dateCreated.slice(23);
+
+            newCommentReportCard.querySelector(".date-reported").innerText =
+                commentReport.dateReported.slice(0, 10) +
+                " " +
+                commentReport.dateReported.slice(11, 19) +
+                commentReport.dateReported.slice(23);
+
+            const commentReporterResponse = await fetch(
+                `/users/${commentReport.userId}`
+            );
+            const commentReporter = await commentReporterResponse.json();
+            newCommentReportCard.querySelector(".comment-reporter").innerText =
+                commentReporter.username;
+
+            newCommentReportCard.querySelector(".report-reason").innerText =
+                commentReport.reason;
+
+            newCommentReportCard.classList.remove("hidden");
+        }
+
+        // CommentReportCardTemplate.classList.add("hidden");
     }
 
     async function loadMessages() {
@@ -72,6 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementsByClassName("messages-list")[0];
         const messageCardTemplate =
             document.getElementsByClassName("message-card")[0];
+        messagesList.replaceChildren(messageCardTemplate);
 
         for (let message of messages) {
             // console.log(message);
@@ -94,15 +168,24 @@ document.addEventListener("DOMContentLoaded", function () {
         // messageCardTemplate.classList.add("hidden");
     }
 
-    const reportsTab = document.getElementsByClassName("admin-reports-tab")[0];
-    reportsTab.addEventListener("click", loadReports);
+    const postReportsTab = document.getElementsByClassName(
+        "admin-post-reports-tab"
+    )[0];
+    postReportsTab.addEventListener("click", loadPostReports);
+
+    const commentReportsTab = document.getElementsByClassName(
+        "admin-comment-reports-tab"
+    )[0];
+    commentReportsTab.addEventListener("click", loadCommentReports);
 
     const messagesTab =
         document.getElementsByClassName("admin-messages-tab")[0];
     messagesTab.addEventListener("click", loadMessages);
 
-    if (reportsTab.classList.contains("active")) {
-        loadReports();
+    if (postReportsTab.classList.contains("active")) {
+        loadPostReports();
+    } else if (commentReportsTab.classList.contains("active")) {
+        loadCommentReports();
     } else if (messagesTab.classList.contains("active")) {
         loadMessages();
     }

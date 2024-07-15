@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ReThink Events - Participate</title>
+    
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link href="../styles/style.css" rel="stylesheet">
+        <link href="../styles/participate-event.css" rel="stylesheet">
+        <link href="../styles/nav.css" rel="stylesheet">
+    </head>
+    
+    <body>
+        <!-- Navbar -->
+        <header>
+            <div class="nav-container">
+                <div class="nav-left">
+                    <a href="../index.html"><img src="../images/logo/ReThink Logo - Green.png" alt="Logo" class="logo"></a>
+                </div>
+                <div class="nav-right">
+                    <ul class="nav-links">
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="about-us.html">About</a></li>
+                        <li><a href="#">Articles</a></li>
+                        <li class="dropdown">
+                            <a href="#">Community</a>
+                            <div class="dropdown-content">
+                                <a href="community-forum.html">Community Forum</a>
+                                <a href="event.html">Events</a>
+                                <a href="#">Donation</a>
+                            </div>
+                        </li>
+                        <li><a href="#">Carbon Footprint Calculator</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li class="user-dropdown" id="user-dropdown">
+                            <div class="profile-pic">
+                                <!-- Initially hidden, shown after login -->
+                                <img src="images/logo/ReThink Logo - Beige.png" alt="Profile Picture" class="avatar">
+                            </div>
+                            <div class="dropdown-content">
+                                <a href="#">Profile</a>
+                                <a href="#">Settings</a>
+                                <a href="#">Notifications</a>
+                                <a href="#" id="logout-button">Logout</a>
+                            </div>
+                        </li>
+                        <li class="login-btn-pop" id="login-button-nav"><a href="#">Login</a></li>
+                    </ul>
+                </div>
+                <!-- Menu button for mobile menu -->
+                <div class="icon menu-btn">
+                    <i class="fa fa-bars"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Login and Register Pop-up -->
+        <div class="wrapper-container">
+            <div id="login-container" class="wrapper">
+                <!-- Close button -->
+                <span class="icon-close">x</span>
+                
+                <!-- Login form -->
+                <div class="form-box login active">
+                    <h2>Sign In</h2>
+                    <form id="login-form" action="/users/login" method="POST">
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                            <input type="email" id="login-email" required>
+                            <label>Email</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                            <input type="password" id="login-password" required>
+                            <label>Password</label>
+                        </div>
+                        <div class="remember-forgot">
+                            <p>Forgot Password?</p>
+                        </div>
+                        <button type="submit" class="btn" id="login-button">Sign In</button>
+                        <div class="login-register">
+                            <p>Don't have an account? <a href="#" class="register-link">Register</a></p>
+                            <p>Are you a staff? <a href="#" class="staff-login-link">Staff Sign In</a></p>
+                        </div>
+                    </form>
+                </div>
+        
+                <!-- Staff Login form -->
+                <div class="form-box staff-login">
+                    <h2>Staff Sign In</h2>
+                    <form id="staff-login-form">
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="person"></ion-icon></span>
+                            <input type="text" id="staff-id" required>
+                            <label for="staff-id">Staff ID</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                            <input type="password" id="staff-password" required>
+                            <label for="staff-password">Password</label>
+                        </div>
+                        <button type="button" class="btn" id="staff-login-button">Staff Sign In</button>
+                        <div class="login-register">
+                            <p>Are you a user? <a href="#" class="login-link">User Sign In</a></p>
+                        </div>
+                    </form>
+                </div>
+        
+                <!-- Registration form -->
+                <div class="form-box register">
+                    <h2>Registration</h2>
+                    <form id="register-form" action="/users" method="POST">
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="person"></ion-icon></span>
+                            <input type="text" id="register-name" required>
+                            <label for="register-name">Username</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="mail"></ion-icon></span>
+                            <input type="email" id="register-email" required>
+                            <label for="register-email">Email</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                            <input type="password" id="register-password" required>
+                            <label for="register-password">Password</label>
+                        </div>
+                        <button type="submit" class="btn" id="register-button">Register</button>
+                        <div class="login-register">
+                            <p>Already have an account? <a href="#" class="login-link">Login</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Details -->
+        <main>
+            <div class="container mt-5">
+            <h1 class="text-center">Event Title</h1>
+            <div class="card mt-4 event-card">
+                <div class="row">
+                    <div class="col-md-5">
+                        <img src="https://via.placeholder.com/150" class="card-img" alt="Event Image">
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li><strong>Event Posted on:</strong> (Date/Time)</li>
+                                <li><strong>Event Begins on:</strong> (Date/Time)</li>
+                                <li><strong>Status:</strong> Open/Closed/Cancelled</li>
+                                <li><strong>Event Held at:</strong> (Location)</li>
+                            </ul>
+                        </div>
+                        <div class="position-absolute top-0 end-0 m-3">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Event Details & Description</h5>
+                    <p class="card-text">Details about the event will be displayed here.</p>
+                    <div class="text-end">
+                        <button class="btn btn">
+                            <i class="bi bi-hand-thumbs-up-fill"></i> Like
+                        </button>
+                        <button class="btn participate-btn">Participate in Event</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+    
+        <!-- Scripts -->
+        <script src="../scripts/login-popup.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+    </body>
+</html>
