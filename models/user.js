@@ -1,6 +1,6 @@
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 class User {
     constructor(
@@ -21,51 +21,14 @@ class User {
         this.passwordHash = passwordHash;
     }
 
-    static async getUserById(userId) {
-        const connection = await sql.connect(dbConfig);
-
-        const sqlQuery = "SELECT * FROM Users WHERE userId = @userId";
-
-        const request = connection.request();
-        request.input("userId", userId);
-        const result = await request.query(sqlQuery);
-
-        connection.close();
-
-        return result.recordset[0]
-            ? new User(
-                  result.recordset[0].userId,
-                  result.recordset[0].username,
-                  result.recordset[0].email,
-                  result.recordset[0].location,
-                  result.recordset[0].bio,
-                  result.recordset[0].profilePicture,
-                  result.recordset[0].passwordHash
-              )
-            : null;
-    }
-
     static async getAllUsers() {
-        const connection = await sql.connect(dbConfig);
-
-        const sqlQuery = "SELECT * FROM Users";
-
-        const request = connection.request();
-        const result = await request.query(sqlQuery);
-
-        connection.close();
-        return result.recordset.map(
-            (row) =>
-                new User(
-                    row.userId,
-                    row.username,
-                    row.email,
-                    row.location,
-                    row.bio,
-                    row.profilePicture,
-                    row.passwordHash
-                )
-        );
+        try {
+            let pool = await sql.connect(dbConfig);
+            let users = await pool.request().query("SELECT * FROM Users");
+            return users.recordset;
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     static async authenticateUser(email, password) {
@@ -96,6 +59,64 @@ class User {
             user.email,
             user.passwordHash
         );
+    }
+
+    static async getUserByUsername(username) {
+        try {
+            let pool = await sql.connect(dbConfig);
+            let user = await pool
+                .request()
+                .input("username", username)
+                .query("SELECT * FROM Users WHERE username = @username");
+            return user.recordset[0];
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    static async getUserByEmail(email) {
+        try {
+            let pool = await sql.connect(dbConfig);
+            let user = await pool
+                .request()
+                .input("email", email)
+                .query("SELECT * FROM Users WHERE email = @email");
+            return user.recordset[0];
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    static async createUser(username, email, passwordHash) {
+        try{
+            let pool = await sql.connect(dbConfig);
+            let user = await pool
+                .request()
+                .input("username", username)
+                .input("email", email)
+                .input("passwordHash", passwordHash)
+                .input("role", "member")
+                .query(
+                    "INSERT INTO Users (username, email, passwordHash, role) VALUES (@username, @email, @passwordHash, @role); SELECT SCOPE_IDENTITY() AS id;"
+                );
+                console.log("Insert result:", user);
+            return user.recordset[0];
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    static async deleteUser(userId) {
+        try {
+            let pool = await sql.connect(dbConfig);
+            let user = await pool
+                .request()
+                .input("userId", userId)
+                .query("DELETE FROM Users WHERE userId = @userId");
+            return user;
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     static async registerUser(newUserData) {
