@@ -145,10 +145,15 @@
         <main>
             <div class="container mt-3">
             <h1 class="text-center">Host Event</h1>
-            <div class="card mt-4 p-4 host-event-card">
+            <div class="card mt-4 p-4 host-event-card mb-4">
                 <form id="hostEventForm">
                     <div class="mb-3">
                         <label for="eventImage" class="form-label">Choose a suitable image for your event:</label>
+                        <div class="mb-3">
+                            <div class="image-preview-container">
+                                <img id="imagePreview" src="#" alt="Image Preview" style="display: none; " />
+                            </div>
+                        </div>
                         <input type="file" class="form-control" id="eventImage" name="eventImage" aria-describedby="imageHelp" required>
                     </div>
                     <div class="mb-3">
@@ -185,6 +190,7 @@
         </footer>
 
         <script src="../scripts/login-popup.js"></script>
+        <script src="../scripts/host-event.js"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
