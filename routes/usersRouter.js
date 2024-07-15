@@ -8,12 +8,15 @@ const router = express.Router();
 // Importing Controllers
 const usersController = require("../controllers/usersController.js");
 
+// Middleware
+const verifyJWT = require('../middlewares/verifyJWT.js');
+
 //User Routes
-router.get("/", usersController.getAllUsers);
-router.post("/", usersController.registerUser);
+router.get("/", verifyJWT, usersController.getAllUsers);
+router.get("/:username", usersController.getUserByUserName);
+router.post("/register", usersController.registerUser);
 router.post("/login", usersController.loginUser);
 //router.post("/users/logout", usersController.logoutUser);
 router.get("/count", usersController.getUserCount);
-router.get("/:id", usersController.getUserById);
 
 module.exports = router; // Export the router
