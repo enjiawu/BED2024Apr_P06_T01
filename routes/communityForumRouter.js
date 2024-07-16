@@ -48,10 +48,12 @@ router.put("/unlike-post/:id", validateLikes, postsController.unlikePost); // Un
 // Comment routes
 router.get("/:id/comments", postsController.getCommentsByPost); // Get all comments for a post by post id
 router.post("/:id/comments", validateCommunityForumComment, postsController.createComment); // Add a comment to a post by post id
+router.get("/comments/:id", postsController.getCommentById); // Get a specific comment by ID
 router.put(":postId/comments/:commentId", validateCommunityForumComment, postsController.updateComment); // Update a comment by comment id
 router.delete("/comments/:id", postsController.deleteComment); // Delete a comment by comment id
 router.post(":postId/comments/:commentId/reply", validateCommunityForumComment, postsController.replyToComment); // Reply to a comment by parent comment id
 router.get("comments/:id/replies", postsController.getRepliesByComment); // Get all replies to a comment by parent comment id
+
 
 // Report Routes
 router.post("/report-post", validateCommunityForumPostReport, postsController.reportPost); // Get all reports

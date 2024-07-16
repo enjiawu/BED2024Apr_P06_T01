@@ -1,21 +1,21 @@
 // routes.js
 const express = require("express");
 const communityForumRouter = require("../routes/communityForumRouter");
-const postReportsRouter = require("../routes/postReportsRouter");
-const commentReportsRouter = require("../routes/commentReportsRouter");
+const reportsRouter = require("../routes/reportsRouter");
 const usersRouter = require("../routes/usersRouter");
+const staffsRouter = require("../routes/staffsRouter"); // Correct import
 const eventsRouter = require("../routes/eventsRouter");
 const messagesRouter = require("../routes/messagesRouter");
 const repliesRouter = require("../routes/repliesRouter");
 const calculateCarbonFootprintRouter = require("../routes/carbonFootprintCalculatorRouter");
 
-module.exports = function (app) {
+module.exports = function(app) {
     app.use(express.json());
 
     app.use("/communityforum", communityForumRouter);
-    app.use("/post-reports", postReportsRouter);
-    app.use("/comment-reports", commentReportsRouter);
+    app.use("/reports", reportsRouter);
     app.use("/users", usersRouter);
+    app.use("/staffs", staffsRouter); // Correct usage
     app.use("/events", eventsRouter);
     app.use("/messages", messagesRouter);
     app.use("/replies", repliesRouter);

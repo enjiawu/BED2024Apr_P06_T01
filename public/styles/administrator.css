@@ -12,13 +12,15 @@ img {
     margin-top: 10px;
 }
 
-.report-card,
+.post-report-card,
+.comment-report-card,
 .message-card {
     background-color: #ede3d2;
 }
 
 .ignore-button,
 .remove-button,
+.view-post-button,
 .reply-button {
     color: #ede3d2;
     background-color: #414833;
@@ -29,10 +31,22 @@ img {
 .remove-button:hover,
 .remove-button:active,
 .reply-button:hover,
+.reply-button:active,
 :not(.btn-check) + .reply-button:active {
     color: #ede3d2;
     background-color: #737a5d;
     border-color: #737a5d;
+}
+
+.view-post-button {
+    flex-basis: content;
+    /* color: #fff; */
+    background-color: #737a5d;
+}
+
+.view-post-button:hover,
+.view-post-button:active {
+    background-color: #a4ac86;
 }
 
 .text-body-secondary {
