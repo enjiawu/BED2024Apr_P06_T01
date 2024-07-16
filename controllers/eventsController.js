@@ -25,7 +25,24 @@ const getEventById = async (req, res) => {
 };
 
 const createEvent = async (req, res) => {
-    const newEvent = req.body;
+    const { title, description, datePosted, startDate, startTime, location, userId, username } = req.body;
+
+    // Handle file upload here if needed (store path or other metadata in database)
+
+    const newEvent = {
+        image: "../uploads/" + req.file.filename, // Store the file path in the database if image was uploaded
+        title,
+        description,
+        datePosted,
+        startDate,
+        startTime,
+        location,
+        status: 'Pending',
+        userId,
+        username,
+    };
+ 
+
     try {
         const createdEvent = await Event.createEvent(newEvent);
         res.status(201).send(createdEvent);
@@ -36,18 +53,34 @@ const createEvent = async (req, res) => {
 };
 
 const updateEvent = async (req, res) => {
-    const newEvent = req.body;
-    const eventId = parseInt(req.params.id);
+    const eventId = req.params.id;
+    const { title, description, startDate, startTime, status, location } = req.body;
+    let image;
+
+    if (req.file) {
+        image = req.file.filename;
+    } else {
+        // Fetch existing image from the database if no new image is uploaded
+        const existingEvent = await Event.getEventById(eventId);
+        image = existingEvent.image;
+    }
+
+    const updatedEvent = {
+        image: "../uploads/" + req.file.filename,
+        title,
+        description,
+        startDate,
+        startTime,
+        status,
+        location
+    };
 
     try {
-        const event = await Event.updateEvent(eventId, newEvent);
-        if (!event) {
-            return res.status(404).send("Event not found");
-        }
-        res.json(event);
+        const event = await Event.updateEvent(eventId, updatedEvent);
+        res.status(200).send(event);
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Error updating event");
+        console.error('Error updating event:', error);
+        res.status(500).send('Failed to update event');
     }
 };
 

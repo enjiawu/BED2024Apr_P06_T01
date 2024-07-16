@@ -146,69 +146,73 @@
         <!-- Event Details -->
         <main>
             <h2 class="edit-event-header mt-3">Edit Event</h2>
-            <div class="edit-event-container">
-                <div class="form-group text-center mb-3">
-                    <input type="text" class="form-control text-center" id="eventTitle" placeholder="Event Title">
-                </div>
-                <div class="row">
-                    <div class="col">
-                      <div class="card event-card mb-3">
-                        <div class="card-body"> 
-                            <div class="form-group">
-                                <label for="eventImage">Event Thumbnail/Image</label>
-                                <img src="https://via.placeholder.com/500x500" alt="Event Thumbnail" id="eventImage" class="img-fluid mb-2">
-                                <div class="custom-file">
-                                    <input type="file" class="form-control" id="customFile">
+            <form id="editEventForm" enctype="multipart/form-data">
+                <div class="edit-event-container">
+                    <div class="form-group text-center mb-3">
+                        <input type="text" class="form-control text-center" id="eventTitle" placeholder="Event Title" name="title">
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                          <div class="card event-card mb-3">
+                            <div class="card-body"> 
+                                <div class="form-group">
+                                    <label for="eventImage">Event Thumbnail/Image</label>
+                                    <img src="https://via.placeholder.com/500x500" alt="Event Thumbnail" id="eventImage" class="img-fluid mb-2">
+                                    <div class="custom-file">
+                                        <input type="file" class="form-control" id="customImage" name="image">
+                                    </div>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <textarea class="form-control" id="eventDetails" placeholder="Event Details & Description" name="description"></textarea>
                                 </div>
                             </div>
-                            <div class="form-group mt-3">
-                                <textarea class="form-control" id="eventDetails" placeholder="Event Details & Description"></textarea>
-                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="col">
-                    <div class="card event-card">
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="eventDate">Event Host Date</label>
-                                <input type="date" class="form-control" id="eventDate">
-                            </div>
-                            <div class="form-group">
-                                <label for="eventTime">Event Host Time</label>
-                                <input type="time" class="form-control" id="eventTime">
+    
+                    <div class="col">
+                        <div class="card event-card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="eventDate">Event Host Date</label>
+                                    <input type="date" class="form-control" id="eventDate" name="startDate">
+                                </div>
+                                <div class="form-group">
+                                    <label for="eventTime">Event Host Time</label>
+                                    <input type="time" class="form-control" id="eventTime" name="startTime">
+                                </div>
                             </div>
                         </div>
+    
+                        <div class="card status-and-location">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="eventStatus">Status:</label>
+                                    <select id="eventStatus" name="status">
+                                        <option>Open</option>
+                                        <option>Closed</option>
+                                        <option>Cancelled</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label for="eventLocation">Location</label>
+                                    <input type="text" class="form-control" id="eventLocation" placeholder="Edit Location" name="location">
+                                </div>
+                            </div>
+                        </div>   
                     </div>
-
-                    <div class="card status-and-location">
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="eventStatus">Status:</label>
-                                <select id="eventStatus">
-                                    <option>Open</option>
-                                    <option>Closed</option>
-                                    <option>Cancelled</option>
-                                </select>
-                            </div>
-                            <div class="form-group mt-3">
-                                <label for="eventLocation">Location</label>
-                                <input type="text" class="form-control" id="eventLocation" placeholder="Edit Location">
-                            </div>
-                        </div>
-                    </div>   
                 </div>
-            </div>
-            <div class="text-center">
-                <button type="submit" class="btn updateBtn">Update Event</button>
-            </div>
+                <div class="text-center">
+                    <button type="submit" class="btn updateBtn">Update Event</button>
+                </div>
+            </form>
+            <div id="feedback" class="text-center mt-3"></div>
         </main>
           
         
     
         <!-- Scripts -->
         <script src="../scripts/login-popup.js"></script>
+        <script src="../scripts/edit-event.js"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
