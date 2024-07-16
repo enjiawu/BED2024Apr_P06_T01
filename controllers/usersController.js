@@ -12,6 +12,16 @@ const getAllUsers = async (req, res) => {
     }
 };
 
+const getUserByUserId = async (req, res) => {
+    try{
+        const user = await User.getUserById(req.params.userId);
+        res.json(user);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Cannot retrieve user ID");
+    }
+};
+
 const getUserByUserName = async (req, res) => {
     try{
         const user = await User.getUserByUsername(req.params.username);
@@ -32,14 +42,15 @@ const getUserByEmail = async (req, res) => {
     }
 }
 
+// Updating the profile if it belongs to the user
 const updateUser = async (req, res) => {
+    const newUserData = req.body;
+    const userId = parseInt(req.params.id);
     try {
-        const user = await User.updateUser(
-            req.params.username,
-            req.body.email,
-            req.body.password,
-            req.body.role
-        );
+        const user = await User.updateProfile(userId, newUserData);
+        if (!user){
+            return res.status(404).json({error: "user not found"})
+        }
         res.json(user);
     } catch (error) {
         console.log(error);
@@ -132,6 +143,7 @@ const getUserCount = async (req, res) => {
 
 module.exports = {
     getAllUsers,
+    getUserByUserId,
     getUserByUserName,
     getUserByEmail,
     updateUser,
