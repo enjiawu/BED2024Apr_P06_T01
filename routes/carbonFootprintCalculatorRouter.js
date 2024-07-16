@@ -12,6 +12,6 @@ const carbonFootprintCalculatorController = require("../controllers/carbonFootpr
 const validateCarbonFootprint = require("../middlewares/validateCarbonFootprint.js");
 
 // Calculate carbon footprint route
-router.get("/",validateCarbonFootprint, carbonFootprintCalculatorController.calculateCarbonFootprint); // Calculate carbon footprint
+router.post("/",validateCarbonFootprint, carbonFootprintCalculatorController.calculateCarbonFootprint); // Calculate carbon footprint
 
 module.exports = router; // Export the router

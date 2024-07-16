@@ -26,16 +26,24 @@ function formatDate(dateString) {
 }
 
 function formatTime(timeString) {
-    const time = new Date(timeString);
+    const timeWithoutMilliseconds = timeString.split('.')[0]; // Remove milliseconds if present
+    const time = new Date(timeWithoutMilliseconds);
+    const hours = time.getHours();
+    const minutes = time.getMinutes().toString().padStart(2, '0'); // Ensure two-digit minutes
 
-    const timeOptions = {
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-        hour12: true
-    };
+    let period = 'AM';
+    let formattedHours = hours;
 
-    return time.toLocaleTimeString('en-US', timeOptions);
+    if (hours === 0) {
+        formattedHours = 12; // Midnight
+    } else if (hours === 12) {
+        period = 'PM'; // Noon
+    } else if (hours > 12) {
+        formattedHours = hours - 12;
+        period = 'PM';
+    }
+
+    return `${formattedHours}:${minutes} ${period}`;
 }
 
 // Render events on the page
@@ -57,27 +65,37 @@ function renderEvents(events) {
             <div class="d-flex">
                 <img src="${event.image}" class="card-img" style="width: 160px; height: 160px; margin: 7.5px;" alt="Event Image">
                 <div class="flex-grow-1">
-                    <h5 class="mt-2"><strong>${event.title}</strong></h5>
-                    <p>Hosted by: ${event.username}</p>
-                    <p class="event-desc">${event.description}</p>
+                    <a href="participate-event.html?id=${event.eventId}" class="event-card-link">
+                        <h5 class="mt-2"><strong>${event.title}</strong></h5>
+                        <p>Hosted by: ${event.username}</p>
+                        <p class="event-desc">${event.description}</p>
+                    </a>     
                 </div>
-                <div class="text-end">
-                    <button class="btn btn">
-                        <i class="bi bi-hand-thumbs-up-fill"></i> ${event.likes}
+                <div class="event-details text-end">
+                    <button class="btn btn likeBtn">
+                        <i class="bi bi-hand-thumbs-up-fill"></i> <span class="likeCount">${event.likes}</span>
                     </button>
-                </div>
-                <div>
                     <p class="mt-1">Status: ${event.status}</p>
-                    <p>Date and Time of Event: ${formatDate(event.startDate) + ' ' + formatTime(event.startTime)}</p>
-                </div>  
+                    <p>Date & Time of Event: ${formatDate(event.startDate) + ' ' + formatTime(event.startTime)}</p>
+                </div>
             </div>
         `;
         eventsContainer.appendChild(eventCard);
+
+        // const likeBtn = document.querySelector('.likeBtn');
+        // const likeCount = document.querySelector('.likeCount');
+
+        // likeBtn.addEventListener('click', () => {
+        //     if (!likeBtn.disabled) {
+        //         event.likes += 1;
+        //         likeCount.textContent = event.likes;
+        //         likeBtn.disabled = true;
+        //     } 
+        // });
     });
 }
 
 async function searchEvents(searchTerm) {
-    console.log("Fetching event by status: ", status)
     try {
         const response = await fetch(`/events/search?searchTerm=${searchTerm}`);
         if (!response.ok) {
