@@ -151,7 +151,7 @@ Rethink is a web platform designed to foster community engagement and promote su
 2. **Install Dependencies:**
    
    ```bash
-   npm install axios bcrypt bcryptjs body-parser dotenv env express joi mssql nodemon swagger nodemailer swagger-autogen swagger-ui-express
+   npm install axios bcrypt bcryptjs body-parser dotenv env express joi mssql nodemon swagger nodemailer swagger-autogen swagger-ui-express multer path
 
 3. **Start the server::**
 
