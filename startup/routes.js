@@ -8,8 +8,9 @@ const eventsRouter = require("../routes/eventsRouter");
 const messagesRouter = require("../routes/messagesRouter");
 const repliesRouter = require("../routes/repliesRouter");
 const calculateCarbonFootprintRouter = require("../routes/carbonFootprintCalculatorRouter");
+const articlesRouter = require("../routes/articlesRouter");
 
-module.exports = function(app) {
+module.exports = function (app) {
     app.use(express.json());
 
     app.use("/communityforum", communityForumRouter);
@@ -20,4 +21,5 @@ module.exports = function(app) {
     app.use("/messages", messagesRouter);
     app.use("/replies", repliesRouter);
     app.use("/calculatecarbonfootprint", calculateCarbonFootprintRouter);
-}
+    app.use("/articles", articlesRouter);
+};
