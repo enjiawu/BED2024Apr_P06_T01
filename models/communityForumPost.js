@@ -169,7 +169,7 @@ class CommunityForumPost {
         connection.close();
 
         return result.recordset[0] ? result.recordset.map(
-            row => new communityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
+            row => new CommunityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
         ) : null;
     }
 
@@ -529,7 +529,7 @@ Sort Community Posts: Arrange posts according to different criteria such as: [X]
 - Oldest posts
 
 Interacting with Posts:
-- View Post Details: Click on a post to see its full content, including text, images.
+- View Post Details: Click on a post to see its full content.
 - Like Posts: Express appreciation or agreement by liking a post. Each user account can like a post once.
 - Comment on Posts: Share thoughts, ask questions, or provide feedback on posts. Users can engage in discussions related to the post content.
 - Reply to Comments: Respond directly to comments made by other users, fostering deeper conversations.

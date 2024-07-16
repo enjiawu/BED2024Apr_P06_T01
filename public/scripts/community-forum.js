@@ -79,7 +79,7 @@ async function formatPost(post, postList){
     postDateAuthorContainer.appendChild(postDate);
 
     // Getting user name from the user id
-    const userResponse = await fetch(`/users/${post.userId}`);
+    const userResponse = await fetch(`/users/profile/${post.userId}`);
     const userData = await userResponse.json();
 
     const postAuthor = document.createElement("a");
