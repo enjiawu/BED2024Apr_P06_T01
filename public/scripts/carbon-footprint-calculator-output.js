@@ -14,11 +14,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const chart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Car Travel', 'Public Transport', 'Flight', 'Motor Bike', 'Tree Equivalent', 'Total Carbon Footprint'],
+            labels: ['Car Travel', 'Public Transit', 'Flight', 'Motor Bike', 'Tree Equivalent', 'Total Carbon Footprint'],
             datasets: [
             {
                 label: 'Your Carbon Footprint',
-                data: [individualCF[0], individualCF[1], individualCF[2], individualCF[3], treeEquivalent, totalCarbonFootprint],
+                data: [individualCF[0], individualCF[3], individualCF[1], individualCF[2], treeEquivalent, totalCarbonFootprint],
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1,
