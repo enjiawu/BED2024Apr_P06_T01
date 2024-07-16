@@ -183,48 +183,45 @@ const reportPost = async (req, res) => {
     }
 };
 
-// Likes for the post if the
-const likePost = async (req, res) => {
+// Check if user has liked the post
+const getLikeByUser = async (req, res) => {
+    const postId = parseInt(req.params.postId);
+    const userId = parseInt(req.params.userId);
+    try {
+        const like = await Post.getLikeByUser(postId, userId);
+        res.json(like);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving like");
+    }
+
+}
+
+// Like / unlike the post
+const modifyLike = async (req, res) => {
     const postId = parseInt(req.params.id);
     const userId = req.body.userId;
+
     try {
-        // Check if the user has already liked the post
         const existingLike = await Post.getLikeByUser(postId, userId);
         if (existingLike) {
-            // If the user has already liked the post, return an error
-            return res.status(400).json({ error: "Post already liked" });
+            // Unlike the post
+            const post = await Post.unlikePost(postId, userId);
+            if (!post) {
+                return res.status(404).json({ error: "Post not found" });
+            }
+            res.json({ success: true, status: 'unliked', likes: post.likes });
+        } else {
+            // Like the post
+            const post = await Post.likePost(postId, userId);
+            if (!post) {
+                return res.status(404).json({ error: "Post not found" });
+            }
+            res.json({ success: true, status: 'liked', likes: post.likes });
         }
-
-        const post = await Post.likePost(postId, userId);
-        if (!post) {
-            return res.status(404).json({ error: "Post not found" });
-        }
-        res.json(post);
     } catch (error) {
         console.error(error);
-        res.status(500).send("Error liking post");
-    }
-};
-
-const unlikePost = async (req, res) => {
-    const postId = parseInt(req.params.id);
-    const userId = req.body.userId;
-    try {
-        // Check if the user has already liked the post
-        const existingLike = await Post.getLikeByUser(postId, userId);
-        if (!existingLike) {
-            // If the user has not liked the post, return an error
-            return res.status(400).json({ error: "Post already not liked" });
-        }
-
-        const post = await Post.unlikePost(postId, userId);
-        if (!post) {
-            return res.status(404).json({ error: "Post not found" });
-        }
-        res.json(post);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Error unliking post");
+        res.status(500).json({ error: "Error liking/unliking post" });
     }
 };
 
@@ -353,8 +350,8 @@ module.exports = {
     sortPostsByOldest,
     getTrendingTopics,
     reportPost,
-    likePost,
-    unlikePost,
+    getLikeByUser,
+    modifyLike,
     getCommentsByPost,
     getCommentById,
     createComment,
