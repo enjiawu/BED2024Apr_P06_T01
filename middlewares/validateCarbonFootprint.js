@@ -3,22 +3,22 @@ const Joi = require("joi");
 const validateCarbonFootprint = (req, res, next) => {
     const schema = Joi.object({
         carTravel: Joi.object({
-            distance: Joi.number().default(0),
-            vehicle: Joi.string().default('')
+          distance: Joi.number().default(0),
+          vehicle: Joi.string().default('').allow('', null) 
         }).default({ distance: 0, vehicle: '' }),
         flight: Joi.object({
-            distance: Joi.number().default(0),
-            type: Joi.string().default('')
+          distance: Joi.number().default(0),
+          type: Joi.string().default('').allow('', null)
         }).default({ distance: 0, type: '' }),
         motorBike: Joi.object({
-            type: Joi.string().default(''),
-            distance: Joi.number().default(0)
+          type: Joi.string().default('').allow('', null), 
+          distance: Joi.number().default(0)
         }).default({ type: '', distance: 0 }),
         publicTransport: Joi.object({
-            distance: Joi.number().default(0),
-            type: Joi.string().default('')
+          distance: Joi.number().default(0),
+          type: Joi.string().default('').allow('', null) 
         }).default({ distance: 0, type: '' })
-        });
+    });
 
     const validation = schema.validate(req.body, { abortEarly: false }); // Validate request body
 

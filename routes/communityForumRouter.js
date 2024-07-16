@@ -35,6 +35,10 @@ router.get("/sort-by-oldest", postsController.sortPostsByOldest); // Sort posts 
 router.get("/topics/:id", topicsController.getTopicById); // Get a specific topic by ID
 router.get("/posts-by-topic/:id", postsController.getPostsByTopic); // Get posts belonging to a specific topic
 
+// Other routes
+router.get("/search", postsController.searchPosts); // Search for posts based on criteria
+router.get("/trending-topics", postsController.getTrendingTopics); // Get the id and number of posts for the trending topics
+
 // Post modification routes
 router.get("/:id", postsController.getPostById); // Get a specific post by ID
 router.post("", validateCommunityForumPost, postsController.createPost); // Create a new forum post
@@ -59,8 +63,5 @@ router.get("comments/:id/replies", postsController.getRepliesByComment); // Get 
 router.post("/report-post", validateCommunityForumPostReport, postsController.reportPost); // Get all reports
 router.post("/report-comment", validateCommunityForumCommentReport, postsController.reportComment); // Report a comment
 
-// Other routes
-router.get("/search", postsController.searchPosts); // Search for posts based on criteria
-router.get("/trending-topics", postsController.getTrendingTopics); // Get the id and number of posts for the trending topics
 
 module.exports = router; // Export the router
