@@ -146,7 +146,7 @@
             <div class="container mt-3">
             <h1 class="text-center">Host Event</h1>
             <div class="card mt-4 p-4 host-event-card mb-4">
-                <form id="hostEventForm">
+                <form id="hostEventForm" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="eventImage" class="form-label">Choose a suitable image for your event:</label>
                         <div class="mb-3">
@@ -154,27 +154,27 @@
                                 <img id="imagePreview" src="#" alt="Image Preview" style="display: none; " />
                             </div>
                         </div>
-                        <input type="file" class="form-control" id="eventImage" name="eventImage" aria-describedby="imageHelp" required>
+                        <input type="file" class="form-control" id="eventImage" name="image" aria-describedby="imageHelp" required>
                     </div>
                     <div class="mb-3">
                         <label for="eventTitle" class="form-label">Event Title</label>
-                        <input type="text" class="form-control" id="eventTitle" name="eventTitle" required>
+                        <input type="text" class="form-control" id="eventTitle" name="title" required>
                     </div>
                     <div class="mb-3">
                         <label for="eventDescription" class="form-label">Event Description</label>
-                        <textarea class="form-control" id="eventDescription" name="eventDescription" rows="3" required></textarea>
+                        <textarea class="form-control" id="eventDescription" name="description" rows="3" required></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="eventDate" class="form-label">When would you like to host the event?</label>
-                        <input type="date" class="form-control" id="eventDate" name="eventDate" required>
+                        <input type="date" class="form-control" id="eventDate" name="startDate" required>
                     </div>
                     <div class="mb-3">
                         <label for="eventTime" class="form-label">Time</label>
-                        <input type="time" class="form-control" id="eventTime" name="eventTime" required>
+                        <input type="time" class="form-control" id="eventTime" name="startTime" required>
                     </div>
                     <div class="mb-3">
                         <label for="eventLocation" class="form-label">Where would you like to host the event?</label>
-                        <input type="text" class="form-control" id="eventLocation" name="eventLocation" required>
+                        <input type="text" class="form-control" id="eventLocation" name="location" required>
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn host-event-btn">Host Event</button>

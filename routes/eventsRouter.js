@@ -8,6 +8,8 @@ const router = express.Router();
 //Importing controllers
 const eventsController = require("../controllers/eventsController.js");
 
+const upload = require('../middlewares/fileUpload');
+
 //Event Routes
 router.get("/", eventsController.getAllEvents);
 router.get("/listed", eventsController.getListedEvents);
@@ -17,10 +19,10 @@ router.get("/count", eventsController.getEventCount);
 router.get("/search", eventsController.searchEvents);
 router.get("/status/:status", eventsController.getEventsByStatus);
 router.get("/:id", eventsController.getEventById);
-router.post("/", eventsController.createEvent);
+router.post("/", upload.single('image'), eventsController.createEvent);
 router.put("/approve/:id", eventsController.approveEvent);
 router.put("/deny/:id", eventsController.denyEvent);
-router.put("/:id", eventsController.updateEvent);
+router.put("/:id", upload.single('image'), eventsController.updateEvent);
 router.delete("/:id", eventsController.deleteEvent);
 
 module.exports = router; // Export the router

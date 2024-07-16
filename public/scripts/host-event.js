@@ -4,46 +4,24 @@ document.addEventListener('DOMContentLoaded', () => {
     hostEventForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        //const formData = new FormData(hostEventForm);
-        const eventTitle = document.getElementById('eventTitle').value;
-        const eventDescription = document.getElementById('eventDescription').value;
-        const eventDate = document.getElementById('eventDate').value;
-        const eventTime = document.getElementById('eventTime').value;
-        const eventLocation = document.getElementById('eventLocation').value;
+        const formData = new FormData(hostEventForm);
 
-        const eventImage = document.getElementById('eventImage').files[0]; // Assuming single file input
+        const eventImageFile = document.getElementById('eventImage').files[0];
 
-        const getFileBase64 = (file) => {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = (error) => reject(error);
-            });
-        };
-        
-        const imageBase64 = eventImage ? await getFileBase64(eventImage) : '';
-
-        const formInput = {
-            image: imageBase64,
-            title: eventTitle,
-            description: eventDescription,
-            startDate: eventDate,
-            startTime: eventTime,
-            location: eventLocation,
-            userId: '1', //Change to current user ID later on 
-            username: 'john_doe' //Change to current username later on
+        // Validate file type
+        if (!isImageFile(eventImageFile)) {
+            displayFeedback('Please upload a valid image file.', 'error');
+            return;
         }
-
-        console.log(formInput);
+        
+        formData.append('image', '');
+        formData.append('userId', '1');
+        formData.append('username', 'john_doe');
 
         try {
             const response = await fetch('/events', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formInput)
+                body: formData
             });
 
             if (!response.ok) {
@@ -52,29 +30,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const createdEvent = await response.json();
             console.log('Event created successfully:', createdEvent);
+            alert('Event created successfully! Your event will now be pending for approval.');
+            displayFeedback('Event created successfully! Your event will now be pending for approval.', 'success');
 
             // Clear form fields on successful creation
             hostEventForm.reset();
+
+            // Optionally clear the image preview
+            const imagePreview = document.getElementById('imagePreview');
+            imagePreview.src = '#';
+            imagePreview.style.display = 'none';
         } catch (error) {
             console.error('Error creating event:', error);
+            alert('Error creating event. Please try again.');
+            displayFeedback('Error creating event. Please try again.', 'error');
             // Handle error display or other feedback to the user
+        }
+    });
+
+    document.getElementById('eventImage').addEventListener('change', function(event) {
+        const imagePreview = document.getElementById('imagePreview');
+        const file = event.target.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            imagePreview.src = '#';
+            imagePreview.style.display = 'none';
         }
     });
 });
 
-document.getElementById('eventImage').addEventListener('change', function(event) {
-    const imagePreview = document.getElementById('imagePreview');
-    const file = event.target.files[0];
-    
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            imagePreview.src = e.target.result;
-            imagePreview.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-    } else {
-        imagePreview.src = '#';
-        imagePreview.style.display = 'none';
+function isImageFile(file) {
+    return file && file.type.startsWith('image/');
+}
+
+function displayFeedback(message, type) {
+    const feedbackElement = document.getElementById('feedback');
+    feedbackElement.innerText = message;
+    feedbackElement.classList.remove('error', 'success');
+    if (type === 'error') {
+        feedbackElement.classList.remove('text-success');
+        feedbackElement.classList.add('text-danger');    
+    } else if (type === 'success') {
+        feedbackElement.classList.remove('text-danger');
+        feedbackElement.classList.add('text-success');
     }
-});
+}
