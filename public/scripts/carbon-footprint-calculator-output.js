@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const {individualCF, totalCarbonFootprint, treeEquivalent, grade, tips, stats} = JSON.parse(localStorage.getItem('carbonFootprintOutput'));
 
-    console.log(individualCF, totalCarbonFootprint, treeEquivalent, grade, tips, stats);
-
     if (treeEquivalent) { // that means everything works fine
         
         document.getElementById('carbon-footprint').innerText = totalCarbonFootprint;

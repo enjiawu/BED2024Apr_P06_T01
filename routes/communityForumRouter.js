@@ -46,8 +46,8 @@ router.put("/:id", validateCommunityForumPost, postsController.updatePost); // U
 router.delete("/:id", postsController.deletePost); // Delete a forum post
 
 // Like Routes
-router.put("/like-post/:id", validateLikes, postsController.likePost); // Like a post
-router.put("/unlike-post/:id", validateLikes, postsController.unlikePost); // Unlike a post
+router.put("/:id/modify-like", validateLikes, postsController.modifyLike); // Like/unlike a post
+router.get("/:postId/get-like-by-user/:userId", postsController.getLikeByUser) // pass in user id
 
 // Comment routes
 router.get("/:id/comments", postsController.getCommentsByPost); // Get all comments for a post by post id

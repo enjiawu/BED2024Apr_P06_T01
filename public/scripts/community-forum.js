@@ -1,5 +1,8 @@
 // Function to format the post data and display it on the page
 async function formatPost(post, postList){    
+
+    //const userId = 5; // replace with actual function to find user id after they logged in later
+
     // Create the main post container element
     const postItem = document.createElement("div");
     postItem.classList.add("card", "mt-3");
@@ -22,13 +25,52 @@ async function formatPost(post, postList){
     likes.appendChild(numberOfLikes);
 
     const likeIcon = document.createElement("a");
-    likeIcon.classList.add("like-icon", "like-false");
+    let isLiked = false;
+    try{
+        const isLikedResponse = await fetch(`/communityforum/${post.postId}/get-like-by-user/${userId}`); // Check if user has already liked the post
+        isLiked = await isLikedResponse.json();
+    }
+    catch{
+        isLiked = false;
+    }
+
+    likeIcon.classList.add("like-icon", isLiked ? "like-true" : "like-false");
     const likeIconContent = document.createElement("i");
     likeIconContent.classList.add("fa", "fa-thumbs-up");
     likeIcon.appendChild(likeIconContent);
     likes.appendChild(likeIcon);
 
     postLeft.appendChild(likes);
+
+    likeIcon.addEventListener("click", async () => {
+        try {
+            // Check for like/unlike
+            const response = await fetch(`/communityforum/${post.postId}/modify-like`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userId: userId })
+            });
+    
+            const responseData = await response.json();
+            if (responseData.success) {
+                numberOfLikes.textContent = responseData.likes;
+                if (responseData.status === 'liked') {
+                    likeIcon.classList.remove("like-false");
+                    likeIcon.classList.add("like-true");
+                } else if (responseData.status === 'unliked') {
+                    likeIcon.classList.remove("like-true");
+                    likeIcon.classList.add("like-false");
+                }
+            } else {
+                console.error(responseData.error);
+            }
+        } catch (error) {
+            console.error(error);
+            alert("You need to be logged in to like a post!");
+        }
+    });
 
     // Post content section
     const postContent = document.createElement("div");
@@ -361,7 +403,6 @@ async function sortPostsByTopic(topicId){
     const data = await response.json();
     const postList = document.getElementById("forum-posts");
     postList.innerHTML = ""; // Clear the existing posts
-    console.log(data);
 
     if (data.error) {
         alert("No posts found!"); // Alert the user if no posts were found
@@ -427,7 +468,6 @@ sortByDropdownItems.forEach((item) => {
     sortByDropdownButton.textContent = selectedText;
 
     if (selectedValue === "newest") {
-        console.log("Newest")
         sortPostsByNewest();
     } else if (selectedValue === "oldest") {
         sortPostsByOldest();
@@ -438,6 +478,9 @@ sortByDropdownItems.forEach((item) => {
     }
   });
 });
+
+// Making the like buttons work
+
 
 // When the page loads, fetch the post data and display it
 document.addEventListener("DOMContentLoaded", function () {

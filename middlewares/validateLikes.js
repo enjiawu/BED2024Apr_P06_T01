@@ -2,8 +2,7 @@ const Joi = require("joi");
 
 const validateLikes = (req, res, next) => {
     const schema = Joi.object().keys({
-        userId: Joi.number().integer().required(),
-        postId: Joi.number().integer().required()
+        userId: Joi.number().integer().required()
     });
 
     const validation = schema.validate(req.body, { abortEarly: false }); // Validate request body

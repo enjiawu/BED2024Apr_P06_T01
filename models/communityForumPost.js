@@ -331,38 +331,34 @@ class CommunityForumPost {
         request.input("postId", postId);
         request.input("userId", userId);
 
-        const result = await request.query(sqlQuery);
+        await request.query(sqlQuery);
 
         connection.close();
 
-        console.log(result.rowsAffected)
-
-        return result.rowsAffected[1] > 0 && result.rowsAffected[2] > 0; // Check that both queries are successful
+        return this.getPostById(postId); 
     }
 
     static async unlikePost(postId, userId) {
         const connection = await sql.connect(dbConfig);
 
-        const updatePostQuery = `
+        const sqlQuery = `
         UPDATE CommunityPosts
         SET likes = likes - 1
         WHERE postId = @postId
-        `;
-        const deleteLikeQuery = `
-            DELETE FROM PostLikes
-            WHERE postId = @postId AND userId = @userId
+
+        DELETE FROM PostLikes
+        WHERE postId = @postId AND userId = @userId
         `;
 
         const request = connection.request();
         request.input("postId", postId);
         request.input("userId", userId);
 
-        const postResult = await request.query(updatePostQuery);
-        const likeResult = await request.query(deleteLikeQuery);
+        await request.query(sqlQuery);
 
         connection.close();
 
-        return postResult.rowsAffected > 0 && likeResult.rowsAffected > 0;
+        return this.getPostById(postId);
     }
 
     // Comments
