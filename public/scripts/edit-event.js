@@ -52,7 +52,13 @@ async function handleFormSubmit(event) {
             body: formData
         });
         if (!response.ok) {
-            throw new Error('Failed to update event');
+            const result = await response.json();
+            if (result.errors) {
+                displayValidationErrors(result.errors);
+            } else {
+                throw new Error('Failed to update event');
+            }
+            return;
         }
         alert('Event updated successfully');
         displayFeedback('Event updated successfully!', 'success');
@@ -120,4 +126,16 @@ function displayFeedback(message, type) {
         feedbackElement.classList.remove('text-danger');
         feedbackElement.classList.add('text-success');
     }
+}
+
+function displayValidationErrors(errors) {
+    const feedbackElement = document.getElementById('feedback');
+    feedbackElement.innerHTML = ''; // Clear previous messages
+
+    errors.forEach(error => {
+        const p = document.createElement('p');
+        p.innerText = error;
+        p.classList.add('text-danger'); // You can style these error messages as needed
+        feedbackElement.appendChild(p);
+    });
 }
