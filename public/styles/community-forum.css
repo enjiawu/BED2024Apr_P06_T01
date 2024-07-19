@@ -117,11 +117,11 @@ a{
 }
 
 .like-true{
-    color: #414833;
+    color: #27360a;
 }
 
 .like-false{
-    color: gray;
+    color: rgb(173, 173, 173);
 }
 
 .like-icon{

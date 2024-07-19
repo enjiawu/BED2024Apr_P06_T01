@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config(); // Load environment variables from a .env file into process.env
 
 function verifyJWT(req, res, next) {
-    console.log(req.headers);
+    //console.log(req.headers);
     const token = req.headers.authorization && req.headers.authorization.split(" ")[1];
 
     if (!token) {

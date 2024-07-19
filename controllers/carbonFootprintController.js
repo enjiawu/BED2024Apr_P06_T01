@@ -14,15 +14,14 @@ const calculateCarbonFootprint = async (req, res) => {
 
         console.log(treeEquivalent);
 
-        const grade = totalCarbonFootprint <= 3000 ? "good" : totalCarbonFootprint <= 5000 ? "average" : "poor";
+        const grade = totalCarbonFootprint <= 3000 ? "good" : totalCarbonFootprint <= 7000 ? "average" : "poor";
         /*
-        According to Statistica (https://www.statista.com/statistics/268753/co2-emissions-per-capita-worldwide-since-1990/), 
+        According to Statistica (https://www.statista.com/statistics/268753/co2-emissions-per-capita-worldwide-since-1990/), in 2022, 
         the average carbon footprint per capita per year is around 4.7 metric tons (4700 kg). 
-
-        Grades:
+        Based on this, we can categorize the carbon footprint into 3 Grades:
         - Good: 0 - 3000 kg
-        - Average: 3001 - 5000 kg
-        - Poor: 5001 kg and above 
+        - Average: 3001 - 7000 kg
+        - Poor: 7001 kg and above 
         */
         const tips = await CarbonFootprint.getTipsByGrade(grade);
         const randomTips = tips.sort(() => Math.random() - 0.5).slice(0, 5);
