@@ -200,57 +200,101 @@ class CommunityForumPost {
     }
 
     // Sorting of posts by likes and date created
-    static async sortPostsByLikesDesc(){
+    static async sortPostsByLikesDesc(topicId = null) {
         const connection = await sql.connect(dbConfig);
-
-        const sqlQuery = `SELECT * FROM CommunityPosts ORDER BY likes DESC`;
-
-        const result = await connection.request().query(sqlQuery);
-
+        let sqlQuery = `SELECT * FROM CommunityPosts`;
+    
+        if (topicId) {
+            sqlQuery += ` WHERE topicId = @topicId`;
+        }
+    
+        sqlQuery += ` ORDER BY likes DESC`;
+    
+        const request = connection.request();
+    
+        if (topicId) {
+            request.input('topicId', sql.Int, topicId);
+        }
+    
+        const result = await request.query(sqlQuery);
+    
         connection.close();
-
+    
         return result.recordset.map(
             row => new CommunityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
         );
     }
-
-    static async sortPostsByLikesAsc(){
+    
+    static async sortPostsByLikesAsc(topicId = null) {
         const connection = await sql.connect(dbConfig);
-
-        const sqlQuery = `SELECT * FROM CommunityPosts ORDER BY likes ASC`;
-
-        const result = await connection.request().query(sqlQuery);
-
+        let sqlQuery = `SELECT * FROM CommunityPosts`;
+    
+        if (topicId) {
+            sqlQuery += ` WHERE topicId = @topicId`;
+        }
+    
+        sqlQuery += ` ORDER BY likes ASC`;
+    
+        const request = connection.request();
+    
+        if (topicId) {
+            request.input('topicId', sql.Int, topicId);
+        }
+    
+        const result = await request.query(sqlQuery);
+    
         connection.close();
-
+    
         return result.recordset.map(
             row => new CommunityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
         );
     }
-
-    static async sortPostsByNewest(){
+    
+    static async sortPostsByNewest(topicId = null) {
         const connection = await sql.connect(dbConfig);
-
-        const sqlQuery = `SELECT * FROM CommunityPosts ORDER BY dateCreated DESC`;
-
-        const result = await connection.request().query(sqlQuery);
-
+        let sqlQuery = `SELECT * FROM CommunityPosts`;
+    
+        if (topicId) {
+            sqlQuery += ` WHERE topicId = @topicId`;
+        }
+    
+        sqlQuery += ` ORDER BY dateCreated DESC`;
+    
+        const request = connection.request();
+    
+        if (topicId) {
+            request.input('topicId', sql.Int, topicId);
+        }
+    
+        const result = await request.query(sqlQuery);
+    
         connection.close();
-
+    
         return result.recordset.map(
             row => new CommunityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
         );
     }
-
-    static async sortPostsByOldest(){
+    
+    static async sortPostsByOldest(topicId = null) {
         const connection = await sql.connect(dbConfig);
-
-        const sqlQuery = `SELECT * FROM CommunityPosts ORDER BY dateCreated ASC`;
-
-        const result = await connection.request().query(sqlQuery);
-
+        let sqlQuery = `SELECT * FROM CommunityPosts`;
+    
+        if (topicId) {
+            sqlQuery += ` WHERE topicId = @topicId`;
+        }
+    
+        sqlQuery += ` ORDER BY dateCreated ASC`;
+    
+        const request = connection.request();
+    
+        if (topicId) {
+            request.input('topicId', sql.Int, topicId);
+        }
+    
+        const result = await request.query(sqlQuery);
+    
         connection.close();
-
+    
         return result.recordset.map(
             row => new CommunityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
         );
@@ -526,7 +570,7 @@ Sort Community Posts: Arrange posts according to different criteria such as: [X]
 
 Interacting with Posts:
 - View Post Details: Click on a post to see its full content.
-- Like Posts: Express appreciation or agreement by liking a post. Each user account can like a post once.
+- Like Posts: Express appreciation or agreement by liking a post. Each user account can like a post once. [x]
 - Comment on Posts: Share thoughts, ask questions, or provide feedback on posts. Users can engage in discussions related to the post content.
 - Reply to Comments: Respond directly to comments made by other users, fostering deeper conversations.
 - View Likes and Comments: See how many likes a post has received and read through comments left by other community members on the post details, community main page or post page.
@@ -543,8 +587,7 @@ Additional Actions:
 - Explore Trending Topics: Click on trending topics or popular tags to discover posts related to those subjects, facilitating exploration and participation in trending discussions.
 
 User Profile and Settings:
-- View posts created by the user: Access a list of posts authored by the user to review past contributions and choose to edit/delete
-- Notifications: Control how and when notifications about new posts, comments, or replies are received.
+- View posts created by the user: Access a list of posts authored by the user to review past contributions and choose to edit/delete (wenya doing)
 
 Community Management (Moderators/Admins):
 - Moderate Posts and Comments: Monitor and manage posts and comments to ensure they adhere to community guidelines

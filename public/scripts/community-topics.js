@@ -24,7 +24,8 @@ async function fetchTrendingTopics() {
         topicContent.appendChild(topicName);
 
         //Append the topic content to the topic list
-        topicList.appendChild(topicContent);
+        topicList.appendChild(topicContent);   
+    
     });
 }
 

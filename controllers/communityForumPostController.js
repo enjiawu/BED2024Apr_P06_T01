@@ -121,7 +121,8 @@ const getAllLikes = async (req, res) => {
 // Sorting of posts by likes and date created
 const sortPostsByLikesDesc = async (req, res) => {
     try {
-        const posts = await Post.sortPostsByLikesDesc();
+        const topicId = req.query.topicId;
+        const posts = await Post.sortPostsByLikesDesc(topicId ? parseInt(topicId) : null);
         res.status(200).json(posts);
     } catch (error) {
         console.error(error);
@@ -131,7 +132,8 @@ const sortPostsByLikesDesc = async (req, res) => {
 
 const sortPostsByLikesAsc = async (req, res) => {
     try {
-        const posts = await Post.sortPostsByLikesAsc();
+        const topicId = req.query.topicId;
+        const posts = await Post.sortPostsByLikesAsc(topicId ? parseInt(topicId) : null);
         res.status(200).json(posts);
     } catch (error) {
         console.error(error);
@@ -141,7 +143,8 @@ const sortPostsByLikesAsc = async (req, res) => {
 
 const sortPostsByNewest = async (req, res) => {
     try {
-        const posts = await Post.sortPostsByNewest();
+        const topicId = req.query.topicId;
+        const posts = await Post.sortPostsByNewest(topicId ? parseInt(topicId) : null);
         res.status(200).json(posts);
     } catch (error) {
         console.error(error);
@@ -151,7 +154,8 @@ const sortPostsByNewest = async (req, res) => {
 
 const sortPostsByOldest = async (req, res) => {
     try {
-        const posts = await Post.sortPostsByOldest();
+        const topicId = req.query.topicId;
+        const posts = await Post.sortPostsByOldest(topicId ? parseInt(topicId) : null);
         res.status(200).json(posts);
     } catch (error) {
         console.error(error);

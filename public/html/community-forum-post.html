@@ -165,11 +165,11 @@
                         <div class="post-details card mt-3 pb-1">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div class = "d-flex flex-row justify-content-between align-content-between">
-                                    <a class = "back-arrow mx-2"><i class="fa fa-arrow-circle-left"></i></a>
+                                    <a class = "back-arrow mx-2" href = "community-forum.html"><i class="fa fa-arrow-circle-left"></i></a>
                                     <div class = "d-flex flex-row align-content-between justify-content-between mx-3 mt-2 mb-3 flex-grow-1">
-                                        <p class="post-author">@user</p>
+                                        <p class="post-author" id="post-author">@user</p>
                                         <div class = "d-flex flex-row align-content-end mx-2 gap-4">
-                                            <p class="post-date">date posted</p>
+                                            <p class="post-date" id="post-author">date posted</p>
                                             <a class = "post-ellipsis"><i class="fa fa-ellipsis-v"></i></a>
                                         </div>
                                     </div>
@@ -177,24 +177,21 @@
                                
                                 <div class = "d-flex flex-row align-items-center">
                                     <div class = "post-content mx-5 mb-4">
-                                        <h5 class="card-title">Post Title</h5>
-                                        <p class="card-text">Post content goes here...</p>
+                                        <h5 class="card-title" id="post-title">Post Title</h5>
+                                        <p class="card-text" id="post-content">Post content goes here...</p>
                                     </div>
                                 </div>
 
                                 <div class = "d-flex flex-row align-items-center justify-content-between">
-                                    <div class = "post-topics d-flex flex-row gap-2 mx-5">
-                                        <div class="post-topic">Topic</div>
-                                        <div class="post-topic">Topic</div>
-                                    </div>
+                                    <div class="post-topic mx-5" id="post-topic">Topic</div>
                                     <div class = "d-flex flex-row justify-content-end mx-4 gap-2">
                                         <div class = "d-flex flex-row">
-                                            <p class = "number-of-likes">100</p>
+                                            <p class = "number-of-likes" id = "post-likes">100</p>
                                             <a class="like-icon like-false"><i class="fa fa-thumbs-up"></i></a>
                                         </div>
                                         <div class = "d-flex flex-row">
                                             <i class="post-comment-icon mx-2 fa fa-comment-o"></i>
-                                            <p class="post-comments">1</p>
+                                            <p class="post-comments" id = "post-comments">1</p>
                                         </div>
                                     </div>
                                 </div>

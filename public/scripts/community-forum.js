@@ -272,6 +272,11 @@ async function formatPost(post, postList){
 
     postItem.appendChild(postBody);
     postList.appendChild(postItem);
+
+    // Add event listener to the post title to redirect to the post details page
+    postTitle.addEventListener("click", function() {
+        window.location.href = `community-forum-post.html?id=${post.postId}`;
+    }); 
 }
 
 // Function to format the date
@@ -342,10 +347,12 @@ searchInput.addEventListener("keypress", function(event) { // When the user clic
     }
 });
 
+let selectedTopicId = null; // Keep track of selected topic so that user can select to sort based on topic and sort by option
+let currentSortOption = null; // Keep track of current sort option 
 
-// Function to sort posts by date from newest to oldest 
-async function sortPostsByNewest(){
-    const response = await fetch("/communityforum/sort-by-newest");
+// Function to sort posts by date from newest to oldest
+async function sortPostsByNewest() {
+    const response = await fetch(`/communityforum/sort-by-newest${selectedTopicId ? `?topicId=${selectedTopicId}` : ''}`);
     const data = await response.json();
     const postList = document.getElementById("forum-posts");
     postList.innerHTML = ""; // Clear the existing posts
@@ -357,13 +364,12 @@ async function sortPostsByNewest(){
 }
 
 // Function to sort posts by date from oldest to newest
-async function sortPostsByOldest(){
-    const response = await fetch("/communityforum/sort-by-oldest");
+async function sortPostsByOldest() {
+    const response = await fetch(`/communityforum/sort-by-oldest${selectedTopicId ? `?topicId=${selectedTopicId}` : ''}`);
     const data = await response.json();
     const postList = document.getElementById("forum-posts");
     postList.innerHTML = ""; // Clear the existing posts
 
-    
     for (let i = 0; i < data.length; i++) {
         const post = data[i];
         await formatPost(post, postList); // Call the formatPost function for each post
@@ -371,8 +377,8 @@ async function sortPostsByOldest(){
 }
 
 // Function to sort posts by likes in descending order
-async function sortPostsByLikesDesc(){
-    const response = await fetch("/communityforum/sort-by-likes-desc");
+async function sortPostsByLikesDesc() {
+    const response = await fetch(`/communityforum/sort-by-likes-desc${selectedTopicId ? `?topicId=${selectedTopicId}` : ''}`);
     const data = await response.json();
     const postList = document.getElementById("forum-posts");
     postList.innerHTML = ""; // Clear the existing posts
@@ -384,8 +390,8 @@ async function sortPostsByLikesDesc(){
 }
 
 // Function to sort posts by likes in ascending order
-async function sortPostsByLikesAsc(){
-    const response = await fetch("/communityforum/sort-by-likes-asc");
+async function sortPostsByLikesAsc() {
+    const response = await fetch(`/communityforum/sort-by-likes-asc${selectedTopicId ? `?topicId=${selectedTopicId}` : ''}`);
     const data = await response.json();
 
     const postList = document.getElementById("forum-posts");
@@ -397,8 +403,9 @@ async function sortPostsByLikesAsc(){
     }
 }
 
-// Function to sort post by topic
-async function sortPostsByTopic(topicId){ 
+// Function to sort posts by topic
+async function sortPostsByTopic(topicId) {
+    console.log("Sorting by topic: " + topicId);
     const response = await fetch(`/communityforum/posts-by-topic/${topicId}`);
     const data = await response.json();
     const postList = document.getElementById("forum-posts");
@@ -415,22 +422,22 @@ async function sortPostsByTopic(topicId){
 }
 
 // Populate drop down options for post topics and add event listeners for the topics
-async function populateTopicsDropdown(){
-    const response = await fetch("/communityforum/topics"); 
+async function populateTopicsDropdown() {
+    const response = await fetch("/communityforum/topics");
     const data = await response.json();
 
     const topicList = document.getElementById("topic-dropdown");
     const topicDropdownButton = document.getElementById("topic-dropdown-button");
 
     data.forEach((topic) => {
-        //Create the topic option
+        // Create the topic option
         const topicOptionContainer = document.createElement("li");
         const topicOption = document.createElement("a");
         topicOption.classList.add("dropdown-item");
         topicOption.dataset.topicId = topic.topicId;
         topicOption.textContent = topic.topic;
 
-        //Append the option to the topic list
+        // Append the option to the topic list
         topicOptionContainer.appendChild(topicOption);
         topicList.appendChild(topicOptionContainer);
     });
@@ -438,53 +445,62 @@ async function populateTopicsDropdown(){
     // Add event listeners to the topic dropdown options
     const topicDropdownItems = document.querySelectorAll("#topic-dropdown li a");
     topicDropdownItems.forEach((item) => {
-      item.addEventListener("click", function(event) {
-        const selectedTopic = event.target.textContent;
-        const topicId = event.target.dataset.topicId; // Get the topic ID from the data attribute
+        item.addEventListener("click", function(event) {
+            const selectedTopic = event.target.textContent;
+            const topicId = event.target.dataset.topicId; // Get the topic ID from the data attribute
 
-        // Update the text of the topic-dropdown-button
-        topicDropdownButton.textContent = selectedTopic;
+            // Update the text of the topic-dropdown-button
+            topicDropdownButton.textContent = selectedTopic;
 
-        if (selectedTopic === "All Topics") {
-            document.getElementById("forum-posts").innerHTML = ""; // Clear the existing posts
-            fetchPosts();
-        } else{
-            sortPostsByTopic(topicId);
-        }
-      });
+            // Clear the existing posts
+            document.getElementById("forum-posts").innerHTML = "";
+
+            if (selectedTopic === "All Topics") {
+                selectedTopicId = null;
+                fetchPosts().then(() => {
+                    sortPosts(currentSortOption);
+                });
+            } else {
+                selectedTopicId = topicId;
+                sortPostsByTopic(selectedTopicId).then(() => {
+                    sortPosts(currentSortOption);
+                });
+            }
+        });
     });
 }
- 
 
 // Event listeners for sort by dropdowns
 const sortByDropdownButton = document.getElementById("sort-by-dropdown-button");
 const sortByDropdownItems = document.querySelectorAll("#sort-by-dropdown li a");
 
 sortByDropdownItems.forEach((item) => {
-  item.addEventListener("click", function(event) {
-    const selectedValue = event.target.getAttribute("value");
-    const selectedText = event.target.textContent;
+    item.addEventListener("click", function(event) {
+        const selectedValue = event.target.getAttribute("value");
+        const selectedText = event.target.textContent;
 
-    sortByDropdownButton.textContent = selectedText;
+        sortByDropdownButton.textContent = selectedText;
+        currentSortOption = selectedValue;
 
-    if (selectedValue === "newest") {
-        sortPostsByNewest();
-    } else if (selectedValue === "oldest") {
-        sortPostsByOldest();
-    } else if (selectedValue === "likes-desc") {
-        sortPostsByLikesDesc();
-    } else if (selectedValue === "likes-asc") {
-        sortPostsByLikesAsc();
-    }
-  });
+        sortPosts(selectedValue);
+    });
 });
 
-// Making the like buttons work
-
+function sortPosts(sortOption) {
+    if (sortOption === "newest") {
+        sortPostsByNewest();
+    } else if (sortOption === "oldest") {
+        sortPostsByOldest();
+    } else if (sortOption === "likes-desc") {
+        sortPostsByLikesDesc();
+    } else if (sortOption === "likes-asc") {
+        sortPostsByLikesAsc();
+    }
+}
 
 // When the page loads, fetch the post data and display it
 document.addEventListener("DOMContentLoaded", function () {
-    fetchPosts(); // Call the function to fetch and display book data
+    fetchPosts(); // Call the function to fetch and display posts
     fetchForumStats(); // Call the function to fetch and display post count
-    populateTopicsDropdown();
+    populateTopicsDropdown(); // Populate topic dropdowns
 });
