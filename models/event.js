@@ -346,6 +346,65 @@ class Event {
 
         return this.getEventById(eventId);
     }
+
+    static async likeEvent(eventId, userId) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `
+        UPDATE Events 
+        SET likes = (likes + 1) WHERE eventId = @eventId
+
+        INSERT INTO EventLikes (eventId, userId) VALUES (@eventId, @userId)
+        SELECT SCOPE_IDENTITY() AS likeId;
+        `;
+
+        const request = connection.request();
+        request.input("eventId", eventId);
+        request.input("userId", userId);
+
+        await request.query(sqlQuery);
+
+        connection.close();
+
+        return this.getEventById(eventId); 
+    }
+
+    static async unlikeEvent(eventId, userId) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `
+        UPDATE Events
+        SET likes = (likes - 1) WHERE eventId = @eventId
+
+        DELETE FROM EventLikes
+        WHERE eventId = @eventId AND userId = @userId
+        `;
+
+        const request = connection.request();
+        request.input("eventId", eventId);
+        request.input("userId", userId);
+
+        await request.query(sqlQuery);
+
+        connection.close();
+
+        return this.getEventById(eventId);
+    }
+
+    static async getLikeByUser(eventId, userId) {
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `
+            SELECT * FROM EventLikes
+            WHERE eventId = @eventId AND userId = @userId;
+        `;
+        const request = connection.request();
+        request.input("eventId", eventId);
+        request.input("userId", userId);
+        const result = await request.query(sqlQuery);
+        connection.close();
+
+        return result.rowsAffected[0] > 0;
+    }
 }
 
 module.exports = Event;

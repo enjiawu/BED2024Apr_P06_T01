@@ -195,6 +195,48 @@ const denyEvent = async (req, res) => {
     }
 };
 
+const modifyLike = async (req, res) => {
+    const eventId = parseInt(req.params.id);
+    const userId = req.body.userId;
+
+    try {
+        const existingLike = await Event.getLikeByUser(eventId, userId);
+        if (existingLike) {
+            // Unlike the event
+            const event = await Event.unlikeEvent(eventId, userId);
+            if (!event) {
+                return res.status(404).json({ error: "Event not found" });
+            }
+            res.json({ success: true, likestatus: 'unliked', likes: event.likes});
+        } else {
+            // Like the event
+            const event = await Event.likeEvent(eventId, userId);
+            if (!event) {
+                return res.status(404).json({ error: "Event not found" });
+            }
+            res.json({ success: true, likestatus: 'liked', likes: event.likes});
+        }
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error liking/unliking event" });
+    }
+    
+};
+
+const getLikeByUser = async (req, res) => {
+    const eventId = parseInt(req.params.eventId);
+    const userId = parseInt(req.params.userId);
+    try {
+        const like = await Event.getLikeByUser(eventId, userId);
+        res.json(like);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving like");
+    }
+
+}
+
 module.exports = {
     getAllEvents,
     getEventById,
@@ -208,5 +250,7 @@ module.exports = {
     getPendingEvents,
     getDeniedEvents,
     approveEvent,
-    denyEvent
+    denyEvent,
+    modifyLike,
+    getLikeByUser
 };
