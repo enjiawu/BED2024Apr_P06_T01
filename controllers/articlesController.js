@@ -2,7 +2,7 @@ const Article = require("../models/article");
 
 const getArticles = async (req, res) => {
     try {
-        const articles = await Article.getArticles(req.body.sortBy);
+        const articles = await Article.getArticles(req.params.sortBy);
         res.status(200).json(articles);
     } catch (error) {
         console.error(error);

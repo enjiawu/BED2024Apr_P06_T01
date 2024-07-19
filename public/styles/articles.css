@@ -1,0 +1,17 @@
+main {
+    max-width: 50rem;
+    margin: auto;
+}
+
+.hidden {
+    display: none;
+}
+
+.article-image {
+    border-radius: 10%;
+}
+
+.article-card {
+    text-align: left;
+    background-color: #ede3d2;
+}
