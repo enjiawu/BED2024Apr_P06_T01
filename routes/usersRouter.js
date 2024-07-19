@@ -12,7 +12,9 @@ const usersController = require("../controllers/usersController.js");
 const verifyJWT = require('../middlewares/verifyJWT.js');
 
 //User Routes
-router.get("/", verifyJWT, usersController.getAllUsers);
+router.get("/allmember", verifyJWT, usersController.getAllUsers); // testing data
+router.get("/profile/:userId", verifyJWT, usersController.getUserByUserId); 
+router.put("/profile/:userId/edit", verifyJWT, usersController.updateUser);
 router.get("/:username", usersController.getUserByUserName);
 router.post("/register", usersController.registerUser);
 router.post("/login", usersController.loginUser);

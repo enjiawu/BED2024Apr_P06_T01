@@ -16,10 +16,14 @@ function verifyJWT(req, res, next) {
 
         // Define authorized roles for different endpoints
         const authorizedRoles = {
-            "^/$": ["member"], // Root endpoint for testing
-            "^/[0-9]+$": ["member"], // Members can access their own profile
-            "^/posts/[0-9]+$": ["member"], // Members can view their own posts
-            "^/events/[0-9]+$": ["member"], // Members can view events they hosted
+            "/allmember": ["member"], // Root endpoint for testing
+            "/alladmin": ["admin"], // Root endpoint for testing
+
+            // member
+            "^/profile/[0-9]+": ["member"], // Members can access their own profile
+            "^/profile/[0-9]+/edit": ["member"], // Member can edit their own profile
+            "^/posts/[0-9]+": ["member"], // Members can view their own posts
+            "^/events/[0-9]+": ["member"], // Members can view events they hosted
             "^/events$": ["member", "admin", "event"], // Anyone can view events
             "^/events/[0-9]+/status$": ["event"], // Only 'event' can update status
         };
@@ -33,7 +37,7 @@ function verifyJWT(req, res, next) {
         console.log(`User role: ${userRole}`);
 
         // Check if user is authorized for the requested endpoint
-        const isAuthorized = userRole === "admin" || Object.entries(authorizedRoles).some(
+        const isAuthorized = Object.entries(authorizedRoles).find(
             ([endpointPattern, roles]) => {
                 const regex = new RegExp(endpointPattern);
                 return regex.test(requestedEndpoint) && roles.includes(userRole);

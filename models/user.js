@@ -61,6 +61,19 @@ class User {
         );
     }
 
+    static async getUserById(userId) {
+        try {
+            let pool = await sql.connect(dbConfig);
+            let user = await pool
+                .request()
+                .input("userId", userId)
+                .query("SELECT * FROM Users WHERE userId = @userId");
+            return user.recordset[0];
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     static async getUserByUsername(username) {
         try {
             let pool = await sql.connect(dbConfig);
@@ -104,6 +117,27 @@ class User {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    // Updating the profile if it belongs to the user
+    static async updateProfile(userId, newUserData) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `UPDATE Users SET userId = @userId, username = @username, email = @email, location = @location, bio = @bio, profilePicture = @profilePicture, passwordHash = @passwordHash WHERE userId = @userId`;
+
+        const request = connection.request();
+        request.input("userId", userId);
+        request.input("username", newUserData.username || null);
+        request.input("email", newUserData.email || null);
+        request.input("location", newUserData.location || null);
+        request.input("bio", newUserData.bio);
+        request.input("profilePicture", newUserData.profilePicture || null);
+        request.input("passwordHash", newUserData.passwordHash || null);
+        await request.query(sqlQuery);
+
+        connection.close();
+
+        return this.getUserById(userId);
     }
 
     static async deleteUser(userId) {
