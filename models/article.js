@@ -13,7 +13,7 @@ class Article {
         const response = await axios.get(
             `https://newsapi.org/v2/everything?q=%22sustainable%20living%22&sortBy=${sortBy}&apiKey=${process.env.ARTICLES_API_KEY}`
         );
-        console.log(response.data.articles[0].content);
+
         return response.data.articles;
     }
 
