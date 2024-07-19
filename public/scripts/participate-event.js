@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 window.location.href = `/html/edit-event.html?id=${eventId}`;
             });
 
+            setupLikeButton(event, 1);
+
         } catch (error) {
             console.error('Error fetching event details:', error);
             alert('Event not found.');
@@ -45,25 +47,55 @@ function displayEventDetails(event) {
     `;
     document.querySelector('.card-text').innerText = event.description;
 
+};
+
+async function setupLikeButton(event, userId) {
     const likeBtn = document.getElementById('likeBtn');
     const likeCount = document.getElementById('likeCount');
-    likeCount.textContent = event.likes;
 
-    let liked = false;
+    let isLiked = false;
+    try {
+        const isLikedResponse = await fetch(`/events/${event.eventId}/get-like-by-user/1`); // Change once user session storage is implemented
+        isLiked = await isLikedResponse.json();
+    }
+    catch {
+        isLiked = false;
+    }
 
-    likeBtn.addEventListener('click', () => {
-        if (!liked) {
-            event.likes += 1;
+    likeBtn.addEventListener('click', async () => {
+        try {
+            const response = await fetch(`/events/${event.eventId}/modifylike`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userId })
+            });
+            if (!response.ok) {
+                throw new Error('Failed to like/unlike the event');
+            }
+            const result = await response.json();
+            //likeCount.textContent = event.likes;
+            event.likes = result.likes;
+            console.log('Likes:', event.likes);
             likeCount.textContent = event.likes;
-            liked = true;
-        } 
-
-        else if (liked) {
-            event.likes -= 1;
-            likeCount.textContent = event.likes;
-            liked = false;
+            updateLikeButton(likeBtn, result.likestatus === 'liked', event.likes);
+        } catch (error) {
+            console.error('Error liking/unliking event:', error);
+            alert('Please log in to like an event.');
         }
     });
+
+    // Check the initial like status
+    updateLikeButton(likeBtn, isLiked, event.likes); // Default to false, assuming the user hasn't liked it yet
+}
+
+function updateLikeButton(button, liked, likeCount) {
+    if (liked) {
+        button.innerHTML = `<i class="bi bi-hand-thumbs-up-fill"></i> <span id="likeCount">${likeCount}</span>`;
+    } else {
+        button.innerHTML = `<i class="bi bi-hand-thumbs-up"></i> <span id="likeCount">${likeCount}</span>`;
+    }
 }
 
 function formatDate(dateString) {
