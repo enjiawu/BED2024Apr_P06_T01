@@ -184,9 +184,13 @@ async function formatPost(post, postList){
 
     const closeIcon = document.createElement("a");
     closeIcon.className = "close-icon";
-    closeIcon.href = "#";
     closeIcon.innerHTML = "<i class='fa fa-times'></i>";
     closeIconContainer.appendChild(closeIcon);
+
+    // Close listener
+    closeIcon.addEventListener("click", function() {
+        reportContainer.style.display = "none";
+    });
 
     // Create the textarea for report reason
     const reportReasonInput = document.createElement("textarea");

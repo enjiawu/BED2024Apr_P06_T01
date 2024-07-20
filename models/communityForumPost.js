@@ -406,11 +406,11 @@ class CommunityForumPost {
     }
 
     // Comments
-    // Getting all comments for the post
+    // Getting all comments for the post excluding the replies
     static async getCommentsByPost(postId) {
         const connection = await sql.connect(dbConfig);
 
-        const sqlQuery = `SELECT * FROM Comments WHERE postId = @postId`;
+        const sqlQuery = `SELECT * FROM Comments WHERE postId = @postId AND parentCommentId IS NULL`;
 
         const request = connection.request();
         request.input("postId", postId);
@@ -421,7 +421,7 @@ class CommunityForumPost {
         return result.recordset;
     }
 
-    // Get comment by id
+    // Get comment by id 
     static async getCommentById(commentId) {
         const connection = await sql.connect(dbConfig);
 
@@ -490,6 +490,72 @@ class CommunityForumPost {
         connection.close();
 
         return result.rowsAffected[2] > 0; // Check that comment has been deleted
+    }
+
+    // Like comment
+    static async likeComment(commentId, userId) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `
+        UPDATE Comments
+        SET likes = likes + 1
+        WHERE commentId = @commentId
+
+        INSERT INTO CommentLikes (commentId, userId)
+        VALUES (@commentId, @userId)
+        SELECT SCOPE_IDENTITY() AS likeId;
+        `;
+
+        const request = connection.request();
+        request.input("commentId", commentId);
+        request.input("userId", userId);
+
+        await request.query(sqlQuery);
+
+        connection.close();
+
+        return this.getCommentById(commentId);
+    }
+
+    // Unlike comment
+    static async unlikeComment(commentId, userId) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `
+        UPDATE Comments
+        SET likes = likes - 1
+        WHERE commentId = @commentId
+
+        DELETE FROM CommentLikes
+        WHERE commentId = @commentId AND userId = @userId
+        `;
+
+        const request = connection.request();
+        request.input("commentId", commentId);
+        request.input("userId", userId);
+
+        await request.query(sqlQuery);
+
+        connection.close();
+
+        return this.getCommentById(commentId);
+    }
+
+    // Get comment like by user
+    static async getCommentLikeByUser(commentId, userId) {
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `
+            SELECT *
+            FROM CommentLikes
+            WHERE commentId = @commentId AND userId = @userId;
+        `;
+        const request = connection.request();
+        request.input("commentId", commentId);
+        request.input("userId", userId);
+        const result = await request.query(sqlQuery);
+        connection.close();
+
+        return result.rowsAffected[0] > 0;
     }
 
     // Report comment

@@ -20,7 +20,7 @@ function verifyJWT(req, res, next) {
             "/alladmin": ["admin"], // Root endpoint for testing
 
             // member
-            "^/profile/[0-9]+": ["member"], // Members can access their own profile
+            //"^/profile/[0-9]+": ["member"], // Members can access their own profile
             "^/profile/[0-9]+/edit": ["member"], // Member can edit their own profile
             "^/posts/[0-9]+": ["member"], // Members can view their own posts
             "^/events/[0-9]+": ["member"], // Members can view events they hosted

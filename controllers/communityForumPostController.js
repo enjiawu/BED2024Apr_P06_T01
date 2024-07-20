@@ -229,6 +229,18 @@ const modifyLike = async (req, res) => {
     }
 };
 
+const getCommentLikeByUser = async (req, res) => {
+    const commentId = parseInt(req.params.commentId);
+    const userId = parseInt(req.params.userId);
+    try {
+        const like = await Post.getCommentLikeByUser(commentId, userId);
+        res.json(like);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving like");
+    }
+}
+
 // Comments
 const getCommentsByPost = async (req, res) => {
     const postId = parseInt(req.params.id);
@@ -297,6 +309,35 @@ const deleteComment = async (req, res) => {
     }
 };
 
+const modifyCommentLike = async (req, res) => {
+    const commentId = parseInt(req.params.id);
+    const userId = parseInt(req.body.userId);
+
+    try {
+        const existingLike = await Post.getCommentLikeByUser(commentId, userId);
+        if (existingLike) {
+            // Unlike the comment
+            const comment = await Post.unlikeComment(commentId, userId);
+            if (!comment) {
+                return res.status(404).json({ error: "Comment not found" });
+            }
+            res.json({ success: true, status: 'unliked', likes: comment.likes });
+        } else {
+            // Like the comment
+            const comment = await Post.likeComment(commentId, userId);
+            if (!comment) {
+                return res.status(404).json({ error: "Comment not found" });
+            }
+            res.json({ success: true, status: 'liked', likes: comment.likes });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error liking/unliking comment" });
+    }
+};
+
+
 const reportComment = async (req, res) => {
     const reportData = req.body;
     try {
@@ -356,11 +397,13 @@ module.exports = {
     reportPost,
     getLikeByUser,
     modifyLike,
+    getCommentLikeByUser,
     getCommentsByPost,
     getCommentById,
     createComment,
     updateComment,
     deleteComment,
+    modifyCommentLike,
     reportComment,
     replyToComment,
     getRepliesByComment,
