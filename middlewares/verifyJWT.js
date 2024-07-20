@@ -30,7 +30,6 @@ function verifyJWT(req, res, next) {
 
         const requestedEndpoint = req.url;
         const userRole = decoded.role;
-        const userId = decoded.id;
 
         // Log the requested endpoint and the user role
         console.log(`Requested endpoint: ${requestedEndpoint}`);
