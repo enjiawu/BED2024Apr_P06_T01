@@ -30,6 +30,16 @@ main {
     color: white; 
 }
 
+.return-btn {
+    background-color: #414833;
+    color: white;
+}
+
+.return-btn:hover {
+    background-color: #303525;
+    border-color: #303525; 
+    color: white; 
+}
 footer {
     bottom: 0;
     width: 100%;
