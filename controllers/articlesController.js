@@ -11,11 +11,8 @@ const getArticles = async (req, res) => {
 };
 
 const getArticleContent = async (req, res) => {
-    const articleUrl = req.body.articleUrl;
-    // console.log(articleUrl);
-
     try {
-        const article = await Article.getArticleContent(articleUrl);
+        const article = await Article.getArticleContent(req.params.articleUrl);
         res.status(200).json(article);
     } catch (error) {
         console.error(error);

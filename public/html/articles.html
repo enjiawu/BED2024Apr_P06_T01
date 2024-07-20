@@ -207,6 +207,61 @@
         </div>
 
         <main>
+            <!-- Modal -->
+            <div
+                class="modal fade"
+                id="article-reader-modal"
+                tabindex="-1"
+                aria-labelledby="articleReaderModalLabel"
+                aria-hidden="true"
+            >
+                <div
+                    class="modal-dialog modal-dialog-scrollable modal-fullscreen"
+                >
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                Article Heading
+                            </h1>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <h1 class="article-heading">Article Heading</h1>
+                            <img class="article-reader-image" />
+                            <div class="article-source-and-author">
+                                Source - Author
+                            </div>
+                            <div class="article-date">Date</div>
+                            <hr />
+                            <div class="article-content">Article content</div>
+                        </div>
+                        <div class="modal-footer">
+                            <a
+                                type="button"
+                                class="btn btn-secondary article-link"
+                                href="#"
+                                target="blank"
+                                rel="noopener noreferrer"
+                            >
+                                Open link in new tab
+                            </a>
+                            <button
+                                type="button"
+                                class="btn btn-secondary close"
+                                data-bs-dismiss="modal"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="container text-center mt-5">
                 <h1>Articles</h1>
                 <p>Find articles and blogs related to sustainable living.</p>
@@ -224,14 +279,23 @@
                 </div>
 
                 <section class="mt-5 articles-list">
-                    <div class="card article-card mb-4 hidden">
+                    <button
+                        class="card article-card mb-4 hidden"
+                        data-bs-toggle="modal"
+                        data-bs-target="#article-reader-modal"
+                        data-bs-article-url=""
+                    >
                         <div class="container card-body">
                             <div class="row">
                                 <div class="col-7">
                                     <p
-                                        class="text-body-secondary card-subtitle article-source-and-date"
+                                        class="text-body-secondary card-subtitle"
                                     >
-                                        Source &bull; Date
+                                        <span class="article-source"
+                                            >Source</span
+                                        >
+                                        &bull;
+                                        <span class="article-date">Date</span>
                                     </p>
                                     <h4 class="card-title article-heading">
                                         Article Heading
@@ -244,7 +308,7 @@
                                 <img class="col-5 article-image" />
                             </div>
                         </div>
-                    </div>
+                    </button>
                 </section>
             </div>
         </main>
