@@ -1,7 +1,7 @@
 // Function to format the post data and display it on the page
 async function formatPost(post, postList){    
 
-    //const userId = 5; // replace with actual function to find user id after they logged in later
+    const userId = 5; // replace with actual function to find user id after they logged in later
 
     // Create the main post container element
     const postItem = document.createElement("div");
@@ -221,47 +221,95 @@ async function formatPost(post, postList){
     dropdownMenu.classList.add("dropdown-menu", "show");
     dropdownMenu.style.display = "none";
 
-     // Event listener for the ellipsis and report
-     let reportOptionVisible = false;
-     let postEllipsisVisible = false;
+    // Event listener for the ellipsis and report
+    let reportOptionVisible = false;
+    let postEllipsisVisible = false;
+
+    postEllipsis.addEventListener("click", function() {
+        if (postEllipsisVisible) {
+            postEllipsisVisible = false;
+            dropdownMenu.style.display = "none";
+        }
+        else {
+            postEllipsisVisible = true;
+            dropdownMenu.style.display = "block";
+        }
+    });
+    
+    // Add event listener to close icon
+    closeIcon.addEventListener("click", function() {
+        reportContainer.style.display = "none";
+    });
+    
+    // Add event listener to submit button
+    submitButton.addEventListener("click", function() {
+        const reportReason = reportReasonInput.value;
+        if (reportReason === "") {
+            alert("Please enter a reason for reporting the post.");
+            return;
+        }
+        alert("Post has been reported! Our staff will review it shortly.");
+        reportContainer.style.display = "none";
+    });
  
-     postEllipsis.addEventListener("click", function() {
-         if (postEllipsisVisible) {
-             postEllipsisVisible = false;
-             dropdownMenu.style.display = "none";
-         }
-         else {
-             postEllipsisVisible = true;
-             dropdownMenu.style.display = "block";
-         }
-     });
+    reportOption.addEventListener("click", function() {
+        if (reportOptionVisible) {
+            reportOptionVisible = false;
+            reportContainer.style.display = "none";
+        }
+        else {
+            reportOptionVisible = true;  
+            reportContainer.style.display = "flex";
+        }
+    });
      
-     // Add event listener to close icon
-     closeIcon.addEventListener("click", function() {
-         reportContainer.style.display = "none";
-     });
-     
-     // Add event listener to submit button
-     submitButton.addEventListener("click", function() {
-         const reportReason = reportReasonInput.value;
-         if (reportReason === "") {
-             alert("Please enter a reason for reporting the post.");
-             return;
-         }
-         alert("Post has been reported! Our staff will review it shortly.");
-         reportContainer.style.display = "none";
-     });
- 
-     reportOption.addEventListener("click", function() {
-         if (reportOptionVisible) {
-             reportOptionVisible = false;
-             reportContainer.style.display = "none";
-         }
-         else {
-             reportOptionVisible = true;  
-             reportContainer.style.display = "flex";
-         }
-     });
+    // Edit button in the dropdown menu if post is created by the user
+    if (post.userId === userId) {
+        const editButton = document.createElement("a");
+        editButton.classList.add("dropdown-item");
+        editButton.textContent = "Edit";
+
+        editButton.addEventListener("click", function () {
+            // Redirect to the edit post page with the post ID
+            window.location.href = `community-forum-edit-post.html?id=${post.postId}`;
+        });
+
+        const deleteButton = document.createElement("a");
+        deleteButton.classList.add("dropdown-item");
+        deleteButton.textContent = "Delete";
+
+        deleteButton.addEventListener("click", async function () {
+            // Confirm deletion
+            const confirmDelete = confirm("Are you sure you want to delete this post?");
+            if (!confirmDelete) {
+                return;
+            }
+
+            // Allow user to delete the comment
+            try {
+                const response = await fetch(`/communityforum/${post.postId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const success = await response.json();
+                if (success) {
+                    alert("Post successfully deleted!");
+                    window.location.reload();
+                } else {
+                    throw new Error("Failed to delete post.");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Failed to delete post.");
+            }
+        });
+
+        dropdownMenu.appendChild(editButton);
+        dropdownMenu.appendChild(deleteButton);
+    }
 
     dropdownMenu.appendChild(reportOption);
 
@@ -289,6 +337,7 @@ function formatDate(dateString) {
     const options = { day: 'numeric', month: 'long', year: 'numeric' }; // Format to November 11, 2021 etc.
     return date.toLocaleDateString('en-US', options);
 }
+
 
 // Function to fetch the post data from the server
 async function fetchPosts() {
@@ -499,6 +548,24 @@ function sortPosts(sortOption) {
         sortPostsByLikesDesc();
     } else if (sortOption === "likes-asc") {
         sortPostsByLikesAsc();
+    }
+}
+
+function isLoggedIn(){
+    const token = localStorage.getItem("token");
+    if (token) {
+        return true;
+    }
+    return true;
+}
+
+// Check if the user is logged in
+function checkForLoggedIn(){
+    if (!isLoggedIn()) {
+        alert("You need to be logged in to view this page!");
+    }
+    else{
+        window.location.href = "community-forum-post-details.html"; // Redirect to the post details page to create a new post
     }
 }
 

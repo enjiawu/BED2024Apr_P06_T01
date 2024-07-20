@@ -149,6 +149,59 @@ async function displayPostDetails(post) {
         }
     });
 
+    // Edit button in the dropdown menu if post is created by the user
+    try{
+        if(post.userId === userId) {
+        const editButton = document.createElement("a");
+        editButton.classList.add("dropdown-item");
+        editButton.textContent = "Edit";
+
+        editButton.addEventListener("click", function () {
+            // Redirect to the edit post page with the post ID
+            window.location.href = `community-forum-edit-post.html?id=${post.postId}`;
+        });
+
+        const deleteButton = document.createElement("a");
+        deleteButton.classList.add("dropdown-item");
+        deleteButton.textContent = "Delete";
+
+        deleteButton.addEventListener("click", async function () {
+            // Confirm deletion
+            const confirmDelete = confirm("Are you sure you want to delete this post?");
+            if (!confirmDelete) {
+                return;
+            }
+
+            // Allow user to delete the comment
+            try {
+                const response = await fetch(`/communityforum/${post.postId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const success = await response.json();
+                if (success) {
+                    alert("Post successfully deleted!");
+                    window.location.href = "community-forum.html";
+                } else {
+                    throw new Error("Failed to delete post.");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Failed to delete post.");
+            }
+        });
+
+        dropdownMenu.appendChild(editButton);
+        dropdownMenu.appendChild(deleteButton);
+        }
+    }
+    catch(error){
+        // Do nothing
+    };
+
     // Display comments
     displayComments(post.postId);
 }
@@ -296,6 +349,112 @@ async function displayComments(postId) {
         });
         dropdownMenu.appendChild(reportOption);
 
+        try{
+            // Edit button in the dropdown menu if post is created by the user
+            if (comment.userId === userId) {
+                const editButton = document.createElement("a");
+                editButton.classList.add("dropdown-item");
+                editButton.textContent = "Edit";
+
+                editButton.addEventListener("click", function () {
+                    // Allow user to edit the comment
+                    // Show reply container
+                    const replyContainer = document.getElementById('reply-container');
+                    replyContainer.style.display = 'flex';
+
+                    // Set the text of the reply input
+                    const replyInput = document.getElementById('reply-input');
+                    replyInput.value = comment.description;
+
+                    // Set the text of the reply input to "Replying to @username"
+                    const replyingTo = document.getElementById('replying-to');
+                    replyingTo.textContent = `Editing comment`;
+
+                    // Close listener
+                    const closeReply = document.getElementById("close-reply");
+                    closeReply.addEventListener("click", function() {
+                        const confirmDiscard = confirm("Are you sure you want to discard your changes?");
+                        if (confirmDiscard) {
+                            replyContainer.style.display = "none";
+                        }
+                    });
+
+                    // Confirm listener
+                    const replySubmit = document.getElementById("reply-submit");
+                    replySubmit.addEventListener("click", async function() {
+                        const replyInput = document.getElementById('reply-input').value;
+                        if (replyInput === "") {
+                            alert("Please enter a reply.");
+                            return;
+                        }
+
+                        // Update the comment
+                        try {
+                            const response = await fetch(`/communityforum/comments/${comment.commentId}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ description: replyInput, userId: userId })
+                            });
+
+                            const responseData = await response.json();
+                            console.log(responseData);
+                            if (responseData) {
+                                alert("Comment updated successfully!");
+                                window.location.reload();
+                            } else {
+                                throw new Error("Failed to update comment.");
+                            }
+                        } catch (error) {
+                            console.error(error);
+                            alert("Failed to update comment.");
+                        }
+                    });
+
+                });
+
+                const deleteButton = document.createElement("a");
+                deleteButton.classList.add("dropdown-item");
+                deleteButton.textContent = "Delete";
+
+                deleteButton.addEventListener("click", async function () {
+                    // Confirm deletion
+                    const confirmDelete = confirm("Are you sure you want to delete this comment?");
+                    if (!confirmDelete) {
+                        return;
+                    }
+
+                    // Allow user to delete the comment
+                    try {
+                        const response = await fetch(`/communityforum/comments/${comment.commentId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        });
+
+                        const success = await response.json();
+                        if (success) {
+                            alert("Comment successfully deleted!");
+                            window.location.reload();
+                        } else {
+                            throw new Error("Failed to delete comment.");
+                        }
+                    } catch (error) {
+                        console.error(error);
+                        alert("Failed to delete comment.");
+                    }
+                });
+
+                dropdownMenu.appendChild(editButton);
+                dropdownMenu.appendChild(deleteButton);
+            }
+
+        } catch (error) {
+            // Do nothing
+        }
+
         const replyOption = document.createElement('a');
         replyOption.textContent = 'Reply';
         replyOption.classList.add('dropdown-item');
@@ -313,8 +472,44 @@ async function displayComments(postId) {
             closeReply.addEventListener("click", function() {
                 replyContainer.style.display = "none";
             });
+
+            // Confirm listener
+            const replySubmit = document.getElementById("reply-submit");
+
+            replySubmit.addEventListener("click", async function() {
+                const replyInput = document.getElementById('reply-input').value;
+                if (replyInput === "") {
+                    alert("Please enter a reply.");
+                    return;
+                }
+
+                // Add the reply to the comment
+                try {
+                    const response = await fetch(`/communityforum/${postId}/comments/${comment.commentId}/reply`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ description: replyInput, userId: userId })
+                    });
+
+                    const responseData = await response.json();
+                    console.log(responseData);
+                    if (responseData) {
+                        alert("Reply posted successfully!");
+                        window.location.reload();
+                    } else {
+                        throw new Error("Failed to post reply.");
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert("Failed to post reply.");
+                }
+            });
         });
         dropdownMenu.appendChild(replyOption);
+
+        
 
         // Add dropdown menu to comment ellipsis
         const commentEllipsis = ellipsis;
@@ -340,7 +535,7 @@ async function displayComments(postId) {
 
         if (replies.length > 0) {
             const repliesContainer = document.createElement('div');
-            repliesContainer.classList.add('replies-container');
+            repliesContainer.classList.add('replies-container', 'flex-column', 'align-items-center');
 
             const seeMore = document.createElement('a');
             seeMore.style.display = 'block';
@@ -359,7 +554,6 @@ async function displayComments(postId) {
             commentsContainer.appendChild(repliesContainer);
 
             replies.forEach(async (reply) => {
-                console.log(reply);
             
                 // Getting username from user id
                 const replyAuthorResponse = await fetch(`/users/profile/${reply.userId}`);
@@ -531,6 +725,113 @@ async function displayComments(postId) {
                 replyElement.appendChild(replyCardBody);
             
                 repliesContainer.appendChild(replyElement);
+
+                try{
+                    // Edit button in the dropdown menu if post is created by the user
+                    if (reply.userId === userId) {
+                        const editButton = document.createElement("a");
+                        editButton.classList.add("dropdown-item");
+                        editButton.textContent = "Edit";
+        
+                        editButton.addEventListener("click", function () {
+                            // Allow user to edit the comment
+                            // Show reply container
+                            const replyContainer = document.getElementById('reply-container');
+                            replyContainer.style.display = 'flex';
+        
+                            // Set the text of the reply input
+                            const replyInput = document.getElementById('reply-input');
+                            replyInput.value = reply.description;
+        
+                            // Set the text of the reply input to "Replying to @username"
+                            const replyingTo = document.getElementById('replying-to');
+                            replyingTo.textContent = `Editing comment`;
+        
+                            // Close listener
+                            const closeReply = document.getElementById("close-reply");
+                            closeReply.addEventListener("click", function() {
+                                const confirmDiscard = confirm("Are you sure you want to discard your changes?");
+                                if (confirmDiscard) {
+                                    replyContainer.style.display = "none";
+                                }
+                            });
+        
+                            // Confirm listener
+                            const replySubmit = document.getElementById("reply-submit");
+                            replySubmit.addEventListener("click", async function() {
+                                const replyInput = document.getElementById('reply-input').value;
+                                if (replyInput === "") {
+                                    alert("Please enter a reply.");
+                                    return;
+                                }
+        
+                                // Update the comment
+                                try {
+                                    const response = await fetch(`/communityforum/comments/${reply.commentId}`, {
+                                        method: 'PUT',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({ description: replyInput, userId: userId })
+                                    });
+        
+                                    const responseData = await response.json();
+                                    console.log(responseData);
+                                    if (responseData) {
+                                        alert("Comment updated successfully!");
+                                        window.location.reload();
+                                    } else {
+                                        throw new Error("Failed to update comment.");
+                                    }
+                                } catch (error) {
+                                    console.error(error);
+                                    alert("Failed to update comment.");
+                                }
+                            });
+        
+                        });
+        
+                        const deleteButton = document.createElement("a");
+                        deleteButton.classList.add("dropdown-item");
+                        deleteButton.textContent = "Delete";
+        
+                        deleteButton.addEventListener("click", async function () {
+                            // Confirm deletion
+                            const confirmDelete = confirm("Are you sure you want to delete this comment?");
+                            if (!confirmDelete) {
+                                return;
+                            }
+        
+                            // Allow user to delete the comment
+                            try {
+                                const response = await fetch(`/communityforum/comments/${reply.commentId}`, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                });
+        
+                                const success = await response.json();
+                                if (success) {
+                                    alert("Comment successfully deleted!");
+                                    window.location.reload();
+                                } else {
+                                    throw new Error("Failed to delete comment.");
+                                }
+                            } catch (error) {
+                                console.error(error);
+                                alert("Failed to delete comment.");
+                            }
+                        });
+        
+                        dropdownMenu.appendChild(editButton);
+                        dropdownMenu.appendChild(deleteButton);
+                    }
+        
+                } catch (error) {
+                    // Do nothing
+                }
+
             });
             
             commentInfoContainer.appendChild(seeMore);
@@ -542,7 +843,44 @@ async function displayComments(postId) {
     });
 }
 
-// Function to fetch post details
+const postCommentButton = document.getElementById('post-comment-button');
+postCommentButton.addEventListener('click', async () => {
+    const commentInput = document.getElementById('comment-input');
+    const comment = commentInput.value;
+    const postId = getQueryParam('id');
+
+    if (comment === "") {
+        alert("Please enter a comment.");
+        return;
+    }
+
+    try{
+        const response = await fetch(`/communityforum/${postId}/comments`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ description: comment, userId: userId })
+        })
+    
+        const data = await response.json();
+        console.log(data);
+        if (data) {
+            alert("Comment posted successfully!");
+            window.location.reload();
+        } else {
+            console.error(data.error);
+            alert("Failed to post comment.");
+        }
+    }
+    catch(error){
+        console.error(error);
+        alert("You need to be logged in to post a comment!");
+    }
+});
+
+
+// Fetch post details on page load if post id is correct 
 document.addEventListener('DOMContentLoaded', async () => {
     const postId = getQueryParam('id');
     if (postId) {
