@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
             setupLikeButton(event, 1);
+            setupParticipateBtn(event, 1);
 
         } catch (error) {
             console.error('Error fetching event details:', error);
@@ -87,7 +88,7 @@ async function setupLikeButton(event, userId) {
     });
 
     // Check the initial like status
-    updateLikeButton(likeBtn, isLiked, event.likes); // Default to false, assuming the user hasn't liked it yet
+    updateLikeButton(likeBtn, isLiked, event.likes); 
 }
 
 function updateLikeButton(button, liked, likeCount) {
@@ -95,6 +96,71 @@ function updateLikeButton(button, liked, likeCount) {
         button.innerHTML = `<i class="bi bi-hand-thumbs-up-fill"></i> <span id="likeCount">${likeCount}</span>`;
     } else {
         button.innerHTML = `<i class="bi bi-hand-thumbs-up"></i> <span id="likeCount">${likeCount}</span>`;
+    }
+}
+
+//Participation Logic
+async function setupParticipateBtn(event, userId) {
+    const participateBtn = document.getElementById('participateBtn');
+
+    if (event.status === 'Cancelled' || event.status === 'Closed') {
+        participateBtn.disabled = true;
+        participateBtn.classList.add('btn-secondary');
+        participateBtn.textContent = 'Event is ' + event.status;
+        return;
+    }
+
+    let hasParticipated = false;
+    try {
+        const hasParticipatedResponse = await fetch(`/events/${event.eventId}/get-event-participation/1`); // Change once user session storage is implemented
+        hasParticipated = await hasParticipatedResponse.json();
+    }
+    catch {
+        hasParticipated = false;
+    }
+
+    // Check the initial participation status
+    updateParticipateBtn(participateBtn, hasParticipated); 
+
+    participateBtn.addEventListener('click', async () => {
+        try {
+            const response = await fetch(`/events/${event.eventId}/modifyparticipation`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userId })
+            });
+            if (!response.ok) {
+                throw new Error('Failed to join/withdraw the event');
+            }
+            const result = await response.json();
+            updateParticipateBtn(participateBtn, result.eventstatus === 'joined');
+            displayFeedback(result.eventstatus === 'joined' ? "Thanks for joining! We'll look forward to your participation!" : 'Withdrawn event. Thanks for considering!', 'success');
+        } catch (error) {
+            console.error('Error joining/withdrawing event:', error);
+            alert('Please log in to participate in an event.');
+            displayFeedback('Failed to join/withdraw the event. Please try again.', 'error');
+        }
+    });
+}
+
+function updateParticipateBtn(button, participated) {
+    if (participated) {
+        button.textContent = 'Withdraw Event';
+    } else {
+        button.textContent = 'Participate in Event';
+    }
+}
+
+function displayFeedback(message, type) {
+    const element = document.getElementById('feedback');
+    element.innerText = message;
+    element.classList.remove('text-success', 'text-danger');
+    if (type === 'error') {
+        element.classList.add('text-danger');
+    } else if (type === 'success') {
+        element.classList.add('text-success');
     }
 }
 
@@ -128,3 +194,11 @@ function formatTime(timeString) {
 
     return `${formattedHours}:${minutes} ${period}`;
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const returnBtn = document.getElementById('returnBtn');
+    
+    returnBtn.addEventListener('click', () => {
+        window.location.href = 'event.html';
+    });
+});
