@@ -278,6 +278,18 @@ const getEventByUser = async (req, res) => {
 
 }
 
+const getParticipatedEvents = async (req, res) => {
+    const userId = parseInt(req.params.userId);
+    try {
+        const event = await Event.getParticipatedEvents(userId);
+        res.json(event);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving events");
+    }
+
+}
+
 module.exports = {
     getAllEvents,
     getEventById,
@@ -295,5 +307,6 @@ module.exports = {
     modifyLike,
     getLikeByUser,
     getEventByUser,
-    modifyParticipation
+    modifyParticipation,
+    getParticipatedEvents
 };

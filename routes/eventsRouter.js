@@ -22,7 +22,8 @@ router.get("/count", eventsController.getEventCount);
 router.get("/search", eventsController.searchEvents);
 router.get("/status/:status", eventsController.getEventsByStatus);
 router.get("/:id", eventsController.getEventById);
-router.get("/:eventId/get-like-by-user/:userId", eventsController.getLikeByUser)
+router.get("/:userId/participated", eventsController.getParticipatedEvents);
+router.get("/:eventId/get-like-by-user/:userId", eventsController.getLikeByUser);
 router.get("/:eventId/get-event-participation/:userId", eventsController.getEventByUser);
 router.post("/", upload.single('image'), validateEvent, eventsController.createEvent);
 router.put("/approve/:id", eventsController.approveEvent);

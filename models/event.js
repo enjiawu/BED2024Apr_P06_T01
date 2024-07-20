@@ -458,6 +458,44 @@ class Event {
 
         return this.getEventById(eventId);
     }
+
+    static async getParticipatedEvents(userId) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `
+        SELECT * FROM Events e
+        INNER JOIN EventUsers eu ON e.eventId = eu.eventId
+        WHERE eu.userId = @userId
+        `;
+
+        const request = connection.request();
+        request.input('userId', userId);
+        const result = await request.query(sqlQuery);
+
+        console.log(result.recordset);
+
+        connection.close();
+
+        return result.recordset.map(
+        (event) => 
+            new Event(
+                event.eventId[0],
+                event.title,
+                event.description,
+                event.image,
+                event.datePosted,
+                event.location,
+                event.startDate,
+                event.startTime,
+                event.status,
+                event.likes,
+                event.userId[0],
+                event.username,
+                event.staffId,
+                event.staffName
+            )
+        )
+    }
 }
 
 module.exports = Event;
