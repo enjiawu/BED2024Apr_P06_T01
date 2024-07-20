@@ -17,7 +17,7 @@ const getTopicById = async (req, res) => {
         if (!topic) {
             return res.status(404).json({ error: "Topic not found"});
         }
-        res.json(topic);
+        res.status(200).json(topic);
     } catch (error) {
         console.error(error);
         res.status(500).send("Error retrieving topic");
@@ -27,7 +27,7 @@ const getTopicById = async (req, res) => {
 const getTopicCount = async (req, res) => {
     try {
         const topicCount = await Topic.getTopicCount();
-        res.json(topicCount);
+        res.status(200).json(topicCount);
     } catch (error) {
         console.error(error);
         res.status(500).send("Error retrieving topic count");
