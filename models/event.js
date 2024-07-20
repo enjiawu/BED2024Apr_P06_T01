@@ -405,6 +405,59 @@ class Event {
 
         return result.rowsAffected[0] > 0;
     }
+
+    static async getEventByUser(eventId, userId) {
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `
+            SELECT * FROM EventUsers
+            WHERE eventId = @eventId AND userId = @userId;
+        `;
+        const request = connection.request();
+        request.input("eventId", eventId);
+        request.input("userId", userId);
+        const result = await request.query(sqlQuery);
+        connection.close();
+
+        return result.rowsAffected[0] > 0;
+    }
+
+    static async joinEvent(eventId, userId) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `
+        INSERT INTO EventUsers (eventId, userId) VALUES (@eventId, @userId)
+        SELECT SCOPE_IDENTITY() AS participateId;
+        `;
+
+        const request = connection.request();
+        request.input("eventId", eventId);
+        request.input("userId", userId);
+
+        await request.query(sqlQuery);
+
+        connection.close();
+
+        return this.getEventById(eventId);
+    }
+
+    static async withdrawEvent(eventId, userId) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `
+        DELETE FROM EventUsers 
+        WHERE eventId = @eventId AND userId = @userId
+        `;
+
+        const request = connection.request();
+        request.input("eventId", eventId);
+        request.input("userId", userId);
+
+        await request.query(sqlQuery);
+
+        connection.close();
+
+        return this.getEventById(eventId);
+    }
 }
 
 module.exports = Event;

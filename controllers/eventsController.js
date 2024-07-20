@@ -237,6 +237,47 @@ const getLikeByUser = async (req, res) => {
 
 }
 
+const modifyParticipation = async (req, res) => {
+    const eventId = parseInt(req.params.id);
+    const userId = req.body.userId;
+
+    try {
+        const existingParticipation = await Event.getEventByUser(eventId, userId);
+        if (existingParticipation) {
+            // Withdraw from the event the event
+            const event = await Event.withdrawEvent(eventId, userId);
+            if (!event) {
+                return res.status(404).json({ error: "Event not found" });
+            }
+            res.json({ success: true, eventstatus: 'withdrawn'});
+        } else {
+            // Join the event
+            const event = await Event.joinEvent(eventId, userId);
+            if (!event) {
+                return res.status(404).json({ error: "Event not found" });
+            }
+            res.json({ success: true, eventstatus: 'joined'});
+        }
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error joining/withdrawing event" });
+    }
+}
+
+const getEventByUser = async (req, res) => {
+    const eventId = parseInt(req.params.eventId);
+    const userId = parseInt(req.params.userId);
+    try {
+        const event = await Event.getEventByUser(eventId, userId);
+        res.json(event);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving event");
+    }
+
+}
+
 module.exports = {
     getAllEvents,
     getEventById,
@@ -252,5 +293,7 @@ module.exports = {
     approveEvent,
     denyEvent,
     modifyLike,
-    getLikeByUser
+    getLikeByUser,
+    getEventByUser,
+    modifyParticipation
 };
