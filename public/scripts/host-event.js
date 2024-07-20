@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData(hostEventForm);
 
         const eventImageFile = document.getElementById('eventImage').files[0];
-
+        const errorMessagesDiv = document.getElementById('errorMessages');
+        errorMessagesDiv.innerHTML = '';
         // Validate file type
         if (!isImageFile(eventImageFile)) {
             displayFeedback('Please upload a valid image file.', 'error');
@@ -25,7 +26,17 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (!response.ok) {
+                const result = await response.json();
+                if (result.errors) {
+                    result.errors.forEach(error => {
+                    const errorMessage = document.createElement('p');
+                    errorMessage.textContent = error;
+                    errorMessagesDiv.appendChild(errorMessage);
+                });
+            } else {
                 throw new Error('Failed to create event');
+            }  
+               
             }
 
             const createdEvent = await response.json();
@@ -42,8 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
             imagePreview.style.display = 'none';
         } catch (error) {
             console.error('Error creating event:', error);
-            alert('Error creating event. Please try again.');
-            displayFeedback('Error creating event. Please try again.', 'error');
+            alert('Unable to create event. Please try again.');
+            displayFeedback('Unable to create event. Please try again.', 'error');
             // Handle error display or other feedback to the user
         }
     });

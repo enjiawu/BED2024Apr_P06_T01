@@ -46,8 +46,22 @@ function formatTime(timeString) {
     return `${formattedHours}:${minutes} ${period}`;
 }
 
+async function checkParticipationStatus(eventId, userId) {
+    try {
+        const response = await fetch(`/events/${eventId}/get-event-participation/${userId}`);
+        if (!response.ok) {
+            throw new Error('Failed to check participation status');
+        }
+        const hasParticipated = await response.json();
+        return hasParticipated;
+    } catch (error) {
+        console.error('Error checking participation status:', error);
+        return false;
+    }
+}
+
 // Render events on the page
-function renderEvents(events) {
+async function renderEvents(events) {
     const eventsContainer = document.querySelector('.events-Container');
     const noEventsMessage = document.getElementById('noEventsMessage');
     eventsContainer.innerHTML = ''; // Clear existing content
@@ -57,43 +71,48 @@ function renderEvents(events) {
     } else {
         noEventsMessage.style.display = 'none';
     }
-
-    events.forEach(event => {
-        const eventCard = document.createElement('div');
-        eventCard.classList.add('event-card');
-        eventCard.innerHTML = `
-            <div class="d-flex">
-                <img src="${event.image}" class="card-img" style="width: 160px; height: 160px; margin: 7.5px;" alt="Event Image">
-                <div class="flex-grow-1">
-                    <a href="participate-event.html?id=${event.eventId}" class="event-card-link">
-                        <h5 class="mt-2"><strong>${event.title}</strong></h5>
-                        <p>Hosted by: ${event.username}</p>
-                        <p class="event-desc">${event.description}</p>
-                    </a>     
+    for (const event of events) {
+        try {
+            const hasParticipated = await checkParticipationStatus(event.eventId, 1);
+            const eventCard = document.createElement('div');
+            eventCard.classList.add('event-card');
+            eventCard.innerHTML = `
+                <div class="d-flex">
+                    <img src="${event.image}" class="card-img" style="width: 160px; height: 160px; margin: 7.5px;" alt="Event Image">
+                    <div class="flex-grow-1">
+                        <a href="participate-event.html?id=${event.eventId}" class="event-card-link">
+                            <h5 class="mt-2"><strong>${event.title}</strong></h5>
+                            <p>Hosted by: ${event.username}</p>
+                            <p class="event-desc">${event.description}</p>
+                        </a>
+                    </div>
+                    <div class="event-details text-end">
+                        <button class="btn btn likeBtn">
+                            <i class="bi bi-hand-thumbs-up-fill"></i> <span class="likeCount">${event.likes}</span>
+                        </button>
+                        <p class="mt-1">Status: ${event.status}</p>
+                        <p>Date & Time of Event: ${formatDate(event.startDate) + ' ' + formatTime(event.startTime)}</p>
+                        ${hasParticipated ? '<span class="badge bg-success fs-6">Joined</span>' : ''}
+                    </div>
                 </div>
-                <div class="event-details text-end">
-                    <button class="btn btn likeBtn">
-                        <i class="bi bi-hand-thumbs-up-fill"></i> <span class="likeCount">${event.likes}</span>
-                    </button>
-                    <p class="mt-1">Status: ${event.status}</p>
-                    <p>Date & Time of Event: ${formatDate(event.startDate) + ' ' + formatTime(event.startTime)}</p>
-                </div>
-            </div>
-        `;
-        eventsContainer.appendChild(eventCard);
+            `;
+            eventsContainer.appendChild(eventCard);
+        } catch (error) {
+            console.error('Error processing event:', error);
+        }
+    }
+    // const likeBtn = document.querySelector('.likeBtn');
+    // const likeCount = document.querySelector('.likeCount');
 
-        // const likeBtn = document.querySelector('.likeBtn');
-        // const likeCount = document.querySelector('.likeCount');
+    // likeBtn.addEventListener('click', () => {
+    //     if (!likeBtn.disabled) {
+    //         event.likes += 1;
+    //         likeCount.textContent = event.likes;
+    //         likeBtn.disabled = true;
+    //     } 
+    // });
+};
 
-        // likeBtn.addEventListener('click', () => {
-        //     if (!likeBtn.disabled) {
-        //         event.likes += 1;
-        //         likeCount.textContent = event.likes;
-        //         likeBtn.disabled = true;
-        //     } 
-        // });
-    });
-}
 
 async function searchEvents(searchTerm) {
     try {
