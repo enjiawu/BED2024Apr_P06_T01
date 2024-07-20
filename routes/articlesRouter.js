@@ -9,7 +9,7 @@ const router = express.Router();
 const articlesController = require("../controllers/articlesController.js");
 
 //Reply Routes
+router.get("/:articleUrl/content", articlesController.getArticleContent);
 router.get("/:sortBy", articlesController.getArticles);
-router.get("/content", articlesController.getArticleContent);
 
 module.exports = router; // Export the router

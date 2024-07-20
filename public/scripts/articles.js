@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const articleReaderModal = document.getElementById("article-reader-modal");
+
     async function loadArticles(sortBy) {
         const articlesResponse = await fetch(`/articles/${sortBy}`);
 
@@ -19,9 +21,10 @@ document.addEventListener("DOMContentLoaded", function () {
             let newArticleCard = articleCardTemplate.cloneNode(true);
             articlesList.appendChild(newArticleCard);
 
-            newArticleCard.querySelector(".article-source-and-date").innerHTML =
-                article.source.name +
-                "  &bull;  " +
+            newArticleCard.querySelector(".article-source").innerText =
+                article.source.name;
+
+            newArticleCard.querySelector(".article-date").innerText =
                 article.publishedAt.slice(0, 10) +
                 " " +
                 article.publishedAt.slice(11, 19) +
@@ -34,9 +37,76 @@ document.addEventListener("DOMContentLoaded", function () {
             newArticleCard.querySelector(".article-image").src =
                 article.urlToImage;
 
+            newArticleCard.setAttribute("data-bs-article-url", article.url);
+            newArticleCard.setAttribute(
+                "data-bs-author",
+                article.source.author
+            );
+
+            newArticleCard.addEventListener("click", async function () {
+                console.log(this);
+
+                const contentResponse = await fetch(
+                    `/articles/${encodeURIComponent(
+                        this.getAttribute("data-bs-article-url")
+                    )}/content`
+                );
+                const content = await contentResponse.json();
+
+                articleReaderModal
+                    .querySelector(".article-link")
+                    .setAttribute(
+                        "href",
+                        this.getAttribute("data-bs-article-url")
+                    );
+
+                articleReaderModal.querySelector(".modal-title").innerText =
+                    this.querySelector(".article-heading").innerText;
+                articleReaderModal.querySelector(".article-heading").innerText =
+                    this.querySelector(".article-heading").innerText;
+                articleReaderModal.querySelector(".article-content").innerHTML =
+                    content;
+                articleReaderModal
+                    .querySelector(".article-reader-image")
+                    .setAttribute(
+                        "src",
+                        this.querySelector(".article-image").src
+                    );
+                articleReaderModal.querySelector(
+                    ".article-source-and-author"
+                ).innerText =
+                    this.getAttribute("data-bs-author") === "undefined"
+                        ? this.querySelector(".article-source").innerText
+                        : this.querySelector(".article-source").innerText +
+                          " - " +
+                          this.getAttribute("data-bs-author");
+
+                articleReaderModal.querySelector(".article-date").innerText =
+                    this.querySelector(".article-date").innerText;
+            });
+
             newArticleCard.classList.remove("hidden");
         }
     }
+
+    const close = document.getElementsByClassName("close")[0];
+    close.addEventListener("click", function () {
+        articleReaderModal
+            .querySelector(".article-link")
+            .setAttribute("href", "");
+
+        articleReaderModal.querySelector(".modal-title").innerText = "";
+        articleReaderModal.querySelector(".article-heading").innerText = "";
+        articleReaderModal.querySelector(".article-content").innerHTML = "";
+        articleReaderModal
+            .querySelector(".article-reader-image")
+            .setAttribute("src", "");
+        articleReaderModal.querySelector(
+            ".article-source-and-author"
+        ).innerText = "";
+
+        articleReaderModal.querySelector(".article-date").innerText = "";
+    });
 
     loadArticles("relevancy");
 });
