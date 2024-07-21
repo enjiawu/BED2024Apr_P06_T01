@@ -28,29 +28,36 @@ class CommunityForumPost {
 
     // Getting all posts to display
     static async getAllPosts() {
-        const connection = await sql.connect(dbConfig);
+        let connection;
+        try {
+            connection = await sql.connect(dbConfig);
 
-        const sqlQuery = `SELECT * FROM CommunityPosts`;
+            const sqlQuery = `SELECT * FROM CommunityPosts`;
 
-        const result = await connection.request().query(sqlQuery);
+            const result = await connection.request().query(sqlQuery);
 
-        connection.close();
-
-        return result.recordset.map(
-            (row) =>
-                new CommunityForumPost(
-                    row.postId,
-                    row.userId,
-                    row.title,
-                    row.description,
-                    row.topicId,
-                    row.likes,
-                    row.comments,
-                    row.dateCreated,
-                    row.dateUpdated,
-                    row.reports
-                )
-        );
+            return result.recordset.map(
+                (row) =>
+                    new CommunityForumPost(
+                        row.postId,
+                        row.userId,
+                        row.title,
+                        row.description,
+                        row.topicId,
+                        row.likes,
+                        row.comments,
+                        row.dateCreated,
+                        row.dateUpdated,
+                        row.reports
+                    )
+            );
+        } catch (error) {
+            throw new Error("Error getting all posts");
+        } finally {
+            if (connection) {
+                connection.close();
+            }
+        }
     };
 
     // Getting post by id for the invidiual post page
@@ -480,6 +487,7 @@ class CommunityForumPost {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = `
+        DELETE FROM CommentLikes WHERE commentId = @commentId   
         DELETE FROM CommentReports WHERE commentId = @commentId
         DELETE FROM Comments WHERE parentCommentId = @commentId
         DELETE FROM Comments WHERE commentId = @commentId`;
@@ -667,4 +675,3 @@ Community Management (Moderators/Admins):
 - Create Real Time effect of statistics changing when a user interacts with the post.
 
 */
-

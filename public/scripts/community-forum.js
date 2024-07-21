@@ -1,7 +1,31 @@
+let userId = null; // Initialize the user ID
+
+// Function to get the user data from the token
+async function getUserDataFromToken() {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        console.log("No token found");
+        return false;
+    }
+
+    userId = JSON.parse(localStorage.getItem("userData")).userId;
+
+    return true;
+}
+
+// Check if the user is logged in to create a new post
+async function checkForLoggedIn(){
+    if (! await getUserDataFromToken()) {
+        alert("You need to be logged in to view this page!");
+    }
+    else{
+        window.location.href = "community-forum-post-details.html"; // Redirect to the post details page to create a new post
+    }
+}
+
 // Function to format the post data and display it on the page
 async function formatPost(post, postList){    
-
-    const userId = 5; // replace with actual function to find user id after they logged in later
 
     // Create the main post container element
     const postItem = document.createElement("div");
@@ -551,27 +575,11 @@ function sortPosts(sortOption) {
     }
 }
 
-function isLoggedIn(){
-    const token = localStorage.getItem("token");
-    if (token) {
-        return true;
-    }
-    return true;
-}
-
-// Check if the user is logged in
-function checkForLoggedIn(){
-    if (!isLoggedIn()) {
-        alert("You need to be logged in to view this page!");
-    }
-    else{
-        window.location.href = "community-forum-post-details.html"; // Redirect to the post details page to create a new post
-    }
-}
-
 // When the page loads, fetch the post data and display it
 document.addEventListener("DOMContentLoaded", function () {
+    getUserDataFromToken(); // Get the user data from the token
     fetchPosts(); // Call the function to fetch and display posts
     fetchForumStats(); // Call the function to fetch and display post count
     populateTopicsDropdown(); // Populate topic dropdowns
 });
+

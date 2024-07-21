@@ -89,10 +89,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const userData = await response.json();
             localStorage.setItem('token', userData.token);
-            localStorage.setItem('userData', JSON.stringify(userData));
+            localStorage.setItem('userData', JSON.stringify(userData.user));
             console.log('Login successful:', userData);
             alert('Login successful!');
-
+ 
             updateUIForAuthenticatedUser(userData);
 
         } catch (error) {
