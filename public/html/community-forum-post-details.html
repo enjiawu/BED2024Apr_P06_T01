@@ -167,19 +167,25 @@
                         <div class="post-details card mt-3 pb-1">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div class = "d-flex flex-row justify-content-start align-content-between">
-                                    <a class = "back-arrow mx-2" href = "community-forum.html"><i class="fa fa-arrow-circle-left"></i></a>
+                                    <a onclick = "leaveConfirmation()" class = "back-arrow mx-2"><i class="fa fa-arrow-circle-left"></i></a>
                                     <h2 class = "add-post-title mx-2 px-1 my-2">Add post</h3>
                                 </div>
                                
-                                <div class = "post-form d-flex flex-column mx-5 gap-3 mt-2">
-                                    <input class="post-title flex-grow-1" type="text" placeholder="Enter Post Title" maxlength="60" minlength="10"/>
+                                <form id = "post-form" class = "post-form d-flex flex-column mx-5 gap-3 mt-2">
+                                    <textarea class="post-title flex-grow-1" type="text" id = "post-title" placeholder="Enter Post Title" maxlength="60" minlength="10" rowws="2"></textarea>
                                     <div class = "post-topics d-flex flex-row gap-2">
-                                        <a class = "select-topic-button"><div class="post-topic">Select a topic</div></a>
+                                        <div class="dropdown">
+                                            <button class="dropdown-toggle post-topic" type="button" id="select-topic-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select a topic
+                                            </button>
+                                            <ul class="dropdown-menu" id = "topic-dropdown" aria-labelledby="select-topic-dropdown">
+                                                <!-- Dyanmically load all topics -->
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <textarea class = "post-description flex-grow-1 pt-2" type="text" placeholder="Enter post description" rows="5" minlength="25"></textarea>
-                                    <button class = "add-post-button flex-grow-1">Add Post</button>
-                                </div>
-                                <div class="post-content"></div>
+                                    <textarea class = "post-description flex-grow-1 pt-2" type="text" id = "post-description" placeholder="Enter post description" rows="5" minlength="25"></textarea>
+                                    <button class = "add-post-button flex-grow-1" id = "add-post-button">Add Post</button>
+                                </form>
                             </div>
                         </div>
                     </section>
@@ -205,6 +211,7 @@
 
         <!-- JavaScript files -->
         <script src="../scripts/community-topics.js"></script>
+        <script src="../scripts/community-forum-create-post.js"></script>
         <script src="../scripts/login-popup.js"></script>
 
         <!-- Bootstrap JavaScript Libraries -->
