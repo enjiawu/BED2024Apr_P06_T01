@@ -487,21 +487,22 @@ class CommunityForumPost {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = `
-        DECLARE @postId int;
-        SELECT @postId = postId FROM Comments WHERE commentId = 36;
-        DELETE FROM CommentLikes WHERE commentId = 36;
-        DELETE FROM CommentReports WHERE commentId = 36;
-        DELETE FROM Comments WHERE parentCommentId = 36;
-        DELETE FROM Comments WHERE commentId = 36;
-        UPDATE CommunityPosts SET comments = comments - 1 WHERE postId = @postId;`;
+        UPDATE CommunityPosts SET comments -=1 where postId = (SELECT postId FROM comments where commentId = @commentId);
+
+        DELETE FROM CommentLikes WHERE commentId = @commentId; 
+        DELETE FROM CommentReports WHERE commentId = @commentId;
+        DELETE FROM Comments WHERE parentCommentId = @commentId;
+        DELETE FROM Comments WHERE commentId = @commentId;`;
 
         const request = connection.request();
         request.input("commentId", commentId);
         const result = await request.query(sqlQuery);
 
+        console.log(result);
+
         connection.close();
 
-        return result.rowsAffected[2] > 0; // Check that comment has been deleted
+        return result.rowsAffected[4] > 0; // Check that comment has been deleted
     }
 
     // Like comment

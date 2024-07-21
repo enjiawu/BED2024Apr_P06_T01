@@ -541,6 +541,7 @@ async function displayComments(postId) {
                             const post = await postResponse.json();
                             console.log(post);
                             postComments.textContent = post.comments;
+                            window.location.reload();
                         } else {
                             throw new Error("Failed to delete comment.");
                         }
