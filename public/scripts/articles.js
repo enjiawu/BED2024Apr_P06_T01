@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
         clearTimeout(typingTimer);
         typingTimer = setTimeout(function () {
             console.log(searchBar.value);
-            loadArticles(searchBar.value, "relevancy");
+            loadArticles(searchBar.value, sortBy);
         }, 500);
     });
 
@@ -135,9 +135,30 @@ document.addEventListener("DOMContentLoaded", function () {
         searchBar.value = "";
         clear.classList.add("hidden");
         searchBar.id = "right-border-radius";
-        loadArticles("", "relevancy");
+        loadArticles("", sortBy);
     });
 
     searchBar.value = "";
-    loadArticles("", "relevancy");
+
+    let sortBy = "relevancy";
+    const sortByDropdown =
+        document.getElementsByClassName("dropdown-toggle")[0];
+    sortByDropdown.innerText = sortBy;
+
+    for (const option of document.getElementsByClassName("dropdown-item")) {
+        option.addEventListener("click", function () {
+            sortBy = this.getAttribute("data-sort-by");
+            sortByDropdown.innerText = option.innerText;
+            loadArticles(searchBar.value, sortBy);
+
+            for (const option of document.getElementsByClassName(
+                "dropdown-item"
+            )) {
+                option.classList.remove("active");
+            }
+            this.classList.add("active");
+        });
+    }
+
+    loadArticles("", sortBy);
 });
