@@ -134,6 +134,45 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Registration form submission event listener
+    document.getElementById('register-form').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const username = document.getElementById('register-username').value;
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+
+        try {
+            const response = await fetch('/users/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    email: email,
+                    password: password
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Registration failed');
+            }
+
+            const userData = await response.json();
+            localStorage.setItem('token', userData.token);
+            localStorage.setItem('userData', JSON.stringify(userData));
+            console.log('Registration successful:', userData);
+            alert('Registration successful!');
+
+            updateUIForAuthenticatedUser(userData);
+
+        } catch (error) {
+            alert('Registration failed.');
+            console.error('Registration error:', error);
+        }
+    });
+
     function checkAuthentication() {
         const token = localStorage.getItem('token');
         const userData = localStorage.getItem('userData');
