@@ -5,6 +5,7 @@ function getQueryParam(name) {
 }
 
 let userId = null; // Initialize the user ID
+let staffId = null; // Initialize the staff ID
 
 // Function to get the user data from the token
 function getUserDataFromToken() {
@@ -15,6 +16,7 @@ function getUserDataFromToken() {
         return false;
     }
 
+    staffId = JSON.parse(localStorage.getItem("staffData")).staffId;
     userId = JSON.parse(localStorage.getItem("userData")).userId;
 
     return true;
