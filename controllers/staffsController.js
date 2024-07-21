@@ -106,7 +106,7 @@ async function loginStaff(req, res) {
             expiresIn: "3600s",
         });
 
-        return res.status(200).json({ token });
+        return res.status(200).json({ token , staff});
     } catch (error) {
         console.error("Login error:", error);
         res.status(500).json({ message: "Internal server error" });

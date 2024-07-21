@@ -5,8 +5,8 @@ const getAllTopics = async (req, res) => {
         const topics = await Topic.getAllTopics();
         res.status(200).json(topics);
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Error retrieving topics");
+        console.error('Error in getAllTopics:', error);
+        res.status(500).json({error: "Error retrieving topics"});
     }
 }
 
@@ -19,8 +19,8 @@ const getTopicById = async (req, res) => {
         }
         res.status(200).json(topic);
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Error retrieving topic");
+        console.error('Error in getTopicById:', error);
+        res.status(500).json({error: "Error retrieving topic"});
     }
 }
 
@@ -29,8 +29,8 @@ const getTopicCount = async (req, res) => {
         const topicCount = await Topic.getTopicCount();
         res.status(200).json(topicCount);
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Error retrieving topic count");
+        console.error('Error in getTopicCount:', error);
+        res.status(500).json({error: "Error retrieving topic count"});
     }
 }
 

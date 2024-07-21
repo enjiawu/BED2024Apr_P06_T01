@@ -1,4 +1,18 @@
-const userId = 5; // Hardcoded user ID for testing purposes
+let userId = null; // Initialize the user ID
+
+// Function to get the user data from the token
+function getUserDataFromToken() {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        console.log("No token found");
+        return false;
+    }
+
+    userId = JSON.parse(localStorage.getItem("userData")).userId;
+
+    return true;
+}
 
 function validateInput() {
     const title = document.getElementById("post-title").value;
@@ -49,7 +63,16 @@ async function populateTopicsDropdown() {
     });
 }
 
+// Function to confirmm if user wants to return to the community forum
+function leaveConfirmation(){
+    const leave = confirm("Are you sure you want to leave this page? Your changes will not be saved.");
+    if (leave){
+        window.location.href = "community-forum.html";
+    }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
+    getUserDataFromToken();
     populateTopicsDropdown();
 
     const addPostButton = document.getElementById("add-post-button");
