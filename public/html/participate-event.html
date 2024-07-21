@@ -145,9 +145,9 @@
 
         <!-- Event Details -->
         <main>
-            <div class="container mt-5">
+            <div class="container mt-4">
             <h1 class="text-center">Event Title</h1>
-            <div class="card mt-4 event-card">
+            <div class="card mt-4 mb-4 event-card">
                 <div class="row">
                     <div class="col-md-5">
                         <img src="https://via.placeholder.com/150" class="card-img" alt="Event Image">
@@ -162,7 +162,15 @@
                             </ul>
                         </div>
                         <div class="position-absolute top-0 end-0 m-3">
-                            <i class="bi bi-three-dots-vertical"></i>
+                            <div class="dropdown">
+                                <button class="btn drop-btn" type="button" id="dropdownMenuButton"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li><a class="dropdown-item" href="#" id="editEventBtn">Edit Event</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -170,18 +178,79 @@
                     <h5 class="card-title">Event Details & Description</h5>
                     <p class="card-text">Details about the event will be displayed here.</p>
                     <div class="text-end">
-                        <button class="btn btn">
-                            <i class="bi bi-hand-thumbs-up-fill"></i> Like
+                        <button class="btn btn" id="likeBtn">
+                            <i class="bi bi-hand-thumbs-up-fill"></i> <span id="likeCount">Like</span>  
                         </button>
-                        <button class="btn participate-btn">Participate in Event</button>
+                        <button id="participateBtn" class="btn participate-btn">Participate in Event</button>
                     </div>
                 </div>
+                <div id="feedback" class="text-end"></div>
+            </div>
+            <div class="text-start">
+                <button id="returnBtn" class="btn return-btn">Return to Events</button>
             </div>
         </main>
         
+        <!-- footer section -->
+        <footer>
+            <div class="footer-row">
+            <div class="footer-col footer-logo">
+                <div class="footer-logo-img">
+                <img src="../images/logo/ReThink Logo - Green.png" alt = "logo">
+                </div>
+            </div>
+            <div class="footer-col footer-nav">
+                <div class="footer-navbar">
+                    <h4>Resources</h4>
+                    <nav>
+                        <ul>
+                        <li><a href="#">Articles</a></li>
+                        <li><a href="html/event.html">Events</a></li>
+                        <li><a href="#">Carbon Footprint Calculator</a></li>
+                        </ul>
+                    </nav>
+                </div>
+    
+                <div class="footer-navbar">
+                <h4>Support</h4>
+                <nav>
+                    <ul>
+                    <li><a href="#">Donation</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </nav>
+                </div>
+    
+                <div class="footer-navbar">
+                <h4>About</h4>
+                <nav>
+                    <ul>
+                    <li><a href="html/about-us.html">About Us</a></li>
+                    <li><a href="#">Credits</a></li>
+                    </ul>
+                </nav>
+                </div>
+
+                <div class="footer-navbar">
+                    <h4>Account</h4>
+                    <nav>
+                        <ul>
+                        <li><a href="#">Sign In</a></li>
+                        <li><a href="#">Sign Up</a></li>
+                        <li><a href="#">Profile</a></li>
+                        </ul>
+                    </nav>
+                    </div>
+            </div>
+            </div>
+            <div class="copyright">
+            <p>Copyright © 2024 ReThink</p>
+            </div>
+        </footer>
     
         <!-- Scripts -->
         <script src="../scripts/login-popup.js"></script>
+        <script src="../scripts/participate-event.js"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

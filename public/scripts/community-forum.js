@@ -1,5 +1,8 @@
 // Function to format the post data and display it on the page
 async function formatPost(post, postList){    
+
+    const userId = 5; // replace with actual function to find user id after they logged in later
+
     // Create the main post container element
     const postItem = document.createElement("div");
     postItem.classList.add("card", "mt-3");
@@ -22,13 +25,52 @@ async function formatPost(post, postList){
     likes.appendChild(numberOfLikes);
 
     const likeIcon = document.createElement("a");
-    likeIcon.classList.add("like-icon", "like-false");
+    let isLiked = false;
+    try{
+        const isLikedResponse = await fetch(`/communityforum/${post.postId}/get-like-by-user/${userId}`); // Check if user has already liked the post
+        isLiked = await isLikedResponse.json();
+    }
+    catch{
+        isLiked = false;
+    }
+
+    likeIcon.classList.add("like-icon", isLiked ? "like-true" : "like-false");
     const likeIconContent = document.createElement("i");
     likeIconContent.classList.add("fa", "fa-thumbs-up");
     likeIcon.appendChild(likeIconContent);
     likes.appendChild(likeIcon);
 
     postLeft.appendChild(likes);
+
+    likeIcon.addEventListener("click", async () => {
+        try {
+            // Check for like/unlike
+            const response = await fetch(`/communityforum/${post.postId}/modify-like`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userId: userId })
+            });
+    
+            const responseData = await response.json();
+            if (responseData.success) {
+                numberOfLikes.textContent = responseData.likes;
+                if (responseData.status === 'liked') {
+                    likeIcon.classList.remove("like-false");
+                    likeIcon.classList.add("like-true");
+                } else if (responseData.status === 'unliked') {
+                    likeIcon.classList.remove("like-true");
+                    likeIcon.classList.add("like-false");
+                }
+            } else {
+                console.error(responseData.error);
+            }
+        } catch (error) {
+            console.error(error);
+            alert("You need to be logged in to like a post!");
+        }
+    });
 
     // Post content section
     const postContent = document.createElement("div");
@@ -79,7 +121,7 @@ async function formatPost(post, postList){
     postDateAuthorContainer.appendChild(postDate);
 
     // Getting user name from the user id
-    const userResponse = await fetch(`/users/${post.userId}`);
+    const userResponse = await fetch(`/users/profile/${post.userId}`);
     const userData = await userResponse.json();
 
     const postAuthor = document.createElement("a");
@@ -142,9 +184,13 @@ async function formatPost(post, postList){
 
     const closeIcon = document.createElement("a");
     closeIcon.className = "close-icon";
-    closeIcon.href = "#";
     closeIcon.innerHTML = "<i class='fa fa-times'></i>";
     closeIconContainer.appendChild(closeIcon);
+
+    // Close listener
+    closeIcon.addEventListener("click", function() {
+        reportContainer.style.display = "none";
+    });
 
     // Create the textarea for report reason
     const reportReasonInput = document.createElement("textarea");
@@ -175,47 +221,95 @@ async function formatPost(post, postList){
     dropdownMenu.classList.add("dropdown-menu", "show");
     dropdownMenu.style.display = "none";
 
-     // Event listener for the ellipsis and report
-     let reportOptionVisible = false;
-     let postEllipsisVisible = false;
+    // Event listener for the ellipsis and report
+    let reportOptionVisible = false;
+    let postEllipsisVisible = false;
+
+    postEllipsis.addEventListener("click", function() {
+        if (postEllipsisVisible) {
+            postEllipsisVisible = false;
+            dropdownMenu.style.display = "none";
+        }
+        else {
+            postEllipsisVisible = true;
+            dropdownMenu.style.display = "block";
+        }
+    });
+    
+    // Add event listener to close icon
+    closeIcon.addEventListener("click", function() {
+        reportContainer.style.display = "none";
+    });
+    
+    // Add event listener to submit button
+    submitButton.addEventListener("click", function() {
+        const reportReason = reportReasonInput.value;
+        if (reportReason === "") {
+            alert("Please enter a reason for reporting the post.");
+            return;
+        }
+        alert("Post has been reported! Our staff will review it shortly.");
+        reportContainer.style.display = "none";
+    });
  
-     postEllipsis.addEventListener("click", function() {
-         if (postEllipsisVisible) {
-             postEllipsisVisible = false;
-             dropdownMenu.style.display = "none";
-         }
-         else {
-             postEllipsisVisible = true;
-             dropdownMenu.style.display = "block";
-         }
-     });
+    reportOption.addEventListener("click", function() {
+        if (reportOptionVisible) {
+            reportOptionVisible = false;
+            reportContainer.style.display = "none";
+        }
+        else {
+            reportOptionVisible = true;  
+            reportContainer.style.display = "flex";
+        }
+    });
      
-     // Add event listener to close icon
-     closeIcon.addEventListener("click", function() {
-         reportContainer.style.display = "none";
-     });
-     
-     // Add event listener to submit button
-     submitButton.addEventListener("click", function() {
-         const reportReason = reportReasonInput.value;
-         if (reportReason === "") {
-             alert("Please enter a reason for reporting the post.");
-             return;
-         }
-         alert("Post has been reported! Our staff will review it shortly.");
-         reportContainer.style.display = "none";
-     });
- 
-     reportOption.addEventListener("click", function() {
-         if (reportOptionVisible) {
-             reportOptionVisible = false;
-             reportContainer.style.display = "none";
-         }
-         else {
-             reportOptionVisible = true;  
-             reportContainer.style.display = "flex";
-         }
-     });
+    // Edit button in the dropdown menu if post is created by the user
+    if (post.userId === userId) {
+        const editButton = document.createElement("a");
+        editButton.classList.add("dropdown-item");
+        editButton.textContent = "Edit";
+
+        editButton.addEventListener("click", function () {
+            // Redirect to the edit post page with the post ID
+            window.location.href = `community-forum-edit-post.html?id=${post.postId}`;
+        });
+
+        const deleteButton = document.createElement("a");
+        deleteButton.classList.add("dropdown-item");
+        deleteButton.textContent = "Delete";
+
+        deleteButton.addEventListener("click", async function () {
+            // Confirm deletion
+            const confirmDelete = confirm("Are you sure you want to delete this post?");
+            if (!confirmDelete) {
+                return;
+            }
+
+            // Allow user to delete the comment
+            try {
+                const response = await fetch(`/communityforum/${post.postId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const success = await response.json();
+                if (success) {
+                    alert("Post successfully deleted!");
+                    window.location.reload();
+                } else {
+                    throw new Error("Failed to delete post.");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Failed to delete post.");
+            }
+        });
+
+        dropdownMenu.appendChild(editButton);
+        dropdownMenu.appendChild(deleteButton);
+    }
 
     dropdownMenu.appendChild(reportOption);
 
@@ -230,6 +324,11 @@ async function formatPost(post, postList){
 
     postItem.appendChild(postBody);
     postList.appendChild(postItem);
+
+    // Add event listener to the post title to redirect to the post details page
+    postTitle.addEventListener("click", function() {
+        window.location.href = `community-forum-post.html?id=${post.postId}`;
+    }); 
 }
 
 // Function to format the date
@@ -238,6 +337,7 @@ function formatDate(dateString) {
     const options = { day: 'numeric', month: 'long', year: 'numeric' }; // Format to November 11, 2021 etc.
     return date.toLocaleDateString('en-US', options);
 }
+
 
 // Function to fetch the post data from the server
 async function fetchPosts() {
@@ -300,10 +400,12 @@ searchInput.addEventListener("keypress", function(event) { // When the user clic
     }
 });
 
+let selectedTopicId = null; // Keep track of selected topic so that user can select to sort based on topic and sort by option
+let currentSortOption = null; // Keep track of current sort option 
 
-// Function to sort posts by date from newest to oldest 
-async function sortPostsByNewest(){
-    const response = await fetch("/communityforum/sort-by-newest");
+// Function to sort posts by date from newest to oldest
+async function sortPostsByNewest() {
+    const response = await fetch(`/communityforum/sort-by-newest${selectedTopicId ? `?topicId=${selectedTopicId}` : ''}`);
     const data = await response.json();
     const postList = document.getElementById("forum-posts");
     postList.innerHTML = ""; // Clear the existing posts
@@ -315,13 +417,12 @@ async function sortPostsByNewest(){
 }
 
 // Function to sort posts by date from oldest to newest
-async function sortPostsByOldest(){
-    const response = await fetch("/communityforum/sort-by-oldest");
+async function sortPostsByOldest() {
+    const response = await fetch(`/communityforum/sort-by-oldest${selectedTopicId ? `?topicId=${selectedTopicId}` : ''}`);
     const data = await response.json();
     const postList = document.getElementById("forum-posts");
     postList.innerHTML = ""; // Clear the existing posts
 
-    
     for (let i = 0; i < data.length; i++) {
         const post = data[i];
         await formatPost(post, postList); // Call the formatPost function for each post
@@ -329,8 +430,8 @@ async function sortPostsByOldest(){
 }
 
 // Function to sort posts by likes in descending order
-async function sortPostsByLikesDesc(){
-    const response = await fetch("/communityforum/sort-by-likes-desc");
+async function sortPostsByLikesDesc() {
+    const response = await fetch(`/communityforum/sort-by-likes-desc${selectedTopicId ? `?topicId=${selectedTopicId}` : ''}`);
     const data = await response.json();
     const postList = document.getElementById("forum-posts");
     postList.innerHTML = ""; // Clear the existing posts
@@ -342,8 +443,8 @@ async function sortPostsByLikesDesc(){
 }
 
 // Function to sort posts by likes in ascending order
-async function sortPostsByLikesAsc(){
-    const response = await fetch("/communityforum/sort-by-likes-asc");
+async function sortPostsByLikesAsc() {
+    const response = await fetch(`/communityforum/sort-by-likes-asc${selectedTopicId ? `?topicId=${selectedTopicId}` : ''}`);
     const data = await response.json();
 
     const postList = document.getElementById("forum-posts");
@@ -355,13 +456,13 @@ async function sortPostsByLikesAsc(){
     }
 }
 
-// Function to sort post by topic
-async function sortPostsByTopic(topicId){ 
+// Function to sort posts by topic
+async function sortPostsByTopic(topicId) {
+    console.log("Sorting by topic: " + topicId);
     const response = await fetch(`/communityforum/posts-by-topic/${topicId}`);
     const data = await response.json();
     const postList = document.getElementById("forum-posts");
     postList.innerHTML = ""; // Clear the existing posts
-    console.log(data);
 
     if (data.error) {
         alert("No posts found!"); // Alert the user if no posts were found
@@ -374,22 +475,22 @@ async function sortPostsByTopic(topicId){
 }
 
 // Populate drop down options for post topics and add event listeners for the topics
-async function populateTopicsDropdown(){
-    const response = await fetch("/communityforum/topics"); 
+async function populateTopicsDropdown() {
+    const response = await fetch("/communityforum/topics");
     const data = await response.json();
 
     const topicList = document.getElementById("topic-dropdown");
     const topicDropdownButton = document.getElementById("topic-dropdown-button");
 
     data.forEach((topic) => {
-        //Create the topic option
+        // Create the topic option
         const topicOptionContainer = document.createElement("li");
         const topicOption = document.createElement("a");
         topicOption.classList.add("dropdown-item");
         topicOption.dataset.topicId = topic.topicId;
         topicOption.textContent = topic.topic;
 
-        //Append the option to the topic list
+        // Append the option to the topic list
         topicOptionContainer.appendChild(topicOption);
         topicList.appendChild(topicOptionContainer);
     });
@@ -397,51 +498,80 @@ async function populateTopicsDropdown(){
     // Add event listeners to the topic dropdown options
     const topicDropdownItems = document.querySelectorAll("#topic-dropdown li a");
     topicDropdownItems.forEach((item) => {
-      item.addEventListener("click", function(event) {
-        const selectedTopic = event.target.textContent;
-        const topicId = event.target.dataset.topicId; // Get the topic ID from the data attribute
+        item.addEventListener("click", function(event) {
+            const selectedTopic = event.target.textContent;
+            const topicId = event.target.dataset.topicId; // Get the topic ID from the data attribute
 
-        // Update the text of the topic-dropdown-button
-        topicDropdownButton.textContent = selectedTopic;
+            // Update the text of the topic-dropdown-button
+            topicDropdownButton.textContent = selectedTopic;
 
-        if (selectedTopic === "All Topics") {
-            document.getElementById("forum-posts").innerHTML = ""; // Clear the existing posts
-            fetchPosts();
-        } else{
-            sortPostsByTopic(topicId);
-        }
-      });
+            // Clear the existing posts
+            document.getElementById("forum-posts").innerHTML = "";
+
+            if (selectedTopic === "All Topics") {
+                selectedTopicId = null;
+                fetchPosts().then(() => {
+                    sortPosts(currentSortOption);
+                });
+            } else {
+                selectedTopicId = topicId;
+                sortPostsByTopic(selectedTopicId).then(() => {
+                    sortPosts(currentSortOption);
+                });
+            }
+        });
     });
 }
- 
 
 // Event listeners for sort by dropdowns
 const sortByDropdownButton = document.getElementById("sort-by-dropdown-button");
 const sortByDropdownItems = document.querySelectorAll("#sort-by-dropdown li a");
 
 sortByDropdownItems.forEach((item) => {
-  item.addEventListener("click", function(event) {
-    const selectedValue = event.target.getAttribute("value");
-    const selectedText = event.target.textContent;
+    item.addEventListener("click", function(event) {
+        const selectedValue = event.target.getAttribute("value");
+        const selectedText = event.target.textContent;
 
-    sortByDropdownButton.textContent = selectedText;
+        sortByDropdownButton.textContent = selectedText;
+        currentSortOption = selectedValue;
 
-    if (selectedValue === "newest") {
-        console.log("Newest")
+        sortPosts(selectedValue);
+    });
+});
+
+function sortPosts(sortOption) {
+    if (sortOption === "newest") {
         sortPostsByNewest();
-    } else if (selectedValue === "oldest") {
+    } else if (sortOption === "oldest") {
         sortPostsByOldest();
-    } else if (selectedValue === "likes-desc") {
+    } else if (sortOption === "likes-desc") {
         sortPostsByLikesDesc();
-    } else if (selectedValue === "likes-asc") {
+    } else if (sortOption === "likes-asc") {
         sortPostsByLikesAsc();
     }
-  });
-});
+}
+
+function isLoggedIn(){
+    const token = localStorage.getItem("token");
+    if (token) {
+        return true;
+    }
+    return true;
+}
+
+// Check if the user is logged in
+function checkForLoggedIn(){
+    if (!isLoggedIn()) {
+        alert("You need to be logged in to view this page!");
+    }
+    else{
+        window.location.href = "community-forum-post-details.html"; // Redirect to the post details page to create a new post
+    }
+}
 
 // When the page loads, fetch the post data and display it
 document.addEventListener("DOMContentLoaded", function () {
-    fetchPosts(); // Call the function to fetch and display book data
+    fetchPosts(); // Call the function to fetch and display posts
     fetchForumStats(); // Call the function to fetch and display post count
-    populateTopicsDropdown();
+    populateTopicsDropdown(); // Populate topic dropdowns
 });

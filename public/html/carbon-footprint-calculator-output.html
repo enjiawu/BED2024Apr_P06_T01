@@ -151,10 +151,13 @@
                 <p>GRADE: <span id = "grade">AVERAGE</span></p>
             </section>
 
+            <canvas class = "m-5" id="carbon-comparison-chart"></canvas>
+            
             <section id = "tips-section" class = "d-flex text-center flex-column my-5">
                 <h1>Some ways to rethink your carbon footprint:</h1>
 
                 <div id="tips-container" class="mx-5">
+                    <!--
                     <div class="tip card mt-3 pb-1 mx-5 mb-4">
                         <div class="card-body d-flex flex-column justify-content-between">
                             <h3 class="title">Suggestion Heading 1</h3>
@@ -167,12 +170,14 @@
                             <h3 class="title">Suggestion Heading 1</h3>
                             <p class="description">Suggestion Body 1</p>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </section>
         </main>
         
         <script src="../scripts/login-popup.js"></script>
+        <script src="../scripts/carbon-footprint-calculator-output.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!--To show the users carbon footprint vs average-->
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
             integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

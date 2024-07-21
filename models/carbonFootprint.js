@@ -40,9 +40,9 @@ class CarbonFootprint {
   
     const results = await Promise.all(promises);
     const totalCarbonFootprint = results.reduce((acc, current) => acc + current, 0);
-    const roundedTotalCarbonFootprint = parseFloat(totalCarbonFootprint.toFixed(4));
+    const roundedTotalCarbonFootprint = parseFloat(totalCarbonFootprint.toFixed(2));
 
-    return roundedTotalCarbonFootprint;
+    return {'individualCF': results, 'totalCarbonFootprint' : roundedTotalCarbonFootprint};
   }
 
   // Get number of trees needed to offset carbon footprint
@@ -55,11 +55,12 @@ class CarbonFootprint {
 
     
     const treeEquivalent = response.data.numberOfTrees;
-    const roundedTreeEquivalent = parseFloat(treeEquivalent.toFixed(4));
+    const roundedTreeEquivalent = Math.ceil(treeEquivalent);
 
     return roundedTreeEquivalent;
   }
 
+  // Load carbon footprint suggestions based on user's carbon footprint grade
   static async getTipsByGrade(grade) {
      const connection = await sql.connect(dbConfig);
 
@@ -73,8 +74,90 @@ class CarbonFootprint {
 
     return result.recordset;
   }
+
+  static async updateCarbonFootprint(carTravel, publicTransport, flight, motorBike, treeEquivalent, totalCarbonFootprint) {
+    const connection = await sql.connect(dbConfig);
+  
+    // Make sure that the inputs are correctly inputed into the database
+    const sqlQuery = `
+      INSERT INTO CarbonFootprints (
+        carTravel,
+        publicTransport,
+        flight,
+        motorBike,
+        treeEquivalent,
+        totalCarbonFootprint
+      )
+      VALUES (
+        @carTravel,
+        @publicTransport,
+        @flight,
+        @motorBike,
+        @treeEquivalent,
+        @totalCarbonFootprint
+      )
+      SELECT SCOPE_IDENTITY() AS id
+    `;
+  
+    const request = connection.request();
+    if (carTravel !== null && carTravel !== 0) {
+      request.input("carTravel", parseFloat(carTravel));
+    }
+    else{
+      request.input("carTravel", 0);
+    }
+
+    if (publicTransport !== null && publicTransport !== 0) {
+      request.input("publicTransport", parseFloat(publicTransport));
+    }
+    else{
+      request.input("publicTransport", 0);
+    }
+
+    if (flight !== null && flight !== 0) {
+      request.input("flight", parseFloat(flight));
+    }
+    else{
+      request.input("flight", 0);
+    }
+
+    if (motorBike !== null && motorBike !== 0) {
+      request.input("motorBike", parseFloat(motorBike));
+    }else{
+      request.input("motorBike", 0);
+    }
+    
+    request.input("treeEquivalent", parseFloat(treeEquivalent));
+    request.input("totalCarbonFootprint", parseFloat(totalCarbonFootprint));
+  
+    await request.query(sqlQuery);
+    connection.close();
+  }
+    
+  static async compareStats() {
+    const connection = await sql.connect(dbConfig);
+  
+    const sqlQuery = ` 
+      SELECT 
+        AVG(carTravel) AS avgCarTravel,
+        AVG(publicTransport) AS avgPublicTransport,
+        AVG(flight) AS avgFlight,
+        AVG(motorBike) AS avgMotorBike,
+        AVG(treeEquivalent) AS avgTreeEquivalent,
+        AVG(totalCarbonFootprint) AS avgTotalCarbonFootprint
+      FROM CarbonFootprints
+    `; // Get the average of all current carbon footprints
+  
+    const request = connection.request();
+  
+    const result = await request.query(sqlQuery);
+    connection.close();
+  
+    return result.recordset[0];
+  }
 }
 
+// Function to create options for the API request based on the path and parameters
 function createOptions(path, params) {
   return {
     method: 'GET',
@@ -94,9 +177,8 @@ module.exports = CarbonFootprint;
 Carbon Footprint Calculator
 
 General Features:
-- Calculate carbon footprint: Calculate the user's carbon footprint based on fuel, car travel, public transprt, flight and motor bike usage using RapidAPI. 
-- Get number of trees needed to offset carbon footprint: Calculate the number of trees needed to offset the user's carbon footprint using a RapidAPI.
-- Load carbon footprint suggestions based on user input: Provide suggestions on how to reduce carbon footprint based on the user's input.
-- Implement sharing feature: Allow users to share their carbon footprint and offsetting efforts on social media platforms.
-- View carbon footprint in comparison to others: Display the user's carbon footprint in comparison to other users or the average carbon footprint in a chart or graph.
+- Calculate carbon footprint: Calculate the user's carbon footprint based on fuel, car travel, public transprt, flight and motor bike usage using RapidAPI. [x]
+- Get number of trees needed to offset carbon footprint: Calculate the number of trees needed to offset the user's carbon footprint using a RapidAPI. [x]
+- Load carbon footprint suggestions based on user input: Provide suggestions on how to reduce carbon footprint based on the user's input. [x]
+- View carbon footprint in comparison to others: Display the user's carbon footprint in comparison to other users or the average carbon footprint in a chart or graph. [x]
  */

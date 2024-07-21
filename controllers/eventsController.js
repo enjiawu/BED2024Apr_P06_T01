@@ -25,7 +25,24 @@ const getEventById = async (req, res) => {
 };
 
 const createEvent = async (req, res) => {
-    const newEvent = req.body;
+    const { title, description, datePosted, startDate, startTime, location, userId, username } = req.body;
+
+    // Handle file upload here if needed (store path or other metadata in database)
+
+    const newEvent = {
+        image: "../uploads/" + req.file.filename, // Store the file path in the database if image was uploaded
+        title,
+        description,
+        datePosted,
+        startDate,
+        startTime,
+        location,
+        status: 'Pending',
+        userId,
+        username,
+    };
+ 
+
     try {
         const createdEvent = await Event.createEvent(newEvent);
         res.status(201).send(createdEvent);
@@ -36,18 +53,34 @@ const createEvent = async (req, res) => {
 };
 
 const updateEvent = async (req, res) => {
-    const newEvent = req.body;
-    const eventId = parseInt(req.params.id);
+    const eventId = req.params.id;
+    const { title, description, startDate, startTime, status, location } = req.body;
+    let image;
+
+    if (req.file) {
+        image = req.file.filename;
+    } else {
+        // Fetch existing image from the database if no new image is uploaded
+        const existingEvent = await Event.getEventById(eventId);
+        image = existingEvent.image;
+    }
+
+    const updatedEvent = {
+        image: "../uploads/" + req.file.filename,
+        title,
+        description,
+        startDate,
+        startTime,
+        status,
+        location
+    };
 
     try {
-        const event = await Event.updateEvent(eventId, newEvent);
-        if (!event) {
-            return res.status(404).send("Event not found");
-        }
-        res.json(event);
+        const event = await Event.updateEvent(eventId, updatedEvent);
+        res.status(200).send(event);
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Error updating event");
+        console.error('Error updating event:', error);
+        res.status(500).send('Failed to update event');
     }
 };
 
@@ -162,6 +195,101 @@ const denyEvent = async (req, res) => {
     }
 };
 
+const modifyLike = async (req, res) => {
+    const eventId = parseInt(req.params.id);
+    const userId = req.body.userId;
+
+    try {
+        const existingLike = await Event.getLikeByUser(eventId, userId);
+        if (existingLike) {
+            // Unlike the event
+            const event = await Event.unlikeEvent(eventId, userId);
+            if (!event) {
+                return res.status(404).json({ error: "Event not found" });
+            }
+            res.json({ success: true, likestatus: 'unliked', likes: event.likes});
+        } else {
+            // Like the event
+            const event = await Event.likeEvent(eventId, userId);
+            if (!event) {
+                return res.status(404).json({ error: "Event not found" });
+            }
+            res.json({ success: true, likestatus: 'liked', likes: event.likes});
+        }
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error liking/unliking event" });
+    }
+    
+};
+
+const getLikeByUser = async (req, res) => {
+    const eventId = parseInt(req.params.eventId);
+    const userId = parseInt(req.params.userId);
+    try {
+        const like = await Event.getLikeByUser(eventId, userId);
+        res.json(like);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving like");
+    }
+
+}
+
+const modifyParticipation = async (req, res) => {
+    const eventId = parseInt(req.params.id);
+    const userId = req.body.userId;
+
+    try {
+        const existingParticipation = await Event.getEventByUser(eventId, userId);
+        if (existingParticipation) {
+            // Withdraw from the event the event
+            const event = await Event.withdrawEvent(eventId, userId);
+            if (!event) {
+                return res.status(404).json({ error: "Event not found" });
+            }
+            res.json({ success: true, eventstatus: 'withdrawn'});
+        } else {
+            // Join the event
+            const event = await Event.joinEvent(eventId, userId);
+            if (!event) {
+                return res.status(404).json({ error: "Event not found" });
+            }
+            res.json({ success: true, eventstatus: 'joined'});
+        }
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error joining/withdrawing event" });
+    }
+}
+
+const getEventByUser = async (req, res) => {
+    const eventId = parseInt(req.params.eventId);
+    const userId = parseInt(req.params.userId);
+    try {
+        const event = await Event.getEventByUser(eventId, userId);
+        res.json(event);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving event");
+    }
+
+}
+
+const getParticipatedEvents = async (req, res) => {
+    const userId = parseInt(req.params.userId);
+    try {
+        const event = await Event.getParticipatedEvents(userId);
+        res.json(event);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error retrieving events");
+    }
+
+}
+
 module.exports = {
     getAllEvents,
     getEventById,
@@ -175,5 +303,10 @@ module.exports = {
     getPendingEvents,
     getDeniedEvents,
     approveEvent,
-    denyEvent
+    denyEvent,
+    modifyLike,
+    getLikeByUser,
+    getEventByUser,
+    modifyParticipation,
+    getParticipatedEvents
 };

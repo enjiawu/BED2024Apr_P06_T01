@@ -1,0 +1,23 @@
+main,
+.modal-body {
+    max-width: 50rem;
+    margin: auto;
+}
+
+.hidden {
+    display: none;
+}
+
+.article-image {
+    border-radius: 10%;
+}
+
+.article-reader-image {
+    max-height: 50vh;
+    margin: 2rem 0;
+}
+
+.article-card {
+    text-align: left;
+    background-color: #ede3d2;
+}

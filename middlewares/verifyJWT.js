@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config(); // Load environment variables from a .env file into process.env
 
 function verifyJWT(req, res, next) {
-    console.log(req.headers);
+    //console.log(req.headers);
     const token = req.headers.authorization && req.headers.authorization.split(" ")[1];
 
     if (!token) {
@@ -20,7 +20,7 @@ function verifyJWT(req, res, next) {
             "/alladmin": ["admin"], // Root endpoint for testing
 
             // member
-            "^/profile/[0-9]+": ["member"], // Members can access their own profile
+            //"^/profile/[0-9]+": ["member"], // Members can access their own profile
             "^/profile/[0-9]+/edit": ["member"], // Member can edit their own profile
             "^/posts/[0-9]+": ["member"], // Members can view their own posts
             "^/events/[0-9]+": ["member"], // Members can view events they hosted

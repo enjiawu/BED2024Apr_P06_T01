@@ -156,100 +156,104 @@
             </div>
         </div>
 
-        <main class = "d-flex justify-content-center align-content-center flex-column mx-auto">
-
-            <div class = "d-flex mt-4 justify-content-center align-content-center m-auto mx-5 ">
-                <div class = "d-flex flex-column w-100">
-
-                    <section id= "post-content" class = "d-flex flex-column">
+        <main class="d-flex justify-content-center align-content-center flex-column mx-auto mb-5">
+            <div class="d-flex mt-4 justify-content-center align-content-center m-auto mx-5 ">
+                <div class="d-flex flex-column w-100">
+                    <section id="post-content" class="d-flex flex-column">
                         <div class="post-details card mt-3 pb-1">
                             <div class="card-body d-flex flex-column justify-content-between">
-                                <div class = "d-flex flex-row justify-content-between align-content-between">
-                                    <a class = "back-arrow mx-2"><i class="fa fa-arrow-circle-left"></i></a>
-                                    <div class = "d-flex flex-row align-content-between justify-content-between mx-3 mt-2 mb-3 flex-grow-1">
-                                        <p class="post-author">@user</p>
-                                        <div class = "d-flex flex-row align-content-end mx-2 gap-4">
-                                            <p class="post-date">date posted</p>
-                                            <a class = "post-ellipsis"><i class="fa fa-ellipsis-v"></i></a>
+                                <div class="d-flex flex-row justify-content-between align-content-between">
+                                    <a class="back-arrow mx-2" href="community-forum.html"><i class="fa fa-arrow-circle-left"></i></a>
+                                    <div class="d-flex flex-row align-content-between justify-content-between mx-3 mt-2 mb-3 flex-grow-1">
+                                        <p class="post-author" id="post-author">@user</p>
+                                        <div class="d-flex flex-row align-content-end mx-2 gap-4">
+                                            <p class="post-date" id="post-date">date posted</p>
+                                            <a class="post-ellipsis" id="post-ellipsis"><i class="fa fa-ellipsis-v"></i></a>
                                         </div>
                                     </div>
                                 </div>
-                               
-                                <div class = "d-flex flex-row align-items-center">
-                                    <div class = "post-content mx-5 mb-4">
-                                        <h5 class="card-title">Post Title</h5>
-                                        <p class="card-text">Post content goes here...</p>
-                                    </div>
+    
+                                <div class="post-content mx-5 mb-4">
+                                    <h5 class="card-title" id="post-title">Post Title</h5>
+                                    <p class="card-text" id="post-description">Post content goes here...</p>
                                 </div>
-
-                                <div class = "d-flex flex-row align-items-center justify-content-between">
-                                    <div class = "post-topics d-flex flex-row gap-2 mx-5">
-                                        <div class="post-topic">Topic</div>
-                                        <div class="post-topic">Topic</div>
-                                    </div>
-                                    <div class = "d-flex flex-row justify-content-end mx-4 gap-2">
-                                        <div class = "d-flex flex-row">
-                                            <p class = "number-of-likes">100</p>
-                                            <a class="like-icon like-false"><i class="fa fa-thumbs-up"></i></a>
+    
+                                <div class="d-flex flex-row align-items-center justify-content-between">
+                                    <div class="post-topic mx-5" id="post-topic">Topic</div>
+                                    <div class="d-flex flex-row justify-content-end mx-4 gap-2">
+                                        <div class="d-flex flex-row">
+                                            <p class="number-of-likes" id="post-likes">100</p>
+                                            <a class="like-icon" id="like-icon"><i class="fa fa-thumbs-up"></i></a>
                                         </div>
-                                        <div class = "d-flex flex-row">
+                                        <div class="d-flex flex-row">
                                             <i class="post-comment-icon mx-2 fa fa-comment-o"></i>
-                                            <p class="post-comments">1</p>
+                                            <p class="post-comments" id="post-comments">1</p>
                                         </div>
                                     </div>
                                 </div>
-                               
                             </div>
                         </div>
-
-                        <div class="post-comments mt-3 pb-3">
-                            <h3 class = "mx-4 my-4">Comments</h3>
-
-                            <div class = "comment card mb-2">
-                                <div class="card-body d-flex align-items-center py-0">
-                                    <div class = "d-flex flex-row mx-2 gap-2">
-                                        <p class = "comment-number-of-likes">100</p>
-                                        <a class="comments-like-icon like-false"><i class="fa fa-thumbs-up"></i></a>
-                                    </div> 
-                                    
-                                    <div class = " mx-2 flex-grow-1">
-                                        <div class = "d-flex flex-row justify-content-between align-content-between">
-                                            <div class = "d-flex flex-row align-content-between justify-content-between mx-3 mt-2 mb-1 flex-grow-1">
-                                                <p class="comment-author">@user</p>
-                                                <div class = "d-flex flex-row align-content-end mx-2 gap-4">
-                                                    <p class="comment-date">date posted</p>
-                                                    <a class = "comment-ellipsis"><i class="fa fa-ellipsis-v"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
     
-                                        <p class="comment-text mx-3">Comment</p>
-                                    </div>
-                                
-                                </div>        
+                        <div class="post-comments mt-3 pb-3 pt-2">
+                            <h3 class="mx-4 my-4">Comments</h3>
+                            <div id = "comments-container">
+                                <!-- Comments and replies will be dynamically laoded here -->
                             </div>
-
-                            <div class="add-comment d-flex justify-content-center align-content-center mx-4 mb-2">
-                                <input class = "comment-input flex-grow-1" type="text" placeholder="Add a comment..." />
-                                <a class = "post-comment-button mx-3"><i class="material-icons d-flex justify-content-center">send</i></a>
+                            
+                            
+                            
+                            <div id = "add-comment" class="add-comment d-flex justify-content-center align-content-center mx-4 mb-2 mt-3">
+                                <input id = "comment-input" class="comment-input flex-grow-1" type="text" placeholder="Add a comment..." />
+                                <a id = "post-comment-button" class="post-comment-button mx-3"><i class="material-icons d-flex justify-content-center">send</i></a>
                             </div>
                         </div>
                     </section>
                 </div>
-
-                <section id = "trending-topics" class = "d-flex flex-column w-25">
-                    <h4 class="text-center">Trending Topics</h2>
-                    <div id = "topics" class = "d-flex align-content-center flex-column">
+    
+                <section id="trending-topics" class="d-flex flex-column w-25">
+                    <h4 class="text-center">Trending Topics</h4>
+                    <div id="topics" class="d-flex align-content-center flex-column">
                         <!--
-                        <div class = "topic-content d-flex flex-row">
+                        <div class="topic-content d-flex flex-row">
                             <div class="circle"></div>
-                            <p class = "topic">Topic 1</p>
+                            <p class="topic">Topic 1</p>
                         </div>
                         -->
                     </div>
                 </section>
             </div>
+    
+            <!-- Report Container -->
+            <div id="report-container" class="w-25 justify-content-center mx-3 my-4 flex-column">
+                <div class="report-content d-flex flex-column">
+                    <div class="d-flex flex-row justify-content-between mb-4">
+                        <h4>Report Post</h4>
+                        <div class="d-flex flex-row justify-content-end">
+                            <a id = "close-report" class="close-icon"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                    <textarea id="report-reason" class="w-100" rows="3" placeholder="Enter report reason..."></textarea>
+                    <div class="d-flex flex-row justify-content-end mt-3">
+                        <button id="report-submit" class="btn">Submit</button>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Reply container -->
+            <div id="reply-container" class="w-50 justify-content-center mx-3 my-4 flex-column">
+                <div class="report-content d-flex flex-column">
+                    <div class="d-flex flex-row justify-content-between mb-4">
+                        <h4 id = "replying-to"></h4>
+                        <div class="d-flex flex-row justify-content-end">
+                            <a id = "close-reply" class="close-icon"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                    <textarea id="reply-input" class="w-100" rows="3" placeholder="Add a comment..."></textarea>
+                    <div class="d-flex flex-row justify-content-end mt-3">
+                        <button id="reply-submit" class="btn">Submit</button>
+                    </div>
+                </div>
+            </div>
         </main>
         <footer>
             <!-- place footer here -->
@@ -257,6 +261,7 @@
 
          <!-- JavaScript files -->
          <script src="../scripts/community-topics.js"></script>
+         <script src="../scripts/community-forum-details.js"></script>
          <script src="../scripts/login-popup.js"></script>
 
         <!-- Bootstrap JavaScript Libraries -->
