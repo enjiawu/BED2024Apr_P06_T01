@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 post.description;
 
             const originalPosterResponse = await fetch(`/users/${post.userId}`);
+            console.log(originalPosterResponse);
             const originalPoster = await originalPosterResponse.json();
             newPostReportCard.querySelector(".original-poster").innerText =
                 originalPoster.username;
