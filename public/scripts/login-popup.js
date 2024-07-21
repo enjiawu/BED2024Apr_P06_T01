@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Get all necessary elements
     const wrapper = document.querySelector('.wrapper');
     const loginLinks = document.querySelectorAll('.login-link');
     const staffLoginLink = document.querySelector('.staff-login-link');
@@ -10,20 +9,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const profilePicture = document.querySelector('.profile-pic img');
     const logoutButton = document.getElementById('logout-button');
 
-    // Get the form containers
     const loginForm = document.querySelector('.form-box.login');
     const staffLoginForm = document.querySelector('.form-box.staff-login');
     const registerForm = document.querySelector('.form-box.register');
 
-    // Function to hide all forms
     function hideAllForms() {
         loginForm.classList.remove('active');
         staffLoginForm.classList.remove('active');
         registerForm.classList.remove('active');
     }
 
-    // Function to update UI based on authentication status
     function updateUIForAuthenticatedUser(userData) {
+        console.log('Updating UI for user:', userData);
         userDropdown.style.display = 'block';
         document.getElementById('login-button-nav').style.display = 'none';
 
@@ -34,7 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
         wrapper.classList.remove('pop-active');
     }
 
-    // Event listener for clicking on the Register link
     registerLink.addEventListener('click', (event) => {
         event.preventDefault();
         hideAllForms();
@@ -42,7 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
         wrapper.classList.add('link-active-register');
     });
 
-    // Event listener for clicking on the staff Login link
     staffLoginLink.addEventListener('click', (event) => {
         event.preventDefault();
         hideAllForms();
@@ -50,7 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
         wrapper.classList.add('link-active-staff');
     });
 
-    // Event listeners for clicking on the Login links
     loginLinks.forEach(link => {
         link.addEventListener('click', (event) => {
             event.preventDefault();
@@ -61,14 +55,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Event listener for clicking on the Login button to show the popup
     popupBtn.addEventListener('click', () => {
         wrapper.classList.add('pop-active');
         hideAllForms();
-        loginForm.classList.add('active'); // Default to login form when popup is shown
+        loginForm.classList.add('active');
     });
 
-    // Event listener for clicking on the close icon to hide the popup
     iconClose.addEventListener('click', () => {
         wrapper.classList.remove('pop-active');
         wrapper.classList.remove('link-active-staff');
@@ -76,7 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
         hideAllForms();
     });
 
-    // Login form submission event listener
     document.getElementById('login-form').addEventListener('submit', async function(event) {
         event.preventDefault();
 
@@ -89,10 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    email: email,
-                    password: password
-                })
+                body: JSON.stringify({ email, password })
             });
 
             if (!response.ok) {
@@ -113,77 +101,62 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Check if the user is already logged in
-    const token = localStorage.getItem('token');
-    const userData = localStorage.getItem('userData');
+    document.getElementById('staff-login-form').addEventListener('submit', async function(event) {
+        event.preventDefault();
 
-    if (token && userData) {
-        updateUIForAuthenticatedUser(JSON.parse(userData));
+        const email = document.getElementById('staff-login-email').value;
+        const password = document.getElementById('staff-password').value;
+
+        try {
+            const response = await fetch('/staffs/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            if (!response.ok) {
+                throw new Error('Login failed');
+            }
+
+            const staffData = await response.json();
+            localStorage.setItem('token', staffData.token);
+            localStorage.setItem('staffData', JSON.stringify(staffData));
+            console.log('Staff login successful:', staffData);
+            alert('Staff login successful!');
+
+            updateUIForAuthenticatedUser(staffData);
+
+        } catch (error) {
+            alert('Login failed. Invalid email or password.');
+            console.error('Staff login error:', error);
+        }
+    });
+
+    function checkAuthentication() {
+        const token = localStorage.getItem('token');
+        const userData = localStorage.getItem('userData');
+        const staffData = localStorage.getItem('staffData');
+
+        console.log('Checking authentication. Token:', token, 'UserData:', userData, 'StaffData:', staffData);
+
+        if (token && (userData || staffData)) {
+            const userOrStaffData = JSON.parse(userData || staffData);
+            updateUIForAuthenticatedUser(userOrStaffData);
+        }
     }
 
-    // Logout functionality
     logoutButton.addEventListener('click', () => {
         localStorage.removeItem('token');
         localStorage.removeItem('userData');
+        localStorage.removeItem('staffData');
 
-        // Hide user dropdown and show login button
+        console.log('Logged out');
+
         userDropdown.style.display = 'none';
         document.getElementById('login-button-nav').style.display = 'block';
     });
-});
 
-
-// Staff Login form submission event listener
-document.getElementById('staff-login-form').addEventListener('submit', async function(event) {
-    event.preventDefault();
-
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
-
-    try {
-        const response = await fetch('/staffs/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error('Login failed');
-        }
-
-        const staffData = await response.json();
-        localStorage.setItem('token', staffData.token);
-        localStorage.setItem('staffData', JSON.stringify(staffData));
-        console.log('Login successful:', staffData);
-        alert('Login successful!');
-
-        updateUIForAuthenticatedUser(staffData);
-
-    } catch (error) {
-        alert('Login failed. Invalid email or password.');
-        console.error('Login error:', error);
-    }
-});
-
-// Check if the user is already logged in
-const token = localStorage.getItem('token');
-const userData = localStorage.getItem('userData');
-
-if (token && userData) {
-    updateUIForAuthenticatedUser(JSON.parse(userData));
-}
-
-// Logout functionality
-logoutButton.addEventListener('click', () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userData');
-
-    // Hide user dropdown and show login button
-    userDropdown.style.display = 'none';
-    document.getElementById('login-button-nav').style.display = 'block';
+    checkAuthentication();
 });
