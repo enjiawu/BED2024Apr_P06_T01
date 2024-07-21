@@ -1,9 +1,8 @@
 let userId = null; // Initialize the user ID
+let token = localStorage.getItem('token'); // Get the token from local storage
 
 // Function to get the user data from the token
 function getUserDataFromToken() {
-    const token = localStorage.getItem('token');
-
     if (!token) {
         console.log("No token found");
         return false;
@@ -123,32 +122,37 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             console.log(postData);
 
-            const response = await fetch(`/communityforum/${postId}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(
-                    postData
-                )
-            });
-
-            const data = await response.json();
-            console.log(data);
-
-            if (!response.ok) {
+            try{
+                const response = await fetch(`/communityforum/${postId}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': `Bearer ${token}` 
+                    },
+                    body: JSON.stringify(
+                        postData
+                    )
+                });
+    
+                const data = await response.json();
+                console.log(data);
+    
                 if (data.errors) {
                     data.errors.forEach(error => {
                         alert(error);
                     });
                 }
+                else if (response.status === 200) {
+                    alert("Post updated successfully!");
+                    window.location.href = `community-forum-post.html?id=${postId}`;
+                } else {
+                    console.error(data.error);
+                    throw new Error("Failed to update post. You may not have the necessary permissions.");
+                }
             }
-
-            else if (response.status === 200) {
-                alert("Post updated successfully!");
-                window.location.href = `community-forum-post.html?id=${postId}`;
-            } else {
-                alert("Failed to update post.");
+            catch(error){
+                console.error("Error:", error);
+                alert("Failed to update post. You may not have the necessary permissions.");
             }
         }
     });
