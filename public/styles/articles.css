@@ -8,6 +8,10 @@ main,
     display: none;
 }
 
+#right-border-radius {
+    border-radius: 0 5px 5px 0;
+}
+
 .article-image {
     border-radius: 10%;
 }

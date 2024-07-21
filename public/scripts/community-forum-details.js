@@ -4,7 +4,23 @@ function getQueryParam(name) {
     return urlParams.get(name);
 }
 
-const userId = 5;
+let userId = null; // Initialize the user ID
+let staffId = null; // Initialize the staff ID
+
+// Function to get the user data from the token
+function getUserDataFromToken() {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        console.log("No token found");
+        return false;
+    }
+
+    staffId = JSON.parse(localStorage.getItem("staffData")).staffId;
+    userId = JSON.parse(localStorage.getItem("userData")).userId;
+
+    return true;
+}
 
 // Function to format the date
 function formatDate(dateString) {
@@ -810,7 +826,7 @@ async function displayComments(postId) {
                                         'Content-Type': 'application/json'
                                     }
                                 });
-        
+
                                 const success = await response.json();
                                 if (success) {
                                     alert("Comment successfully deleted!");
@@ -882,6 +898,10 @@ postCommentButton.addEventListener('click', async () => {
 
 // Fetch post details on page load if post id is correct 
 document.addEventListener('DOMContentLoaded', async () => {
+    getUserDataFromToken();
+
+    console.log(userId);
+
     const postId = getQueryParam('id');
     if (postId) {
         await fetchPostDetails(postId);

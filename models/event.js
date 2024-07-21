@@ -472,8 +472,6 @@ class Event {
         request.input('userId', userId);
         const result = await request.query(sqlQuery);
 
-        console.log(result.recordset);
-
         connection.close();
 
         return result.recordset.map(
@@ -491,6 +489,42 @@ class Event {
                 event.likes,
                 event.userId[0],
                 event.username,
+                event.staffId,
+                event.staffName
+            )
+        )
+    }
+
+    static async getHostedEventsbyUser(userId) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `
+        SELECT * FROM Events e
+        INNER JOIN Users u ON e.userId = u.userId
+        WHERE u.userId = @userId
+        `;
+
+        const request = connection.request();
+        request.input('userId', userId);
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result.recordset.map(
+        (event) => 
+            new Event(
+                event.eventId[0],
+                event.title,
+                event.description,
+                event.image,
+                event.datePosted,
+                event.location[0],
+                event.startDate,
+                event.startTime,
+                event.status,
+                event.likes,
+                event.userId[0],
+                event.username[0],
                 event.staffId,
                 event.staffName
             )

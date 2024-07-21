@@ -11,5 +11,9 @@ module.exports = {
       connectionTimeout: 60000, // Connection timeout in milliseconds
       encrypt:true, // Encryption
     },
+    pool: {
+      max: 10,
+      min: 0,
+    }
 };
 

@@ -89,10 +89,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const userData = await response.json();
             localStorage.setItem('token', userData.token);
-            localStorage.setItem('userData', JSON.stringify(userData));
+            localStorage.setItem('userData', JSON.stringify(userData.user));
             console.log('Login successful:', userData);
             alert('Login successful!');
-
+ 
             updateUIForAuthenticatedUser(userData);
 
         } catch (error) {
@@ -122,12 +122,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const staffData = await response.json();
             localStorage.setItem('token', staffData.token);
-            localStorage.setItem('staffData', JSON.stringify(staffData));
-            console.log('Staff login successful:', staffData);
+            localStorage.setItem('staffData', JSON.stringify(staffData.staff));
             alert('Staff login successful!');
 
             updateUIForAuthenticatedUser(staffData);
-
         } catch (error) {
             alert('Login failed. Invalid email or password.');
             console.error('Staff login error:', error);
@@ -162,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const userData = await response.json();
             localStorage.setItem('token', userData.token);
             localStorage.setItem('userData', JSON.stringify(userData));
-            console.log('Registration successful:', userData);
+            console.log('Registration successful:', userData.user);
             alert('Registration successful!');
 
             updateUIForAuthenticatedUser(userData);
