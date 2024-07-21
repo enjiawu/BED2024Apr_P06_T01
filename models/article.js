@@ -9,9 +9,16 @@ class Article {
         this.sortBy = sortBy;
     }
 
-    static async getArticles(sortBy) {
+    static async getArticles(searchTerm, sortBy) {
+        // TODO Temporary validation
+        if (searchTerm === undefined || searchTerm === "undefined")
+            searchTerm = "";
         const response = await axios.get(
-            `https://newsapi.org/v2/everything?q=%22sustainable%20living%22&sortBy=${sortBy}&apiKey=${process.env.ARTICLES_API_KEY}`
+            `https://newsapi.org/v2/everything?q=%22sustainable%20living%22%22${searchTerm}%22&sortBy=${sortBy}&apiKey=${process.env.ARTICLES_API_KEY}`
+        );
+
+        console.log(
+            `https://newsapi.org/v2/everything?q=%22sustainable%20living%22%22${searchTerm}%22&sortBy=${sortBy}&apiKey=${process.env.ARTICLES_API_KEY}`
         );
 
         return response.data.articles;
