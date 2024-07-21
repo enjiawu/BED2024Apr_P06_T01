@@ -1,9 +1,9 @@
 const Joi = require("joi");
 
-const validateCommunityForumPost = (req, res, next) => {
+const validateCommunityForumComment = (req, res, next) => {
     const schema = Joi.object({
         userId: Joi.number().required(),
-        description: Joi.string().min(1).required()
+        description: Joi.string().min(1).required(),
     });
 
     const validation = schema.validate(req.body, { abortEarly: false }); // Validate request body
@@ -17,4 +17,4 @@ const validateCommunityForumPost = (req, res, next) => {
     next(); // If validation passes, proceed to the next route handler
 };
 
-module.exports = validateCommunityForumPost;
+module.exports = validateCommunityForumComment;

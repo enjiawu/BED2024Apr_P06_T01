@@ -28,29 +28,36 @@ class CommunityForumPost {
 
     // Getting all posts to display
     static async getAllPosts() {
-        const connection = await sql.connect(dbConfig);
+        let connection;
+        try {
+            connection = await sql.connect(dbConfig);
 
-        const sqlQuery = `SELECT * FROM CommunityPosts`;
+            const sqlQuery = `SELECT * FROM CommunityPosts`;
 
-        const result = await connection.request().query(sqlQuery);
+            const result = await connection.request().query(sqlQuery);
 
-        connection.close();
-
-        return result.recordset.map(
-            (row) =>
-                new CommunityForumPost(
-                    row.postId,
-                    row.userId,
-                    row.title,
-                    row.description,
-                    row.topicId,
-                    row.likes,
-                    row.comments,
-                    row.dateCreated,
-                    row.dateUpdated,
-                    row.reports
-                )
-        );
+            return result.recordset.map(
+                (row) =>
+                    new CommunityForumPost(
+                        row.postId,
+                        row.userId,
+                        row.title,
+                        row.description,
+                        row.topicId,
+                        row.likes,
+                        row.comments,
+                        row.dateCreated,
+                        row.dateUpdated,
+                        row.reports
+                    )
+            );
+        } catch (error) {
+            throw new Error("Error getting all posts");
+        } finally {
+            if (connection) {
+                connection.close();
+            }
+        }
     };
 
     // Getting post by id for the invidiual post page
@@ -200,57 +207,101 @@ class CommunityForumPost {
     }
 
     // Sorting of posts by likes and date created
-    static async sortPostsByLikesDesc(){
+    static async sortPostsByLikesDesc(topicId = null) {
         const connection = await sql.connect(dbConfig);
-
-        const sqlQuery = `SELECT * FROM CommunityPosts ORDER BY likes DESC`;
-
-        const result = await connection.request().query(sqlQuery);
-
+        let sqlQuery = `SELECT * FROM CommunityPosts`;
+    
+        if (topicId) {
+            sqlQuery += ` WHERE topicId = @topicId`;
+        }
+    
+        sqlQuery += ` ORDER BY likes DESC`;
+    
+        const request = connection.request();
+    
+        if (topicId) {
+            request.input('topicId', sql.Int, topicId);
+        }
+    
+        const result = await request.query(sqlQuery);
+    
         connection.close();
-
+    
         return result.recordset.map(
             row => new CommunityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
         );
     }
-
-    static async sortPostsByLikesAsc(){
+    
+    static async sortPostsByLikesAsc(topicId = null) {
         const connection = await sql.connect(dbConfig);
-
-        const sqlQuery = `SELECT * FROM CommunityPosts ORDER BY likes ASC`;
-
-        const result = await connection.request().query(sqlQuery);
-
+        let sqlQuery = `SELECT * FROM CommunityPosts`;
+    
+        if (topicId) {
+            sqlQuery += ` WHERE topicId = @topicId`;
+        }
+    
+        sqlQuery += ` ORDER BY likes ASC`;
+    
+        const request = connection.request();
+    
+        if (topicId) {
+            request.input('topicId', sql.Int, topicId);
+        }
+    
+        const result = await request.query(sqlQuery);
+    
         connection.close();
-
+    
         return result.recordset.map(
             row => new CommunityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
         );
     }
-
-    static async sortPostsByNewest(){
+    
+    static async sortPostsByNewest(topicId = null) {
         const connection = await sql.connect(dbConfig);
-
-        const sqlQuery = `SELECT * FROM CommunityPosts ORDER BY dateCreated DESC`;
-
-        const result = await connection.request().query(sqlQuery);
-
+        let sqlQuery = `SELECT * FROM CommunityPosts`;
+    
+        if (topicId) {
+            sqlQuery += ` WHERE topicId = @topicId`;
+        }
+    
+        sqlQuery += ` ORDER BY dateCreated DESC`;
+    
+        const request = connection.request();
+    
+        if (topicId) {
+            request.input('topicId', sql.Int, topicId);
+        }
+    
+        const result = await request.query(sqlQuery);
+    
         connection.close();
-
+    
         return result.recordset.map(
             row => new CommunityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
         );
     }
-
-    static async sortPostsByOldest(){
+    
+    static async sortPostsByOldest(topicId = null) {
         const connection = await sql.connect(dbConfig);
-
-        const sqlQuery = `SELECT * FROM CommunityPosts ORDER BY dateCreated ASC`;
-
-        const result = await connection.request().query(sqlQuery);
-
+        let sqlQuery = `SELECT * FROM CommunityPosts`;
+    
+        if (topicId) {
+            sqlQuery += ` WHERE topicId = @topicId`;
+        }
+    
+        sqlQuery += ` ORDER BY dateCreated ASC`;
+    
+        const request = connection.request();
+    
+        if (topicId) {
+            request.input('topicId', sql.Int, topicId);
+        }
+    
+        const result = await request.query(sqlQuery);
+    
         connection.close();
-
+    
         return result.recordset.map(
             row => new CommunityForumPost(row.postId, row.userId, row.title, row.description, row.topicId, row.likes, row.comments, row.dateCreated, row.dateUpdated, row.reports)
         );
@@ -362,11 +413,11 @@ class CommunityForumPost {
     }
 
     // Comments
-    // Getting all comments for the post
+    // Getting all comments for the post excluding the replies
     static async getCommentsByPost(postId) {
         const connection = await sql.connect(dbConfig);
 
-        const sqlQuery = `SELECT * FROM Comments WHERE postId = @postId`;
+        const sqlQuery = `SELECT * FROM Comments WHERE postId = @postId AND parentCommentId IS NULL ORDER BY dateCreated DESC`;
 
         const request = connection.request();
         request.input("postId", postId);
@@ -377,7 +428,7 @@ class CommunityForumPost {
         return result.recordset;
     }
 
-    // Get comment by id
+    // Get comment by id 
     static async getCommentById(commentId) {
         const connection = await sql.connect(dbConfig);
 
@@ -399,7 +450,9 @@ class CommunityForumPost {
         const sqlQuery = `INSERT INTO Comments (userId, postId, description, dateCreated) 
         VALUES 
         (@userId, @postId, @description, GETDATE());
-        SELECT SCOPE_IDENTITY() AS commentId;`;
+        SELECT SCOPE_IDENTITY() AS commentId;
+        
+        UPDATE CommunityPosts SET comments = comments + 1 WHERE postId = @postId;`;
 
         const request = connection.request();
         request.input("userId", newCommentData.userId);
@@ -413,14 +466,13 @@ class CommunityForumPost {
     }
 
     // Updating the comment if it belongs to the user
-    static async updateComment(postId, commentId, newCommentData) {
+    static async updateComment(commentId, newCommentData) {
         const connection = await sql.connect(dbConfig);
 
-        const sqlQuery = `UPDATE Comments SET userId = @userId, postId = @postId, description = @description, dateUpdated = GETDATE() WHERE commentId = @commentId`;
+        const sqlQuery = `UPDATE Comments SET userId = @userId, description = @description, dateUpdated = GETDATE() WHERE commentId = @commentId`;
 
         const request = connection.request();
         request.input("userId", newCommentData.userId || null);
-        request.input("postId", postId || null);
         request.input("description", newCommentData.description || null);
         request.input("commentId", commentId);
         await request.query(sqlQuery);
@@ -435,6 +487,7 @@ class CommunityForumPost {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = `
+        DELETE FROM CommentLikes WHERE commentId = @commentId   
         DELETE FROM CommentReports WHERE commentId = @commentId
         DELETE FROM Comments WHERE parentCommentId = @commentId
         DELETE FROM Comments WHERE commentId = @commentId`;
@@ -446,6 +499,72 @@ class CommunityForumPost {
         connection.close();
 
         return result.rowsAffected[2] > 0; // Check that comment has been deleted
+    }
+
+    // Like comment
+    static async likeComment(commentId, userId) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `
+        UPDATE Comments
+        SET likes = likes + 1
+        WHERE commentId = @commentId
+
+        INSERT INTO CommentLikes (commentId, userId)
+        VALUES (@commentId, @userId)
+        SELECT SCOPE_IDENTITY() AS likeId;
+        `;
+
+        const request = connection.request();
+        request.input("commentId", commentId);
+        request.input("userId", userId);
+
+        await request.query(sqlQuery);
+
+        connection.close();
+
+        return this.getCommentById(commentId);
+    }
+
+    // Unlike comment
+    static async unlikeComment(commentId, userId) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `
+        UPDATE Comments
+        SET likes = likes - 1
+        WHERE commentId = @commentId
+
+        DELETE FROM CommentLikes
+        WHERE commentId = @commentId AND userId = @userId
+        `;
+
+        const request = connection.request();
+        request.input("commentId", commentId);
+        request.input("userId", userId);
+
+        await request.query(sqlQuery);
+
+        connection.close();
+
+        return this.getCommentById(commentId);
+    }
+
+    // Get comment like by user
+    static async getCommentLikeByUser(commentId, userId) {
+        const connection = await sql.connect(dbConfig);
+        const sqlQuery = `
+            SELECT *
+            FROM CommentLikes
+            WHERE commentId = @commentId AND userId = @userId;
+        `;
+        const request = connection.request();
+        request.input("commentId", commentId);
+        request.input("userId", userId);
+        const result = await request.query(sqlQuery);
+        connection.close();
+
+        return result.rowsAffected[0] > 0;
     }
 
     // Report comment
@@ -477,7 +596,9 @@ class CommunityForumPost {
         const sqlQuery = `INSERT INTO Comments (userId, postId, description, dateCreated, parentCommentId) 
         VALUES 
         (@userId, @postId, @description, GETDATE(), @parentCommentId);
-        SELECT SCOPE_IDENTITY() AS commentId;`;
+        SELECT SCOPE_IDENTITY() AS commentId;
+        
+        UPDATE CommunityPosts SET comments = comments + 1 WHERE postId = @postId;`;
 
         const request = connection.request();
         request.input("userId", newReplyData.userId);
@@ -495,7 +616,7 @@ class CommunityForumPost {
     static async getRepliesByComment(commentId) {
         const connection = await sql.connect(dbConfig);
 
-        const sqlQuery = `SELECT * FROM Comments WHERE parentCommentId = @parentCommentId`;
+        const sqlQuery = `SELECT * FROM Comments WHERE parentCommentId = @parentCommentId ORDER BY dateCreated DESC`;
 
         const request = connection.request();
         request.input("parentCommentId", commentId);
@@ -525,37 +646,32 @@ Sort Community Posts: Arrange posts according to different criteria such as: [X]
 - Oldest posts
 
 Interacting with Posts:
-- View Post Details: Click on a post to see its full content.
-- Like Posts: Express appreciation or agreement by liking a post. Each user account can like a post once.
-- Comment on Posts: Share thoughts, ask questions, or provide feedback on posts. Users can engage in discussions related to the post content.
-- Reply to Comments: Respond directly to comments made by other users, fostering deeper conversations.
-- View Likes and Comments: See how many likes a post has received and read through comments left by other community members on the post details, community main page or post page.
-- Delete Own Comments: Remove comments made by the user, providing control over their contributions.
+- View Post Details: Click on a post to see its full content. [x]
+- Like Posts: Express appreciation or agreement by liking a post. Each user account can like a post once. [x]
+- Comment on Posts: Share thoughts, ask questions, or provide feedback on posts. Users can engage in discussions related to the post content. [x]
+- Reply to Comments: Respond directly to comments made by other users, fostering deeper conversations. [x]
+- View Likes and Comments: See how many likes a post has received and read through comments left by other community members on the post details, community main page or post page. [x]
+- Delete Own Comments: Remove comments made by the user, providing control over their contributions. [x]
 
 Creating and Managing Posts:
-- Create New Community Posts: Write and publish new posts to share content, ideas, questions, or updates with the community.
-- Edit Own Posts: Update the content of posts after they’ve been published, allowing for corrections or additional information.
-- Delete Own Posts: Remove posts from the community platform if no longer relevant or necessary.
-- Delete Comments: Remove commentsn their posts, providing moderation control over the discussion.
+- Create New Community Posts: Write and publish new posts to share content, ideas, questions, or updates with the community. [x]
+- Edit Own Posts: Update the content of posts after they’ve been published, allowing for corrections or additional information.[x]
+- Delete Own Posts: Remove posts from the community platform if no longer relevant or necessary.[x]
+- Delete Comments: Remove commentsn their posts, providing moderation control over the discussion.[x]
 
 Additional Actions:
-- Report Posts: Flag posts that violate community guidelines or are deemed inappropriate. Each post can usually be reported only once per user.
+- Report Posts: Flag posts that violate community guidelines or are deemed inappropriate. Each post can usually be reported only once per user.[x]
 - Explore Trending Topics: Click on trending topics or popular tags to discover posts related to those subjects, facilitating exploration and participation in trending discussions.
 
 User Profile and Settings:
-- View posts created by the user: Access a list of posts authored by the user to review past contributions and choose to edit/delete
-- Notifications: Control how and when notifications about new posts, comments, or replies are received.
+- View posts created by the user: Access a list of posts authored by the user to review past contributions and choose to edit/delete (wenya doing)
 
 Community Management (Moderators/Admins):
 - Moderate Posts and Comments: Monitor and manage posts and comments to ensure they adhere to community guidelines
-- See reported posts: View a list of posts that have been reported by users and take appropriate action.
 
 // IF GOT TIME
 - Pin Posts: Highlight important posts or announcements by pinning them to the top of the feed or a specific section.
 - Create Announcements: Share important updates or announcements with the entire community.
 - Create Real Time effect of statistics changing when a user interacts with the post.
-- Share Posts: Share interesting or relevant posts with others via social media platforms or direct messaging.
-- Let admin manage topics
 
 */
-
