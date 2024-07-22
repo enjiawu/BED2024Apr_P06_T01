@@ -567,7 +567,7 @@ sortByDropdownItems.forEach((item) => {
     });
 });
 
-function sortPosts(sortOption) {
+async function sortPosts(sortOption) {
     if (sortOption === "newest") {
         sortPostsByNewest();
     } else if (sortOption === "oldest") {
@@ -581,9 +581,9 @@ function sortPosts(sortOption) {
 
 // When the page loads, fetch the post data and display it
 document.addEventListener("DOMContentLoaded", async function () {
-    getUserDataFromToken(); // Get the user data from the token
-    fetchPosts(); // Call the function to fetch and display posts
-    fetchForumStats(); // Call the function to fetch and display post count
-    populateTopicsDropdown(); // Populate topic dropdowns
+    await getUserDataFromToken(); // Get the user data from the token
+    await fetchPosts(); // Call the function to fetch and display posts
+    await fetchForumStats(); // Call the function to fetch and display post count
+    await populateTopicsDropdown(); // Populate topic dropdowns
 });
 

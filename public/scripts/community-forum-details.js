@@ -45,7 +45,7 @@ async function fetchPostDetails(postId) {
         const response = await fetch(`/communityforum/${postId}`);
         const post = await response.json();
         console.log(post);
-        displayPostDetails(post);
+        await displayPostDetails(post);
     } catch (error) {
         console.error('Failed to fetch post details:', error);
         alert('Failed to fetch post details.');
@@ -259,7 +259,7 @@ async function displayPostDetails(post) {
     };
 
     // Display comments
-    displayComments(post.postId);
+    await displayComments(post.postId);
 }
 
 // Function to display comments
