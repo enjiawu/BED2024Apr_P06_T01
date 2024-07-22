@@ -30,6 +30,6 @@ async function fetchTrendingTopics() {
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
-    fetchTrendingTopics(); // Call the function to fetch and display trending topics
+    await fetchTrendingTopics(); // Call the function to fetch and display trending topics
 });
 
