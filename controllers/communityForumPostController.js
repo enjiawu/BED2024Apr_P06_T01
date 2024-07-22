@@ -11,7 +11,6 @@ const getAllPosts = async (req, res) => {
     }
 };
 
-
 // Getting post by id for the invidiual post page
 const getPostById = async (req, res) => {
     const postId = parseInt(req.params.id);
@@ -32,6 +31,7 @@ const createPost = async (req, res) => {
     const newPostData = req.body;
     try {
         const createdPost = await Post.createPost(newPostData);
+
         res.status(201).json(createdPost);
     } catch (error) {
         console.error(error);
@@ -297,6 +297,7 @@ const updateComment = async (req, res) => {
 
 const deleteComment = async (req, res) => {
     const commentId = parseInt(req.params.id);
+    console.log(commentId);
     try {
         const success = await Post.deleteComment(commentId);
         if (success != 1) {

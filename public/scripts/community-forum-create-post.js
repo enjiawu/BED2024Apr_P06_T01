@@ -1,4 +1,18 @@
-const userId = 5; // Hardcoded user ID for testing purposes
+let userId = null; // Initialize the user ID
+let token = localStorage.getItem('token'); // Get the token from local storage
+
+// Function to get the user data from the token
+function getUserDataFromToken() {
+
+    if (!token) {
+        console.log("No token found");
+        return false;
+    }
+
+    userId = JSON.parse(localStorage.getItem("userData")).userId;
+
+    return true;
+}
 
 function validateInput() {
     const title = document.getElementById("post-title").value;
@@ -49,7 +63,16 @@ async function populateTopicsDropdown() {
     });
 }
 
+// Function to confirmm if user wants to return to the community forum
+function leaveConfirmation(){
+    const leave = confirm("Are you sure you want to leave this page? Your changes will not be saved.");
+    if (leave){
+        window.location.href = "community-forum.html";
+    }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
+    getUserDataFromToken();
     populateTopicsDropdown();
 
     const addPostButton = document.getElementById("add-post-button");
@@ -71,33 +94,38 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             console.log(postData);
 
-            const response = await fetch("/communityforum", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(
-                    postData
-                )
-            });
+            try{
+                const response = await fetch("/communityforum", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': `Bearer ${token}` 
+                    },
+                    body: JSON.stringify(
+                        postData
+                    )
+                });
 
-            const data = await response.json();
-            console.log(data);
+                const data = await response.json();
+                console.log(data);
 
-            if (!response.ok) {
-                const result = await response.json();
-                if (result.errors) {
-                    result.errors.forEach(error => {
+                if (data.errors) {
+                    data.errors.forEach(error => {
                         alert(error);
                     });
                 }
+                else if (response.status === 201) {
+                    alert("Post created successfully!");
+                    window.location.href = "community-forum.html";
+                } else {
+                    console.error(data.error);
+                    throw new Error("Failed to update post. You may not have the necessary permissions.");
+                }
             }
-            else if (response.status === 201) {
-                alert("Post created successfully!");
-                window.location.href = "community-forum.html";
-            } else {
-                alert("Failed to create post.");
+            catch(error){
+                console.error("Error:", error);
+                alert("Failed to update post. You may not have the necessary permissions.");
             }
-        }
+    }
     });
 });

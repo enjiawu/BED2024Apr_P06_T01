@@ -29,7 +29,7 @@ async function fetchTrendingTopics() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    fetchTrendingTopics(); // Call the function to fetch and display trending topics
+document.addEventListener("DOMContentLoaded", async function () {
+    await fetchTrendingTopics(); // Call the function to fetch and display trending topics
 });
 

@@ -8,6 +8,27 @@ main,
     display: none;
 }
 
+#right-border-radius {
+    border-radius: 0 5px 5px 0;
+}
+
+.dropdown-toggle {
+    text-transform: capitalize;
+    background-color: #a4ac86;
+    border-color: #a4ac86;
+}
+
+.dropdown-toggle:hover,
+.btn.dropdown-toggle:active,
+.btn.show {
+    background-color: #737a5d;
+    border-color: #737a5d;
+}
+
+.dropdown-item.active {
+    background-color: #a4ac86;
+}
+
 .article-image {
     border-radius: 10%;
 }

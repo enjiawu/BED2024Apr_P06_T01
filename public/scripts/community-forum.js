@@ -1,7 +1,30 @@
+let userId = null; // Initialize the user ID
+let token = localStorage.getItem('token');
+
+// Function to get the user data from the token
+async function getUserDataFromToken() {
+    if (!token) {
+        console.log("No token found");
+        return false;
+    }
+
+    userId = JSON.parse(localStorage.getItem("userData")).userId;
+
+    return true;
+}
+
+// Check if the user is logged in to create a new post
+async function checkForLoggedIn(){
+    if (! await getUserDataFromToken()) {
+        alert("You need to be logged in to view this page!");
+    }
+    else{
+        window.location.href = "community-forum-post-details.html"; // Redirect to the post details page to create a new post
+    }
+}
+
 // Function to format the post data and display it on the page
 async function formatPost(post, postList){    
-
-    const userId = 5; // replace with actual function to find user id after they logged in later
 
     // Create the main post container element
     const postItem = document.createElement("div");
@@ -48,12 +71,14 @@ async function formatPost(post, postList){
             const response = await fetch(`/communityforum/${post.postId}/modify-like`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ userId: userId })
             });
-    
+
             const responseData = await response.json();
+
             if (responseData.success) {
                 numberOfLikes.textContent = responseData.likes;
                 if (responseData.status === 'liked') {
@@ -65,6 +90,7 @@ async function formatPost(post, postList){
                 }
             } else {
                 console.error(responseData.error);
+                throw new Error("Failed to like post.");
             }
         } catch (error) {
             console.error(error);
@@ -290,7 +316,8 @@ async function formatPost(post, postList){
                 const response = await fetch(`/communityforum/${post.postId}`, {
                     method: 'DELETE',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` 
                     }
                 });
 
@@ -299,6 +326,7 @@ async function formatPost(post, postList){
                     alert("Post successfully deleted!");
                     window.location.reload();
                 } else {
+                    console.error(success.error);
                     throw new Error("Failed to delete post.");
                 }
             } catch (error) {
@@ -539,7 +567,7 @@ sortByDropdownItems.forEach((item) => {
     });
 });
 
-function sortPosts(sortOption) {
+async function sortPosts(sortOption) {
     if (sortOption === "newest") {
         sortPostsByNewest();
     } else if (sortOption === "oldest") {
@@ -551,27 +579,11 @@ function sortPosts(sortOption) {
     }
 }
 
-function isLoggedIn(){
-    const token = localStorage.getItem("token");
-    if (token) {
-        return true;
-    }
-    return true;
-}
-
-// Check if the user is logged in
-function checkForLoggedIn(){
-    if (!isLoggedIn()) {
-        alert("You need to be logged in to view this page!");
-    }
-    else{
-        window.location.href = "community-forum-post-details.html"; // Redirect to the post details page to create a new post
-    }
-}
-
 // When the page loads, fetch the post data and display it
-document.addEventListener("DOMContentLoaded", function () {
-    fetchPosts(); // Call the function to fetch and display posts
-    fetchForumStats(); // Call the function to fetch and display post count
-    populateTopicsDropdown(); // Populate topic dropdowns
+document.addEventListener("DOMContentLoaded", async function () {
+    await getUserDataFromToken(); // Get the user data from the token
+    await fetchPosts(); // Call the function to fetch and display posts
+    await fetchForumStats(); // Call the function to fetch and display post count
+    await populateTopicsDropdown(); // Populate topic dropdowns
 });
+

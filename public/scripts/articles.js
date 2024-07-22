@@ -1,8 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
     const articleReaderModal = document.getElementById("article-reader-modal");
 
-    async function loadArticles(sortBy) {
-        const articlesResponse = await fetch(`/articles/${sortBy}`);
+    async function loadArticles(searchTerm, sortBy) {
+        const articlesResponse = await fetch(
+            `/articles/${sortBy}?searchTerm=${searchTerm}`
+        );
+
+        console.log(`/articles/${sortBy}?searchTerm=${searchTerm}`);
 
         const articles = await articlesResponse.json();
         console.log(articles);
@@ -11,12 +15,13 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementsByClassName("articles-list")[0];
         const articleCardTemplate =
             document.getElementsByClassName("article-card")[0];
+        articlesList.replaceChildren(articleCardTemplate);
 
         const clientTimezone = Intl.DateTimeFormat().resolvedOptions();
         console.log(clientTimezone);
 
         for (let article of articles) {
-            console.log(article);
+            // console.log(article);
 
             let newArticleCard = articleCardTemplate.cloneNode(true);
             articlesList.appendChild(newArticleCard);
@@ -108,5 +113,52 @@ document.addEventListener("DOMContentLoaded", function () {
         articleReaderModal.querySelector(".article-date").innerText = "";
     });
 
-    loadArticles("relevancy");
+    const searchBar = document.getElementsByClassName("search-bar")[0];
+    const clear = document.getElementsByClassName("clear")[0];
+    let typingTimer;
+    searchBar.addEventListener("input", function () {
+        if (this.value.length > 0) {
+            clear.classList.remove("hidden");
+            this.id = "";
+        } else {
+            clear.classList.add("hidden");
+            this.id = "right-border-radius";
+        }
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(function () {
+            console.log(searchBar.value);
+            loadArticles(searchBar.value, sortBy);
+        }, 500);
+    });
+
+    clear.addEventListener("click", function () {
+        searchBar.value = "";
+        clear.classList.add("hidden");
+        searchBar.id = "right-border-radius";
+        loadArticles("", sortBy);
+    });
+
+    searchBar.value = "";
+
+    let sortBy = "relevancy";
+    const sortByDropdown =
+        document.getElementsByClassName("dropdown-toggle")[0];
+    sortByDropdown.innerText = sortBy;
+
+    for (const option of document.getElementsByClassName("dropdown-item")) {
+        option.addEventListener("click", function () {
+            sortBy = this.getAttribute("data-sort-by");
+            sortByDropdown.innerText = option.innerText;
+            loadArticles(searchBar.value, sortBy);
+
+            for (const option of document.getElementsByClassName(
+                "dropdown-item"
+            )) {
+                option.classList.remove("active");
+            }
+            this.classList.add("active");
+        });
+    }
+
+    loadArticles("", sortBy);
 });
