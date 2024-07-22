@@ -10,19 +10,19 @@ let token = localStorage.getItem('token'); // Get the token from local storage
 
 // Function to get the user data from the token
 function getUserDataFromToken() {
-    if (!token) {
+    if (!token) { // If no token is found
         console.log("No token found");
         return false;
     }
 
-    try{
+    try{ // Try to get the staff data from the token if it is the staff login
         staffId = JSON.parse(localStorage.getItem("staffData")).staffId;
     }
     catch{
         staffId = null;
     }
 
-    try {
+    try { // Try to get the user data from the token if it is the user login
         userId = JSON.parse(localStorage.getItem("userData")).userId;
     }
     catch{
@@ -206,7 +206,7 @@ async function displayPostDetails(post) {
 
     // Edit button in the dropdown menu if post is created by the user
     try{
-        if(post.userId === userId) {
+        if(post.userId === userId || staffId){ {
         const editButton = document.createElement("a");
         editButton.classList.add("dropdown-item");
         editButton.textContent = "Edit";
@@ -254,7 +254,7 @@ async function displayPostDetails(post) {
         dropdownMenu.appendChild(deleteButton);
         }
     }
-    catch(error){
+    } catch(error){
         // Do nothing
     };
 
@@ -446,7 +446,7 @@ async function displayComments(postId) {
 
         try{
             // Edit button in the dropdown menu if post is created by the user
-            if (comment.userId === userId) {
+            if (comment.userId === userId || staffId) {
                 const editButton = document.createElement("a");
                 editButton.classList.add("dropdown-item");
                 editButton.textContent = "Edit";

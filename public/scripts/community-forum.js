@@ -1,21 +1,34 @@
 let userId = null; // Initialize the user ID
-let token = localStorage.getItem('token');
+let staffId = null; // Initialize the staff ID
+let token = localStorage.getItem('token'); // Get the token from local storage
 
 // Function to get the user data from the token
-async function getUserDataFromToken() {
-    if (!token) {
+function getUserDataFromToken() {
+    if (!token) { // If no token is found
         console.log("No token found");
         return false;
     }
 
-    userId = JSON.parse(localStorage.getItem("userData")).userId;
+    try{ // Try to get the staff data from the token if it is the staff login
+        staffId = JSON.parse(localStorage.getItem("staffData")).staffId;
+    }
+    catch{
+        staffId = null;
+    }
+
+    try { // Try to get the user data from the token if it is the user login
+        userId = JSON.parse(localStorage.getItem("userData")).userId;
+    }
+    catch{
+        userId = null;
+    }
 
     return true;
 }
 
 // Check if the user is logged in to create a new post
 async function checkForLoggedIn(){
-    if (! await getUserDataFromToken()) {
+    if (!await getUserDataFromToken()) {
         alert("You need to be logged in to view this page!");
     }
     else{
@@ -290,7 +303,7 @@ async function formatPost(post, postList){
     });
      
     // Edit button in the dropdown menu if post is created by the user
-    if (post.userId === userId) {
+    if (post.userId === userId || staffId) {
         const editButton = document.createElement("a");
         editButton.classList.add("dropdown-item");
         editButton.textContent = "Edit";

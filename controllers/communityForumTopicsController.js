@@ -1,5 +1,6 @@
 const Topic = require("../models/communityForumTopics");
 
+// Get all topics
 const getAllTopics = async (req, res) => {
     try {
         const topics = await Topic.getAllTopics();
@@ -10,6 +11,7 @@ const getAllTopics = async (req, res) => {
     }
 }
 
+// Get topic by id
 const getTopicById = async (req, res) => {
     const topicId = parseInt(req.params.id);
     try {
@@ -24,6 +26,7 @@ const getTopicById = async (req, res) => {
     }
 }
 
+// Get topic count
 const getTopicCount = async (req, res) => {
     try {
         const topicCount = await Topic.getTopicCount();
@@ -34,8 +37,53 @@ const getTopicCount = async (req, res) => {
     }
 }
 
+// Create topic
+const createTopic = async (req, res) => {
+    const topic = req.body.topic;
+    try { 
+        const topicExists = await Topic.checkIfTopicExists(topic); // Check if topic already exists
+        if (topicExists) {
+            return res.status(409).json({ error: "Topic already exists" });
+        }
+        await Topic.createTopic(topic);
+        res.status(201).json({ message: "Topic created" });
+    } catch (error) {
+        console.error('Error in createTopic:', error);
+        res.status(500).json({ error: "Error creating topic" });
+    }
+}
+
+// Update topic
+const updateTopic = async (req, res) => {
+    const topicId = parseInt(req.params.id);
+    const topic = req.body.topic;
+    try {
+        await Topic.updateTopic(topicId, topic);
+        res.status(200).json({message: "Topic updated"});
+    } catch (error) {
+        console.error('Error in updateTopic:', error);
+        res.status(500).json({error: "Error updating topic"});
+    }
+}
+
+// Delete topic
+const deleteTopic = async (req, res) => {
+    const topicId = parseInt(req.params.id);
+    try {
+        await Topic.deleteTopic(topicId);
+        res.status(200).json({message: "Topic deleted"});
+    } catch (error) {
+        console.error('Error in deleteTopic:', error);
+        res.status(500).json({error: "Error deleting topic"});
+    }
+}
+
+
 module.exports = {
     getAllTopics,
     getTopicById,
-    getTopicCount
+    getTopicCount,
+    createTopic,
+    updateTopic,
+    deleteTopic
 };

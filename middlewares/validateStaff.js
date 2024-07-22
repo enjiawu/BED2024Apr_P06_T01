@@ -1,7 +1,7 @@
 const Joi = require("joi");// Validation schema for user registration
 
 const registerStaffSchema = Joi.object({
-    name: Joi.string().min(3).max(30).required(),
+    staffName: Joi.string().min(3).max(30).required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(8).max(100).required(),
     role: Joi.string().valid('admin', 'event').required()

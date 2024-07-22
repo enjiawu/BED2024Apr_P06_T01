@@ -14,12 +14,18 @@ const validateCommunityForumPost = require("../middlewares/validateCommunityForu
 const validateCommunityForumComment = require("../middlewares/validateCommunityForumComment.js");
 const validateCommunityForumPostReport = require("../middlewares/validateCommunityForumPostReport.js");
 const validateCommunityForumCommentReport = require("../middlewares/validateCommunityForumCommentReport.js");
+const valideateCommunityForumTopic = require("../middlewares/validateCommunityForumTopic.js");
 const validateLikes = require("../middlewares/validateLikes.js");
 const verifyJWT = require("../middlewares/verifyJWT.js");
 
 // Get all topics and post routes
 router.get("/", postsController.getAllPosts); // Get all forum posts
 router.get("/topics", topicsController.getAllTopics); // Get all forum topics
+
+// Topic modification routes
+router.post("/topics", verifyJWT, valideateCommunityForumTopic, topicsController.createTopic); // Create a new forum topic
+router.put("/topics/:id", verifyJWT, valideateCommunityForumTopic, topicsController.updateTopic); // Update an existing forum topic
+router.delete("/topics/:id", verifyJWT, topicsController.deleteTopic); // Delete a forum topic
 
 // Statistics Routes
 router.get("/post-count", postsController.getPostCount); // Get total number of posts
