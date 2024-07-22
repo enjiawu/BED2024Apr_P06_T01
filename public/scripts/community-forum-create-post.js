@@ -1,8 +1,8 @@
 let userId = null; // Initialize the user ID
+let token = localStorage.getItem('token'); // Get the token from local storage
 
 // Function to get the user data from the token
 function getUserDataFromToken() {
-    const token = localStorage.getItem('token');
 
     if (!token) {
         console.log("No token found");
@@ -94,33 +94,38 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             console.log(postData);
 
-            const response = await fetch("/communityforum", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(
-                    postData
-                )
-            });
+            try{
+                const response = await fetch("/communityforum", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': `Bearer ${token}` 
+                    },
+                    body: JSON.stringify(
+                        postData
+                    )
+                });
 
-            const data = await response.json();
-            console.log(data);
+                const data = await response.json();
+                console.log(data);
 
-            if (!response.ok) {
-                const result = await response.json();
-                if (result.errors) {
-                    result.errors.forEach(error => {
+                if (data.errors) {
+                    data.errors.forEach(error => {
                         alert(error);
                     });
                 }
+                else if (response.status === 201) {
+                    alert("Post created successfully!");
+                    window.location.href = "community-forum.html";
+                } else {
+                    console.error(data.error);
+                    throw new Error("Failed to update post. You may not have the necessary permissions.");
+                }
             }
-            else if (response.status === 201) {
-                alert("Post created successfully!");
-                window.location.href = "community-forum.html";
-            } else {
-                alert("Failed to create post.");
+            catch(error){
+                console.error("Error:", error);
+                alert("Failed to update post. You may not have the necessary permissions.");
             }
-        }
+    }
     });
 });

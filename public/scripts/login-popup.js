@@ -95,6 +95,8 @@ document.addEventListener("DOMContentLoaded", () => {
  
             updateUIForAuthenticatedUser(userData);
 
+            location.reload();
+
         } catch (error) {
             alert('Login failed. Invalid email or password.');
             console.error('Login error:', error);
@@ -126,6 +128,8 @@ document.addEventListener("DOMContentLoaded", () => {
             alert('Staff login successful!');
 
             updateUIForAuthenticatedUser(staffData);
+
+            location.reload();
         } catch (error) {
             alert('Login failed. Invalid email or password.');
             console.error('Staff login error:', error);
