@@ -3,7 +3,6 @@ const Joi = require("joi");
 const validateCommunityForumPostReport = (req, res, next) => {
     const schema = Joi.object().keys({
         postId: Joi.number().integer().required(),
-        commentId: Joi.number().integer().required(),
         userId: Joi.number().integer().required(),
         reason: Joi.string().trim().required()
     });

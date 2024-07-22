@@ -15,6 +15,7 @@ const validateCommunityForumComment = require("../middlewares/validateCommunityF
 const validateCommunityForumPostReport = require("../middlewares/validateCommunityForumPostReport.js");
 const validateCommunityForumCommentReport = require("../middlewares/validateCommunityForumCommentReport.js");
 const validateLikes = require("../middlewares/validateLikes.js");
+const verifyJWT = require("../middlewares/verifyJWT.js");
 
 // Get all topics and post routes
 router.get("/", postsController.getAllPosts); // Get all forum posts
@@ -27,7 +28,7 @@ router.get("/likes-count", postsController.getAllLikes); // Get total number of 
 
 // Sorting Routes
 router.get("/sort-by-likes-desc", postsController.sortPostsByLikesDesc); // Sort posts by likes in descending order
-router.get("/sort-by-likes-asc", postsController.sortPostsByLikesAsc); // Sort posts by likes in ascending order
+router.get("/sort-by-likes-asc", verifyJWT, postsController.sortPostsByLikesAsc); // Sort posts by likes in ascending order
 router.get("/sort-by-newest", postsController.sortPostsByNewest); // Sort posts by date in descending order
 router.get("/sort-by-oldest", postsController.sortPostsByOldest); // Sort posts by date in ascending order
 
@@ -41,29 +42,29 @@ router.get("/trending-topics", postsController.getTrendingTopics); // Get the id
 
 // Post modification routes
 router.get("/:id", postsController.getPostById); // Get a specific post by ID
-router.post("", validateCommunityForumPost, postsController.createPost); // Create a new forum post
-router.put("/:id", validateCommunityForumPost, postsController.updatePost); // Update an existing forum post
-router.delete("/:id", postsController.deletePost); // Delete a forum post
+router.post("", verifyJWT, validateCommunityForumPost, postsController.createPost); // Create a new forum post
+router.put("/:id", verifyJWT, validateCommunityForumPost, postsController.updatePost); // Update an existing forum post
+router.delete("/:id", verifyJWT, postsController.deletePost); // Delete a forum post
 
 // Like Routes
-router.put("/:id/modify-like", validateLikes, postsController.modifyLike); // Like/unlike a post
+router.put("/:id/modify-like", verifyJWT, validateLikes, postsController.modifyLike); // Like/unlike a post
 router.get("/:postId/get-like-by-user/:userId", postsController.getLikeByUser) // pass in user id
 
 // Comment routes
 router.get("/:id/comments", postsController.getCommentsByPost); // Get all comments for a post by post id excluding the replies
-router.post("/:id/comments", validateCommunityForumComment, postsController.createComment); // Add a comment to a post by post id
+router.post("/:id/comments", verifyJWT, validateCommunityForumComment, postsController.createComment); // Add a comment to a post by post id
 router.get("/comments/:id", postsController.getCommentById); // Get a specific comment by ID
-router.put("/comments/:commentId", validateCommunityForumComment, postsController.updateComment); // Update a comment by comment id
-router.delete("/comments/:id", postsController.deleteComment); // Delete a comment by comment id
-router.post("/:postId/comments/:commentId/reply", validateCommunityForumComment, postsController.replyToComment); // Reply to a comment by parent comment id
+router.put("/comments/:commentId", verifyJWT, validateCommunityForumComment, postsController.updateComment); // Update a comment by comment id
+router.delete("/comments/:id", verifyJWT, postsController.deleteComment); // Delete a comment by comment id
+router.post("/:postId/comments/:commentId/reply", verifyJWT, validateCommunityForumComment, postsController.replyToComment); // Reply to a comment by parent comment id
 router.get("/comments/:id/replies", postsController.getRepliesByComment); // Get all replies to a comment by parent comment id
-router.put("/comments/:id/modify-like", validateLikes, postsController.modifyCommentLike); // Like/unlike a comment
-router.get("/comments/:commentId/get-like-by-user/:userId", postsController.getCommentLikeByUser) // pass in user id
+router.put("/comments/:id/modify-like", verifyJWT, validateLikes, postsController.modifyCommentLike); // Like/unlike a comment
+router.get("/comments/:commentId/get-like-by-user/:userId", postsController.getCommentLikeByUser) // Get a comment like by user
 
 
 // Report Routes
-router.post("/report-post", validateCommunityForumPostReport, postsController.reportPost); // Get all reports
-router.post("/report-comment", validateCommunityForumCommentReport, postsController.reportComment); // Report a comment
+router.post("/report-post", verifyJWT, validateCommunityForumPostReport, postsController.reportPost); // Get all reports
+router.post("/report-comment", verifyJWT, validateCommunityForumCommentReport, postsController.reportComment); // Report a comment
 
 
 module.exports = router; // Export the router

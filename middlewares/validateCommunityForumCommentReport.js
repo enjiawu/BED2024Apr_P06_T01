@@ -6,7 +6,8 @@ const validateCommunityForumCommentReport = (req, res, next) => {
         userId: Joi.number().integer().required(),
         reason: Joi.string().trim().required().messages({
             "string.empty": "Reason is required"
-        })
+        }),
+        commentId: Joi.number().integer().required()
     });
 
     const validation = schema.validate(req.body, { abortEarly: false }); // Validate request body

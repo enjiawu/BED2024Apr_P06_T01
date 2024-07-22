@@ -297,6 +297,7 @@ const updateComment = async (req, res) => {
 
 const deleteComment = async (req, res) => {
     const commentId = parseInt(req.params.id);
+    console.log(commentId);
     try {
         const success = await Post.deleteComment(commentId);
         if (success != 1) {

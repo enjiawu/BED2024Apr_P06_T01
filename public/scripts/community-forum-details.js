@@ -6,18 +6,28 @@ function getQueryParam(name) {
 
 let userId = null; // Initialize the user ID
 let staffId = null; // Initialize the staff ID
+let token = localStorage.getItem('token'); // Get the token from local storage
 
 // Function to get the user data from the token
 function getUserDataFromToken() {
-    const token = localStorage.getItem('token');
-
     if (!token) {
         console.log("No token found");
         return false;
     }
 
-    staffId = JSON.parse(localStorage.getItem("staffData")).staffId;
-    userId = JSON.parse(localStorage.getItem("userData")).userId;
+    try{
+        staffId = JSON.parse(localStorage.getItem("staffData")).staffId;
+    }
+    catch{
+        staffId = null;
+    }
+
+    try {
+        userId = JSON.parse(localStorage.getItem("userData")).userId;
+    }
+    catch{
+        userId = null;
+    }
 
     return true;
 }
@@ -42,16 +52,16 @@ async function fetchPostDetails(postId) {
     }
 }
 
+const postTitle = document.getElementById('post-title');
+const postDescription = document.getElementById('post-description');
+const postAuthor = document.getElementById('post-author');
+const postDate = document.getElementById('post-date');
+const postLikes = document.getElementById('post-likes');
+const postComments = document.getElementById('post-comments');
+const postTopic = document.getElementById('post-topic');
+
 // Function to display post details
 async function displayPostDetails(post) {
-    const postTitle = document.getElementById('post-title');
-    const postDescription = document.getElementById('post-description');
-    const postAuthor = document.getElementById('post-author');
-    const postDate = document.getElementById('post-date');
-    const postLikes = document.getElementById('post-likes');
-    const postComments = document.getElementById('post-comments');
-    const postTopic = document.getElementById('post-topic');
-
     postTitle.textContent = post.title;
     postDescription.textContent = post.description;
     postDate.textContent = formatDate(post.dateCreated);
@@ -85,13 +95,14 @@ async function displayPostDetails(post) {
             const response = await fetch(`/communityforum/${post.postId}/modify-like`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ userId: userId })
             });
     
             const responseData = await response.json();
-            if (responseData.success) {
+            if (!responseData.error) {
                 postLikes.textContent = responseData.likes;
                 if (responseData.status === 'liked') {
                     likeIcon.classList.remove("like-false");
@@ -102,6 +113,7 @@ async function displayPostDetails(post) {
                 }
             } else {
                 console.error(responseData.error);
+                throw new Error("Failed to like post.");
             }
         } catch (error) {
             console.error(error);
@@ -145,14 +157,41 @@ async function displayPostDetails(post) {
 
     // Add event listener to submit button
     const submitButton = document.getElementById("report-submit");
-    submitButton.addEventListener("click", function() {
+    submitButton.addEventListener("click", async function() {
         const reportReason = document.getElementById("report-reason").value;
         if (reportReason === "") {
-            alert("Please enter a reason for reporting the post.");
-            return;
+          alert("Please enter a reason for reporting the post.");
+          return;
         }
-        alert("Post has been reported! Our staff will review it shortly.");
-        reportContainer.style.display = "none";
+        
+        try{
+            const reportResponse = await fetch(`/communityforum/report-post`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    postId: post.postId,
+                    userId: userId,
+                    reason: reportReason
+                })
+            });
+          
+            const reportData = await reportResponse.json();
+      
+            if (!reportData.error) {
+                alert("Post has been reported! Our staff will review it shortly.");
+                reportContainer.style.display = "none";
+            }
+            else{
+                console.error(reportData.error);
+                throw new Error("Failed to report post.");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Failed to report post. You need to be logged in.");
+        }
     });
 
     reportOption.addEventListener("click", function() {
@@ -193,7 +232,8 @@ async function displayPostDetails(post) {
                 const response = await fetch(`/communityforum/${post.postId}`, {
                     method: 'DELETE',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     }
                 });
 
@@ -234,7 +274,7 @@ async function displayComments(postId) {
     console.log(comments);
 
     // Iterate through comments and display them
-    comments.forEach(async (comment) => {
+    await comments.forEach(async (comment) => {
         // Getting username from user id
         const authorResponse = await fetch(`/users/profile/${comment.userId}`); 
         const authorData = await authorResponse.json();
@@ -255,12 +295,10 @@ async function displayComments(postId) {
 
         const likeIcon = document.createElement('a');
         let isLiked = false;
-        try{
+        try {
             const isLikedResponse = await fetch(`/communityforum/comments/${comment.commentId}/get-like-by-user/${userId}`); // Check if user has already liked the post
             isLiked = await isLikedResponse.json();
-            console.log(isLiked);
-        }
-        catch{
+        } catch {
             isLiked = false;
         }
         likeIcon.classList.add('comments-like-icon', isLiked ? "like-true" : "like-false");
@@ -276,7 +314,8 @@ async function displayComments(postId) {
                 const response = await fetch(`/communityforum/comments/${comment.commentId}/modify-like`, {
                     method: 'PUT',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({ userId: userId })
                 });
@@ -293,6 +332,7 @@ async function displayComments(postId) {
                     }
                 } else {
                     console.error(responseData.error);
+                    throw new Error("Failed to like post.");
                 }
             } catch (error) {
                 console.error(error);
@@ -352,16 +392,55 @@ async function displayComments(postId) {
         const reportOption = document.createElement('a');
         reportOption.textContent = 'Report';
         reportOption.classList.add('dropdown-item');
-        reportOption.addEventListener('click', function() {
+        reportOption.addEventListener('click', async function() {
             // Show report container
-            const reportContainer = document.getElementById('report-container');
+            const reportContainer = document.getElementById('comment-report-container');
             reportContainer.style.display = 'flex';
 
             // Close listeners
-            const closeReport = document.getElementById("close-report");
+            const closeReport = document.getElementById("comment-close-report");
             closeReport.addEventListener("click", function() {
                 reportContainer.style.display = "none";
             });
+
+            const submitButton = document.getElementById("comment-report-submit");
+            submitButton.addEventListener("click", async function() {
+                const reportReason = document.getElementById("comment-report-reason").value;
+                if (reportReason === "") {
+                  alert("Please enter a reason for reporting the post.");
+                  return;
+                }
+                
+                try{
+                    const reportResponse = await fetch(`/communityforum/report-comment`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            postId: postId,
+                            commentId: comment.commentId,
+                            userId: userId,
+                            reason: reportReason
+                        })
+                    });
+                  
+                    const reportData = await reportResponse.json();
+              
+                    if (!reportData.error) {
+                        alert("Comment has been reported! Our staff will review it shortly.");
+                        reportContainer.style.display = "none";
+                    }
+                    else{
+                        console.error(reportData.error);
+                        throw new Error("Failed to report comment.");
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert("Failed to report comment. You need to be logged in.");
+                }
+            });        
         });
         dropdownMenu.appendChild(reportOption);
 
@@ -409,7 +488,8 @@ async function displayComments(postId) {
                             const response = await fetch(`/communityforum/comments/${comment.commentId}`, {
                                 method: 'PUT',
                                 headers: {
-                                    'Content-Type': 'application/json'
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${token}`
                                 },
                                 body: JSON.stringify({ description: replyInput, userId: userId })
                             });
@@ -446,13 +526,21 @@ async function displayComments(postId) {
                         const response = await fetch(`/communityforum/comments/${comment.commentId}`, {
                             method: 'DELETE',
                             headers: {
-                                'Content-Type': 'application/json'
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
                             }
                         });
 
                         const success = await response.json();
-                        if (success) {
+
+                        if (!success.error) {
                             alert("Comment successfully deleted!");
+                            // Update the post.comments property
+                            const postId = getQueryParam('id');
+                            const postResponse = await fetch(`/communityforum/${postId}`);
+                            const post = await postResponse.json();
+                            console.log(post);
+                            postComments.textContent = post.comments;
                             window.location.reload();
                         } else {
                             throw new Error("Failed to delete comment.");
@@ -474,7 +562,7 @@ async function displayComments(postId) {
         const replyOption = document.createElement('a');
         replyOption.textContent = 'Reply';
         replyOption.classList.add('dropdown-item');
-        replyOption.addEventListener('click', function() {
+        replyOption.addEventListener('click', async function() {
             // Show reply container
             const replyContainer = document.getElementById('reply-container');
             replyContainer.style.display = 'flex';
@@ -504,14 +592,14 @@ async function displayComments(postId) {
                     const response = await fetch(`/communityforum/${postId}/comments/${comment.commentId}/reply`, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
                         },
                         body: JSON.stringify({ description: replyInput, userId: userId })
                     });
 
                     const responseData = await response.json();
-                    console.log(responseData);
-                    if (responseData) {
+                    if (!responseData.error) {
                         alert("Reply posted successfully!");
                         window.location.reload();
                     } else {
@@ -519,7 +607,7 @@ async function displayComments(postId) {
                     }
                 } catch (error) {
                     console.error(error);
-                    alert("Failed to post reply.");
+                    alert("Failed to post reply. You need to be logged in.");
                 }
             });
         });
@@ -569,7 +657,7 @@ async function displayComments(postId) {
 
             commentsContainer.appendChild(repliesContainer);
 
-            replies.forEach(async (reply) => {
+            await replies.forEach(async (reply) => {
             
                 // Getting username from user id
                 const replyAuthorResponse = await fetch(`/users/profile/${reply.userId}`);
@@ -610,7 +698,8 @@ async function displayComments(postId) {
                         const response = await fetch(`/communityforum/comments/${reply.commentId}/modify-like`, {
                             method: 'PUT',
                             headers: {
-                                'Content-Type': 'application/json'
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
                             },
                             body: JSON.stringify({ userId: userId })
                         });
@@ -627,6 +716,7 @@ async function displayComments(postId) {
                             }
                         } else {
                             console.error(responseData.error);
+                            throw new Error("Failed to like post.");
                         }
                     } catch (error) {
                         console.error(error);
@@ -692,31 +782,58 @@ async function displayComments(postId) {
                 });
 
                 // Add event listener to close icon
-                const reportContainer = document.getElementById("report-container");
-                reportOption.addEventListener('click', function() {
+                const reportContainer = document.getElementById("reply-report-container");
+                reportOption.addEventListener('click', async function() {
                     // Show report container
-                    const reportContainer = document.getElementById('report-container');
+                    const reportContainer = document.getElementById('reply-report-container');
                     reportContainer.style.display = 'flex';
         
                     // Close listeners
-                    const closeReport = document.getElementById("close-report");
+                    const closeReport = document.getElementById("reply-close-report");
                     closeReport.addEventListener("click", function() {
                         reportContainer.style.display = "none";
                     });
+        
+                    const submitButton = document.getElementById("reply-report-submit");
+                    submitButton.addEventListener("click", async function() {
+                        const reportReason = document.getElementById("reply-report-reason").value;
+                        if (reportReason === "") {
+                          alert("Please enter a reason for reporting the post.");
+                          return;
+                        }
+                        
+                        try{
+                            const reportResponse = await fetch(`/communityforum/report-comment`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${token}`
+                                },
+                                body: JSON.stringify({
+                                    postId: postId,
+                                    commentId: reply.commentId,
+                                    userId: userId,
+                                    reason: reportReason
+                                })
+                            });
+                          
+                            const reportData = await reportResponse.json();
+                      
+                            if (!reportData.error) {
+                                alert("Comment has been reported! Our staff will review it shortly.");
+                                reportContainer.style.display = "none";
+                            }
+                            else{
+                                console.error(reportData.error);
+                                throw new Error("Failed to report comment.");
+                            }
+                        } catch (error) {
+                            console.error(error);
+                            alert("Failed to report comment. You need to be logged in.");
+                        }
+                    });        
                 });
                 dropdownMenu.appendChild(reportOption);
-
-                // Add event listener to submit button
-                const submitButton = document.getElementById("report-submit");
-                submitButton.addEventListener("click", function() {
-                    const reportReason = document.getElementById("report-reason").value;
-                    if (reportReason === "") {
-                        alert("Please enter a reason for reporting the post.");
-                        return;
-                    }
-                    alert("Post has been reported! Our staff will review it shortly.");
-                    reportContainer.style.display = "none";
-                });
 
                 reportOption.addEventListener("click", function() {
                     if (reportOptionVisible) {
@@ -786,7 +903,8 @@ async function displayComments(postId) {
                                     const response = await fetch(`/communityforum/comments/${reply.commentId}`, {
                                         method: 'PUT',
                                         headers: {
-                                            'Content-Type': 'application/json'
+                                            'Content-Type': 'application/json',
+                                            'Authorization': `Bearer ${token}`
                                         },
                                         body: JSON.stringify({ description: replyInput, userId: userId })
                                     });
@@ -823,13 +941,19 @@ async function displayComments(postId) {
                                 const response = await fetch(`/communityforum/comments/${reply.commentId}`, {
                                     method: 'DELETE',
                                     headers: {
-                                        'Content-Type': 'application/json'
+                                        'Content-Type': 'application/json',
+                                        'Authorization': `Bearer ${token}`
                                     }
                                 });
 
                                 const success = await response.json();
+
                                 if (success) {
                                     alert("Comment successfully deleted!");
+                                    const postId = getQueryParam('id');
+                                    const postResponse = await fetch(`/communityforum/${postId}`);
+                                    const post = await postResponse.json();
+                                    postComments.textContent = post.comments;
                                     window.location.reload();
                                 } else {
                                     throw new Error("Failed to delete comment.");
@@ -855,7 +979,6 @@ async function displayComments(postId) {
 
             repliesContainer.style.display = 'none'; // Hide replies by default
         }
-
     });
 }
 
@@ -874,19 +997,20 @@ postCommentButton.addEventListener('click', async () => {
         const response = await fetch(`/communityforum/${postId}/comments`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({ description: comment, userId: userId })
         })
     
         const data = await response.json();
         console.log(data);
-        if (data) {
+        if (!data.error) {
             alert("Comment posted successfully!");
             window.location.reload();
         } else {
             console.error(data.error);
-            alert("Failed to post comment.");
+            throw new Error("Failed to post comment.");
         }
     }
     catch(error){
@@ -899,8 +1023,6 @@ postCommentButton.addEventListener('click', async () => {
 // Fetch post details on page load if post id is correct 
 document.addEventListener('DOMContentLoaded', async () => {
     getUserDataFromToken();
-
-    console.log(userId);
 
     const postId = getQueryParam('id');
     if (postId) {
