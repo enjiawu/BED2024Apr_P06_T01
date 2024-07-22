@@ -1,9 +1,8 @@
 let userId = null; // Initialize the user ID
+let token = localStorage.getItem('token'); // Get the token from local storage
 
 // Function to get the user data from the token
 function getUserDataFromToken() {
-    const token = localStorage.getItem('token');
-
     if (!token) {
         console.log("No token found");
         return false;
@@ -63,24 +62,17 @@ async function populateTopicsDropdown() {
     });
 }
 
-function loadPostData(postId) {
-    fetch(`/communityforum/${postId}`)
-        .then((response) => response.json())
-        .then((data) => {
-            document.getElementById("post-title").value = data.title;
-            document.getElementById("post-description").value = data.description;
-            document.getElementById("select-topic-dropdown").dataset.topicId = data.topicId;
+async function loadPostData(postId) {
+    const postResponse = await fetch(`/communityforum/${postId}`);
+    const postData = await postResponse.json();
+    document.getElementById("post-title").value = postData.title;
+    document.getElementById("post-description").value = postData.description;
+    document.getElementById("select-topic-dropdown").dataset.topicId = postData.topicId;
 
-            // Get topic by topic ID
-            const response = fetch(`/communityforum/topics/${data.topicId}`);
-            response.then((response) => response.json())
-                .then((data) => {
-                    document.getElementById("select-topic-dropdown").textContent = data.topic;
-                });
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
+    // Get topic by topic ID
+    const topicResponse = await fetch(`/communityforum/topics/${postData.topicId}`);
+    const topicData = await topicResponse.json();
+    document.getElementById("select-topic-dropdown").textContent = topicData.topic;
 }
 
 // Function to get query parameter by name
@@ -99,10 +91,10 @@ function leaveConfirmation(){
 
 document.addEventListener('DOMContentLoaded', async () => {
     getUserDataFromToken();
-    populateTopicsDropdown();
+    await populateTopicsDropdown();
     const postId = getQueryParam('id');
 
-    loadPostData(postId);
+    await loadPostData(postId);
 
     const editPostButton = document.getElementById("edit-post-button");
 
@@ -123,32 +115,37 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             console.log(postData);
 
-            const response = await fetch(`/communityforum/${postId}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(
-                    postData
-                )
-            });
-
-            const data = await response.json();
-            console.log(data);
-
-            if (!response.ok) {
+            try{
+                const response = await fetch(`/communityforum/${postId}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': `Bearer ${token}` 
+                    },
+                    body: JSON.stringify(
+                        postData
+                    )
+                });
+    
+                const data = await response.json();
+                console.log(data);
+    
                 if (data.errors) {
                     data.errors.forEach(error => {
                         alert(error);
                     });
                 }
+                else if (response.status === 200) {
+                    alert("Post updated successfully!");
+                    window.location.href = `community-forum-post.html?id=${postId}`;
+                } else {
+                    console.error(data.error);
+                    throw new Error("Failed to update post. You may not have the necessary permissions.");
+                }
             }
-
-            else if (response.status === 200) {
-                alert("Post updated successfully!");
-                window.location.href = `community-forum-post.html?id=${postId}`;
-            } else {
-                alert("Failed to update post.");
+            catch(error){
+                console.error("Error:", error);
+                alert("Failed to update post. You may not have the necessary permissions.");
             }
         }
     });

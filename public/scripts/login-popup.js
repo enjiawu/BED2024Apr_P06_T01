@@ -95,6 +95,8 @@ document.addEventListener("DOMContentLoaded", () => {
  
             updateUIForAuthenticatedUser(userData);
 
+            location.reload();
+
         } catch (error) {
             alert('Login failed. Invalid email or password.');
             console.error('Login error:', error);
@@ -126,6 +128,8 @@ document.addEventListener("DOMContentLoaded", () => {
             alert('Staff login successful!');
 
             updateUIForAuthenticatedUser(staffData);
+
+            location.reload();
         } catch (error) {
             alert('Login failed. Invalid email or password.');
             console.error('Staff login error:', error);
@@ -191,8 +195,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         console.log('Logged out');
 
+        
+
         userDropdown.style.display = 'none';
         document.getElementById('login-button-nav').style.display = 'block';
+        return window.location.href = '../index.html'; // Redirect to login page if not authenticated
     });
 
     checkAuthentication();

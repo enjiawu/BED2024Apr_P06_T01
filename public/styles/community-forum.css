@@ -179,7 +179,7 @@ a{
     color: #414833;
 }
 
-#report-container {
+#report-container, #comment-report-container, #reply-report-container {
     position: fixed;
     z-index: 1000;
     top: 50%;
@@ -194,7 +194,7 @@ a{
 }
 
   
-#report-reason {
+#report-reason, #comment-report-reason, #reply-report-reason {
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
@@ -202,7 +202,7 @@ a{
     width: 100%; /* Make the input field full-width */
 }
 
-#report-submit {
+#report-submit, #comment-report-submit, #reply-report-submit {
     padding: 10px 20px;
     background-color: #414833;
     color: #fff;
@@ -211,6 +211,6 @@ a{
     cursor: pointer;
 }
   
-#report-submit:hover {
+#report-submit:hover, #comment-report-submit:hover, #reply-report-submit:hover {
     background-color: #A4AC86;
 }

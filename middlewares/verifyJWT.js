@@ -6,12 +6,12 @@ function verifyJWT(req, res, next) {
     const token = req.headers.authorization && req.headers.authorization.split(" ")[1];
 
     if (!token) {
-        return res.status(401).json({ message: "Unauthorized" });
+        return res.status(401).json({ error: "Unauthorized" });
     }
 
     jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
         if (err) {
-            return res.status(403).json({ message: "Forbidden" });
+            return res.status(403).json({ error: "Forbidden" });
         }
 
         // Define authorized roles for different endpoints
@@ -26,6 +26,24 @@ function verifyJWT(req, res, next) {
             "^/events/[0-9]+": ["member"], // Members can view events they hosted
             "^/events$": ["member", "admin", "event"], // Anyone can view events
             "^/events/[0-9]+/status$": ["event"], // Only 'event' can update status
+
+            // Community page
+            // Post routes
+            "^/": ["member", "admin", "event"], // Anyone can create a post or comment as long as they are logged in
+            "^/[0-9]+": ["member", "admin", "event"], // Members and admins update and delete a post
+            
+            // Like Routes
+            "^/[0-9]+/modify-like": ["member", "admin", "event"], // Anyone can like/unlike a post
+            "^/comments/[0-9]+/modify-like": ["member", "admin", "event"], // Members can like/unlike a comment
+
+            // Comment route
+            "^/comments/[0-9]+": ["member", "admin", "event"], // Anyone can update and delete a comment
+            "^/[0-9]+/comments": ["member", "admin", "event"], 
+            "^/[0-9]+/comments/[0-9]+/reply": ["member", "admin", "event"], // Anyone can create a post
+
+            // Report Routes
+            "^/report-post": ["member", "admin", "event"], // Anyone can report a post
+            "^/report-comment": ["member", "admin", "event"], // Anyone can report a comment
         };
 
         const requestedEndpoint = req.url;
@@ -44,7 +62,7 @@ function verifyJWT(req, res, next) {
         );
 
         if (!isAuthorized) {
-            return res.status(403).json({ message: "Forbidden" });
+            return res.status(403).json({ error: "Forbidden" });
         }
 
         req.user = decoded; // Attach decoded user information to the request object
