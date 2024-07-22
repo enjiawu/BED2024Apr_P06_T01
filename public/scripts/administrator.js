@@ -27,7 +27,9 @@ document.addEventListener("DOMContentLoaded", function () {
             newPostReportCard.querySelector(".post-description").innerText =
                 post.description;
 
-            const originalPosterResponse = await fetch(`/users/${post.userId}`);
+            const originalPosterResponse = await fetch(
+                `/users/profile/${post.userId}`
+            );
             console.log(originalPosterResponse);
             const originalPoster = await originalPosterResponse.json();
             newPostReportCard.querySelector(".original-poster").innerText =
@@ -56,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 postReport.dateReported.slice(23);
 
             const postReporterResponse = await fetch(
-                `/users/${postReport.userId}`
+                `/users/profile/${postReport.userId}`
             );
             const postReporter = await postReporterResponse.json();
             newPostReportCard.querySelector(".post-reporter").innerText =
@@ -102,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 comment.description;
 
             const originalCommenterResponse = await fetch(
-                `/users/${comment.userId}`
+                `/users/profile/${comment.userId}`
             );
             const originalCommenter = await originalCommenterResponse.json();
             newCommentReportCard.querySelector(
@@ -122,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 commentReport.dateReported.slice(23);
 
             const commentReporterResponse = await fetch(
-                `/users/${commentReport.userId}`
+                `/users/profile/${commentReport.userId}`
             );
             const commentReporter = await commentReporterResponse.json();
             newCommentReportCard.querySelector(".comment-reporter").innerText =
