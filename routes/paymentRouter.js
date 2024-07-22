@@ -9,14 +9,14 @@ const router = express.Router();
 const paymentController = require('../controllers/paymentController.js');
 
 //Importing middleware
-
+const validatePayment = require('../middlewares/validatePayment.js');
 
 //Donation Payment Routes
 router.get('/get-donation-history/:userId', paymentController.getDonationHistoryByUser);
 router.get('/get-lifetime-donation/:userId', paymentController.getLifetimeDonationByUser);
 router.get('/get-average-donation/:userId', paymentController.getAverageDonationByUser);
 router.get('/get-number-of-donations/:userId', paymentController.getNumberOfDonationsByUser);
-router.post('/create-payment-intent', paymentController.createPaymentIntent);
+router.post('/create-payment-intent', validatePayment, paymentController.createPaymentIntent);
 router.post('/save-customer-payments', paymentController.saveCustomerPayments);
 
 module.exports = router; // Export the router
