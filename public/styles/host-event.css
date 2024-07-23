@@ -18,3 +18,14 @@
     max-height: 300px;
     object-fit: contain;
 }
+
+.return-btn {
+    background-color: #414833;
+    color: white;
+}
+
+.return-btn:hover {
+    background-color: #303525;
+    border-color: #303525; 
+    color: white; 
+}
