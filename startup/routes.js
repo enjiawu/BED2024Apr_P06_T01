@@ -9,6 +9,7 @@ const messagesRouter = require("../routes/messagesRouter");
 const repliesRouter = require("../routes/repliesRouter");
 const calculateCarbonFootprintRouter = require("../routes/carbonFootprintCalculatorRouter");
 const articlesRouter = require("../routes/articlesRouter");
+const paymentRouter = require("../routes/paymentRouter");
 
 module.exports = function (app) {
     app.use(express.json());
@@ -22,4 +23,5 @@ module.exports = function (app) {
     app.use("/replies", repliesRouter);
     app.use("/calculatecarbonfootprint", calculateCarbonFootprintRouter);
     app.use("/articles", articlesRouter);
+    app.use("/payment", paymentRouter);
 };
