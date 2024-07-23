@@ -2,7 +2,9 @@ const Joi = require("joi");
 
 const validateCommunityForumComment = (req, res, next) => {
     const schema = Joi.object({
-        userId: Joi.number().required(),
+        userId: Joi.number().required().messages({
+            'any.required': 'User ID is required'
+        }),
         description: Joi.string().min(1).required().messages({
             "string.empty": "Description is required",
             "string.min": "Description should be at least 1 characters long"

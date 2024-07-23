@@ -39,7 +39,69 @@ const calculateCarbonFootprint = async (req, res) => {
     }
 }
 
+const getCarbonFootprintPossibleActions = async (req, res) => { 
+    try {
+        const actions = await CarbonFootprint.getCarbonFootprintPossibleActions();
+        res.json(actions);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error retrieving possible actions' });
+    }
+}
+
+const getCarbonFootprintPossibleActionsById = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const action = await CarbonFootprint.getCarbonFootprintPossibleActionsById(id);
+        if (!action) {
+            return res.status(404).json({ error: 'Action not found' });
+        }
+        res.json(action);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error retrieving action' });
+    }
+}
+
+const createCarbonFootprintPossibleAction = async (req, res) => {
+    const action = req.body;
+    try {
+        await CarbonFootprint.createCarbonFootprintPossibleAction(action);
+        res.status(201).json(action);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error creating action' });
+    }
+}
+
+const updateCarbonFootprintPossibleAction = async (req, res) => {
+    const id = req.params.id;
+    const action = req.body;
+    try {
+        await CarbonFootprint.updateCarbonFootprintPossibleAction(id, action);
+        res.json(action);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error updating action' });
+    }
+}
+
+const deleteCarbonFootprintPossibleAction = async (req, res) => {
+    const id = req.params.id;
+    try {
+        await CarbonFootprint.deleteCarbonFootprintPossibleAction(id);
+        res.json({ message: 'Action deleted' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error deleting action' });
+    }
+}
+
 module.exports = {
     calculateCarbonFootprint,
-
+    getCarbonFootprintPossibleActions,
+    getCarbonFootprintPossibleActionsById,
+    createCarbonFootprintPossibleAction,
+    updateCarbonFootprintPossibleAction,
+    deleteCarbonFootprintPossibleAction
 };

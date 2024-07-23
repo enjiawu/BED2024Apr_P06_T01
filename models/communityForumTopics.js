@@ -79,7 +79,9 @@ class Topic {
             const request = connection.request();
             request.input("topic", topic);
 
-            await request.query(sqlQuery);
+            const results = await request.query(sqlQuery);
+
+            return results.recordset[0];
         } catch (error) {
             console.error('Error in createTopic:', error);
             throw error;
@@ -99,9 +101,11 @@ class Topic {
 
             const request = connection.request();
             request.input("topicId", topicId);
-            request.input("topic", topic);
+            request.input("topic", topic || null);
 
             await request.query(sqlQuery);
+
+            return await Topic.getTopicById(topicId);
         } catch (error) {
             console.error('Error in updateTopic:', error);
             throw error;
@@ -121,7 +125,9 @@ class Topic {
             const request = connection.request();
             request.input("topicId", topicId);
 
-            await request.query(sqlQuery);
+            const result = await request.query(sqlQuery);
+
+            return result.rowsAffected[0];
         } catch (error) {
             console.error('Error in deleteTopic:', error);
             throw error;

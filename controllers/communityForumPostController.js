@@ -180,6 +180,10 @@ const getTrendingTopics = async (req, res) => {
 const reportPost = async (req, res) => {
     const reportData = req.body;
     try {
+        const existingReport = await Post.getReportByUser(reportData.postId, reportData.userId);
+        if (existingReport) {
+            return res.status(400).json({ error: "You have already reported this post" });
+        }
         const report = await Post.reportPost(reportData);
         res.status(200).json(report);
     } catch (error) {
@@ -338,10 +342,13 @@ const modifyCommentLike = async (req, res) => {
     }
 };
 
-
 const reportComment = async (req, res) => {
     const reportData = req.body;
     try {
+        const existingReport = await Post.getReportCommentByUser(reportData.commentId, reportData.userId);
+        if (existingReport) {
+            return res.status(400).json({ error: "You have already reported this comment" });
+        }
         const report = await Post.reportComment(reportData);
         res.status(200).json(report);
     } catch (error) {

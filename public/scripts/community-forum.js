@@ -281,14 +281,44 @@ async function formatPost(post, postList){
     });
     
     // Add event listener to submit button
-    submitButton.addEventListener("click", function() {
-        const reportReason = reportReasonInput.value;
+    submitButton.addEventListener("click", async function() {
+        const reportReason = document.getElementById("report-reason").value;
         if (reportReason === "") {
             alert("Please enter a reason for reporting the post.");
             return;
         }
-        alert("Post has been reported! Our staff will review it shortly.");
-        reportContainer.style.display = "none";
+        
+        try{
+            const reportResponse = await fetch(`/communityforum/report-post`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    postId: post.postId,
+                    userId: userId,
+                    reason: reportReason
+                })
+            });
+            
+            const reportData = await reportResponse.json();
+        
+            if (!reportData.error) {
+                alert("Post has been reported! Our staff will review it shortly.");
+                reportContainer.style.display = "none";
+            }
+            else if (reportData.error === "You have already reported this post") {
+                alert("You have already reported this post.");
+            }
+            else{
+                console.error(reportData.error);
+                throw new Error("Failed to report post.");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Failed to report post. You need to be logged in.");
+        }
     });
  
     reportOption.addEventListener("click", function() {

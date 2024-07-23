@@ -72,5 +72,4 @@ router.get("/comments/:commentId/get-like-by-user/:userId", postsController.getC
 router.post("/report-post", verifyJWT, validateCommunityForumPostReport, postsController.reportPost); // Get all reports
 router.post("/report-comment", verifyJWT, validateCommunityForumCommentReport, postsController.reportComment); // Report a comment
 
-
 module.exports = router; // Export the router

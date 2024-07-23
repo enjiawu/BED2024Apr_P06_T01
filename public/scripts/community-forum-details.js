@@ -184,6 +184,9 @@ async function displayPostDetails(post) {
                 alert("Post has been reported! Our staff will review it shortly.");
                 reportContainer.style.display = "none";
             }
+            else if (reportData.error === "You have already reported this post") {
+                alert("You have already reported this post.");
+            }
             else{
                 console.error(reportData.error);
                 throw new Error("Failed to report post.");
@@ -432,6 +435,9 @@ async function displayComments(postId) {
                         alert("Comment has been reported! Our staff will review it shortly.");
                         reportContainer.style.display = "none";
                     }
+                    else if (reportData.error === "You have already reported this comment") {
+                        alert("You have already reported this comment.");
+                    }
                     else{
                         console.error(reportData.error);
                         throw new Error("Failed to report comment.");
@@ -445,7 +451,7 @@ async function displayComments(postId) {
         dropdownMenu.appendChild(reportOption);
 
         try{
-            // Edit button in the dropdown menu if post is created by the user
+            // Edit button and delete button is created if the comment is created by the user the user is the staff or the post belongs to the user
             if (comment.userId === userId || staffId) {
                 const editButton = document.createElement("a");
                 editButton.classList.add("dropdown-item");
@@ -510,46 +516,48 @@ async function displayComments(postId) {
 
                 });
 
-                const deleteButton = document.createElement("a");
-                deleteButton.classList.add("dropdown-item");
-                deleteButton.textContent = "Delete";
-
-                deleteButton.addEventListener("click", async function () {
-                    // Confirm deletion
-                    const confirmDelete = confirm("Are you sure you want to delete this comment?");
-                    if (!confirmDelete) {
-                        return;
-                    }
-
-                    // Allow user to delete the comment
-                    try {
-                        const response = await fetch(`/communityforum/comments/${comment.commentId}`, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${token}`
-                            }
-                        });
-
-                        const success = await response.json();
-
-                        if (!success.error) {
-                            alert("Comment successfully deleted!");
-                            // Update the post.comments property
-                            const postId = getQueryParam('id');
-                            const postResponse = await fetch(`/communityforum/${postId}`);
-                            const post = await postResponse.json();
-                            console.log(post);
-                            postComments.textContent = post.comments;
-                            window.location.reload();
-                        } else {
-                            throw new Error("Failed to delete comment.");
+                if (post.userId !== userId) {
+                    const deleteButton = document.createElement("a");
+                    deleteButton.classList.add("dropdown-item");
+                    deleteButton.textContent = "Delete";
+    
+                    deleteButton.addEventListener("click", async function () {
+                        // Confirm deletion
+                        const confirmDelete = confirm("Are you sure you want to delete this comment?");
+                        if (!confirmDelete) {
+                            return;
                         }
-                    } catch (error) {
-                        console.error(error);
-                        alert("Failed to delete comment.");
-                    }
-                });
+    
+                        // Allow user to delete the comment
+                        try {
+                            const response = await fetch(`/communityforum/comments/${comment.commentId}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${token}`
+                                }
+                            });
+    
+                            const success = await response.json();
+    
+                            if (!success.error) {
+                                alert("Comment successfully deleted!");
+                                // Update the post.comments property
+                                const postId = getQueryParam('id');
+                                const postResponse = await fetch(`/communityforum/${postId}`);
+                                const post = await postResponse.json();
+                                console.log(post);
+                                postComments.textContent = post.comments;
+                                window.location.reload();
+                            } else {
+                                throw new Error("Failed to delete comment.");
+                            }
+                        } catch (error) {
+                            console.error(error);
+                            alert("Failed to delete comment.");
+                        }
+                    });
+                }
 
                 dropdownMenu.appendChild(editButton);
                 dropdownMenu.appendChild(deleteButton);
@@ -823,6 +831,9 @@ async function displayComments(postId) {
                                 alert("Comment has been reported! Our staff will review it shortly.");
                                 reportContainer.style.display = "none";
                             }
+                            else if (reportData.error === "You have already reported this comment") {
+                                alert("You have already reported this comment.");
+                            }
                             else{
                                 console.error(reportData.error);
                                 throw new Error("Failed to report comment.");
@@ -861,7 +872,7 @@ async function displayComments(postId) {
 
                 try{
                     // Edit button in the dropdown menu if post is created by the user
-                    if (reply.userId === userId) {
+                    if (reply.userId === userId || staffId) {
                         const editButton = document.createElement("a");
                         editButton.classList.add("dropdown-item");
                         editButton.textContent = "Edit";
@@ -925,44 +936,46 @@ async function displayComments(postId) {
         
                         });
         
-                        const deleteButton = document.createElement("a");
-                        deleteButton.classList.add("dropdown-item");
-                        deleteButton.textContent = "Delete";
-        
-                        deleteButton.addEventListener("click", async function () {
-                            // Confirm deletion
-                            const confirmDelete = confirm("Are you sure you want to delete this comment?");
-                            if (!confirmDelete) {
-                                return;
-                            }
-        
-                            // Allow user to delete the comment
-                            try {
-                                const response = await fetch(`/communityforum/comments/${reply.commentId}`, {
-                                    method: 'DELETE',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'Authorization': `Bearer ${token}`
-                                    }
-                                });
-
-                                const success = await response.json();
-
-                                if (success) {
-                                    alert("Comment successfully deleted!");
-                                    const postId = getQueryParam('id');
-                                    const postResponse = await fetch(`/communityforum/${postId}`);
-                                    const post = await postResponse.json();
-                                    postComments.textContent = post.comments;
-                                    window.location.reload();
-                                } else {
-                                    throw new Error("Failed to delete comment.");
+                        if (post.userId !== userId) {
+                            const deleteButton = document.createElement("a");
+                            deleteButton.classList.add("dropdown-item");
+                            deleteButton.textContent = "Delete";
+            
+                            deleteButton.addEventListener("click", async function () {
+                                // Confirm deletion
+                                const confirmDelete = confirm("Are you sure you want to delete this comment?");
+                                if (!confirmDelete) {
+                                    return;
                                 }
-                            } catch (error) {
-                                console.error(error);
-                                alert("Failed to delete comment.");
-                            }
-                        });
+            
+                                // Allow user to delete the comment
+                                try {
+                                    const response = await fetch(`/communityforum/comments/${reply.commentId}`, {
+                                        method: 'DELETE',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Authorization': `Bearer ${token}`
+                                        }
+                                    });
+    
+                                    const success = await response.json();
+    
+                                    if (success) {
+                                        alert("Comment successfully deleted!");
+                                        const postId = getQueryParam('id');
+                                        const postResponse = await fetch(`/communityforum/${postId}`);
+                                        const post = await postResponse.json();
+                                        postComments.textContent = post.comments;
+                                        window.location.reload();
+                                    } else {
+                                        throw new Error("Failed to delete comment.");
+                                    }
+                                } catch (error) {
+                                    console.error(error);
+                                    alert("Failed to delete comment.");
+                                }
+                            });
+                        } 
         
                         dropdownMenu.appendChild(editButton);
                         dropdownMenu.appendChild(deleteButton);

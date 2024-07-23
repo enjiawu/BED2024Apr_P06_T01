@@ -2,7 +2,9 @@ const Joi = require("joi");
 
 const validateCommunityForumPost = (req, res, next) => {
     const schema = Joi.object({
-        userId: Joi.number().required(),
+        userId: Joi.number().required().messages({
+            'any.required': 'User ID is required'
+        }),
         title: Joi.string().min(3).max(100).required().messages
         ({
             "string.empty": "Title is required",
@@ -13,7 +15,9 @@ const validateCommunityForumPost = (req, res, next) => {
             "string.empty": "Description is required",
             "string.min": "Description should be at least 20 characters long"
         }),
-        topicId: Joi.number().required()
+        topicId: Joi.number().required().messages({
+            'any.required': 'Topic ID is required'
+        }),
     });
 
     const validation = schema.validate(req.body, { abortEarly: false }); // Validate request body

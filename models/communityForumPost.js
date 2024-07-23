@@ -347,6 +347,22 @@ class CommunityForumPost {
         return result.rowsAffected[1] > 0;
     }
 
+    // Check if user has reported the post
+    static async getReportByUser(postId, userId) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `SELECT * FROM PostReports WHERE postId = @postId AND userId = @userId`;
+
+        const request = connection.request();
+        request.input("postId", postId);
+        request.input("userId", userId);
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result.rowsAffected[0] > 0;
+    }
+
     // Check if user has liked the post
     static async getLikeByUser(postId, userId) {
         const connection = await sql.connect(dbConfig);
@@ -586,6 +602,22 @@ class CommunityForumPost {
         request.input("commentId", reportData.commentId);
         request.input("userId", reportData.userId);
         request.input("reason", reportData.reason);
+        const result = await request.query(sqlQuery);
+
+        connection.close();
+
+        return result.rowsAffected[0] > 0;
+    }
+
+    // Check if user has reported the comment
+    static async getReportCommentByUser(commentId, userId) {
+        const connection = await sql.connect(dbConfig);
+
+        const sqlQuery = `SELECT * FROM CommentReports WHERE commentId = @commentId AND userId = @userId`;
+
+        const request = connection.request();
+        request.input("commentId", commentId);
+        request.input("userId", userId);
         const result = await request.query(sqlQuery);
 
         connection.close();

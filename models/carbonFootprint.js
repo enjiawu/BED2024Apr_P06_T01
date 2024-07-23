@@ -155,6 +155,83 @@ class CarbonFootprint {
   
     return result.recordset[0];
   }
+
+  static async getCarbonFootprintPossibleActions() {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `SELECT * FROM CarbonFootprintPossibleActions`;
+
+    const result = await connection.request().query(sqlQuery);
+
+    return result.recordset;
+  }
+
+  static async getCarbonFootprintPossibleActionsById(actionId) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `SELECT * FROM CarbonFootprintPossibleActions WHERE actionId = @actionId`;
+
+    const request = connection.request();
+
+    request.input("actionId", actionId);
+
+    const result = await request.query(sqlQuery);
+
+    return result.recordset[0];
+  }
+
+  static async createCarbonFootprintPossibleAction(possibleAction) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `
+      INSERT INTO CarbonFootprintPossibleActions (title, description, grade)
+      VALUES (@title, @description, @grade)
+      SELECT SCOPE_IDENTITY() AS id;`;
+
+    const request = connection.request();
+
+    request.input("title", possibleAction.title);
+    request.input("description", possibleAction.description);
+    request.input("grade", possibleAction.grade);
+
+    const results = await request.query(sqlQuery);
+    connection.close();
+
+    return results.recordset[0];
+  }
+
+  static async updateCarbonFootprintPossibleAction(actionId, possibleAction) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `
+      UPDATE CarbonFootprintPossibleActions
+      SET title = @title, description = @description, grade = @grade
+      WHERE actionId = @actionId`;
+    
+    const request = connection.request();
+
+    request.input("actionId", actionId);
+    request.input("title", possibleAction.title || null);
+    request.input("description", possibleAction.description) || null;
+    request.input("grade", possibleAction.grade || null);
+
+    await request.query(sqlQuery);
+
+    return await CarbonFootprint.getCarbonFootprintPossibleActionsById(actionId);
+  }
+
+  static async deleteCarbonFootprintPossibleAction(actionId) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `DELETE FROM CarbonFootprintPossibleActions WHERE actionId = @actionId`;
+
+    const request = connection.request();
+    request.input("actionId", actionId);
+
+    const result = await request.query(sqlQuery);
+
+    return result.rowsAffected[0];
+  }
 }
 
 // Function to create options for the API request based on the path and parameters

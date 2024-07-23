@@ -46,7 +46,7 @@ const createTopic = async (req, res) => {
             return res.status(409).json({ error: "Topic already exists" });
         }
         await Topic.createTopic(topic);
-        res.status(201).json({ message: "Topic created" });
+        res.status(201).json(topic);
     } catch (error) {
         console.error('Error in createTopic:', error);
         res.status(500).json({ error: "Error creating topic" });
@@ -56,10 +56,10 @@ const createTopic = async (req, res) => {
 // Update topic
 const updateTopic = async (req, res) => {
     const topicId = parseInt(req.params.id);
-    const topic = req.body.topic;
+    const topicName = req.body.topic;
     try {
-        await Topic.updateTopic(topicId, topic);
-        res.status(200).json({message: "Topic updated"});
+        const topic = await Topic.updateTopic(topicId, topicName);
+        res.status(200).json(topic);
     } catch (error) {
         console.error('Error in updateTopic:', error);
         res.status(500).json({error: "Error updating topic"});
@@ -70,7 +70,10 @@ const updateTopic = async (req, res) => {
 const deleteTopic = async (req, res) => {
     const topicId = parseInt(req.params.id);
     try {
-        await Topic.deleteTopic(topicId);
+        const success = await Topic.deleteTopic(topicId);
+        if (!success) {
+            return res.status(404).json({ error: "Topic not found" });
+        }
         res.status(200).json({message: "Topic deleted"});
     } catch (error) {
         console.error('Error in deleteTopic:', error);
