@@ -139,3 +139,11 @@ function displayValidationErrors(errors) {
         feedbackElement.appendChild(p);
     });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const returnBtn = document.querySelector('.returnBtn');
+    const eventId = getQueryParam('id');
+    returnBtn.addEventListener('click', () => {
+        window.location.href = `participate-event.html?id=${eventId}`;
+    });
+});

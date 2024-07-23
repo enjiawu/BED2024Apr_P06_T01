@@ -93,3 +93,10 @@ function displayFeedback(message, type) {
         feedbackElement.classList.add('text-success');
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const returnBtn = document.querySelector('.return-btn');
+    returnBtn.addEventListener('click', () => {
+        window.location.href = 'event.html';
+    });
+});
