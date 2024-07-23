@@ -27,6 +27,18 @@
     border-color: #303525; 
     color: white; 
 }
+
+.returnBtn {
+    background-color: #414833;
+    color: white;
+}
+
+.returnBtn:hover {
+    background-color: #303525;
+    border-color: #303525; 
+    color: white; 
+}
+
 .choose-img {
     width: 327px;
 }
