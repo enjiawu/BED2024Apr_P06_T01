@@ -2,8 +2,12 @@ const Joi = require("joi");
 
 const validateCommunityForumCommentReport = (req, res, next) => {
     const schema = Joi.object().keys({
-        postId: Joi.number().integer().required(),
-        userId: Joi.number().integer().required(),
+        postId: Joi.number().required().messages({
+            'any.required': 'Post ID is required'
+        }),
+        userId: Joi.number().required().messages({
+            'any.required': 'User ID is required'
+        }),
         reason: Joi.string().trim().required().messages({
             "string.empty": "Reason is required"
         }),
