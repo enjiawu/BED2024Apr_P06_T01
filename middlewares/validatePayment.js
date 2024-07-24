@@ -1,17 +1,11 @@
 const Joi = require("joi");
 
-const validateCommunityForumPostReport = (req, res, next) => {
-    // Make sure all the inputs are valid
+const validatePayment = (req, res, next) => {
     const schema = Joi.object().keys({
-        postId: Joi.number().required().messages({
-            'any.required': 'Post ID is required'
-        }),
-        userId: Joi.number().required().messages({
-            'any.required': 'User ID is required'
-        }),
-        reason: Joi.string().trim().required().messages({
-            "string.empty": "Reason is required"
-        }),
+        email: Joi.string().email().required(),
+        name: Joi.string().min(1).required(),
+        amount: Joi.number().positive().integer().required(), // Amount in cents
+        organization: Joi.string().valid('Singapore Red Cross Society', 'Zero Waste SG', 'WWF Singapore').required()
     });
 
     const validation = schema.validate(req.body, { abortEarly: false }); // Validate request body
@@ -25,4 +19,4 @@ const validateCommunityForumPostReport = (req, res, next) => {
     next(); // If validation passes, proceed to the next route handler
 };
 
-module.exports = validateCommunityForumPostReport;
+module.exports = validatePayment;

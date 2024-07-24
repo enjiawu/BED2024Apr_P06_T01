@@ -45,20 +45,33 @@ class Book {
       : null; // Handle book not found
   }
 
-  static async updateBookAvailability(book_id, newBookAvailability) {
-    const connection = await sql.connect(dbConfig);
+  static async updateBookAvailability(book_id, newAvailability) {
+    let pool;
+    try {
+      pool = await sql.connect(dbConfig);
 
-    const sqlQuery = `UPDATE Books SET availability = @availability WHERE book_id = @book_id`; // Parameterized query
+      // Update query
+      const sqlQuery = `
+        UPDATE Books
+        SET availability = @availability
+        WHERE book_id = @book_id
+      `;
 
-    const request = connection.request();
-    request.input("book_id", book_id);
-    request.input("availability", newBookAvailability.availability || null); // Handle optional fields
+      // Execute the update query
+      await pool
+        .request()
+        .input("availability", newAvailability)
+        .input("book_id", book_id)
+        .query(sqlQuery);
 
-    await request.query(sqlQuery);
-
-    connection.close();
-
-    return this.getBookById(book_id); // returning the updated book data
+      // Fetch and return the updated book object
+      return await this.getBookById(book_id);
+    } catch (err) {
+      console.error("Error updating book availability:", err.message);
+      throw err; // Rethrow the error to be handled by the caller
+    } finally {
+      if (pool) pool.close();
+    }
   }
 }
 

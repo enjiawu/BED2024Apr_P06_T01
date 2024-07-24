@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const {individualCF, totalCarbonFootprint, treeEquivalent, grade, tips, stats} = JSON.parse(localStorage.getItem('carbonFootprintOutput'));
+    const {individualCF, totalCarbonFootprint, treeEquivalent, grade, tips, stats} = JSON.parse(localStorage.getItem('carbonFootprintOutput')); // Get the data from the local storage after the form submission and carbon footprint calculation
 
     if (treeEquivalent) { // that means everything works fine
         
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
             datasets: [
             {
                 label: 'Your Carbon Footprint',
-                data: [individualCF[0], individualCF[3], individualCF[1], individualCF[2], treeEquivalent, totalCarbonFootprint],
+                data: [individualCF[0], individualCF[3], individualCF[1], individualCF[2], treeEquivalent, totalCarbonFootprint], // Individual carbon footprint values
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1,
@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         });
 
+        // Display the tips to reduce carbon footprint
         const tipsContainer = document.getElementById('tips-container');
         tipsContainer.innerHTML = '';
         tips.forEach(tip => {

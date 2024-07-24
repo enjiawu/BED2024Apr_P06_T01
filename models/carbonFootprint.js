@@ -23,13 +23,14 @@ class CarbonFootprint {
   
   // Calculate carbon footprint
   static async calculateCarbonFootprint(carTravel, publicTransport, flight, motorBike) {
-    const options = [
+    const options = [ // Create options for the API request based on the path and parameters
       createOptions('/CarbonFootprintFromCarTravel', { distance: carTravel.distance, vehicle: carTravel.vehicle }),
       createOptions('/CarbonFootprintFromFlight', { distance: flight.distance, type: flight.type }),
       createOptions('/CarbonFootprintFromMotorBike', { type: motorBike.type, distance: motorBike.distance }),
       createOptions('/CarbonFootprintFromPublicTransit', { distance: publicTransport.distance, type: publicTransport.type }),
     ];
   
+    // Make requests to the API and get the carbon footprint values
     const promises = options.map((option) => {
       return axios.get(`https://${option.hostname}${option.path}`, {
         headers: option.headers
@@ -38,24 +39,23 @@ class CarbonFootprint {
       });
     });
   
-    const results = await Promise.all(promises);
-    const totalCarbonFootprint = results.reduce((acc, current) => acc + current, 0);
-    const roundedTotalCarbonFootprint = parseFloat(totalCarbonFootprint.toFixed(2));
+    const results = await Promise.all(promises); // Wait for all the promises to resolve
+    const totalCarbonFootprint = results.reduce((acc, current) => acc + current, 0); // Calculate the total carbon footprint for all the values
+    const roundedTotalCarbonFootprint = parseFloat(totalCarbonFootprint.toFixed(2)); // Round the total carbon footprint to 2 decimal places
 
     return {'individualCF': results, 'totalCarbonFootprint' : roundedTotalCarbonFootprint};
   }
 
   // Get number of trees needed to offset carbon footprint
   static async getTreeEquivalent(weight) {
-    const option = createOptions('/TreeEquivalent', { weight: weight.toString(), unit: "kg"});
+    const option = createOptions('/TreeEquivalent', { weight: weight.toString(), unit: "kg"}); // Create options for the API request based on the path and parameters
 
     const response = await axios.get(`https://${option.hostname}${option.path}`, {
       headers: option.headers
-    });
-
+    }); // Make a request to the API and get the number of trees needed to offset the carbon footprint
     
-    const treeEquivalent = response.data.numberOfTrees;
-    const roundedTreeEquivalent = Math.ceil(treeEquivalent);
+    const treeEquivalent = response.data.numberOfTrees; 
+    const roundedTreeEquivalent = Math.ceil(treeEquivalent); // Round the number of trees to the nearest whole number
 
     return roundedTreeEquivalent;
   }
@@ -75,6 +75,7 @@ class CarbonFootprint {
     return result.recordset;
   }
 
+  // Update the carbon footprint in the database
   static async updateCarbonFootprint(carTravel, publicTransport, flight, motorBike, treeEquivalent, totalCarbonFootprint) {
     const connection = await sql.connect(dbConfig);
   
@@ -100,6 +101,8 @@ class CarbonFootprint {
     `;
   
     const request = connection.request();
+
+    // Check if the inputs are null or 0 and set them to 0 if they are
     if (carTravel !== null && carTravel !== 0) {
       request.input("carTravel", parseFloat(carTravel));
     }
@@ -133,7 +136,8 @@ class CarbonFootprint {
     await request.query(sqlQuery);
     connection.close();
   }
-    
+  
+  // Get all the carbon footprints from the database to compare
   static async compareStats() {
     const connection = await sql.connect(dbConfig);
   
@@ -154,6 +158,88 @@ class CarbonFootprint {
     connection.close();
   
     return result.recordset[0];
+  }
+
+  // Get the possible actions to reduce carbon footprint
+  static async getCarbonFootprintPossibleActions() {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `SELECT * FROM CarbonFootprintPossibleActions`;
+
+    const result = await connection.request().query(sqlQuery);
+
+    return result.recordset;
+  }
+
+  // Get the possible actions to reduce carbon footprint by ID
+  static async getCarbonFootprintPossibleActionsById(actionId) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `SELECT * FROM CarbonFootprintPossibleActions WHERE actionId = @actionId`;
+
+    const request = connection.request();
+
+    request.input("actionId", actionId);
+
+    const result = await request.query(sqlQuery);
+
+    return result.recordset[0];
+  }
+
+  // Create a new possible action to reduce carbon footprint
+  static async createCarbonFootprintPossibleAction(possibleAction) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `
+      INSERT INTO CarbonFootprintPossibleActions (title, description, grade)
+      VALUES (@title, @description, @grade)
+      SELECT SCOPE_IDENTITY() AS id;`;
+
+    const request = connection.request();
+
+    request.input("title", possibleAction.title);
+    request.input("description", possibleAction.description);
+    request.input("grade", possibleAction.grade);
+
+    const results = await request.query(sqlQuery);
+    connection.close();
+
+    return results.recordset[0];
+  }
+
+  // Update a possible action to reduce carbon footprint
+  static async updateCarbonFootprintPossibleAction(actionId, possibleAction) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `
+      UPDATE CarbonFootprintPossibleActions
+      SET title = @title, description = @description, grade = @grade
+      WHERE actionId = @actionId`;
+    
+    const request = connection.request();
+
+    request.input("actionId", actionId);
+    request.input("title", possibleAction.title || null);
+    request.input("description", possibleAction.description) || null;
+    request.input("grade", possibleAction.grade || null);
+
+    await request.query(sqlQuery);
+
+    return await CarbonFootprint.getCarbonFootprintPossibleActionsById(actionId);
+  }
+
+  // Delete a possible action to reduce carbon footprint
+  static async deleteCarbonFootprintPossibleAction(actionId) {
+    const connection = await sql.connect(dbConfig);
+
+    const sqlQuery = `DELETE FROM CarbonFootprintPossibleActions WHERE actionId = @actionId`;
+
+    const request = connection.request();
+    request.input("actionId", actionId);
+
+    const result = await request.query(sqlQuery);
+
+    return result.rowsAffected[0];
   }
 }
 

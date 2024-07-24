@@ -1,6 +1,7 @@
 const Joi = require("joi");
 
 const validateLikes = (req, res, next) => {
+    // Make sure all the inputs are valid
     const schema = Joi.object().keys({
         userId: Joi.number().integer().required()
     });

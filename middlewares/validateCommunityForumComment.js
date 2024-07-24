@@ -1,9 +1,15 @@
 const Joi = require("joi");
 
 const validateCommunityForumComment = (req, res, next) => {
+    // Make sure all the inputs are valid
     const schema = Joi.object({
-        userId: Joi.number().required(),
-        description: Joi.string().min(1).required(),
+        userId: Joi.number().required().messages({
+            'any.required': 'User ID is required'
+        }),
+        description: Joi.string().min(1).required().messages({
+            "string.empty": "Description is required",
+            "string.min": "Description should be at least 1 characters long"
+        }),
     });
 
     const validation = schema.validate(req.body, { abortEarly: false }); // Validate request body
