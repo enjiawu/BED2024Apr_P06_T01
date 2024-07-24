@@ -1,6 +1,7 @@
 const Joi = require('joi');
 
 const validateCarbonFootprintAction = (req, res, next) => {
+    // Make sure all the inputs are valid
     const schema = Joi.object({
         title: Joi.string().min(3).max(50).required().messages({
             'string.empty': 'Title is required',
@@ -11,7 +12,7 @@ const validateCarbonFootprintAction = (req, res, next) => {
             'string.empty': 'Description is required',
             'string.min': 'Description should be at least 5 characters long'
         }),
-        grade: Joi.string().required().valid('good', 'average', 'poor').messages({
+        grade: Joi.string().required().valid('good', 'average', 'poor').messages({ // Grade should be one of the following: good, average, poor
             'string.empty': 'Grade is required',
         }),
     });

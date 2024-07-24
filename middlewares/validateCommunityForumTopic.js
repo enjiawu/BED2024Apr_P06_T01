@@ -1,6 +1,7 @@
 const Joi = require("joi");
 
 const validateCommunityForumTopic = (req, res, next) => {
+    // Make sure all the inputs are valid
     const schema = Joi.object().keys({
         topic: Joi.string().trim().required().messages({
             "string.empty": "Topic is required"

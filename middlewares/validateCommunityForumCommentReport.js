@@ -1,6 +1,7 @@
 const Joi = require("joi");
 
 const validateCommunityForumCommentReport = (req, res, next) => {
+    // Make sure all the inputs are valid
     const schema = Joi.object().keys({
         postId: Joi.number().required().messages({
             'any.required': 'Post ID is required'

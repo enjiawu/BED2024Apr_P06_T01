@@ -1,22 +1,23 @@
 const Joi = require("joi");
 
-const validateCarbonFootprint = (req, res, next) => {
-    const schema = Joi.object({
-        carTravel: Joi.object({
+const validateCarbonFootprint = (req, res, next) => { 
+    // Make sure all the inputs are valid
+    const schema = Joi.object({ 
+        carTravel: Joi.object({ 
           distance: Joi.number().default(0),
-          vehicle: Joi.string().default('').allow('', null) 
+          vehicle: Joi.string().default('').allow('', null)  // Allow empty string and null
         }).default({ distance: 0, vehicle: '' }),
         flight: Joi.object({
           distance: Joi.number().default(0),
-          type: Joi.string().default('').allow('', null)
+          type: Joi.string().default('').allow('', null) // Allow empty string and null
         }).default({ distance: 0, type: '' }),
         motorBike: Joi.object({
-          type: Joi.string().default('').allow('', null), 
+          type: Joi.string().default('').allow('', null), // Allow empty string and null
           distance: Joi.number().default(0)
         }).default({ type: '', distance: 0 }),
         publicTransport: Joi.object({
           distance: Joi.number().default(0),
-          type: Joi.string().default('').allow('', null) 
+          type: Joi.string().default('').allow('', null) // Allow empty string and null
         }).default({ distance: 0, type: '' })
     });
 
