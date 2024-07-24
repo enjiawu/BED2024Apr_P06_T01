@@ -194,6 +194,7 @@ class CommunityForumPost {
         return result.recordset[0];
     }
 
+    // Get all likes for the posts
     static async getAllLikes(){
         const connection = await sql.connect(dbConfig);
 
@@ -507,6 +508,7 @@ class CommunityForumPost {
 
         DELETE FROM CommentLikes WHERE commentId = @commentId; 
         DELETE FROM CommentReports WHERE commentId = @commentId;
+        DELETE FROM CommentReports WHERE commentId = (SELECT commentId FROM Comments WHERE parentCommentId = @commentId);
         DELETE FROM Comments WHERE parentCommentId = @commentId;
         DELETE FROM Comments WHERE commentId = @commentId;`;
 
@@ -697,17 +699,31 @@ Creating and Managing Posts:
 
 Additional Actions:
 - Report Posts: Flag posts that violate community guidelines or are deemed inappropriate. Each post can usually be reported only once per user.[x]
-- Explore Trending Topics: Click on trending topics or popular tags to discover posts related to those subjects, facilitating exploration and participation in trending discussions.
-
-User Profile and Settings:
-- View posts created by the user: Access a list of posts authored by the user to review past contributions and choose to edit/delete (wenya doing)
 
 Community Management (Moderators/Admins):
-- Moderate Posts and Comments: Monitor and manage posts and comments to ensure they adhere to community guidelines
+- Moderate Posts and Comments: Monitor and manage posts and comments to ensure they adhere to community guidelines [x]
+await connection.transaction(async (transaction) => {
+            // Delete likes associated with the comment
+            await transaction.request()
+                .input("commentId", sql.Int, commentId)
+                .query("DELETE FROM CommentLikes WHERE commentId = @commentId");
 
-// IF GOT TIME
-- Pin Posts: Highlight important posts or announcements by pinning them to the top of the feed or a specific section.
-- Create Announcements: Share important updates or announcements with the entire community.
-- Create Real Time effect of statistics changing when a user interacts with the post.
+            // Delete reports associated with the comment
+            await transaction.request()
+                .input("commentId", sql.Int, commentId)
+                .query("DELETE FROM CommentReports WHERE commentId = @commentId");
 
+            // Delete child comments
+            await transaction.request()
+                .input("commentId", sql.Int, commentId)
+                .query("DELETE FROM Comments WHERE parentCommentId = @commentId");
+
+            // Delete the comment itself
+            await transaction.request()
+                .input("commentId", sql.Int, commentId)
+                .query("DELETE FROM Comments WHERE commentId = @commentId");
+
+            // Commit the transaction
+            await transaction.commit();
+        });
 */
