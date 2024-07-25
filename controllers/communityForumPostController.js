@@ -109,6 +109,7 @@ const getPostCount = async (req, res) => {
     }
 };
 
+// Get all likes for the posts
 const getAllLikes = async (req, res) => {
     try {
         const likes = await Post.getAllLikes();
@@ -180,6 +181,10 @@ const getTrendingTopics = async (req, res) => {
 const reportPost = async (req, res) => {
     const reportData = req.body;
     try {
+        const existingReport = await Post.getReportByUser(reportData.postId, reportData.userId);
+        if (existingReport) {
+            return res.status(400).json({ error: "You have already reported this post" });
+        }
         const report = await Post.reportPost(reportData);
         res.status(200).json(report);
     } catch (error) {
@@ -208,15 +213,15 @@ const modifyLike = async (req, res) => {
     const userId = req.body.userId;
 
     try {
-        const existingLike = await Post.getLikeByUser(postId, userId);
-        if (existingLike) {
+        const existingLike = await Post.getLikeByUser(postId, userId); // Check if the user has liked the post
+        if (existingLike) { // If the user has liked the post, unlike it
             // Unlike the post
             const post = await Post.unlikePost(postId, userId);
             if (!post) {
                 return res.status(404).json({ error: "Post not found" });
             }
-            res.json({ success: true, status: 'unliked', likes: post.likes });
-        } else {
+            res.json({ success: true, status: 'unliked', likes: post.likes }); 
+        } else { // If the user has not liked the post, like it
             // Like the post
             const post = await Post.likePost(postId, userId);
             if (!post) {
@@ -230,6 +235,7 @@ const modifyLike = async (req, res) => {
     }
 };
 
+// Check if user has liked the comment
 const getCommentLikeByUser = async (req, res) => {
     const commentId = parseInt(req.params.commentId);
     const userId = parseInt(req.params.userId);
@@ -243,6 +249,7 @@ const getCommentLikeByUser = async (req, res) => {
 }
 
 // Comments
+// Get all comments for a post
 const getCommentsByPost = async (req, res) => {
     const postId = parseInt(req.params.id);
     try {
@@ -254,6 +261,7 @@ const getCommentsByPost = async (req, res) => {
     }
 };
 
+// Get comment by id
 const getCommentById = async (req, res) => {
     const commentId = parseInt(req.params.id);
     try {
@@ -268,6 +276,7 @@ const getCommentById = async (req, res) => {
     }
 };
 
+// Create, update and delete comments
 const createComment = async (req, res) => {
     const postId = parseInt(req.params.id);
     const newCommentData = req.body;
@@ -310,20 +319,21 @@ const deleteComment = async (req, res) => {
     }
 };
 
+// Like / unlike the comment
 const modifyCommentLike = async (req, res) => {
     const commentId = parseInt(req.params.id);
     const userId = parseInt(req.body.userId);
 
     try {
-        const existingLike = await Post.getCommentLikeByUser(commentId, userId);
-        if (existingLike) {
+        const existingLike = await Post.getCommentLikeByUser(commentId, userId); // Check if the user has liked the comment
+        if (existingLike) { // If the user has liked the comment, unlike it
             // Unlike the comment
             const comment = await Post.unlikeComment(commentId, userId);
             if (!comment) {
                 return res.status(404).json({ error: "Comment not found" });
             }
             res.json({ success: true, status: 'unliked', likes: comment.likes });
-        } else {
+        } else { // If the user has not liked the comment, like it
             // Like the comment
             const comment = await Post.likeComment(commentId, userId);
             if (!comment) {
@@ -338,10 +348,14 @@ const modifyCommentLike = async (req, res) => {
     }
 };
 
-
+// Report comment which redirects to admin
 const reportComment = async (req, res) => {
     const reportData = req.body;
     try {
+        const existingReport = await Post.getReportCommentByUser(reportData.commentId, reportData.userId);
+        if (existingReport) {
+            return res.status(400).json({ error: "You have already reported this comment" });
+        }
         const report = await Post.reportComment(reportData);
         res.status(200).json(report);
     } catch (error) {
@@ -350,6 +364,7 @@ const reportComment = async (req, res) => {
     }
 };
 
+// Reply to a comment
 const replyToComment = async (req, res) => {
     const commentId = parseInt(req.params.commentId);
     const postId = parseInt(req.params.postId);
@@ -363,6 +378,7 @@ const replyToComment = async (req, res) => {
     }
 };
 
+// Get all replies to a comment
 const getRepliesByComment = async (req, res) => {
     const commentId = parseInt(req.params.id);
     try {

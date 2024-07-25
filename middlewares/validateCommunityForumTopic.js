@@ -1,14 +1,10 @@
 const Joi = require("joi");
 
-const validateCommunityForumComment = (req, res, next) => {
+const validateCommunityForumTopic = (req, res, next) => {
     // Make sure all the inputs are valid
-    const schema = Joi.object({
-        userId: Joi.number().required().messages({
-            'any.required': 'User ID is required'
-        }),
-        description: Joi.string().min(1).required().messages({
-            "string.empty": "Description is required",
-            "string.min": "Description should be at least 1 characters long"
+    const schema = Joi.object().keys({
+        topic: Joi.string().trim().required().messages({
+            "string.empty": "Topic is required"
         }),
     });
 
@@ -23,4 +19,4 @@ const validateCommunityForumComment = (req, res, next) => {
     next(); // If validation passes, proceed to the next route handler
 };
 
-module.exports = validateCommunityForumComment;
+module.exports = validateCommunityForumTopic;

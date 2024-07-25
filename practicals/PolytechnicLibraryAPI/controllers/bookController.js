@@ -1,4 +1,4 @@
-const Book = require("../models/book");
+const Book = require("../models/Book");
 
 const getAllBooks = async (req, res) => {
   try {
@@ -25,20 +25,20 @@ const getBookById = async (req, res) => {
 };
 
 const updateBookAvailability = async (req, res) => {
-    const bookId = parseInt(req.params.id);
-    const newBookAvailability = req.body;
-  
-    try {
-      const updatedBook = await Book.updateBookAvailability(bookId, newBookAvailability);
+  const bookId = parseInt(req.params.bookId);
+  const { availability } = req.body;
+
+  try {
+      const updatedBook = await Book.updateBookAvailability(bookId, availability);
       if (!updatedBook) {
-        return res.status(404).send("Book not found");
+          return res.status(404).send("Book not found");
       }
       res.json(updatedBook);
-    } catch (error) {
+  } catch (error) {
       console.error(error);
       res.status(500).send("Error updating book availability");
-    }
-  };
+  }
+};
 
 module.exports = {
   getAllBooks,

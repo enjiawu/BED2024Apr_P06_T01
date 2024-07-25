@@ -27,9 +27,9 @@ function verifyJWT(req, res, next) {
             "^/events$": ["member", "admin", "event"], // Anyone can view events
             "^/events/[0-9]+/status$": ["event"], // Only 'event' can update status
 
-            // Community page
+            // Community route - Only for logged in users
             // Post routes
-            "^/": ["member", "admin", "event"], // Anyone can create a post or comment as long as they are logged in
+            "^/": ["member", "admin", "event"], // Anyone can create a post or comment
             "^/[0-9]+": ["member", "admin", "event"], // Members and admins update and delete a post
             
             // Like Routes
@@ -38,12 +38,16 @@ function verifyJWT(req, res, next) {
 
             // Comment route
             "^/comments/[0-9]+": ["member", "admin", "event"], // Anyone can update and delete a comment
-            "^/[0-9]+/comments": ["member", "admin", "event"], 
+            "^/[0-9]+/comments": ["member", "admin", "event"], // Anyone can create a comment
             "^/[0-9]+/comments/[0-9]+/reply": ["member", "admin", "event"], // Anyone can create a post
 
             // Report Routes
             "^/report-post": ["member", "admin", "event"], // Anyone can report a post
             "^/report-comment": ["member", "admin", "event"], // Anyone can report a comment
+
+            // Topic routes - only admin or event manager can create, update and delete topics
+            "^/topics": ["admin", "event"], // Only admin or event manager can create a topic
+            "^/topics/[0-9]+": ["admin", "event"], // Only admin or event manager can update or delete a topic
         };
 
         const requestedEndpoint = req.url;

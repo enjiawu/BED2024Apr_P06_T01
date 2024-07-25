@@ -58,8 +58,8 @@ async function submitform() {
       motorBike: { distance: motorbikeDistance, type: typeofMotorbike }
     };
   
-  try {
-    const response = await fetch('/calculatecarbonfootprint', {
+  try { 
+    const response = await fetch('/calculatecarbonfootprint', { // Make a request to the API to calculate the carbon footprint
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
@@ -70,8 +70,8 @@ async function submitform() {
     const {individualCF, totalCarbonFootprint, treeEquivalent,  grade, tips, stats} = await response.json();
 
     // Pass the results to the output page
-    localStorage.setItem('carbonFootprintOutput', JSON.stringify({individualCF, totalCarbonFootprint, treeEquivalent,  grade, tips, stats}));
-    window.location.href = 'carbon-footprint-calculator-output.html';
+    localStorage.setItem('carbonFootprintOutput', JSON.stringify({individualCF, totalCarbonFootprint, treeEquivalent,  grade, tips, stats})); // Store the data in the local storage
+    window.location.href = 'carbon-footprint-calculator-output.html'; // Redirect the user to the output page
 
   } catch (error) {
     console.error('Error calculating carbon footprint:', error);
