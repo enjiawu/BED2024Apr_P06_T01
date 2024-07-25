@@ -1,3 +1,22 @@
+let userId = null; // Initialize the user ID
+let username = null;
+let token = localStorage.getItem('token'); // Get the token from local storage
+
+// Function to get the user data from the token
+function getUserDataFromToken() {
+
+    if (!token) {
+        console.log("No token found");
+        return false;
+    }
+
+    userId = JSON.parse(localStorage.getItem("userData")).userId;
+    username = JSON.parse(localStorage.getItem("userData")).username;
+
+    return true;
+}
+
+
 // Function to get query parameter by name
 function getQueryParam(name) {
     const urlParams = new URLSearchParams(window.location.search);
@@ -23,6 +42,13 @@ async function fetchEventDetails(eventId) {
             throw new Error('Failed to fetch event details');
         }
         const event = await response.json();
+
+        if (userId !== event.userId) {
+            alert('You are not authorized to edit this event.');
+            window.location.href = '/index.html'; // Redirect or handle unauthorized access
+            return;
+        }
+
         populateForm(event);
     } catch (error) {
         console.error('Error fetching event details:', error);
@@ -43,8 +69,8 @@ async function handleFormSubmit(event) {
         return;
     }
     formData.append('image', '');
-    formData.append('userId', '1');
-    formData.append('username', 'john_doe');
+    formData.append('userId', userId);
+    formData.append('username', username);
 
     try {
         const response = await fetch(`/events/${eventId}`, {
@@ -146,4 +172,5 @@ document.addEventListener('DOMContentLoaded', () => {
     returnBtn.addEventListener('click', () => {
         window.location.href = `participate-event.html?id=${eventId}`;
     });
+    getUserDataFromToken();
 });
