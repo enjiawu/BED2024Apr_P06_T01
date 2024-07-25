@@ -17,6 +17,7 @@
         <link href="../styles/style.css" rel="stylesheet">
         <link href="../styles/donation-portal.css" rel="stylesheet">
         <link href="../styles/payment.css" rel="stylesheet">
+        <link href="../styles/organisation-modals.css" rel="stylesheet">
         <link rel="stylesheet" href="../styles/nav.css" />
         <script src="https://js.stripe.com/v3/"></script>
     </head>
@@ -162,7 +163,8 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Singapore Red Cross Society</h5>
                                     <p class="card-text">Providing humanitarian aid and emergency response services.</p>
-                                    <button class="btn donateBtn" data-bs-toggle="modal" data-bs-target="#donationModal">Donate Now</button>
+                                    <button class="btn orgBtn mb-1" onclick="document.getElementById('srcsModal').style.display='block'">View Organization</button>
+                                    <button class="btn donateBtn mb-1" data-bs-toggle="modal" data-bs-target="#donationModal">Donate Now</button>
                                 </div>
                             </div>
                         </div>
@@ -173,7 +175,8 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Zero Waste SG</h5>
                                     <p class="card-text">Promoting zero waste and reducing waste generation in Singapore.</p>
-                                    <button class="btn donateBtn" data-bs-toggle="modal" data-bs-target="#donationModal">Donate Now</button>
+                                    <button class="btn orgBtn mb-1" onclick="document.getElementById('zwSGModal').style.display='block'">View Organization</button>
+                                    <button class="btn donateBtn mb-1" data-bs-toggle="modal" data-bs-target="#donationModal">Donate Now</button>
                                 </div>
                             </div>
                         </div>
@@ -184,7 +187,8 @@
                                 <div class="card-body">
                                     <h5 class="card-title">WWF Singapore</h5>
                                     <p class="card-text">Focusing on conservation and sustainability initiatives in Singapore and Southeast Asia.</p>
-                                    <button class="btn donateBtn" data-bs-toggle="modal" data-bs-target="#donationModal">Donate Now</button>
+                                    <button class="btn orgBtn mb-1" onclick="document.getElementById('wwfModal').style.display='block'">View Organization</button>
+                                    <button class="btn donateBtn mb-1" data-bs-toggle="modal" data-bs-target="#donationModal">Donate Now</button>
                                 </div>
                             </div>
                         </div>
@@ -218,6 +222,162 @@
                         </form>
                         <div id="feedback" class="text-center mt-3"><strong></strong></div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Singapore Red Cross Society Organisation Modal (Gignite Integration) -->
+        <div id="srcsModal" class="modal">
+            <div class="dialog-content org-content">
+                <span class="close" onclick="document.getElementById('srcsModal').style.display='none'">&times;</span>
+                
+                <div class="dialog-header">
+                    <img class="w-32 h-32 rounded-full mr-4" src="../images/donation/Singapore_Red_Cross.jpg" width="320" height="320" alt="Green Earth Foundation cover image" />
+                    <div class="flex-1">
+                        <div class="modal-title">Singapore Red Cross Society</div>
+                        <p class="text-lg text-muted-foreground">Providing aid and relief to those in need</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-6">
+                    <p class="text-lg">The Singapore Red Cross Society is dedicated to alleviating human suffering and protecting human dignity through humanitarian services and disaster relief efforts. Join us in our mission to provide aid and support to vulnerable communities.</p>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Focus Areas</h3>
+                        <ul class="list-disc ml-6">
+                            <li>Disaster Response and Relief</li>
+                            <li>Blood Donation</li>
+                            <li>Community Services</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Impact</h3>
+                        <p>Over the years, the Singapore Red Cross Society has provided crucial aid during disasters, collected thousands of units of blood, and supported numerous community programs aimed at improving the lives of those in need.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Leadership</h3>
+                        <div class="flex space-x-6">
+                            <div class="flex-1">
+                                <p class="font-medium">Mr. Benjamin William</p>
+                                <p class="text-muted-foreground text-sm">Mr. Benjamin William is the Secretary General and CEO of the Singapore Red Cross Society. He has extensive experience in humanitarian aid and disaster management.</p>
+                            </div>
+                            
+                            <div class="flex-1">
+                                <p class="font-medium">Michael Chen</p>
+                                <p class="text-muted-foreground text-sm">Michael Chen oversees our conservation programs and partnerships. He has a background in environmental science and has worked on conservation projects around the world.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 text-end">
+                    <button class="btn donateBtn" onclick="document.getElementById('srcsModal').style.display='none'" style="font-size: 24px;" data-bs-toggle="modal" data-bs-target="#donationModal">Donate Now</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Zero Waste SG Organisation Modal (Gignite Integration) -->
+        <div id="zwSGModal" class="modal">
+            <div class="dialog-content org-content">
+                <span class="close" onclick="document.getElementById('zwSGModal').style.display='none'">&times;</span>
+                
+                <div class="dialog-header">
+                    <img class="w-32 h-32 rounded-full mr-4" src="../images/donation/zero-waste.jpg" width="320" height="320" alt="Green Earth Foundation cover image" />
+                    <div class="flex-1">
+                        <div class="modal-title">Zero Waste SG</div>
+                        <p class="text-lg text-muted-foreground">Empowering a zero-waste future</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-6">
+                    <p class="text-lg">Zero Waste SG is a non-profit organization dedicated to promoting sustainable waste management practices in Singapore. Through education, advocacy, and community initiatives, we aim to reduce waste and support a circular economy. Join us in our journey towards a zero-waste future.</p>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Cause Areas</h3>
+                        <ul class="list-disc ml-6">
+                            <li>Waste Reduction</li>
+                            <li>Recycling & Upcycling</li>
+                            <li>Public Education & Awareness</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Impact</h3>
+                        <p>Zero Waste SG has engaged with thousands of individuals and businesses to promote waste reduction practices, conducted numerous workshops and campaigns, and successfully diverted tons of waste from landfills through recycling and upcycling initiatives.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Leadership</h3>
+                        <div class="flex space-x-6">
+                            <div class="flex-1">
+                                <p class="font-medium">Eugene Tay</p>
+                                <p class="text-muted-foreground text-sm">Eugene Tay is the founder and Executive Director of Zero Waste SG. With a background in environmental management, he is passionate about sustainability and has been a prominent advocate for zero-waste practices in Singapore.</p>
+                            </div>
+                            
+                            <div class="flex-1">
+                                <p class="font-medium">Grace Chua</p>
+                                <p class="text-muted-foreground text-sm">Grace Chua is the Program Director at Zero Waste SG. She oversees various community programs and initiatives aimed at reducing waste and promoting recycling. Her expertise lies in environmental education and community engagement.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 text-end">
+                    <button class="btn donateBtn" onclick="document.getElementById('zwSGModal').style.display='none'" style="font-size: 24px;" data-bs-toggle="modal" data-bs-target="#donationModal">Donate Now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- WWF Organisation Modal (Gignite Integration) -->
+        <div id="wwfModal" class="modal">
+            <div class="dialog-content org-content">
+                <span class="close" onclick="document.getElementById('wwfModal').style.display='none'">&times;</span>
+                
+                <div class="dialog-header">
+                    <img class="w-32 h-32 rounded-full mr-4" src="../images/donation/WWF_Logo.jpg" width="320" height="320" alt="Green Earth Foundation cover image" />
+                    <div class="flex-1">
+                        <div class="modal-title">WWF Singapore</div>
+                        <p class="text-lg text-muted-foreground">Building a future where people live in harmony with nature</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-6">
+                    <p class="text-lg">WWF Singapore is committed to protecting the world's most vulnerable species and ecosystems. Through conservation efforts, sustainable development programs, and public education, we strive to create a future where people and nature thrive together. Join us in our mission to safeguard the natural world.</p>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Focus Areas</h3>
+                        <ul class="list-disc ml-6">
+                            <li>Wildlife Conservation</li>
+                            <li>Climate Change Mitigation</li>
+                            <li>Ocean Protection</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Impact</h3>
+                        <p>WWF Singapore has played a key role in numerous conservation projects, including protecting endangered species, promoting sustainable practices, and engaging communities in environmental stewardship. Our efforts have helped conserve critical habitats and reduce human impact on the environment.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">Leadership</h3>
+                        <div class="flex space-x-6">
+                            <div class="flex-1">
+                                <p class="font-medium">R. Raghunathan</p>
+                                <p class="text-muted-foreground text-sm">R. Raghunathan is the CEO of WWF Singapore. With a wealth of experience in environmental conservation and corporate sustainability, he leads the organization's strategic initiatives to protect nature and promote sustainable development.</p>
+                            </div>
+                            
+                            <div class="flex-1">
+                                <p class="font-medium">Elaine Tan</p>
+                                <p class="text-muted-foreground text-sm">Elaine Tan is the Conservation Director at WWF Singapore. She oversees various conservation programs and initiatives, focusing on biodiversity protection and sustainable resource management.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 text-end">
+                    <button class="btn donateBtn" onclick="document.getElementById('wwfModal').style.display='none'" style="font-size: 24px;" data-bs-toggle="modal" data-bs-target="#donationModal">Donate Now</button>
                 </div>
             </div>
         </div>
