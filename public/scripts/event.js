@@ -60,6 +60,14 @@ async function checkParticipationStatus(eventId, userId) {
     }
 }
 
+function updateLikeButton(button, liked, likeCount) {
+    if (liked) {
+        button.innerHTML = `<i class="bi bi-hand-thumbs-up-fill"></i> <span class="likeCount">${likeCount}</span>`;
+    } else {
+        button.innerHTML = `<i class="bi bi-hand-thumbs-up"></i> <span class="likeCount">${likeCount}</span>`;
+    }
+}
+
 // Render events on the page
 async function renderEvents(events) {
     const eventsContainer = document.querySelector('.events-Container');
@@ -87,7 +95,7 @@ async function renderEvents(events) {
                         </a>
                     </div>
                     <div class="event-details text-end">
-                        <button class="btn btn likeBtn">
+                        <button class="btn btn likeBtn" data-event-id="${event.eventId}">
                             <i class="bi bi-hand-thumbs-up-fill"></i> <span class="likeCount">${event.likes}</span>
                         </button>
                         <p class="mt-1">Status: ${event.status}</p>
@@ -101,16 +109,45 @@ async function renderEvents(events) {
             console.error('Error processing event:', error);
         }
     }
-    // const likeBtn = document.querySelector('.likeBtn');
-    // const likeCount = document.querySelector('.likeCount');
 
-    // likeBtn.addEventListener('click', () => {
-    //     if (!likeBtn.disabled) {
-    //         event.likes += 1;
-    //         likeCount.textContent = event.likes;
-    //         likeBtn.disabled = true;
-    //     } 
-    // });
+    const likeButtons = document.querySelectorAll('.likeBtn');
+    likeButtons.forEach(async (button) => {
+        const eventId = button.getAttribute('data-event-id');
+
+        // Check initial like status
+        let isLiked = false;
+        try {
+            const isLikedResponse = await fetch(`/events/${eventId}/get-like-by-user/1`); // Change once user session storage is implemented
+            isLiked = await isLikedResponse.json();
+        } catch {
+            isLiked = false;
+        }
+
+        // Update button appearance based on initial like status
+        updateLikeButton(button, isLiked, button.querySelector('.likeCount').textContent);
+
+        button.addEventListener('click', async () => {
+            try {
+                const response = await fetch(`/events/${eventId}/modifylike`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ userId: 1 }) // Change as needed for actual user ID
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to like/unlike the event');
+                }
+                const result = await response.json();
+                const likeCountElement = button.querySelector('.likeCount');
+                likeCountElement.textContent = result.likes;
+                updateLikeButton(button, result.likestatus === 'liked', result.likes);
+            } catch (error) {
+                console.error('Error liking/unliking event:', error);
+                alert('Please log in to like an event.');
+            }
+        });
+    });
 };
 
 
