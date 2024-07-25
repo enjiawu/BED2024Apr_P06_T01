@@ -24,6 +24,20 @@ const getMessageById = async (req, res) => {
     }
 };
 
+const updateMessageStatus = async (req, res) => {
+    const messageId = parseInt(req.params.id);
+    try {
+        const message = await Message.updateMessageStatus(messageId);
+        if (!message) {
+            return res.status(404).send("Message not found");
+        }
+        res.json(message);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error updating message status");
+    }
+};
+
 const sendMessage = async (req, res) => {
     const newMessage = req.body;
     console.log("Received message data:", newMessage); // Debug: Log received data
@@ -40,5 +54,6 @@ const sendMessage = async (req, res) => {
 module.exports = {
     getAllMessages,
     getMessageById,
-    sendMessage
+    updateMessageStatus,
+    sendMessage,
 };
