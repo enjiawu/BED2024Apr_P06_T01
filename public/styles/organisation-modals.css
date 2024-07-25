@@ -1,0 +1,86 @@
+
+.org-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 16px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 700px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+.dialog-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+.text-muted-foreground {
+    color: #6c757d;
+}
+.space-y-6 > * + * {
+    margin-top: 24px;
+}
+.flex {
+    display: flex;
+}
+.flex-1 {
+    flex: 1;
+}
+.space-x-6 > * + * {
+    margin-left: 24px;
+}
+.text-lg {
+    font-size: 18px;
+}
+.font-medium {
+    font-weight: 500;
+}
+.font-semibold {
+    font-weight: 600;
+}
+.list-disc {
+    list-style-type: disc;
+}
+.ml-6 {
+    margin-left: 24px;
+}
+.mb-2 {
+    margin-bottom: 8px;
+}
+.mt-6 {
+    margin-top: 24px;
+}
+.rounded-full {
+    border-radius: 50%;
+}
+.object-cover {
+    object-fit: cover;
+}
+
+.orgBtn {
+    background-color: #414833;
+    color: white;
+}
+
+.orgBtn:hover {
+    background-color: #303525;
+    border-color: #303525; 
+    color: white; 
+}
