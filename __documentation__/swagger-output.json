@@ -1,0 +1,269 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "ReThink API Documentation",
+    "description": "API for a comprehensive sustainability app featuring a community page, events, volunteering opportunities, a carbon footprint calculator, and insightful articles. Join us in making a positive environmental impact and fostering a greener future."
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": ["http"],
+  "tags": [
+    {
+      "name": "Carbon Footprint Calculator",
+      "description": "API for calculating carbon footprint"
+    }
+  ],
+  "paths": {
+    "/calculateCarbonFootprint": {
+      "post": {
+        "tags": ["Carbon Footprint Calculator"],
+        "summary": "Calculate the carbon footprint based on the data provided",
+        "description": "Calculates the carbon footprint and provides tree equivalent, grade, tips, and statistics",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "data",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "carTravel": { "type": "object", "properties": {"distance": {"type": "number"}, "vehicle": {"type": "string"}} },
+                "publicTransport": { "type": "object", "properties": {"distance": {"type": "number"}, "type": {"type": "string"}} },
+                "flight": { "type": "object", "properties": {"distance": {"type": "number"}, "type": {"type": "string"}} },
+                "motorBike": { "type": "object", "properties": {"distance": {"type": "number"}, "type": {"type": "string"}} }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Carbon footprint calculated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "individualCF": { "type": "array", "items": { "type": "number" } },
+                "totalCarbonFootprint": { "type": "number" },
+                "treeEquivalent": { "type": "number" },
+                "grade": { "type": "string" },
+                "tips": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "stats": {
+                  "type": "object",
+                  "additionalProperties": { "type": "number" }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error calculating carbon footprint",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/createCarbonFootprintPossibleAction": {
+      "post": {
+        "tags": ["Carbon Footprint Calculator"],
+        "summary": "Create a new possible action to reduce the carbon footprint",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "action",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": { "type": "string" },
+                "description": { "type": "string" },
+                "grade": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Action created successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "number" },
+                "title": { "type": "string" },
+                "description": { "type": "string" },
+                "grade": { "type": "string" }
+              }
+            }
+          },
+          "500": {
+            "description": "Error creating action",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/updateCarbonFootprintPossibleAction/{id}": {
+      "put": {
+        "tags": ["Carbon Footprint Calculator"],
+        "summary": "Update an existing possible action to reduce the carbon footprint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "action",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": { "type": "string" },
+                "description": { "type": "string" },
+                "grade": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Action updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "number" },
+                "title": { "type": "string" },
+                "description": { "type": "string" },
+                "grade": { "type": "string" }
+              }
+            }
+          },
+          "500": {
+            "description": "Error updating action",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getCarbonFootprintPossibleActions": {
+      "get": {
+        "tags": ["Carbon Footprint Calculator"],
+        "summary": "Get the possible actions to reduce the carbon footprint",
+        "responses": {
+          "200": {
+            "description": "Possible actions retrieved successfully",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": { "type": "string" }
+              }
+            }
+          },
+          "500": {
+            "description": "Error retrieving possible actions",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getCarbonFootprintPossibleActions/{id}": {
+      "get": {
+        "tags": ["Carbon Footprint Calculator"],
+        "summary": "Get the possible action to reduce the carbon footprint by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Possible action retrieved successfully",
+            "schema": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            }
+          },
+          "404": {
+            "description": "Action not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": { "type": "string" }
+              }
+            }
+          },
+          "500": {
+            "description": "Error retrieving action",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deleteCarbonFootprintPossibleAction/{id}": {
+      "delete": {
+        "tags": ["Carbon Footprint Calculator"],
+        "summary": "Delete a possible action to reduce the carbon footprint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Action deleted successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": { "type": "string" }
+              }
+            }
+          },
+          "500": {
+            "description": "Error deleting action",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
