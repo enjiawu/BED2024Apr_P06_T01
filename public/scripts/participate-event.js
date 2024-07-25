@@ -1,3 +1,19 @@
+let userId = null; // Initialize the user ID
+let token = localStorage.getItem('token'); // Get the token from local storage
+
+// Function to get the user data from the token
+function getUserDataFromToken() {
+
+    if (!token) {
+        console.log("No token found");
+        return false;
+    }
+
+    userId = JSON.parse(localStorage.getItem("userData")).userId;
+
+    return true;
+}
+
 // Function to get query parameter by name
 function getQueryParam(name) {
     const urlParams = new URLSearchParams(window.location.search);
@@ -23,8 +39,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 window.location.href = `/html/edit-event.html?id=${eventId}`;
             });
 
-            setupLikeButton(event, 1);
-            setupParticipateBtn(event, 1);
+            setupLikeButton(event, userId);
+            setupParticipateBtn(event, userId);
 
         } catch (error) {
             console.error('Error fetching event details:', error);
@@ -48,6 +64,11 @@ function displayEventDetails(event) {
     `;
     document.querySelector('.card-text').innerText = event.description;
 
+    //Ensure that users whose events don't belong to them aren't able to edit them
+    const editDropdown = document.querySelector('.edit-dropdown');
+    if (userId !== event.userId) {
+        editDropdown.style.display = 'none';
+    }
 };
 
 async function setupLikeButton(event, userId) {
@@ -56,7 +77,7 @@ async function setupLikeButton(event, userId) {
 
     let isLiked = false;
     try {
-        const isLikedResponse = await fetch(`/events/${event.eventId}/get-like-by-user/1`); // Change once user session storage is implemented
+        const isLikedResponse = await fetch(`/events/${event.eventId}/get-like-by-user/${userId}`); // Change once user session storage is implemented
         isLiked = await isLikedResponse.json();
     }
     catch {
@@ -70,7 +91,7 @@ async function setupLikeButton(event, userId) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ userId })
+                body: JSON.stringify({ userId: userId })
             });
             if (!response.ok) {
                 throw new Error('Failed to like/unlike the event');
@@ -112,7 +133,7 @@ async function setupParticipateBtn(event, userId) {
 
     let hasParticipated = false;
     try {
-        const hasParticipatedResponse = await fetch(`/events/${event.eventId}/get-event-participation/1`); // Change once user session storage is implemented
+        const hasParticipatedResponse = await fetch(`/events/${event.eventId}/get-event-participation/${userId}`);
         hasParticipated = await hasParticipatedResponse.json();
     }
     catch {
@@ -129,7 +150,7 @@ async function setupParticipateBtn(event, userId) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ userId })
+                body: JSON.stringify({ userId: userId })
             });
             if (!response.ok) {
                 throw new Error('Failed to join/withdraw the event');
@@ -202,3 +223,5 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'event.html';
     });
 });
+
+getUserDataFromToken();

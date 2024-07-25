@@ -1,3 +1,20 @@
+let userId = null; // Initialize the user ID
+let token = localStorage.getItem('token'); // Get the token from local storage
+
+// Function to get the user data from the token
+function getUserDataFromToken() {
+
+    if (!token) {
+        console.log("No token found");
+        return false;
+    }
+
+    userId = JSON.parse(localStorage.getItem("userData")).userId;
+
+    return true;
+}
+
+
 // Fetch events from the server
 async function fetchEvents() {
     try {
@@ -81,7 +98,7 @@ async function renderEvents(events) {
     }
     for (const event of events) {
         try {
-            const hasParticipated = await checkParticipationStatus(event.eventId, 1);
+            const hasParticipated = await checkParticipationStatus(event.eventId, userId);
             const eventCard = document.createElement('div');
             eventCard.classList.add('event-card');
             eventCard.innerHTML = `
@@ -117,7 +134,7 @@ async function renderEvents(events) {
         // Check initial like status
         let isLiked = false;
         try {
-            const isLikedResponse = await fetch(`/events/${eventId}/get-like-by-user/1`); // Change once user session storage is implemented
+            const isLikedResponse = await fetch(`/events/${eventId}/get-like-by-user/${userId}`); 
             isLiked = await isLikedResponse.json();
         } catch {
             isLiked = false;
@@ -133,7 +150,7 @@ async function renderEvents(events) {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ userId: 1 }) // Change as needed for actual user ID
+                    body: JSON.stringify({ userId: userId }) // Change as needed for actual user ID
                 });
                 if (!response.ok) {
                     throw new Error('Failed to like/unlike the event');
@@ -183,6 +200,7 @@ document.addEventListener('DOMContentLoaded', fetchEvents);
 document.addEventListener('DOMContentLoaded', () => {
     const searchBtn = document.getElementById('searchBtn');
     const searchInput = document.getElementById('searchInput');
+    const hostEventBtn = document.querySelector('.hostevent-btn');
 
     searchInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
@@ -194,4 +212,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const searchTerm = searchInput.value;
         searchEvents(searchTerm);
     });
+
+    const loggedIn = getUserDataFromToken();
+
+    if (!loggedIn) {
+        hostEventBtn.disabled = true; // Disable the button
+        hostEventBtn.classList.add('btn-secondary');
+        hostEventBtn.textContent = 'Log in/Sign up to Host Events';
+    } else {
+        hostEventBtn.addEventListener('click', () => {
+            window.location.href = 'host-event.html'; // Redirect to host event page
+        });
+    }
 });
+
+getUserDataFromToken();
