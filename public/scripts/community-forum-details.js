@@ -23,7 +23,7 @@ function getUserDataFromToken() {
     }
 
     try { // Try to get the user data from the token if it is the user login
-        userId = JSON.parse(localStorage.getItem("userData")).userId;
+        userId = JSON.parse(localStorage.getItem("userData")).user.userId;
     }
     catch{
         userId = null;
@@ -152,9 +152,11 @@ async function displayPostDetails(post) {
     });
 
     // Add event listener to close icon
-    const closeIcon = document.querySelector(".close-icon");
+    const closeIcon = document.getElementById("close-report");
     const reportContainer = document.getElementById("report-container");
+    const reportReason = document.getElementById("report-reason").value;
     closeIcon.addEventListener("click", function() {
+        reportReason.value = "";
         reportContainer.style.display = "none";
     });
 
@@ -163,7 +165,6 @@ async function displayPostDetails(post) {
 
     // Submit button listener
     submitButton.addEventListener("click", async function() {
-        const reportReason = document.getElementById("report-reason").value;
         if (reportReason === "") {
           alert("Please enter a reason for reporting the post.");
           return;
@@ -577,27 +578,29 @@ async function displayComments(postId, postUserId) {
         const replyOption = document.createElement('a');
         replyOption.textContent = 'Reply';
         replyOption.classList.add('dropdown-item');
+
+        // Create the reply container and its elements outside the click event listener
+        const replyContainer = document.getElementById('reply-container');
+        const closeReply = document.getElementById("close-reply");
+        const replyInput = document.getElementById('reply-input');
+        const replySubmit = document.getElementById("reply-submit");
+        const replyingTo = document.getElementById('replying-to');
+
         replyOption.addEventListener('click', async function() {
             // Show reply container
-            const replyContainer = document.getElementById('reply-container');
             replyContainer.style.display = 'flex';
-        
+
             // Set the text of the reply input to "Replying to @username"
-            const replyingTo = document.getElementById('replying-to');
             replyingTo.textContent = `Replying to @${authorData.username}`;
 
             // Close listener
-            const closeReply = document.getElementById("close-reply");
             closeReply.addEventListener("click", function() {
                 replyContainer.style.display = "none";
             });
 
             // Confirm listener
-            const replySubmit = document.getElementById("reply-submit");
-
             replySubmit.addEventListener("click", async function() {
-                const replyInput = document.getElementById('reply-input').value;
-                if (replyInput === "") {
+                if (replyInput.value === "") {
                     alert("Please enter a reply.");
                     return;
                 }
@@ -610,7 +613,7 @@ async function displayComments(postId, postUserId) {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${token}`
                         },
-                        body: JSON.stringify({ description: replyInput, userId: userId })
+                        body: JSON.stringify({ description: replyInput.value, userId: userId })
                     });
 
                     const responseData = await response.json();

@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="../styles/style.css" />
         <link rel="stylesheet" href="../styles/administrator.css" />
         <link rel="stylesheet" href="../styles/nav.css" />
+        <link rel="stylesheet" href="../styles/profile.css" />
     </head>
     <body>
         <header>
@@ -207,15 +208,822 @@
         </div>
 
         <main>
-            <div id="profile-container">
-                <h1>Profile Page</h1>
-                <img id="profile-picture" src="../images/logo/ReThink Logo - Beige.png" alt="Profile Picture">
-                <p>Name: <span id="profile-username"></span></p>
-                <p>Email: <span id="profile-email"></span></p>
-                <p>Location: <span id="profile-location"></span></p>
-                <p>Bio: <span id="profile-bio"></span></p>
-                <!-- Add more user data as needed -->
-            </div>
+            <section>
+                <div class="container">
+                    <div class="row">
+                        <!-- left side login information profile -->
+                        <div class="col-10 col-lg-4 flex-grow-1 mt-5">
+                            <aside class="card">
+                                <!-- Member profile -->
+                                <div class="card-body" id="member-profile" style="display: none;">
+                                    <div class="text-center">
+                                        <img class="mb-4" id="profile-picture" src="../images/about-us/about-us.jpg" />
+                                        <h4><strong><span id="profile-username"></span></strong></h4>
+                                        <p class="card-subtitle text-body-secondary mb-4">
+                                            <span id="profile-email"></span>
+                                        </p>
+                                        <p>Bio: <span id="profile-bio"></span></p>
+                                    </div>
+
+                                    <div>
+                                        <div class="info-title">
+                                            <h5>Personal Information</h5>
+                                            <button class="btn focus-ring">Edit</button>
+                                        </div>
+                                        <ul>
+                                            <li>
+                                                <strong>Name</strong>
+                                                <div id="profile-username-duplicate"></div>
+                                            </li>
+                                            <li>
+                                                <strong>Email Address</strong>
+                                                <div id="profile-email-duplicate"></div>
+                                            </li>
+                                            <li>
+                                                <span><strong>Location</strong></span>
+                                                <div id="profile-location"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Event profile -->
+                                <div class="card-body" id="event-profile" style="display: none;">
+                                    <div class="text-center">
+                                        <img class="mb-4" id="profile-picture-event" src="../images/about-us/about-us.jpg" />
+                                        <h4><strong><span id="profile-event-name"></span></strong></h4>
+                                        <p class="card-subtitle text-body-secondary mb-4">
+                                            Event Management
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <div class="info-title">
+                                            <h5>Staff Information</h5>
+                                            <button class="btn focus-ring">Edit</button>
+                                        </div>
+                                        <ul>
+                                            <li>
+                                                <strong>ID</strong>
+                                                <div id="profile-eventid"></div>
+                                            </li>
+                                            <li>
+                                                <strong>Name</strong>
+                                                <div id="profile-event-name-duplicate"></div>
+                                            </li>
+                                            <li>
+                                                <strong>Email Address</strong>
+                                                <div id="profile-event-email"></div>
+                                            </li>
+                                            <li>
+                                                <span><strong>Department</strong></span>
+                                                <div>Event Management</div>
+                                            </li>
+                                            <li>
+                                                <span><strong>Location</strong></span>
+                                                <div id="profile-event-location"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- admin profile -->
+                                <div class="card-body" id="admin-profile" style="display: none;">
+                                    <div class="text-center">
+                                        <img class="mb-4" id="profile-picture-admin" src="../images/about-us/about-us.jpg" />
+                                        <h4>
+                                            <strong><span id="profile-admin-name"></span></strong>
+                                        </h4>
+                                        <p class="card-subtitle text-body-secondary mb-4">
+                                            Admin Management
+                                        </p>
+                                    </div>
+
+                                    <button
+                                        class="btn"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target=".staff-info"
+                                        aria-controls="staff-info"
+                                    >
+                                        &#x25BC; Staff Information
+                                    </button>
+                                    <hr />
+                                    <ul class="collapse staff-info">
+                                        <button class="btn focus-ring">
+                                            Edit
+                                        </button>
+                                        <li>
+                                            <span><strong>ID</strong></span>
+                                            <div class="profile-adminid">Staff ID</div>
+                                        </li>
+                                        <li>
+                                            <span><strong>Name</strong></span>
+                                            <div id="profile-admin-name-duplicate">Staff Name</div>
+                                        </li>
+                                        <li>
+                                            <span><strong>Email</strong></span>
+                                            <div id="profile-admin-email">Staff Name</div>
+                                        </li>
+                                        <li>
+                                            <span><strong>Department</strong></span>
+                                            <div>Admin Management</div>
+                                        </li>
+                                        <li>
+                                            <span><strong>Location</strong></span>
+                                            <div id="profile-admin-location">Singapore</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </aside>
+                        </div>
+
+                        <!-- right side container -->
+                        <div class="col-10 col-lg-8 flex-grow-1 mt-5">
+                            <div class="card">
+                                <!-- Member Container -->
+                                <div class="card-header" id="member-container">
+                                    <ul
+                                        class="nav nav-underline mb-3 justify-content-center"
+                                        id="member-tab"
+                                        role="tablist"
+                                    >
+                                        <li class="nav-item me-5" role="presentation">
+                                            <button
+                                                class="nav-link active"
+                                                id="member-posts-tab"
+                                                data-bs-toggle="pill"
+                                                data-bs-target="#member-posts"
+                                                type="button"
+                                                role="tab"
+                                                aria-controls="member-posts"
+                                                aria-selected="true"
+                                            >
+                                                Posts
+                                            </button>
+                                        </li>
+                                        <li class="nav-item me-5" role="presentation">
+                                            <button
+                                                class="nav-link"
+                                                id="member-events-tab"
+                                                data-bs-toggle="pill"
+                                                data-bs-target="#member-events"
+                                                type="button"
+                                                role="tab"
+                                                aria-controls="member-events"
+                                                aria-selected="false"
+                                            >
+                                                Events
+                                            </button>
+                                        </li>
+                                        <div class="vr"></div>
+                                        <li class="nav-item ms-5" role="presentation">
+                                            <button
+                                                class="nav-link"
+                                                id="member-donations-tab"
+                                                data-bs-toggle="pill"
+                                                data-bs-target="#member-donations"
+                                                type="button"
+                                                role="tab"
+                                                aria-controls="member-donations"
+                                                aria-selected="false"
+                                            >
+                                                Donations
+                                            </button>
+                                        </li>
+                                    </ul>
+                                    <!-- Tab Content -->
+                                    <div class="tab-content">
+                                        <div
+                                            class="tab-pane fade show active"
+                                            id="member-posts"
+                                            role="tabpanel"
+                                            aria-labelledby="member-posts-tab"
+                                        >
+                                            <!-- Content for Posts -->
+                                            <div id="posts-container">
+                                                <div class="card-body d-flex flex-column justify-content-between posts-container">
+                                                    <div class="d-flex flex-row justify-content-between align-content-between">
+                                                        <div class="d-flex flex-row align-content-between justify-content-between mx-3 mt-2 mb-3 flex-grow-1">
+                                                            <p class="post-author" id="post-author">@user</p>
+                                                            <div class="d-flex flex-row align-content-end mx-2 gap-4">
+                                                                <p class="post-date" id="post-date">date posted</p>
+                                                                <a class="post-ellipsis" id="post-ellipsis"><i class="fa fa-ellipsis-v"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                        
+                                                    <div class="post-content mx-5 mb-4">
+                                                        <h5 class="card-title" id="post-title">Post Title</h5>
+                                                        <p class="card-text" id="post-description">Post content goes here...</p>
+                                                    </div>
+                        
+                                                    <div class="d-flex flex-row align-items-center justify-content-between">
+                                                        <div class="post-topic mx-5" id="post-topic">Topic</div>
+                                                        <div class="d-flex flex-row justify-content-end mx-4 gap-2">
+                                                            <div class="d-flex flex-row">
+                                                                <p class="number-of-likes" id="post-likes">100</p>
+                                                                <a class="like-icon" id="like-icon"><i class="fa fa-thumbs-up"></i></a>
+                                                            </div>
+                                                            <div class="d-flex flex-row">
+                                                                <i class="post-comment-icon mx-2 fa fa-comment-o"></i>
+                                                                <p class="post-comments" id="post-comments">1</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="tab-pane fade"
+                                            id="member-events"
+                                            role="tabpanel"
+                                            aria-labelledby="member-events-tab"
+                                        >
+                                            <!-- Content for Events -->
+                                            <div id="events-container"></div>
+                                        </div>
+                                        <div
+                                            class="tab-pane fade"
+                                            id="member-donations"
+                                            role="tabpanel"
+                                            aria-labelledby="member-donations-tab"
+                                        >
+                                            <!-- Content for Donations -->
+                                            <div id="donations-container"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!-- event container -->
+                                <div class="card-header" id="event-container">
+                                    <ul
+                                        class="nav nav-underline mb-3 justify-content-center"
+                                        id="member-tab"
+                                        role="tablist"
+                                    >
+                                        <li
+                                            class="nav-item me-5"
+                                            role="presentation"
+                                        >
+                                            <button
+                                                class="nav-link active admin-post-reports-tab"
+                                                id="admin-post-reports-tab"
+                                                data-bs-toggle="pill"
+                                                data-bs-target="#admin-post-reports"
+                                                type="button"
+                                                role="tab"
+                                                aria-controls="admin-post-reports"
+                                                aria-selected="true"
+                                            >
+                                                Application Event
+                                            </button>
+                                        </li>
+                                        <li
+                                            class="nav-item me-5"
+                                            role="presentation"
+                                        >
+                                            <button
+                                                class="nav-link admin-comment-reports-tab"
+                                                id="admin-comment-reports-tab"
+                                                data-bs-toggle="pill"
+                                                data-bs-target="#admin-comment-reports"
+                                                type="button"
+                                                role="tab"
+                                                aria-controls="admin-comment-reports"
+                                                aria-selected="false"
+                                            >
+                                                Deny Event
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- admin container -->
+                                <div class="card-header" id="admin-container">
+                                    <ul
+                                        class="nav nav-underline mb-3 justify-content-center"
+                                        id="admin-tab"
+                                        role="tablist"
+                                    >
+                                        <li
+                                            class="nav-item me-5"
+                                            role="presentation"
+                                        >
+                                            <button
+                                                class="nav-link active admin-post-reports-tab"
+                                                id="admin-post-reports-tab"
+                                                data-bs-toggle="pill"
+                                                data-bs-target="#admin-post-reports"
+                                                type="button"
+                                                role="tab"
+                                                aria-controls="admin-post-reports"
+                                                aria-selected="true"
+                                            >
+                                                Post Reports
+                                            </button>
+                                        </li>
+                                        <li
+                                            class="nav-item me-5"
+                                            role="presentation"
+                                        >
+                                            <button
+                                                class="nav-link admin-comment-reports-tab"
+                                                id="admin-comment-reports-tab"
+                                                data-bs-toggle="pill"
+                                                data-bs-target="#admin-comment-reports"
+                                                type="button"
+                                                role="tab"
+                                                aria-controls="admin-comment-reports"
+                                                aria-selected="false"
+                                            >
+                                                Comment Reports
+                                            </button>
+                                        </li>
+                                        <div class="vr"></div>
+                                        <li
+                                            class="nav-item ms-5"
+                                            role="presentation"
+                                        >
+                                            <button
+                                                class="nav-link admin-messages-tab"
+                                                id="admin-messages-tab"
+                                                data-bs-toggle="pill"
+                                                data-bs-target="#admin-messsages"
+                                                type="button"
+                                                role="tab"
+                                                aria-controls="admin-messsages"
+                                                aria-selected="false"
+                                            >
+                                                Messages
+                                            </button>
+                                        </li>
+                                    </ul>
+                                    <div
+                                        class="tab-content card-body"
+                                        id="admin-tabContent"
+                                    >
+                                        <div
+                                            class="tab-pane fade show active focus-ring admin-post-reports"
+                                            id="admin-post-reports"
+                                            role="tabpanel"
+                                            aria-labelledby="admin-post-reports-tab"
+                                            tabindex="0"
+                                        >
+                                            <div class="post-reports-list">
+                                                <div
+                                                    class="card post-report-card hidden mb-4"
+                                                >
+                                                    <div
+                                                        class="container card-body"
+                                                    >
+                                                        <div
+                                                            class="row justify-content-start"
+                                                        >
+                                                            <div class="col-8">
+                                                                <strong
+                                                                    class="post-title"
+                                                                >
+                                                                    Post Title
+                                                                </strong>
+                                                            </div>
+                                                            <div
+                                                                class="col-4 text-end post-likes"
+                                                            >
+                                                                &uarr; 0000
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-8">
+                                                                <span
+                                                                    class="card-subtitle post-description"
+                                                                    >Post
+                                                                    Description</span
+                                                                >
+                                                            </div>
+                                                            <div
+                                                                class="col-4 text-end text-body-secondary original-poster"
+                                                            >
+                                                                @user
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div
+                                                                class="col-8"
+                                                            ></div>
+                                                            <div
+                                                                class="col-4 text-end text-body-secondary post-comments"
+                                                            >
+                                                                0000 c
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-8">
+                                                                <span
+                                                                    class="post-topics badge rounded-pill"
+                                                                >
+                                                                    Topic
+                                                                </span>
+                                                            </div>
+                                                            <div
+                                                                class="col-4 text-end text-body-secondary date-posted"
+                                                            >
+                                                                Date Posted
+                                                            </div>
+                                                        </div>
+                                                        <hr />
+                                                        <div
+                                                            class="row text-body-secondary"
+                                                        >
+                                                            <div
+                                                                class="col date-reported"
+                                                            >
+                                                                Date Reported
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="row text-body-secondary"
+                                                        >
+                                                            <div
+                                                                class="col post-reporter"
+                                                            >
+                                                                @user
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div>
+                                                                <strong
+                                                                    class="col report-reason"
+                                                                    >Report
+                                                                    Reason
+                                                                </strong>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="row justify-content-between mt-4"
+                                                        >
+                                                            <div
+                                                                class="col flex-grow-0 text-nowrap"
+                                                            >
+                                                                <button
+                                                                    class="btn ignore-button focus-ring"
+                                                                >
+                                                                    Ignore
+                                                                    Report
+                                                                </button>
+                                                            </div>
+                                                            <div
+                                                                class="col flex-grow-0 text-nowrap"
+                                                            >
+                                                                <button
+                                                                    class="btn remove-button focus-ring"
+                                                                >
+                                                                    Remove Post
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <nav
+                                                class="mt-5"
+                                                aria-label="post-reports navigation"
+                                            >
+                                                <ul
+                                                    class="pagination justify-content-center"
+                                                >
+                                                    <li
+                                                        class="page-item disabled"
+                                                    >
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            >Previous</a
+                                                        >
+                                                    </li>
+                                                    <li
+                                                        class="page-item active"
+                                                    >
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >1</a
+                                                        >
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >2</a
+                                                        >
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >3</a
+                                                        >
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >Next</a
+                                                        >
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                        <div
+                                            class="tab-pane fade focus-ring admin-comment-reports"
+                                            id="admin-comment-reports"
+                                            role="tabpanel"
+                                            aria-labelledby="admin-comment-reports-tab"
+                                            tabindex="0"
+                                        >
+                                            <div class="comment-reports-list">
+                                                <div
+                                                    class="card comment-report-card hidden mb-4"
+                                                >
+                                                    <div
+                                                        class="container card-body"
+                                                    >
+                                                        <div
+                                                            class="row justify-content-start"
+                                                        >
+                                                            <div
+                                                                class="col-8 text-body-secondary original-commenter"
+                                                            >
+                                                                Original
+                                                                Commenter
+                                                            </div>
+                                                            <div
+                                                                class="col-4 text-end text-body-secondary date-commented"
+                                                            >
+                                                                Date Commented
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-8">
+                                                                <span
+                                                                    class="card-subtitle comment-body"
+                                                                    >Comment
+                                                                    Body</span
+                                                                >
+                                                            </div>
+                                                            <div
+                                                                class="col-4 text-end text-body-secondary comment-likes"
+                                                            >
+                                                                0000
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="row justify-content-center mt-2"
+                                                        >
+                                                            <button
+                                                                class="btn view-post-button focus-ring"
+                                                            >
+                                                                View Original
+                                                                Post
+                                                            </button>
+                                                        </div>
+                                                        <!-- <div class="row">
+                                                            <div
+                                                                class="col-8"
+                                                            ></div>
+                                                            <div
+                                                                class="col-4 text-end text-body-secondary post-comments"
+                                                            >
+                                                                0000 c
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-8">
+                                                                <span
+                                                                    class="post-topics badge rounded-pill"
+                                                                >
+                                                                    Topic
+                                                                </span>
+                                                            </div>
+                                                            <div
+                                                                class="col-4 text-end text-body-secondary date-posted"
+                                                            >
+                                                                Date Posted
+                                                            </div>
+                                                        </div> -->
+                                                        <hr />
+                                                        <div
+                                                            class="row text-body-secondary"
+                                                        >
+                                                            <div
+                                                                class="col date-reported"
+                                                            >
+                                                                Date Reported
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="row text-body-secondary"
+                                                        >
+                                                            <div
+                                                                class="col comment-reporter"
+                                                            >
+                                                                @user
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div>
+                                                                <strong
+                                                                    class="col report-reason"
+                                                                    >Report
+                                                                    Reason
+                                                                </strong>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="row justify-content-between mt-4"
+                                                        >
+                                                            <div
+                                                                class="col flex-grow-0 text-nowrap"
+                                                            >
+                                                                <button
+                                                                    class="btn ignore-button focus-ring"
+                                                                >
+                                                                    Ignore
+                                                                    Report
+                                                                </button>
+                                                            </div>
+                                                            <div
+                                                                class="col flex-grow-0 text-nowrap"
+                                                            >
+                                                                <button
+                                                                    class="btn remove-button focus-ring"
+                                                                >
+                                                                    Remove
+                                                                    Comment
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <nav
+                                                class="mt-5"
+                                                aria-label="comment-reports navigation"
+                                            >
+                                                <ul
+                                                    class="pagination justify-content-center"
+                                                >
+                                                    <li
+                                                        class="page-item disabled"
+                                                    >
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            >Previous</a
+                                                        >
+                                                    </li>
+                                                    <li
+                                                        class="page-item active"
+                                                    >
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >1</a
+                                                        >
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >2</a
+                                                        >
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >3</a
+                                                        >
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >Next</a
+                                                        >
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                        <div
+                                            class="tab-pane fade focus-ring"
+                                            id="admin-messsages"
+                                            role="tabpanel"
+                                            aria-labelledby="admin-messsages-tab"
+                                            tabindex="0"
+                                        >
+                                            <div class="messages-list">
+                                                <div
+                                                    class="card message-card hidden mb-4"
+                                                >
+                                                    <div class="card-body">
+                                                        <p
+                                                            class="card-title text-body-secondary name"
+                                                        >
+                                                            First Name Last Name
+                                                        </p>
+                                                        <p
+                                                            class="card-subtitle text-body-secondary email"
+                                                        >
+                                                            email
+                                                        </p>
+                                                        <p
+                                                            class="card-subtitle text-body-secondary phone-number"
+                                                        >
+                                                            Phone Number
+                                                        </p>
+                                                        <p
+                                                            class="card-text message"
+                                                        >
+                                                            Message
+                                                        </p>
+
+                                                        <div
+                                                            class="input-group"
+                                                        >
+                                                            <input
+                                                                type="text"
+                                                                class="form-control focus-ring"
+                                                                placeholder="Reply"
+                                                                aria-label="Reply and send"
+                                                                aria-describedby="reply-button"
+                                                            />
+                                                            <button
+                                                                class="btn btn-primary reply-button focus-ring"
+                                                                type="button"
+                                                            >
+                                                                Reply
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <nav
+                                                class="mt-5"
+                                                aria-label="messages navigation"
+                                            >
+                                                <ul
+                                                    class="pagination justify-content-center"
+                                                >
+                                                    <li
+                                                        class="page-item disabled"
+                                                    >
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            >Previous</a
+                                                        >
+                                                    </li>
+                                                    <li
+                                                        class="page-item active"
+                                                    >
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >1</a
+                                                        >
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >2</a
+                                                        >
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >3</a
+                                                        >
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a
+                                                            class="page-link focus-ring"
+                                                            href="#"
+                                                            >Next</a
+                                                        >
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
 
         <script src="../scripts/login-popup.js"></script>
