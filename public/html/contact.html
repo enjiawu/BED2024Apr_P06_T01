@@ -43,38 +43,36 @@
                 <div class="nav-left">
                     <a href="../index.html"><img src="../images/logo/ReThink Logo - Green.png" alt="Logo" class="logo"></a>
                 </div>
-                <div class="nav-right">
-                    <ul class="nav-links">
+                <div class="nav-right" id="nav-right">
+                    <ul class="nav-links" id="nav-links">
                         <li><a href="../index.html">Home</a></li>
                         <li><a href="about-us.html">About</a></li>
-                        <li><a href="#">Articles</a></li>
+                        <li><a href="articles.html">Articles</a></li>
                         <li class="dropdown">
                             <a href="#">Community</a>
                             <div class="dropdown-content">
-                                <a href="community-forum-post.html">Community Forum</a>
+                                <a href="community-forum.html">Community Forum</a>
                                 <a href="event.html">Events</a>
-                                <a href="#">Donation</a>
+                                <a href="donation-portal.html">Donation</a>
                             </div>
                         </li>
-                        <li><a href="#">Carbon Footprint Calculator</a></li>
+                        <li><a href="carbon-footprint-calculator.html">Carbon Footprint Calculator</a></li>
                         <li><a href="contact.html">Contact</a></li>
                         <li class="user-dropdown" id="user-dropdown">
                             <div class="profile-pic">
                                 <!-- Initially hidden, shown after login -->
-                                <img src="images/logo/ReThink Logo - Beige.png" alt="Profile Picture" class="avatar">
+                                <img src="../images/logo/ReThink Logo - Beige.png" alt="Profile Picture" class="avatar">
                             </div>
                             <div class="dropdown-content">
-                                <a href="#">Profile</a>
+                                <a href="profile.html">Profile</a>
                                 <a href="#">Settings</a>
-                                <a href="#">Notifications</a>
                                 <a href="#" id="logout-button">Logout</a>
                             </div>
                         </li>
                         <li class="login-btn-pop" id="login-button-nav"><a href="#">Login</a></li>
                     </ul>
                 </div>
-                <!-- Menu button for mobile menu -->
-                <div class="icon menu-btn">
+                <div class="icon menu-btn" id="menu-btn">
                     <i class="fa fa-bars"></i>
                 </div>
             </div>
@@ -314,6 +312,7 @@
 
         <script src="../scripts/login-popup.js"></script>
         <script src="../scripts/contact.js"></script>
+        <script src="../scripts/ham-menu.js"></script>
 
         <!-- Bootstrap JavaScript Libraries -->
         <script
