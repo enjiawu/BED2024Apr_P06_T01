@@ -8,7 +8,7 @@ function getUserDataFromToken() {
         return false;
     }
 
-    userId = JSON.parse(localStorage.getItem("userData")).userId;
+    userId = JSON.parse(localStorage.getItem("userData")).user.userId;
 
     return true;
 }

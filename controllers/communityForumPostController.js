@@ -398,16 +398,8 @@ const getRepliesByComment = async (req, res) => {
 
 // Getting all posts by the specific user
 const getPostsByUserId = async (req, res) => {
-    // Parse userId from request parameters
-    const userId = parseInt(req.params.id, 10);
-
-    // Debugging statement
-    console.log("Parsed userId:", userId);
-
-    if (isNaN(userId)) {
-        return res.status(400).json({ error: "Invalid user ID" });
-    }
-
+    const userId = parseInt(req.params.id);
+    console.log(userId);
     try {
         const posts = await Post.getPostsByUserId(userId);
         if (posts.length === 0) {
@@ -419,6 +411,7 @@ const getPostsByUserId = async (req, res) => {
         res.status(500).json({ error: "Error retrieving posts" });
     }
 };
+
 module.exports = {
     getAllPosts,
     getPostById,

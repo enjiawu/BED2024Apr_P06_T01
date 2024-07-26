@@ -88,7 +88,7 @@ class CommunityForumPost {
             : null;
     }
 
-    // Getting all posts by a specific user
+    // Getting all posts by a specific user - Wenya
     static async getPostsByUserId(userId) {
         let connection;
         try {
