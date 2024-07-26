@@ -119,25 +119,70 @@ class User {
         }
     }
 
-    // Updating the profile if it belongs to the user
     static async updateProfile(userId, newUserData) {
         const connection = await sql.connect(dbConfig);
+    
+        try {
+            // Check if the new username already exists for a different user
+            if (newUserData.username) {
+                const usernameCheck = await connection.request()
+                    .input("username", sql.VarChar, newUserData.username)
+                    .input("userId", sql.Int, userId)
+                    .query("SELECT userId FROM Users WHERE username = @username AND userId != @userId");
 
-        const sqlQuery = `UPDATE Users SET userId = @userId, username = @username, email = @email, location = @location, bio = @bio, profilePicture = @profilePicture, passwordHash = @passwordHash WHERE userId = @userId`;
+                if (usernameCheck.recordset.length > 0) {
+                    return { error: "Username already exists" };
+                }
+            }
 
-        const request = connection.request();
-        request.input("userId", userId);
-        request.input("username", newUserData.username || null);
-        request.input("email", newUserData.email || null);
-        request.input("location", newUserData.location || null);
-        request.input("bio", newUserData.bio);
-        request.input("profilePicture", newUserData.profilePicture || null);
-        request.input("passwordHash", newUserData.passwordHash || null);
-        await request.query(sqlQuery);
+            // Check if the new email already exists for a different user
+            if (newUserData.email) {
+                const emailCheck = await connection.request()
+                    .input("email", sql.VarChar, newUserData.email)
+                    .input("userId", sql.Int, userId)
+                    .query("SELECT userId FROM Users WHERE email = @email AND userId != @userId");
 
-        connection.close();
+                if (emailCheck.recordset.length > 0) {
+                    return { error: "Email already exists" };
+                }
+            }
 
-        return this.getUserById(userId);
+            const sqlQuery = `
+                UPDATE Users 
+                SET 
+                    username = @username, 
+                    email = @email, 
+                    location = @location, 
+                    bio = @bio, 
+                    profilePicture = @profilePicture
+                    ${newUserData.passwordHash ? ", passwordHash = @passwordHash" : ""}
+                WHERE userId = @userId
+            `.replace(/,\s*$/, ''); // Remove trailing comma if passwordHash is not included
+
+            const request = connection.request();
+            request.input("userId", sql.Int, userId);
+            request.input("username", sql.VarChar, newUserData.username || null);
+            request.input("email", sql.VarChar, newUserData.email || null);
+            request.input("location", sql.VarChar, newUserData.location || null);
+            request.input("bio", sql.Text, newUserData.bio || null);
+            request.input("profilePicture", sql.VarChar, newUserData.profilePicture || null);
+            if (newUserData.passwordHash) {
+                request.input("passwordHash", sql.VarChar, newUserData.passwordHash);
+            }
+
+            const result = await request.query(sqlQuery);
+            connection.close();
+
+            if (result.rowsAffected[0] === 0) {
+                return null;
+            }
+
+            return this.getUserById(userId);
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            connection.close();
+            throw error; // Re-throw error to be caught in the controller
+        }
     }
 
     static async deleteUser(userId) {
