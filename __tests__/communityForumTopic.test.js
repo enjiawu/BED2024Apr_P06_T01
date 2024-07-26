@@ -1,8 +1,9 @@
 // topic.test.js
-const Topic = require("../models/CommunityForumTopics");
+const Topic = require("../models/communityForumTopics");
 const sql = require("mssql");
+const dbConfig = require("../dbConfig");
 
-jest.mock("mssql"); // Mock the mssql library
+jest.mock('mssql'); // Mock the mssql library
 
 describe("Community Forum Topic Model", () => {
   beforeEach(() => {
@@ -17,8 +18,10 @@ describe("Community Forum Topic Model", () => {
       ];
 
       const mockRequest = {
-        query: jest.fn().mockResolvedValue({ recordset: mockTopics })
+        query: jest.fn().mockResolvedValue({ recordset: mockTopics }),
+        input: jest.fn().mockReturnThis()
       };
+
       const mockConnection = {
         request: jest.fn().mockReturnValue(mockRequest),
         close: jest.fn().mockResolvedValue(undefined)
@@ -28,7 +31,7 @@ describe("Community Forum Topic Model", () => {
 
       const topics = await Topic.getAllTopics();
 
-      expect(sql.connect).toHaveBeenCalledWith(expect.any(Object));
+      expect(sql.connect).toHaveBeenCalledWith(dbConfig);
       expect(mockConnection.close).toHaveBeenCalledTimes(1);
       expect(topics).toHaveLength(2);
       expect(topics[0].topicId).toBe(1);
@@ -61,7 +64,7 @@ describe("Community Forum Topic Model", () => {
 
       const topic = await Topic.getTopicById(1);
 
-      expect(sql.connect).toHaveBeenCalledWith(expect.any(Object));
+      expect(sql.connect).toHaveBeenCalledWith(dbConfig);
       expect(mockConnection.close).toHaveBeenCalledTimes(1);
       expect(topic).toBeInstanceOf(Topic);
       expect(topic.topicId).toBe(1);
@@ -82,7 +85,7 @@ describe("Community Forum Topic Model", () => {
 
       const topic = await Topic.getTopicById(1);
 
-      expect(sql.connect).toHaveBeenCalledWith(expect.any(Object));
+      expect(sql.connect).toHaveBeenCalledWith(dbConfig);
       expect(mockConnection.close).toHaveBeenCalledTimes(1);
       expect(topic).toBeNull();
     });
@@ -110,7 +113,7 @@ describe("Community Forum Topic Model", () => {
 
       const count = await Topic.getTopicCount();
 
-      expect(sql.connect).toHaveBeenCalledWith(expect.any(Object));
+      expect(sql.connect).toHaveBeenCalledWith(dbConfig);
       expect(mockConnection.close).toHaveBeenCalledTimes(1);
       expect(count.topicCount).toBe(3);
     });
@@ -140,7 +143,7 @@ describe("Community Forum Topic Model", () => {
 
       const result = await Topic.createTopic(newTopic);
 
-      expect(sql.connect).toHaveBeenCalledWith(expect.any(Object));
+      expect(sql.connect).toHaveBeenCalledWith(dbConfig);
       expect(mockConnection.close).toHaveBeenCalledTimes(1);
       expect(result.id).toBe(1);
     });
@@ -159,7 +162,7 @@ describe("Community Forum Topic Model", () => {
 
     const mockRequestUpdate = {
       input: jest.fn().mockReturnThis(),
-      query: jest.fn().mockResolvedValue({ recordset: [mockUpdatedTopic] })
+      query: jest.fn().mockResolvedValue({ recordset: [mockUpdatedTopic] }),
     };
 
     const mockConnection = {
@@ -172,7 +175,7 @@ describe("Community Forum Topic Model", () => {
 
     const topic = await Topic.updateTopic(1, updatedTopic);
 
-    expect(sql.connect).toHaveBeenCalledWith(expect.any(Object));
+    expect(sql.connect).toHaveBeenCalledWith(dbConfig);
     expect(mockConnection.close).toHaveBeenCalledTimes(1);
     expect(topic).toBeInstanceOf(Topic);
     expect(topic.topicId).toBe(1);
@@ -204,7 +207,7 @@ describe("Community Forum Topic Model", () => {
 
       const rowsAffected = await Topic.deleteTopic(1);
 
-      expect(sql.connect).toHaveBeenCalledWith(expect.any(Object));
+      expect(sql.connect).toHaveBeenCalledWith(dbConfig);
       expect(mockConnection.close).toHaveBeenCalledTimes(1);
       expect(rowsAffected).toBe(1);
     });
@@ -233,7 +236,7 @@ describe("Community Forum Topic Model", () => {
 
       const exists = await Topic.checkIfTopicExists("Climate Action");
 
-      expect(sql.connect).toHaveBeenCalledWith(expect.any(Object));
+      expect(sql.connect).toHaveBeenCalledWith(dbConfig);
       expect(mockConnection.close).toHaveBeenCalledTimes(1);
       expect(exists).toBe(true);
     });
@@ -252,7 +255,7 @@ describe("Community Forum Topic Model", () => {
 
       const exists = await Topic.checkIfTopicExists("Nonexistent Topic");
 
-      expect(sql.connect).toHaveBeenCalledWith(expect.any(Object));
+      expect(sql.connect).toHaveBeenCalledWith(dbConfig);
       expect(mockConnection.close).toHaveBeenCalledTimes(1);
       expect(exists).toBe(false);
     });

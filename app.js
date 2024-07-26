@@ -7,12 +7,19 @@ const sql = require("mssql");
 const dbConfig = require("./dbConfig.js");
 const staticMiddleware = express.static("public");
 
+//Implement swagger
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./__documentation__/swagger-output.json");
+
 const app = express();
 
 //Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(staticMiddleware);
+
+// Swagger
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Importing routes
 require("./startup/routes")(app);

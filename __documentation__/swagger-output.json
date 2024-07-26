@@ -1,0 +1,666 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "ReThink API Documentation",
+    "description": "API for a comprehensive sustainability app featuring a community page, events, volunteering opportunities, a carbon footprint calculator, and insightful articles. Join us in making a positive environmental impact and fostering a greener future."
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": ["http"],
+  "tags": [
+    {
+      "name": "Carbon Footprint Calculator",
+      "description": "API for calculating carbon footprint"
+    },
+    {
+      "name": "Community Forum Posts",
+      "description": "API for managing community forum posts"
+    },
+    {
+      "name": "Community Forum Topics",
+      "description": "API for managing topics in the community forum"
+    }
+  ],
+  "paths": {
+    "/calculateCarbonFootprint": {
+      "post": {
+        "tags": ["Carbon Footprint Calculator"],
+        "summary": "Calculate the carbon footprint based on the data provided",
+        "description": "Calculates the carbon footprint and provides tree equivalent, grade, tips, and statistics",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "data",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "carTravel": {
+                  "type": "object",
+                  "properties": {
+                    "distance": {"type": "number"},
+                    "vehicle": {"type": "string"}
+                  }
+                },
+                "publicTransport": {
+                  "type": "object",
+                  "properties": {
+                    "distance": {"type": "number"},
+                    "type": {"type": "string"}
+                  }
+                },
+                "flight": {
+                  "type": "object",
+                  "properties": {
+                    "distance": {"type": "number"},
+                    "type": {"type": "string"}
+                  }
+                },
+                "motorBike": {
+                  "type": "object",
+                  "properties": {
+                    "distance": {"type": "number"},
+                    "type": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Carbon footprint calculated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "individualCF": {
+                  "type": "array",
+                  "items": {"type": "number"}
+                },
+                "totalCarbonFootprint": {"type": "number"},
+                "treeEquivalent": {"type": "number"},
+                "grade": {"type": "string"},
+                "tips": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                },
+                "stats": {
+                  "type": "object",
+                  "properties": {
+                    "avgCarTravel": {"type": "number"},
+                    "avgPublicTransport": {"type": "number"},
+                    "avgFlight": {"type": "number"},
+                    "avgMotorBike": {"type": "number"},
+                    "avgTreeEquivalent": {"type": "number"},
+                    "avgTotalCarbonFootprint": {"type": "number"}
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "500": {
+            "description": "Error calculating carbon footprint"
+          }
+        }
+      }
+    },
+    "/carbonFootprintPossibleActions": {
+      "get": {
+        "tags": ["Carbon Footprint Calculator"],
+        "summary": "Get the possible actions to reduce the carbon footprint",
+        "responses": {
+          "200": {
+            "description": "Possible actions retrieved successfully",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "actionId": {"type": "integer"},
+                  "title": {"type": "string"},
+                  "description": {"type": "string"},
+                  "grade": {"type": "string"}
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error retrieving possible actions"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Carbon Footprint Calculator"],
+        "summary": "Create a new possible action to reduce the carbon footprint",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "action",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {"type": "string"},
+                "description": {"type": "string"},
+                "grade": {"type": "string"}
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Action created successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {"type": "number"},
+                "title": {"type": "string"},
+                "description": {"type": "string"},
+                "grade": {"type": "string"}
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid action data"
+          },
+          "500": {
+            "description": "Error creating action"
+          }
+        }
+      }
+    },
+    "/carbonFootprintPossibleActions/{id}": {
+      "get": {
+        "tags": ["Carbon Footprint Calculator"],
+        "summary": "Get the possible action to reduce the carbon footprint by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Possible action retrieved successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "actionId": {"type": "integer"},
+                "title": {"type": "string"},
+                "description": {"type": "string"},
+                "grade": {"type": "string"}
+              }
+            }
+          },
+          "404": {
+            "description": "Action not found"
+          },
+          "500": {
+            "description": "Error retrieving action"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Carbon Footprint Calculator"],
+        "summary": "Update an existing possible action to reduce the carbon footprint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "action",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {"type": "string"},
+                "description": {"type": "string"},
+                "grade": {"type": "string"}
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Action updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "actionId": {"type": "integer"},
+                "title": {"type": "string"},
+                "description": {"type": "string"},
+                "grade": {"type": "string"}
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid action data"
+          },
+          "404": {
+            "description": "Action not found"
+          },
+          "500": {
+            "description": "Error updating action"
+          }
+        }
+      }
+    },
+    "delete": {
+      "tags": ["Carbon Footprint Calculator"],
+      "summary": "Delete a possible action to reduce the carbon footprint",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Action deleted successfully",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "message": {"type": "string"}
+            }
+          }
+        },
+        "404": {
+          "description": "Action not found"
+        },
+        "500": {
+          "description": "Error deleting action"
+        }
+      }
+    },
+    "/community/posts": {
+    "get": {
+      "tags": ["Community Forum Posts"],
+      "summary": "Retrieve all community forum posts",
+      "description": "Get a list of all posts in the community forum",
+      "responses": {
+        "200": {
+          "description": "Successfully retrieved posts",
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "postId": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "string"
+                },
+                "author": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "500": {
+          "description": "Error retrieving posts"
+        }
+      }
+    },
+    "post": {
+      "tags": ["Community Forum Posts"],
+      "summary": "Create a new community forum post",
+      "description": "Add a new post to the community forum",
+      "parameters": [
+        {
+          "in": "body",
+          "name": "post",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              },
+              "author": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "Post created successfully",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "postId": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              },
+              "author": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid post data"
+        },
+        "500": {
+          "description": "Error creating post"
+        }
+      }
+    }
+  },
+  "/community/posts/{postId}": {
+    "get": {
+      "tags": ["Community Forum Posts"],
+      "summary": "Retrieve a specific community forum post",
+      "description": "Get details of a specific post by its ID",
+      "parameters": [
+        {
+          "name": "postId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successfully retrieved post",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "postId": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              },
+              "author": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "Post not found"
+        },
+        "500": {
+          "description": "Error retrieving post"
+        }
+      }
+    },
+    "put": {
+      "tags": ["Community Forum Posts"],
+      "summary": "Update a specific community forum post",
+      "description": "Modify the details of a specific post by its ID",
+      "parameters": [
+        {
+          "name": "postId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "body",
+          "name": "post",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              },
+              "author": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Post updated successfully"
+        },
+        "400": {
+          "description": "Invalid post data"
+        },
+        "404": {
+          "description": "Post not found"
+        },
+        "500": {
+          "description": "Error updating post"
+        }
+      }
+    },
+    "delete": {
+      "tags": ["Community Forum Posts"],
+      "summary": "Delete a specific community forum post",
+      "description": "Remove a specific post from the community forum",
+      "parameters": [
+        {
+          "name": "postId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Post deleted successfully"
+        },
+        "404": {
+          "description": "Post not found"
+        },
+        "500": {
+          "description": "Error deleting post"
+        }
+      }
+    }
+  },
+  "/topics": {
+    "get": {
+      "tags": ["Community Forum Topics"],
+      "summary": "Retrieve all topics",
+      "description": "Get a list of all topics",
+      "responses": {
+        "200": {
+          "description": "Successfully retrieved topics",
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "topicId": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "500": {
+          "description": "Error retrieving topics"
+        }
+      }
+    },
+    "post": {
+      "tags": ["Community Forum Topics"],
+      "summary": "Create a new topic",
+      "description": "Add a new topic to the list",
+      "parameters": [
+        {
+          "in": "body",
+          "name": "topic",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "Topic created successfully",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "topicId": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Invalid topic data"
+        },
+        "500": {
+          "description": "Error creating topic"
+        }
+      }
+    }
+  },
+  "/topics/{topicId}": {
+    "get": {
+      "tags": ["Community Forum Topics"],
+      "summary": "Retrieve a specific topic",
+      "description": "Get details of a specific topic by its ID",
+      "parameters": [
+        {
+          "name": "topicId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Successfully retrieved topic",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "topicId": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "Topic not found"
+        },
+        "500": {
+          "description": "Error retrieving topic"
+        }
+      }
+    },
+    "put": {
+      "tags": ["Community Forum Topics"],
+      "summary": "Update a specific topic",
+      "description": "Modify the details of a specific topic by its ID",
+      "parameters": [
+        {
+          "name": "topicId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "body",
+          "name": "topic",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Topic updated successfully"
+        },
+        "400": {
+          "description": "Invalid topic data"
+        },
+        "404": {
+          "description": "Topic not found"
+        },
+        "500": {
+          "description": "Error updating topic"
+        }
+      }
+    },
+    "delete": {
+      "tags": ["Community Forum Topics"],
+      "summary": "Delete a specific topic",
+      "description": "Remove a specific topic",
+      "parameters": [
+        {
+
+
+          "name": "topicId",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Topic deleted successfully"
+        },
+        "404": {
+          "description": "Topic not found"
+        },
+        "500": {
+          "description": "Error deleting topic"
+        }
+      }
+    }
+  }
+  }
+}
+
+
