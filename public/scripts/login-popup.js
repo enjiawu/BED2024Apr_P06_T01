@@ -89,13 +89,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const userData = await response.json();
             localStorage.setItem('token', userData.token);
-            localStorage.setItem('userData', JSON.stringify(userData.user));
+            localStorage.setItem('userData', JSON.stringify(userData));
             console.log('Login successful:', userData);
             alert('Login successful!');
- 
-            updateUIForAuthenticatedUser(userData);
 
-            location.reload();
+            updateUIForAuthenticatedUser(userData);
 
         } catch (error) {
             alert('Login failed. Invalid email or password.');
@@ -124,12 +122,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const staffData = await response.json();
             localStorage.setItem('token', staffData.token);
-            localStorage.setItem('staffData', JSON.stringify(staffData.staff));
+            localStorage.setItem('staffData', JSON.stringify(staffData));
+            console.log('Staff login successful:', staffData);
             alert('Staff login successful!');
 
             updateUIForAuthenticatedUser(staffData);
 
-            location.reload();
         } catch (error) {
             alert('Login failed. Invalid email or password.');
             console.error('Staff login error:', error);
@@ -195,10 +193,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         console.log('Logged out');
 
-        
-
         userDropdown.style.display = 'none';
         document.getElementById('login-button-nav').style.display = 'block';
+
         return window.location.href = '../index.html'; // Redirect to login page if not authenticated
     });
 

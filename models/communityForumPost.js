@@ -88,6 +88,46 @@ class CommunityForumPost {
             : null;
     }
 
+    // Getting all posts by a specific user
+    static async getPostsByUserId(userId) {
+        let connection;
+        try {
+            connection = await sql.connect(dbConfig);
+    
+            const sqlQuery = `SELECT * FROM CommunityPosts WHERE userId = @userId`;
+            console.log("SQL Query:", sqlQuery); // Debug SQL query
+    
+            const request = connection.request();
+            request.input("userId", sql.Int, userId); // Ensure correct data type for input
+            console.log("User ID:", userId); // Debug User ID
+    
+            const result = await request.query(sqlQuery);
+            console.log("Database result:", result.recordset); // Debug query result
+    
+            return result.recordset.map(
+                row => new CommunityForumPost(
+                    row.postId,
+                    row.userId,
+                    row.title,
+                    row.description,
+                    row.topicId,
+                    row.likes,
+                    row.comments,
+                    row.dateCreated,
+                    row.dateUpdated,
+                    row.reports
+                )
+            );
+        } catch (error) {
+            console.error("Database query error:", error);
+            throw new Error("Error getting posts by user");
+        } finally {
+            if (connection) {
+                connection.close();
+            }
+        }
+    }
+
     // Creating the post if the user is logged in
     static async createPost(newPostData) {
         const connection = await sql.connect(dbConfig);

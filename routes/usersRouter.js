@@ -14,7 +14,7 @@ const verifyJWT = require("../middlewares/verifyJWT.js");
 //User Routes
 router.get("/allmember", usersController.getAllUsers); // testing data
 router.get("/profile/:userId", usersController.getUserByUserId); 
-router.put("/profile/:userId/edit", verifyJWT, usersController.updateUser);
+router.put("/profile/:userId", usersController.updateUser);
 router.get("/count", usersController.getUserCount);
 router.get("/:username", usersController.getUserByUserName);
 router.post("/register", usersController.registerUser);
