@@ -1,3 +1,21 @@
+let userId = null; // Initialize the user ID
+let username = null;
+let token = localStorage.getItem('token'); // Get the token from local storage
+
+// Function to get the user data from the token
+function getUserDataFromToken() {
+
+    if (!token) {
+        console.log("No token found");
+        return false;
+    }
+
+    userId = JSON.parse(localStorage.getItem("userData")).userId;
+    username = JSON.parse(localStorage.getItem("userData")).username;
+
+    return true;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const hostEventForm = document.getElementById('hostEventForm');
 
@@ -16,8 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         formData.append('image', '');
-        formData.append('userId', '1');
-        formData.append('username', 'john_doe');
+        formData.append('userId', userId);
+        formData.append('username', username);
 
         try {
             const response = await fetch('/events', {
@@ -99,4 +117,5 @@ document.addEventListener('DOMContentLoaded', () => {
     returnBtn.addEventListener('click', () => {
         window.location.href = 'event.html';
     });
+    getUserDataFromToken();
 });
