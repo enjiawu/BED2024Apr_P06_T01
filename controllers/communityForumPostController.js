@@ -399,6 +399,7 @@ const getRepliesByComment = async (req, res) => {
 // Getting all posts by the specific user
 const getPostsByUserId = async (req, res) => {
     const userId = parseInt(req.params.id);
+    console.log(userId);
     try {
         const posts = await Post.getPostsByUserId(userId);
         if (!posts || posts.length === 0) { // Check for empty array as well
@@ -410,6 +411,7 @@ const getPostsByUserId = async (req, res) => {
         res.status(500).json({ error: "Error retrieving posts" });
     }
 };
+
 module.exports = {
     getAllPosts,
     getPostById,
