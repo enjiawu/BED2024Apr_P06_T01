@@ -104,4 +104,10 @@ function displayFeedback(message, type) {
   }
 }
 
+window.onclick = function(event) {
+  if (event.target == document.getElementById('modal')) {
+    document.getElementById('modal').style.display = "none";
+  }
+}
+
 saveCustomerPayments();
