@@ -48,6 +48,10 @@ function verifyJWT(req, res, next) {
             // Topic routes - only admin or event manager can create, update and delete topics
             "^/topics": ["admin", "event"], // Only admin or event manager can create a topic
             "^/topics/[0-9]+": ["admin", "event"], // Only admin or event manager can update or delete a topic
+
+            // Carbon footprint calclator routes
+            "^/possibleActions": ["admin", "event"], // Only admin or event manager can create a possible action
+            "^/possibleActions/[0-9]+": ["admin", "event"], // Only admin or event manager can update or delete a possible action
         };
 
         const requestedEndpoint = req.url;

@@ -136,6 +136,11 @@
       "post": {
         "tags": ["Carbon Footprint Calculator"],
         "summary": "Create a new possible action to reduce the carbon footprint",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "body",
@@ -209,6 +214,11 @@
       "put": {
         "tags": ["Carbon Footprint Calculator"],
         "summary": "Update an existing possible action to reduce the carbon footprint",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -258,6 +268,11 @@
     "delete": {
       "tags": ["Carbon Footprint Calculator"],
       "summary": "Delete a possible action to reduce the carbon footprint",
+      "security": [
+        {
+          "bearerAuth": []
+        }
+      ],
       "parameters": [
         {
           "name": "id",
@@ -283,6 +298,717 @@
           "description": "Error deleting action"
         }
       }
+    },
+    "/communityforum/topics": {
+      "get": {
+        "tags": ["Community Forum Topics"],
+        "summary": "Get all topics",
+        "description": "Retrieve all community forum topics",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved topics"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Community Forum Topics"],
+        "summary": "Create a new topic",
+        "description": "Create a new community forum topic",
+        "parameters": [
+          {
+            "name": "topic",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "topic": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Topic created successfully"
+          },
+          "409": {
+            "description": "Topic already exists"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/communityforum/topics/{id}": {
+      "get": {
+        "tags": ["Community Forum Topics"],
+        "summary": "Get a topic by ID",
+        "description": "Retrieve a community forum topic by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved topic"
+          },
+          "404": {
+            "description": "Topic not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Community Forum Topics"],
+        "summary": "Update a topic",
+        "description": "Update a community forum topic",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "topic",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "topic": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Topic updated successfully"
+          },
+          "404": {
+            "description": "Topic not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Community Forum Topics"],
+        "summary": "Delete a topic",
+        "description": "Delete a community forum topic",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Topic deleted successfully"
+          },
+          "404": {
+            "description": "Topic not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/communityforum/topics/count": {
+      "get": {
+        "tags": ["Community Forum Topics"],
+        "summary": "Get topic count",
+        "description": "Retrieve the count of community forum topics",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved topic count"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/communityforum/posts": {
+      "get": {
+        "tags": ["Community Forum Posts"],
+        "summary": "Get all posts",
+        "description": "Retrieve all community forum posts",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved posts"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Community Forum Posts"],
+        "summary": "Create a new post",
+        "description": "Create a new community forum post",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "post",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "post": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Post created successfully"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/communityforum/posts/{id}": {
+      "get": {
+        "tags": ["Community Forum Posts"],
+        "summary": "Get a post by ID",
+        "description": "Retrieve a community forum post by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved post"
+          },
+          "404": {
+            "description": "Post not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Community Forum Posts"],
+        "summary": "Update a post",
+        "description": "Update a community forum post",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "post",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "post": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post updated successfully"
+          },
+          "404": {
+            "description": "Post not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Community Forum Posts"],
+        "summary": "Delete a post",
+        "description": "Delete a community forum post",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post deleted successfully"
+          },
+          "404": {
+            "description": "Post not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/communityforum/posts/search": {
+      "get": {
+        "tags": ["Community Forum Posts"],
+        "summary": "Search for posts",
+        "description": "Search for community forum posts based on criteria",
+        "parameters": [
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved search results"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/communityforum/posts/count": {
+      "get": {
+        "tags": ["Community Forum Posts"],
+        "summary": "Get post count",
+        "description": "Retrieve the count of community forum posts",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved post count"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/communityforum/posts/likes": {
+      "get": {
+        "tags": ["Community Forum Posts"],
+        "summary": "Get all likes",
+        "description": "Retrieve all likes for community forum posts",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved likes"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/communityforum/posts/sort": {
+      "get": {
+        "tags": ["Community Forum Posts"],
+        "summary": "Sort posts by likes",
+        "description": "Sort community forum posts by likes",
+        "parameters": [
+          {
+            "name": "topicId",
+            "in": "query",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully sorted posts"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/communityforum/posts/trending": {
+      "get": {
+        "tags": ["Community Forum Posts"],
+        "summary": "Get trending topics",
+        "description": "Retrieve trending topics for community forum posts",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved trending topics"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/communityforum/posts/report": {
+      "post": {
+        "tags": ["Community Forum Posts"],
+        "summary": "Report a post",
+        "description": "Report a community forum post",
+        "parameters": [
+          {
+            "name": "reportData",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "postId": {
+                  "type": "integer"
+                },
+                "userId": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully reported post"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/communityforum/posts/{postId}/comments": {
+      "get": {
+        "tags": ["Community Forum Posts"],
+        "summary": "Get comments by post",
+        "description": "Retrieve comments for a community forum post",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved comments"
+          },
+          "404": {
+            "description": "Post not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Community Forum Posts"],
+        "summary": "Create a comment",
+        "description": "Create a comment for a community forum post",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "comment",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "comment": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Comment created successfully"
+          },
+          "404": {
+            "description": "Post not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/communityforum/posts/{postId}/comments/{commentId}": {
+      "get": {
+        "tags": ["Community Forum Posts"],
+        "summary": "Get a comment by ID",
+        "description": "Retrieve a comment by ID for a community forum post",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved comment"
+          },
+          "404": {
+            "description": "Comment not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Community Forum Posts"],
+        "summary": "Update a comment",
+        "description": "Update a comment for a community forum post",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "comment",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "comment": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comment updated successfully"
+          },
+          "404": {
+            "description": "Comment not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Community Forum Posts"],
+        "summary": "Delete a comment",
+        "description": "Delete a comment for a community forum post",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comment deleted successfully"
+          },
+          "404": {
+            "description": "Comment not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/communityforum/posts/{postId}/comments/{commentId}/likes": {
+      "post": {
+        "tags": ["Community Forum Posts"],
+        "summary": "Like a comment",
+        "description": "Like a comment for a community forum post",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userId",
+            "in": "body",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comment liked successfully"
+          },
+          "404": {
+            "description": "Comment not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/communityforum/posts/{postId}/comments/{commentId}/report": {
+      "post": {
+        "tags": ["Community Forum Posts"],
+        "summary": "Report a comment",
+        "description": "Report a comment for a community forum post",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "reportData",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comment reported successfully"
+          },
+          "404": {
+            "description": "Comment not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Enter your JWT token in the format **Bearer &lt;token&gt;**"
     }
   },
   "definitions": {
@@ -329,81 +1055,7 @@
       },
       "required": ["carTravel", "publicTransport", "flight", "motorBike", "treeEquivalent", "grade"]
     },
-    "Post": {
-        "type": "object",
-        "properties": {
-          "postKey": {
-            "type": "string",
-            "example": "1234567890"
-          },
-          "title": {
-            "type": "string",
-            "example": "Delicious Pancake Recipe"
-          },
-          "recipeImage": {
-            "type": "string",
-            "format": "uri",
-            "example": "http://example.com/image.jpg"
-          },
-          "username": {
-            "type": "string",
-            "example": "john_doe"
-          },
-          "userId": {
-            "type": "integer",
-            "example": 1
-          },
-          "profilePicture": {
-            "type": "string",
-            "format": "uri",
-            "example": "http://example.com/profile.jpg"
-          },
-          "instructions": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "ingredients": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "equipment": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "likes": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "comments": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "commentId": {
-                  "type": "integer",
-                  "example": 1
-                },
-                "commentText": {
-                  "type": "string",
-                  "example": "Great recipe!"
-                },
-                "commenterId": {
-                  "type": "integer",
-                  "example": 2
-                }
-              }
-            }
-          }
-        }
-      }
+  
   }
 }
 
