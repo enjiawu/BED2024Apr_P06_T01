@@ -45,15 +45,28 @@ const getUserByEmail = async (req, res) => {
 // Updating the profile if it belongs to the user
 const updateUser = async (req, res) => {
     const newUserData = req.body;
-    const userId = parseInt(req.params.id);
+    const userId = parseInt(req.params.userId, 10); // Correct the parameter name to match the route
+
     try {
+        // Hash new password if provided
+        if (newUserData.passwordHash) {
+            console.log("Hashing password...");
+            const salt = await bcrypt.genSalt(10);
+            newUserData.passwordHash = await bcrypt.hash(newUserData.passwordHash, salt);
+            console.log("Hashed password:", newUserData.passwordHash);
+            
+
+        }
+
         const user = await User.updateProfile(userId, newUserData);
-        if (!user){
-            return res.status(404).json({error: "user not found"})
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        } else if (user.error) {
+            return res.status(400).json({ error: user.error });
         }
         res.json(user);
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).send("Cannot update user.");
     }
 };
@@ -67,7 +80,7 @@ async function registerUser(req, res) {
             return res.status(400).json({message: "Username already exists"});
         }
 
-        //check for esisting email
+        //check for existing email
         const existingEmail = await User.getUserByEmail(email);
         if (existingEmail) {
             return res.status(400).json({message: "Email already exists"});
