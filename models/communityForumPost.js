@@ -94,15 +94,18 @@ class CommunityForumPost {
         try {
             connection = await sql.connect(dbConfig);
     
-            const sqlQuery = `SELECT * FROM CommunityPosts WHERE userId = @userId`;
-            console.log("SQL Query:", sqlQuery); // Debug SQL query
+            // Debugging statements
+            console.log("SQL Query: SELECT * FROM CommunityPosts WHERE userId = @userId");
+            console.log("User ID:", userId);
     
+            const sqlQuery = `SELECT * FROM CommunityPosts WHERE userId = @userId`;
             const request = connection.request();
-            request.input("userId", sql.Int, userId); // Ensure correct data type for input
-            console.log("User ID:", userId); // Debug User ID
+            request.input("userId", sql.Int, userId); // Ensure the data type is correct
     
             const result = await request.query(sqlQuery);
-            console.log("Database result:", result.recordset); // Debug query result
+    
+            // Debugging statement
+            console.log("Database result:", result.recordset);
     
             return result.recordset.map(
                 row => new CommunityForumPost(

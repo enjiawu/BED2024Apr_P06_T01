@@ -67,10 +67,10 @@ router.get("/comments/:id/replies", postsController.getRepliesByComment); // Get
 router.put("/comments/:id/modify-like", verifyJWT, validateLikes, postsController.modifyCommentLike); // Like/unlike a comment
 router.get("/comments/:commentId/get-like-by-user/:userId", postsController.getCommentLikeByUser) // Get a comment like by user
 
+
 // Report Routes
 router.post("/report-post", verifyJWT, validateCommunityForumPostReport, postsController.reportPost); // Get all reports
 router.post("/report-comment", verifyJWT, validateCommunityForumCommentReport, postsController.reportComment); // Report a comment
 
-router.get('/users/:userId', postsController.getPostsByUserId);// New route for getting posts by user ID
-
+router.get('/users/:id', postsController.getPostsByUserId);// New route for getting posts by user ID
 module.exports = router; // Export the router
