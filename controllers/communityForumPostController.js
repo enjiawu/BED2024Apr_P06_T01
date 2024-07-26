@@ -402,12 +402,12 @@ const getPostsByUserId = async (req, res) => {
     console.log(userId);
     try {
         const posts = await Post.getPostsByUserId(userId);
-        if (!posts || posts.length === 0) { // Check for empty array as well
+        if (posts.length === 0) {
             return res.status(404).json({ error: "No posts found for this user" });
         }
         res.json(posts);
     } catch (error) {
-        console.error(error);
+        console.error("Error retrieving posts:", error);
         res.status(500).json({ error: "Error retrieving posts" });
     }
 };
