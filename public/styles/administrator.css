@@ -92,3 +92,23 @@ img {
 .hidden {
     display: none;
 }
+
+.original-poster,
+.original-commenter,
+.post-reporter,
+.comment-reporter {
+    color: #737a5d;
+    text-decoration: underline;
+}
+
+.original-poster:hover,
+.original-commenter:hover,
+.post-reporter:hover,
+.comment-reporterLhover {
+    cursor: pointer;
+}
+
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}

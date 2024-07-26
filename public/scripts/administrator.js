@@ -35,6 +35,31 @@ document.addEventListener("DOMContentLoaded", async function () {
             newPostReportCard.querySelector(".original-poster").innerText =
                 originalPoster.username;
 
+            newPostReportCard
+                .querySelector(".original-poster")
+                .addEventListener("click", async function () {
+                    const userResponse = await fetch(
+                        `/users/${originalPoster.username}`
+                    );
+                    const user = await userResponse.json();
+
+                    const userModal = document.querySelector(".user-modal");
+
+                    userModal.querySelector(".profile-picture").src =
+                        user.profilePicture;
+                    userModal.querySelector(".username").innerText =
+                        user.username;
+                    userModal.querySelector(".role").innerText = user.role;
+                    userModal.querySelector(".bio").innerText = user.bio;
+                    userModal.querySelector(".email").innerText = user.email;
+                    userModal.querySelector(".location").innerText =
+                        user.location;
+                    userModal.querySelector(".id").innerText = user.userId;
+
+                    userModal.style.display = "block";
+                    document.body.classList.add("stop-scrolling");
+                });
+
             newPostReportCard.querySelector(".post-comments").innerText =
                 post.comments;
 
@@ -63,6 +88,31 @@ document.addEventListener("DOMContentLoaded", async function () {
             const postReporter = await postReporterResponse.json();
             newPostReportCard.querySelector(".post-reporter").innerText =
                 postReporter.username;
+
+            newPostReportCard
+                .querySelector(".post-reporter")
+                .addEventListener("click", async function () {
+                    const userResponse = await fetch(
+                        `/users/${postReporter.username}`
+                    );
+                    const user = await userResponse.json();
+
+                    const userModal = document.querySelector(".user-modal");
+
+                    userModal.querySelector(".profile-picture").src =
+                        user.profilePicture;
+                    userModal.querySelector(".username").innerText =
+                        user.username;
+                    userModal.querySelector(".role").innerText = user.role;
+                    userModal.querySelector(".bio").innerText = user.bio;
+                    userModal.querySelector(".email").innerText = user.email;
+                    userModal.querySelector(".location").innerText =
+                        user.location;
+                    userModal.querySelector(".id").innerText = user.userId;
+
+                    userModal.style.display = "block";
+                    document.body.classList.add("stop-scrolling");
+                });
 
             newPostReportCard.querySelector(".report-reason").innerText =
                 postReport.reason;
@@ -156,6 +206,30 @@ document.addEventListener("DOMContentLoaded", async function () {
             newCommentReportCard.querySelector(
                 ".original-commenter"
             ).innerText = originalCommenter.username;
+            newCommentReportCard
+                .querySelector(".original-commenter")
+                .addEventListener("click", async function () {
+                    const userResponse = await fetch(
+                        `/users/${originalCommenter.username}`
+                    );
+                    const user = await userResponse.json();
+
+                    const userModal = document.querySelector(".user-modal");
+
+                    userModal.querySelector(".profile-picture").src =
+                        user.profilePicture;
+                    userModal.querySelector(".username").innerText =
+                        user.username;
+                    userModal.querySelector(".role").innerText = user.role;
+                    userModal.querySelector(".bio").innerText = user.bio;
+                    userModal.querySelector(".email").innerText = user.email;
+                    userModal.querySelector(".location").innerText =
+                        user.location;
+                    userModal.querySelector(".id").innerText = user.userId;
+
+                    userModal.style.display = "block";
+                    document.body.classList.add("stop-scrolling");
+                });
 
             newCommentReportCard.querySelector(".date-commented").innerText =
                 comment.dateCreated.slice(0, 10) +
@@ -175,6 +249,31 @@ document.addEventListener("DOMContentLoaded", async function () {
             const commentReporter = await commentReporterResponse.json();
             newCommentReportCard.querySelector(".comment-reporter").innerText =
                 commentReporter.username;
+
+            newCommentReportCard
+                .querySelector(".comment-reporter")
+                .addEventListener("click", async function () {
+                    const userResponse = await fetch(
+                        `/users/${commentReporter.username}`
+                    );
+                    const user = await userResponse.json();
+
+                    const userModal = document.querySelector(".user-modal");
+
+                    userModal.querySelector(".profile-picture").src =
+                        user.profilePicture;
+                    userModal.querySelector(".username").innerText =
+                        user.username;
+                    userModal.querySelector(".role").innerText = user.role;
+                    userModal.querySelector(".bio").innerText = user.bio;
+                    userModal.querySelector(".email").innerText = user.email;
+                    userModal.querySelector(".location").innerText =
+                        user.location;
+                    userModal.querySelector(".id").innerText = user.userId;
+
+                    userModal.style.display = "block";
+                    document.body.classList.add("stop-scrolling");
+                });
 
             newCommentReportCard.querySelector(".report-reason").innerText =
                 commentReport.reason;
