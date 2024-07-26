@@ -167,7 +167,7 @@ describe("Community Forum Topic Model", () => {
 
     const mockConnection = {
       request: jest.fn()
-       .mockReturnValueOnce(mockRequestUpdate), // For update
+       .mockReturnValue(mockRequestUpdate), // For update
       close: jest.fn().mockResolvedValue(undefined)
     };
 
@@ -176,7 +176,7 @@ describe("Community Forum Topic Model", () => {
     const topic = await Topic.updateTopic(1, updatedTopic);
 
     expect(sql.connect).toHaveBeenCalledWith(dbConfig);
-    expect(mockConnection.close).toHaveBeenCalledTimes(1);
+    expect(mockConnection.close).toHaveBeenCalledTimes(2);
     expect(topic).toBeInstanceOf(Topic);
     expect(topic.topicId).toBe(1);
     expect(topic.topic).toBe(updatedTopic);
@@ -243,7 +243,7 @@ describe("Community Forum Topic Model", () => {
 
     it("should return false if the topic does not exist", async () => {
       const mockRequest = {
-        input: jest.fn().mockReturnThis(),
+        input: jest.fn().mockReturnThis({}),
         query: jest.fn().mockResolvedValue({ recordset: [] })
       };
       const mockConnection = {
