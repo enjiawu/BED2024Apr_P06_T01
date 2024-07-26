@@ -3,7 +3,8 @@ require("dotenv").config(); // Load environment variables from a .env file into 
 
 function verifyJWT(req, res, next) {
     //console.log(req.headers);
-    const token = req.headers.authorization && req.headers.authorization.split(" ")[1];
+    const token =
+        req.headers.authorization && req.headers.authorization.split(" ")[1];
 
     if (!token) {
         return res.status(401).json({ error: "Unauthorized" });
@@ -31,7 +32,7 @@ function verifyJWT(req, res, next) {
             // Post routes
             "^/": ["member", "admin", "event"], // Anyone can create a post or comment
             "^/[0-9]+": ["member", "admin", "event"], // Members and admins update and delete a post
-            
+
             // Like Routes
             "^/[0-9]+/modify-like": ["member", "admin", "event"], // Anyone can like/unlike a post
             "^/comments/[0-9]+/modify-like": ["member", "admin", "event"], // Members can like/unlike a comment
@@ -48,6 +49,25 @@ function verifyJWT(req, res, next) {
             // Topic routes - only admin or event manager can create, update and delete topics
             "^/topics": ["admin", "event"], // Only admin or event manager can create a topic
             "^/topics/[0-9]+": ["admin", "event"], // Only admin or event manager can update or delete a topic
+
+            // Admin routes
+            // Message routes - only admin can view and update messages
+            "/messages/": ["admin"], // Only admin can view all messages
+            "/messages/[0-9]+": ["admin"], // Only admin can view a message
+            "/messages/[0-9]+/reply": ["admin"], // Only admin can update a message
+
+            // Reply routes - only admin can view and add replies
+            "/replies/[0-9]+": ["admin"], // Only admin can view a reply
+            "/replies/": ["admin"], // Only admin can add a reply
+
+            // Report routes - only admin can view and delete reports
+            "/reports/posts": ["admin"], // Only admin can view all post reports
+            "/reports/posts/[0-9]+": ["admin"], // Only admin can view a post report
+            "/reports/posts/[0-9]+": ["admin"], // Only admin can delete a post report
+
+            "/reports/comments": ["admin"], // Only admin can view all comment reports
+            "/reports/comments/[0-9]+": ["admin"], // Only admin can view a comment report
+            "/reports/comments/[0-9]+": ["admin"], // Only admin can delete a comment report
         };
 
         const requestedEndpoint = req.url;
@@ -61,7 +81,9 @@ function verifyJWT(req, res, next) {
         const isAuthorized = Object.entries(authorizedRoles).find(
             ([endpointPattern, roles]) => {
                 const regex = new RegExp(endpointPattern);
-                return regex.test(requestedEndpoint) && roles.includes(userRole);
+                return (
+                    regex.test(requestedEndpoint) && roles.includes(userRole)
+                );
             }
         );
 

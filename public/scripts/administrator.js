@@ -1,6 +1,11 @@
 document.addEventListener("DOMContentLoaded", async function () {
+    const token = localStorage.getItem("token");
     async function loadPostReports() {
-        const postReportsResponse = await fetch("/reports/posts");
+        const postReportsResponse = await fetch("/reports/posts", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
         const postReports = await postReportsResponse.json();
         // console.log(postReports);
 
@@ -15,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 `/communityforum/${postReport.postId}`
             );
             const post = await postResponse.json();
-            // console.log(post);
+            console.log(post);
 
             let newPostReportCard = postReportCardTemplate.cloneNode(true);
             postReportsList.appendChild(newPostReportCard);
@@ -132,6 +137,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                         `/reports/posts/${reportId}`,
                         {
                             method: "DELETE",
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
                         }
                     );
                     if (deletePostReportResponse.ok) {
@@ -150,6 +158,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                         `/reports/posts/${reportId}`,
                         {
                             method: "DELETE",
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
                         }
                     );
                     if (deletePostReportResponse.ok) {
@@ -159,6 +170,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                             `/communityforum/${postId}`,
                             {
                                 method: "DELETE",
+                                headers: {
+                                    Authorization: `Bearer ${token}`,
+                                },
                             }
                         );
                     }
@@ -170,9 +184,14 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     async function loadCommentReports() {
-        const commentReportsResponse = await fetch("/reports/comments");
+        console.log("TSET");
+        const commentReportsResponse = await fetch("/reports/comments", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
         const commentReports = await commentReportsResponse.json();
-        // console.log(commentReports);
+        console.log(commentReports);
 
         const commentReportsList = document.getElementsByClassName(
             "comment-reports-list"
@@ -304,6 +323,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                         `/reports/comments/${reportId}`,
                         {
                             method: "DELETE",
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
                         }
                     );
                     if (deleteCommentReportResponse.ok) {
@@ -321,6 +343,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                         `/reports/comments/${reportId}`,
                         {
                             method: "DELETE",
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
                         }
                     );
                     if (deleteCommentReportResponse.ok) {
@@ -332,6 +357,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                             `/communityforum/comments/${commentId}`,
                             {
                                 method: "DELETE",
+                                headers: {
+                                    Authorization: `Bearer ${token}`,
+                                },
                             }
                         );
                     }
@@ -344,7 +372,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     async function loadMessages() {
-        const messagesResponse = await fetch("/messages");
+        const messagesResponse = await fetch("/messages", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
         const messages = await messagesResponse.json();
         // console.log(messages);
 
@@ -382,6 +414,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                                 method: "POST",
                                 headers: {
                                     "Content-Type": "application/json",
+                                    Authorization: `Bearer ${token}`,
                                 },
                                 body: JSON.stringify({
                                     submissionId: message.Id,
@@ -396,9 +429,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                             });
                             if (postReplyResponse.ok) {
                                 const updateMessageStatusResponse = await fetch(
-                                    `/messages/reply/${message.Id}`,
+                                    `/messages/${message.Id}/reply`,
                                     {
                                         method: "PATCH",
+                                        headers: {
+                                            Authorization: `Bearer ${token}`,
+                                        },
                                     }
                                 );
                                 if (updateMessageStatusResponse.ok) {
@@ -425,6 +461,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const commentReportsTab = document.getElementsByClassName(
         "admin-comment-reports-tab"
     )[0];
+    console.log(document.getElementsByClassName("admin-comment-reports-tab"));
     commentReportsTab.addEventListener("click", loadCommentReports);
 
     const messagesTab =
