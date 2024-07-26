@@ -1,3 +1,20 @@
+let userId = null; // Initialize the user ID
+let token = localStorage.getItem('token'); // Get the token from local storage
+
+// Function to get the user data from the token
+function getUserDataFromToken() {
+
+    if (!token) {
+        console.log("No token found");
+        return false;
+    }
+
+    userId = JSON.parse(localStorage.getItem("userData")).userId;
+
+    return true;
+}
+
+
 // Fetch events from the server
 async function fetchEvents() {
     try {
@@ -60,6 +77,14 @@ async function checkParticipationStatus(eventId, userId) {
     }
 }
 
+function updateLikeButton(button, liked, likeCount) {
+    if (liked) {
+        button.innerHTML = `<i class="bi bi-hand-thumbs-up-fill"></i> <span class="likeCount">${likeCount}</span>`;
+    } else {
+        button.innerHTML = `<i class="bi bi-hand-thumbs-up"></i> <span class="likeCount">${likeCount}</span>`;
+    }
+}
+
 // Render events on the page
 async function renderEvents(events) {
     const eventsContainer = document.querySelector('.events-Container');
@@ -73,7 +98,7 @@ async function renderEvents(events) {
     }
     for (const event of events) {
         try {
-            const hasParticipated = await checkParticipationStatus(event.eventId, 1);
+            const hasParticipated = await checkParticipationStatus(event.eventId, userId);
             const eventCard = document.createElement('div');
             eventCard.classList.add('event-card');
             eventCard.innerHTML = `
@@ -87,7 +112,7 @@ async function renderEvents(events) {
                         </a>
                     </div>
                     <div class="event-details text-end">
-                        <button class="btn btn likeBtn">
+                        <button class="btn btn likeBtn" data-event-id="${event.eventId}">
                             <i class="bi bi-hand-thumbs-up-fill"></i> <span class="likeCount">${event.likes}</span>
                         </button>
                         <p class="mt-1">Status: ${event.status}</p>
@@ -101,16 +126,45 @@ async function renderEvents(events) {
             console.error('Error processing event:', error);
         }
     }
-    // const likeBtn = document.querySelector('.likeBtn');
-    // const likeCount = document.querySelector('.likeCount');
 
-    // likeBtn.addEventListener('click', () => {
-    //     if (!likeBtn.disabled) {
-    //         event.likes += 1;
-    //         likeCount.textContent = event.likes;
-    //         likeBtn.disabled = true;
-    //     } 
-    // });
+    const likeButtons = document.querySelectorAll('.likeBtn');
+    likeButtons.forEach(async (button) => {
+        const eventId = button.getAttribute('data-event-id');
+
+        // Check initial like status
+        let isLiked = false;
+        try {
+            const isLikedResponse = await fetch(`/events/${eventId}/get-like-by-user/${userId}`); 
+            isLiked = await isLikedResponse.json();
+        } catch {
+            isLiked = false;
+        }
+
+        // Update button appearance based on initial like status
+        updateLikeButton(button, isLiked, button.querySelector('.likeCount').textContent);
+
+        button.addEventListener('click', async () => {
+            try {
+                const response = await fetch(`/events/${eventId}/modifylike`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ userId: userId }) // Change as needed for actual user ID
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to like/unlike the event');
+                }
+                const result = await response.json();
+                const likeCountElement = button.querySelector('.likeCount');
+                likeCountElement.textContent = result.likes;
+                updateLikeButton(button, result.likestatus === 'liked', result.likes);
+            } catch (error) {
+                console.error('Error liking/unliking event:', error);
+                alert('Please log in to like an event.');
+            }
+        });
+    });
 };
 
 
@@ -146,6 +200,7 @@ document.addEventListener('DOMContentLoaded', fetchEvents);
 document.addEventListener('DOMContentLoaded', () => {
     const searchBtn = document.getElementById('searchBtn');
     const searchInput = document.getElementById('searchInput');
+    const hostEventBtn = document.querySelector('.hostevent-btn');
 
     searchInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
@@ -157,4 +212,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const searchTerm = searchInput.value;
         searchEvents(searchTerm);
     });
+
+    const loggedIn = getUserDataFromToken();
+
+    if (!loggedIn) {
+        hostEventBtn.disabled = true; // Disable the button
+        hostEventBtn.classList.add('btn-secondary');
+        hostEventBtn.textContent = 'Log in/Sign up to Host Events';
+    } else {
+        hostEventBtn.addEventListener('click', () => {
+            window.location.href = 'host-event.html'; // Redirect to host event page
+        });
+    }
 });
+
+getUserDataFromToken();

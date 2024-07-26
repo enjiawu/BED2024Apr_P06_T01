@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     async function loadPostReports() {
         const postReportsResponse = await fetch("/reports/posts");
         const postReports = await postReportsResponse.json();
@@ -67,6 +67,52 @@ document.addEventListener("DOMContentLoaded", function () {
             newPostReportCard.querySelector(".report-reason").innerText =
                 postReport.reason;
 
+            newPostReportCard.setAttribute(
+                "data-report-id",
+                postReport.reportId
+            );
+            newPostReportCard.setAttribute("data-post-id", post.postId);
+
+            newPostReportCard
+                .querySelector(".ignore-button")
+                .addEventListener("click", async function () {
+                    const reportId =
+                        newPostReportCard.getAttribute("data-report-id");
+                    const deletePostReportResponse = await fetch(
+                        `/reports/posts/${reportId}`,
+                        {
+                            method: "DELETE",
+                        }
+                    );
+                    if (deletePostReportResponse.ok) {
+                        newPostReportCard.parentNode.removeChild(
+                            newPostReportCard
+                        );
+                    }
+                });
+
+            newPostReportCard
+                .querySelector(".remove-button")
+                .addEventListener("click", async function () {
+                    const reportId =
+                        newPostReportCard.getAttribute("data-report-id");
+                    const deletePostReportResponse = await fetch(
+                        `/reports/posts/${reportId}`,
+                        {
+                            method: "DELETE",
+                        }
+                    );
+                    if (deletePostReportResponse.ok) {
+                        const postId =
+                            newPostReportCard.getAttribute("data-post-id");
+                        const deletePostResponse = await fetch(
+                            `/communityforum/${postId}`,
+                            {
+                                method: "DELETE",
+                            }
+                        );
+                    }
+                });
             newPostReportCard.classList.remove("hidden");
         }
 
@@ -133,6 +179,65 @@ document.addEventListener("DOMContentLoaded", function () {
             newCommentReportCard.querySelector(".report-reason").innerText =
                 commentReport.reason;
 
+            newCommentReportCard.setAttribute(
+                "data-report-id",
+                commentReport.reportId
+            );
+            newCommentReportCard.setAttribute("data-post-id", comment.postId);
+            newCommentReportCard.setAttribute(
+                "data-comment-id",
+                commentReport.commentId
+            );
+
+            newCommentReportCard
+                .querySelector(".view-post-button")
+                .setAttribute(
+                    "href",
+                    `/html/community-forum-post.html?id=${comment.postId}`
+                );
+
+            newCommentReportCard
+                .querySelector(".ignore-button")
+                .addEventListener("click", async function () {
+                    const reportId =
+                        newCommentReportCard.getAttribute("data-report-id");
+                    const deleteCommentReportResponse = await fetch(
+                        `/reports/comments/${reportId}`,
+                        {
+                            method: "DELETE",
+                        }
+                    );
+                    if (deleteCommentReportResponse.ok) {
+                        newCommentReportCard.parentNode.removeChild(
+                            newCommentReportCard
+                        );
+                    }
+                });
+            newCommentReportCard
+                .querySelector(".remove-button")
+                .addEventListener("click", async function () {
+                    const reportId =
+                        newCommentReportCard.getAttribute("data-report-id");
+                    const deleteCommentReportResponse = await fetch(
+                        `/reports/comments/${reportId}`,
+                        {
+                            method: "DELETE",
+                        }
+                    );
+                    if (deleteCommentReportResponse.ok) {
+                        const commentId =
+                            newCommentReportCard.getAttribute(
+                                "data-comment-id"
+                            );
+                        const deleteCommentResponse = await fetch(
+                            `/communityforum/comments/${commentId}`,
+                            {
+                                method: "DELETE",
+                            }
+                        );
+                    }
+                });
+
             newCommentReportCard.classList.remove("hidden");
         }
 
@@ -152,20 +257,62 @@ document.addEventListener("DOMContentLoaded", function () {
 
         for (let message of messages) {
             // console.log(message);
-            let newMessageCard = messageCardTemplate.cloneNode(true);
-            messagesList.appendChild(newMessageCard);
+            if (message.status === "unanswered") {
+                let newMessageCard = messageCardTemplate.cloneNode(true);
+                messagesList.appendChild(newMessageCard);
 
-            newMessageCard.querySelector(".name").innerText =
-                message.lastName !== null
-                    ? message.firstName + " " + message.lastName
-                    : message.firstName;
-            newMessageCard.querySelector(".email").innerText = message.email;
-            newMessageCard.querySelector(".message").innerText =
-                message.message;
-            newMessageCard.querySelector(".phone-number").innerText =
-                message.phoneNumber;
+                newMessageCard.querySelector(".name").innerText =
+                    message.lastName !== null
+                        ? message.firstName + " " + message.lastName
+                        : message.firstName;
+                newMessageCard.querySelector(".email").innerText =
+                    message.email;
+                newMessageCard.querySelector(".message").innerText =
+                    message.message;
+                newMessageCard.querySelector(".phone-number").innerText =
+                    message.phoneNumber;
 
-            newMessageCard.classList.remove("hidden");
+                newMessageCard
+                    .querySelector(".reply-button")
+                    .addEventListener("click", async function () {
+                        if (
+                            newMessageCard.querySelector(".reply-input")
+                                .value !== ""
+                        ) {
+                            const postReplyResponse = await fetch("/replies", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    submissionId: message.Id,
+                                    staffId: 1,
+                                    senderEmail: message.email,
+                                    originalMessage: message.message,
+                                    replyDescription:
+                                        newMessageCard.querySelector(
+                                            ".reply-input"
+                                        ).value,
+                                }),
+                            });
+                            if (postReplyResponse.ok) {
+                                const updateMessageStatusResponse = await fetch(
+                                    `/messages/reply/${message.Id}`,
+                                    {
+                                        method: "PATCH",
+                                    }
+                                );
+                                if (updateMessageStatusResponse.ok) {
+                                    newMessageCard.parentNode.removeChild(
+                                        newMessageCard
+                                    );
+                                }
+                            }
+                        }
+                    });
+
+                newMessageCard.classList.remove("hidden");
+            }
         }
 
         // messageCardTemplate.classList.add("hidden");
@@ -186,10 +333,10 @@ document.addEventListener("DOMContentLoaded", function () {
     messagesTab.addEventListener("click", loadMessages);
 
     if (postReportsTab.classList.contains("active")) {
-        loadPostReports();
+        await loadPostReports();
     } else if (commentReportsTab.classList.contains("active")) {
-        loadCommentReports();
+        await loadCommentReports();
     } else if (messagesTab.classList.contains("active")) {
-        loadMessages();
+        await loadMessages();
     }
 });

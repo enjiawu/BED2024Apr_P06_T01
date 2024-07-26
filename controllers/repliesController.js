@@ -34,7 +34,12 @@ const addReply = async (req, res) => {
             from: process.env.RETHINK_REPLY_EMAIL,
             to: newReply.senderEmail,
             subject: "[ReThink] Your message has been replied to!",
-            text: newReply.replyDescription,
+            text:
+                "Your Message: " +
+                newReply.originalMessage +
+                "\n" +
+                "Staff Reply: " +
+                newReply.replyDescription,
         };
 
         await transporter.sendMail(mailOptions);
