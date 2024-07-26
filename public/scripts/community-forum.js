@@ -17,7 +17,7 @@ function getUserDataFromToken() {
     }
 
     try { // Try to get the user data from the token if it is the user login
-        userId = JSON.parse(localStorage.getItem("userData")).userId;
+        userId = JSON.parse(localStorage.getItem("userData")).user.userId;
     }
     catch{
         userId = null;
