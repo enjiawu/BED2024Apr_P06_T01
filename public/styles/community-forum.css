@@ -179,38 +179,75 @@ a{
     color: #414833;
 }
 
-#report-container, #comment-report-container, #reply-report-container {
-    position: fixed;
-    z-index: 1000;
+.button-outline {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.button-outline:hover {
+    background: #414833;
+    color: white;
+}
+
+.button-outline:active {
+    background: #A4AC86;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+.dialog-content {
+    max-width: 800px;
+    padding: 25px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: white;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #EBE3D2; /* Use the same background color as the .card class */
-    padding: 20px;
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    display: none;
+    z-index: 1000;
 }
 
-  
-#report-reason, #comment-report-reason, #reply-report-reason {
-    padding: 10px;
-    margin-bottom: 20px;
+.dialog-header {
+    margin-bottom: 16px;
+}
+
+.dialog-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.dialog-description {
+    font-size: 14px;
+    color: #666;
+}
+
+.input {
+    width: 100%;
+    padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%; /* Make the input field full-width */
+    border-radius: 4px;
+    margin-bottom: 16px;
 }
 
-#report-submit, #comment-report-submit, #reply-report-submit {
-    padding: 10px 20px;
-    background-color: #414833;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
 }
-  
-#report-submit:hover, #comment-report-submit:hover, #reply-report-submit:hover {
-    background-color: #A4AC86;
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }

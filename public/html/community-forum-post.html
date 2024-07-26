@@ -224,68 +224,72 @@
             </div>
     
             <!-- Report Container -->
-            <div id="report-container" class="w-25 justify-content-center mx-3 my-4 flex-column">
-                <div class="report-content d-flex flex-column">
-                    <div class="d-flex flex-row justify-content-between mb-4">
-                        <h4>Report Post</h4>
-                        <div class="d-flex flex-row justify-content-end">
-                            <a id = "close-report" class="close-icon"><i class="fa fa-times"></i></a>
-                        </div>
-                    </div>
-                    <textarea id="report-reason" class="w-100" rows="3" placeholder="Enter report reason..."></textarea>
-                    <div class="d-flex flex-row justify-content-end mt-3">
-                        <button id="report-submit" class="btn">Submit</button>
-                    </div>
+            <div id="report-container" class="dialog-content flex-column" style="display: none;">
+                <div class="dialog-header">
+                  <div class="dialog-title">Report Post</div>
+                  <div class="dialog-description">
+                    Share the reason for reporting this post. We value your feedback and will thoroughly investigate the matter.
+                  </div>
                 </div>
-            </div>
+                <textarea id="report-reason" rows="3" type="text" class="input" placeholder="Enter your report reason..." ></textarea>
+                <div class="dialog-footer">
+                  <div id = "close-report" class="button-outline" >Cancel</div>
+                  <div id="report-submit" class="button-outline">Submit Report</div>
+                </div>
+              </div>
+            
 
              <!-- Comment report Container -->
-             <div id="comment-report-container" class="w-25 justify-content-center mx-3 my-4 flex-column">
-                <div class="report-content d-flex flex-column">
-                    <div class="d-flex flex-row justify-content-between mb-4">
-                        <h4>Report Comment</h4>
-                        <div class="d-flex flex-row justify-content-end">
-                            <a id = "comment-close-report" class="close-icon"><i class="fa fa-times"></i></a>
-                        </div>
-                    </div>
-                    <textarea id="comment-report-reason" class="w-100" rows="3" placeholder="Enter report reason..."></textarea>
-                    <div class="d-flex flex-row justify-content-end mt-3">
-                        <button id="comment-report-submit" class="btn">Submit</button>
-                    </div>
+             <div id="comment-report-container" class="dialog-content flex-column" style="display: none;">
+                <div class="dialog-header">
+                  <div class="dialog-title">Report Comment</div>
+                  <div class="dialog-description">
+                    Describe the issue with this comment. Your report helps us maintain a respectful and safe community.
+                  </div>
                 </div>
-            </div>
+                <textarea id="comment-report-reason" rows="3" type="text" class="input" placeholder="Enter your report reason..." ></textarea>
+                <div class="dialog-footer">
+                  <div id = "comment-close-report" class="button-outline" >Cancel</div>
+                  <div id="comment-report-submit" class="button-outline">Submit Report</div>
+                </div>
+              </div>
 
              <!-- Reply report Container -->
-             <div id="reply-report-container" class="w-25 justify-content-center mx-3 my-4 flex-column">
-                <div class="report-content d-flex flex-column">
-                    <div class="d-flex flex-row justify-content-between mb-4">
-                        <h4>Report Comment</h4>
-                        <div class="d-flex flex-row justify-content-end">
-                            <a id = "reply-close-report" class="close-icon"><i class="fa fa-times"></i></a>
-                        </div>
-                    </div>
-                    <textarea id="reply-report-reason" class="w-100" rows="3" placeholder="Enter report reason..."></textarea>
-                    <div class="d-flex flex-row justify-content-end mt-3">
-                        <button id="reply-report-submit" class="btn">Submit</button>
-                    </div>
+             <div id="reply-report-container" class="dialog-content flex-column" style="display: none;">
+                <div class="dialog-header">
+                  <div class="dialog-title">Report Comment Reply</div>
+                  <div class="dialog-description">
+                    Provide details on why you are reporting this reply. Your input is crucial for us to take appropriate measures.
+                  </div>
                 </div>
-            </div>
+                <textarea id="reply-report-reason" rows="3" type="text" class="input" placeholder="Enter your report reason..." ></textarea>
+                <div class="dialog-footer">
+                  <div id = "reply-close-report" class="button-outline" >Cancel</div>
+                  <div id="reply-report-submit" class="button-outline">Submit Report</div>
+                </div>
+              </div>
 
             <!-- Reply container -->
-            <div id="reply-container" class="w-50 justify-content-center mx-3 my-4 flex-column">
-                <div class="report-content d-flex flex-column">
-                    <div class="d-flex flex-row justify-content-between mb-4">
-                        <h4 id = "replying-to"></h4>
-                        <div class="d-flex flex-row justify-content-end">
-                            <a id = "close-reply" class="close-icon"><i class="fa fa-times"></i></a>
-                        </div>
-                    </div>
-                    <textarea id="reply-input" class="w-100" rows="3" placeholder="Add a comment..."></textarea>
-                    <div class="d-flex flex-row justify-content-end mt-3">
-                        <button id="reply-submit" class="btn">Submit</button>
-                    </div>
+            <div id="reply-container" class="dialog-content flex-column" style="display: none;">
+                <div class="dialog-header">
+                  <div id = "replying-to" class="dialog-title"></div>
+                  <div class="dialog-description">
+                    Compose your reply to the comment.
+                  </div>
                 </div>
-            </div>
+                <div class="reply-note mb-3">
+                    <strong>Note</strong>
+                    <p>Your reply will be visible to everyone.</p>
+                </div>
+                <label class = "mx-2">Your reply</label>
+                <textarea id="reply-input" type="text" class="input" placeholder="Type your reply here"></textarea>
+                <div class="dialog-footer">
+                  <div id = "close-reply" class="button-outline" >Cancel</div>
+                  <div id="reply-submit" class="button-outline">Post Reply</div>
+                </div>
+              </div>
+
+            
         </main>
         <footer>
             <!-- place footer here -->

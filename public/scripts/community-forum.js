@@ -194,6 +194,7 @@ async function formatPost(post, postList){
     postEllipsisIcon.classList.add("fa", "fa-ellipsis-v");
     postEllipsis.appendChild(postEllipsisIcon);
 
+   // Create the report option
     const reportOption = document.createElement("a");
     reportOption.textContent = "Report";
     reportOption.classList.add("dropdown-item");
@@ -201,66 +202,59 @@ async function formatPost(post, postList){
     // Create the report container
     const reportContainer = document.createElement("div");
     reportContainer.id = "report-container";
-    reportContainer.className = "w-25 justify-content-center mx-3 my-4 flex-column";
+    reportContainer.className = "dialog-content flex-column";
+    reportContainer.style.display = "none";
 
-    // Create the report content
-    const reportContent = document.createElement("div");
-    reportContent.className = "report-content d-flex flex-column";
-    reportContainer.appendChild(reportContent);
-
-    // Create the header with title and close icon
+    // Create the header
     const header = document.createElement("div");
-    header.className = "d-flex flex-row justify-content-between mb-4";
-    reportContent.appendChild(header);
+    header.className = "dialog-header";
+    reportContainer.appendChild(header);
 
-    const title = document.createElement("h4");
+    const title = document.createElement("div");
+    title.className = "dialog-title";
     title.textContent = "Report Post";
     header.appendChild(title);
 
-    const closeIconContainer = document.createElement("div");
-    closeIconContainer.className = "d-flex flex-row justify-content-end";
-    header.appendChild(closeIconContainer);
-
-    const closeIcon = document.createElement("a");
-    closeIcon.className = "close-icon";
-    closeIcon.innerHTML = "<i class='fa fa-times'></i>";
-    closeIconContainer.appendChild(closeIcon);
-
-    // Close listener
-    closeIcon.addEventListener("click", function() {
-        reportContainer.style.display = "none";
-    });
+    const description = document.createElement("div");
+    description.className = "dialog-description";
+    description.textContent = "Share the reason for reporting this post. We value your feedback and will thoroughly investigate the matter.";
+    header.appendChild(description);
 
     // Create the textarea for report reason
     const reportReasonInput = document.createElement("textarea");
     reportReasonInput.id = "report-reason";
-    reportReasonInput.className = "w-100";
+    reportReasonInput.className = "input";
     reportReasonInput.rows = 3;
-    reportReasonInput.placeholder = "Enter report reason...";
-    reportContent.appendChild(reportReasonInput);
+    reportReasonInput.placeholder = "Enter your report reason...";
+    reportContainer.appendChild(reportReasonInput);
 
-    // Create the submit button
-    const submitButtonContainer = document.createElement("div");
-    submitButtonContainer.className = "d-flex flex-row justify-content-end mt-3";
-    reportContent.appendChild(submitButtonContainer);
+    // Create the footer
+    const footer = document.createElement("div");
+    footer.className = "dialog-footer";
+    reportContainer.appendChild(footer);
 
-    const submitButton = document.createElement("button");
+    const closeButton = document.createElement("div");
+    closeButton.id = "close-report";
+    closeButton.className = "button-outline";
+    closeButton.textContent = "Cancel";
+    footer.appendChild(closeButton);
+
+    const submitButton = document.createElement("div");
     submitButton.id = "report-submit";
-    submitButton.className = "btn";
-    submitButton.textContent = "Submit";
-    submitButtonContainer.appendChild(submitButton);
-
-    // Hide the report container
-    reportContainer.style.display = "none";
+    submitButton.className = "button-outline";
+    submitButton.textContent = "Submit Report";
+    footer.appendChild(submitButton);
 
     // Add the report container to the page
     postOptions.appendChild(reportContainer);
 
+    // Create the dropdown menu
     const dropdownMenu = document.createElement("div");
     dropdownMenu.classList.add("dropdown-menu", "show");
     dropdownMenu.style.display = "none";
+    postOptions.appendChild(dropdownMenu); // Assuming `postOptions` is a valid element to append `dropdownMenu`
 
-    // Event listener for the ellipsis and report
+    // Event listener for post ellipsis
     let reportOptionVisible = false;
     let postEllipsisVisible = false;
 
@@ -268,32 +262,43 @@ async function formatPost(post, postList){
         if (postEllipsisVisible) {
             postEllipsisVisible = false;
             dropdownMenu.style.display = "none";
-        }
-        else {
+        } else {
             postEllipsisVisible = true;
             dropdownMenu.style.display = "block";
         }
     });
-    
-    // Add event listener to close icon
-    closeIcon.addEventListener("click", function() {
-        reportContainer.style.display = "none";
+
+    // Event listener for report option
+    reportOption.addEventListener("click", function() {
+        if (reportOptionVisible) {
+            reportOptionVisible = false;
+            reportContainer.style.display = "none";
+        } else {
+            reportOptionVisible = true;
+            reportContainer.style.display = "flex";
+        }
     });
-    
+
+    // Add event listener to close button
+    closeButton.addEventListener("click", function() {
+        reportContainer.style.display = "none";
+        reportOptionVisible = false; // Ensure the report option is also hidden
+    });
+
     // Add event listener to submit button
     submitButton.addEventListener("click", async function() {
-        const reportReason = document.getElementById("report-reason").value;
+        const reportReason = document.getElementById("report-reason").value.trim();
         if (reportReason === "") {
             alert("Please enter a reason for reporting the post.");
             return;
         }
-        
-        try{
+
+        try {
             const reportResponse = await fetch(`/communityforum/report-post`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}` // Adjust as needed
                 },
                 body: JSON.stringify({
                     postId: post.postId,
@@ -301,34 +306,22 @@ async function formatPost(post, postList){
                     reason: reportReason
                 })
             });
-            
+
             const reportData = await reportResponse.json();
-        
+
             if (!reportData.error) {
                 alert("Post has been reported! Our staff will review it shortly.");
                 reportContainer.style.display = "none";
-            }
-            else if (reportData.error === "You have already reported this post") {
+                reportOptionVisible = false; // Ensure the report option is also hidden
+            } else if (reportData.error === "You have already reported this post") {
                 alert("You have already reported this post.");
-            }
-            else{
+            } else {
                 console.error(reportData.error);
                 throw new Error("Failed to report post.");
             }
         } catch (error) {
             console.error(error);
             alert("Failed to report post. You need to be logged in.");
-        }
-    });
- 
-    reportOption.addEventListener("click", function() {
-        if (reportOptionVisible) {
-            reportOptionVisible = false;
-            reportContainer.style.display = "none";
-        }
-        else {
-            reportOptionVisible = true;  
-            reportContainer.style.display = "flex";
         }
     });
      
