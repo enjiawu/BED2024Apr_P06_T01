@@ -13,49 +13,55 @@
   "tags": [
     {
       "name": "Users",
-      "description": "/users"
+      "description": "Endpoints for managing user profiles, including creating, updating, retrieving, and deleting user information."
     },
     {
       "name": "Staff",
-      "description": "/staff"
+      "description": "Endpoints for managing staff members, including adding new staff, updating staff details, and retrieving staff information."
     },
     {
       "name": "Carbon Footprint Calculator",
-      "description": "/carbonfootprint"
+      "description": "Endpoints for calculating and managing carbon footprint data, including submitting user data and retrieving calculated results."
     },
     {
       "name": "Community Forum Posts",
-      "description": "/communityforum/posts" 
+      "description": "Endpoints for managing posts in the community forum, including creating, updating, retrieving, and deleting forum posts and comments."
     },
     {
       "name": "Community Forum Topics",
-      "description": "/communityforum/topics"
+      "description": "Endpoints for managing topics in the community forum, including creating, retrieving, and deleting forum topics."
     },
     {
-      "name": "Community Events",
-      "description": "/events"
+      "name": "Commnity Events",
+      "description": "Endpoints for managing community events, including creating, updating, retrieving, and deleting event information."
     },
     {
       "name": "Payment for Donations",
-      "description": "/payment"
+      "description": "Endpoints for handling payment processes related to community donations, including initiating payments and processing donation transactions."
     },
     {
       "name": "Reports",
-      "description": "/reports"
+      "description": "Endpoints for retrieving and deleting post and comment reports."
     },
     {
       "name": "Messages",
-      "description": "/messages"
+      "description": "Endpoints for managing messages, including sending, retrieving, and deleting messages."
+    },
+    {
+      "name": "Replies",
+      "description": "Endpoints for managing replies, including retrieving and adding replies."
     },
     {
       "name": "Articles",
-      "description": "/articles"
+      "description": "Endpoints for viewing and searching articles"
     }
   ],
   "paths": {
     "/communityforum/": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Get all the posts in the community forum",
+        "description": "Retrieve all the posts in the community forum",
         "responses": {
           "200": {
             "description": "OK"
@@ -68,7 +74,9 @@
     },
     "/communityforum/topics": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Topics"],
+        "summary": "Get all the topics in the community forum",
+        "description": "Retrieve all the topics in the community forum",
         "responses": {
           "200": {
             "description": "OK"
@@ -79,7 +87,9 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": ["Community Forum Topics"],
+        "summary": "Create a new topic in the community forum",
+        "description": "Create a new topic in the community forum",
         "parameters": [
           {
             "name": "authorization",
@@ -97,6 +107,11 @@
                 }
               }
             }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -123,7 +138,9 @@
     },
     "/communityforum/topics/{id}": {
       "put": {
-        "description": "",
+        "tags": ["Community Forum Topics"],
+        "summary": "Update a topic in the community forum",
+        "description": "Update a topic in the community forum",
         "parameters": [
           {
             "name": "id",
@@ -149,6 +166,11 @@
             }
           }
         ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -168,7 +190,9 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": ["Community Forum Topics"],
+        "summary": "Delete a topic in the community forum",
+        "description": "Delete a topic in the community forum",
         "parameters": [
           {
             "name": "id",
@@ -180,6 +204,11 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -201,7 +230,9 @@
         }
       },
       "get": {
-        "description": "",
+        "tags": ["Community Forum Topics"],
+        "summary": "Get a specific topic in the community forum",
+        "description": "Retrieve a specific topic in the community forum",
         "parameters": [
           {
             "name": "id",
@@ -225,7 +256,9 @@
     },
     "/communityforum/post-count": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Get the total number of posts in the community forum",
+        "description": "Retrieve the total number of posts in the community forum",
         "responses": {
           "200": {
             "description": "OK"
@@ -238,7 +271,9 @@
     },
     "/communityforum/topic-count": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Topics"],
+        "summary": "Get the total number of topics in the community forum",
+        "description": "Retrieve the total number of topics in the community forum",
         "responses": {
           "200": {
             "description": "OK"
@@ -251,7 +286,9 @@
     },
     "/communityforum/likes-count": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Get the total number of likes on posts in the community forum",
+        "description": "Retrieve the total number of likes on posts in the community forum",
         "responses": {
           "200": {
             "description": "OK"
@@ -264,7 +301,9 @@
     },
     "/communityforum/sort-by-likes-desc": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Sort posts by likes in descending order",
+        "description": "Sort posts by likes in descending order",
         "parameters": [
           {
             "name": "topicId",
@@ -284,7 +323,9 @@
     },
     "/communityforum/sort-by-likes-asc": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Sort posts by likes in ascending order",
+        "description": "Sort posts by likes in ascending order",
         "parameters": [
           {
             "name": "authorization",
@@ -315,7 +356,9 @@
     },
     "/communityforum/sort-by-newest": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Sort posts by newest in descending order",
+        "description": "Sort posts by newest in descending order",
         "parameters": [
           {
             "name": "topicId",
@@ -335,7 +378,9 @@
     },
     "/communityforum/sort-by-oldest": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Sort posts by oldest in ascending order",
+        "description": "Sort posts by oldest in ascending order",
         "parameters": [
           {
             "name": "topicId",
@@ -355,7 +400,9 @@
     },
     "/communityforum/posts-by-topic/{id}": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Get all posts in a specific topic",
+        "description": "Retrieve all posts in a specific topic",
         "parameters": [
           {
             "name": "id",
@@ -379,7 +426,9 @@
     },
     "/communityforum/search": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Search for posts in the community forum",
+        "description": "Search for posts in the community forum",
         "parameters": [
           {
             "name": "searchTerm",
@@ -399,7 +448,9 @@
     },
     "/communityforum/trending-topics": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Topics"],
+        "summary": "Get the trending topics in the community forum",
+        "description": "Retrieve the trending topics in the community forum",
         "responses": {
           "200": {
             "description": "OK"
@@ -412,7 +463,9 @@
     },
     "/communityforum/{id}": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Get a specific post in the community forum",
+        "description": "Retrieve a specific post in the community forum",
         "parameters": [
           {
             "name": "id",
@@ -434,7 +487,9 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Update a post in the community forum",
+        "description": "Update a post in the community forum",
         "parameters": [
           {
             "name": "id",
@@ -446,6 +501,11 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -470,7 +530,9 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Delete a post in the community forum",
+        "description": "Delete a post in the community forum",
         "parameters": [
           {
             "name": "id",
@@ -482,6 +544,11 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -505,7 +572,9 @@
     },
     "/communityforum/{id}/modify-like": {
       "put": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Modify a like on a post",
+        "description": "Like or unlike a post in the community forum",
         "parameters": [
           {
             "name": "id",
@@ -529,6 +598,11 @@
                 }
               }
             }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -555,7 +629,9 @@
     },
     "/communityforum/{postId}/get-like-by-user/{userId}": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Get a like by a user on a post",
+        "description": "Retrieve a like by a user on a post in the community forum",
         "parameters": [
           {
             "name": "postId",
@@ -582,7 +658,9 @@
     },
     "/communityforum/{id}/comments": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Get all comments on a post",
+        "description": "Retrieve all comments on a post in the community forum",
         "parameters": [
           {
             "name": "id",
@@ -601,7 +679,9 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Create a new comment on a post",
+        "description": "Create a new comment on a post in the community forum",
         "parameters": [
           {
             "name": "id",
@@ -613,6 +693,11 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -636,7 +721,9 @@
     },
     "/communityforum/comments/{id}": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Get a specific comment on a post",
+        "description": "Retrieve a specific comment on a post in the community forum",
         "parameters": [
           {
             "name": "id",
@@ -658,7 +745,9 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Delete a comment on a post",
+        "description": "Delete a comment on a post in the community forum",
         "parameters": [
           {
             "name": "id",
@@ -670,6 +759,11 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -693,7 +787,9 @@
     },
     "/communityforum/comments/{commentId}": {
       "put": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Update a comment on a post",
+        "description": "Update a comment on a post in the community forum",
         "parameters": [
           {
             "name": "commentId",
@@ -705,6 +801,11 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -731,7 +832,9 @@
     },
     "/communityforum/{postId}/comments/{commentId}/reply": {
       "post": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Reply to a comment on a post",
+        "description": "Reply to a comment on a post in the community forum",
         "parameters": [
           {
             "name": "postId",
@@ -749,6 +852,11 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -772,7 +880,9 @@
     },
     "/communityforum/comments/{id}/replies": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Get all replies to a comment",
+        "description": "Retrieve all replies to a comment in the community forum",
         "parameters": [
           {
             "name": "id",
@@ -796,7 +906,9 @@
     },
     "/communityforum/comments/{id}/modify-like": {
       "put": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Modify a like on a comment",
+        "description": "Like or unlike a comment in the community forum",
         "parameters": [
           {
             "name": "id",
@@ -820,6 +932,11 @@
                 }
               }
             }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -846,7 +963,9 @@
     },
     "/communityforum/comments/{commentId}/get-like-by-user/{userId}": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Get a like by a user on a comment",
+        "description": "Retrieve a like by a user on a comment in the community forum",
         "parameters": [
           {
             "name": "commentId",
@@ -873,7 +992,9 @@
     },
     "/communityforum/report-post": {
       "post": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Report a post in the community forum",
+        "description": "Report a post in the community forum",
         "parameters": [
           {
             "name": "authorization",
@@ -894,6 +1015,11 @@
                 }
               }
             }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -917,7 +1043,9 @@
     },
     "/communityforum/report-comment": {
       "post": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Report a comment in the community forum",
+        "description": "Report a comment in the community forum",
         "parameters": [
           {
             "name": "authorization",
@@ -938,6 +1066,11 @@
                 }
               }
             }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -961,7 +1094,9 @@
     },
     "/communityforum/users/{id}": {
       "get": {
-        "description": "",
+        "tags": ["Community Forum Posts"],
+        "summary": "Get all posts by a specific user",
+        "description": "Retrieve all posts by a specific user in the community forum",
         "parameters": [
           {
             "name": "id",
@@ -985,12 +1120,19 @@
     },
     "/reports/posts": {
       "get": {
-        "description": "",
+        "tags": ["Reports"],
+        "summary": "Get all post reports",
+        "description": "Retrieve all community forum post reports made by users",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
             "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -1011,7 +1153,9 @@
     },
     "/reports/posts/{id}": {
       "get": {
-        "description": "",
+        "tags": ["Reports"],
+        "summary": "Get a specific post report",
+        "description": "Retrieve a specific community forum post report",
         "parameters": [
           {
             "name": "id",
@@ -1023,6 +1167,11 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -1044,7 +1193,9 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": ["Reports"],
+        "summary": "Delete a specific post report",
+        "description": "Delete a specific community forum post report",
         "parameters": [
           {
             "name": "id",
@@ -1056,6 +1207,11 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -1079,12 +1235,19 @@
     },
     "/reports/comments": {
       "get": {
-        "description": "",
+        "tags": ["Reports"],
+        "summary": "Get all comment reports",
+        "description": "Retrieve all community forum comment reports made by users",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
             "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -1105,7 +1268,9 @@
     },
     "/reports/comments/{id}": {
       "get": {
-        "description": "",
+        "tags": ["Reports"],
+        "summary": "Get a specific comment report",
+        "description": "Retrieve a specific community forum comment report",
         "parameters": [
           {
             "name": "id",
@@ -1117,6 +1282,11 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -1138,7 +1308,9 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": ["Reports"],
+        "summary": "Delete a specific comment report",
+        "description": "Delete a specific community forum comment report",
         "parameters": [
           {
             "name": "id",
@@ -1150,6 +1322,11 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -1345,7 +1522,7 @@
         }
       }
     },
-    "/staffs/alladmin": {
+    "/staff/alladmin": {
       "get": {
         "description": "",
         "parameters": [
@@ -1371,7 +1548,7 @@
         }
       }
     },
-    "/staffs/register": {
+    "/staff/register": {
       "post": {
         "description": "",
         "parameters": [
@@ -1410,7 +1587,7 @@
         }
       }
     },
-    "/staffs/login": {
+    "/staff/login": {
       "post": {
         "description": "",
         "parameters": [
@@ -1920,12 +2097,19 @@
     },
     "/messages/": {
       "get": {
-        "description": "",
+        "tags": ["Messages"],
+        "summary": "Get all messages",
+        "description": "Retrieve all messages submitted by users",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
             "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -1957,7 +2141,9 @@
     },
     "/messages/{id}": {
       "get": {
-        "description": "",
+        "tags": ["Messages"],
+        "summary": "Get a specific message",
+        "description": "Retrieve a specific message sent by a user",
         "parameters": [
           {
             "name": "id",
@@ -1969,6 +2155,11 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -1992,7 +2183,9 @@
     },
     "/messages/{id}/reply": {
       "patch": {
-        "description": "",
+        "tags": ["Messages"],
+        "summary": "Update a message",
+        "description": "Update a message status to 'replied'",
         "parameters": [
           {
             "name": "id",
@@ -2004,6 +2197,11 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -2027,7 +2225,9 @@
     },
     "/replies/{id}": {
       "get": {
-        "description": "",
+        "tags": ["Replies"],
+        "summary": "Get a message reply",
+        "description": "Retrieve a specific message reply sent by an administrator",
         "parameters": [
           {
             "name": "id",
@@ -2039,6 +2239,11 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -2062,7 +2267,9 @@
     },
     "/replies/": {
       "post": {
-        "description": "",
+        "tags": ["Replies"],
+        "summary": "Send a new message reply",
+        "description": "Send a new reply to a message",
         "parameters": [
           {
             "name": "authorization",
@@ -2075,6 +2282,9 @@
             "schema": {
               "type": "object",
               "properties": {
+                "submissionId": {
+                  "example": "any"
+                },
                 "senderEmail": {
                   "example": "any"
                 },
@@ -2086,6 +2296,11 @@
                 }
               }
             }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -2109,7 +2324,9 @@
     },
     "/calculatecarbonfootprint/": {
       "post": {
-        "description": "",
+        "tags" : ["Carbon Footprint Calculator"],
+        "summary": "Calculate the carbon footprint based on the data provided",
+        "description": "Calculates the carbon footprint and provides tree equivalent, grade, tips, and statistics",
         "parameters": [
           {
             "name": "body",
@@ -2135,47 +2352,121 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Carbon footprint calculated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "individualCF": {
+                  "type": "array",
+                  "items": {"type": "number"}
+                },
+                "totalCarbonFootprint": {"type": "number"},
+                "treeEquivalent": {"type": "number"},
+                "grade": {"type": "string"},
+                "tips": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                },
+                "stats": {
+                  "type": "object",
+                  "properties": {
+                    "avgCarTravel": {"type": "number"},
+                    "avgPublicTransport": {"type": "number"},
+                    "avgFlight": {"type": "number"},
+                    "avgMotorBike": {"type": "number"},
+                    "avgTreeEquivalent": {"type": "number"},
+                    "avgTotalCarbonFootprint": {"type": "number"}
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Invalid input data"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Error calculating carbon footprint"
           }
         }
       }
     },
     "/calculatecarbonfootprint/possibleActions": {
       "get": {
-        "description": "",
-        "responses": {
+        "tags" : ["Carbon Footprint Calculator"],
+        "summary": "Get the possible actions to reduce the carbon footprint",
+        "description": "Retrieve the possible actions to reduce the carbon footprint",
+       "responses": {
           "200": {
-            "description": "OK"
+            "description": "Possible actions retrieved successfully",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "actionId": {"type": "integer"},
+                  "title": {"type": "string"},
+                  "description": {"type": "string"},
+                  "grade": {"type": "string"}
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Error retrieving possible actions"
           }
         }
       },
       "post": {
-        "description": "",
+        "tags" : ["Carbon Footprint Calculator"],
+        "summary": "Create a new possible action to reduce the carbon footprint",
+        "description": "Create a new possible action to reduce the carbon footprint",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "action",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {"type": "string"},
+                "description": {"type": "string"},
+                "grade": {"type": "string"}
+              }
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Action created successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {"type": "number"},
+                "title": {"type": "string"},
+                "description": {"type": "string"},
+                "grade": {"type": "string"}
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Invalid action data"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Error creating action"
           }
         }
       }
     },
     "/calculatecarbonfootprint/possibleActions/{id}": {
       "get": {
-        "description": "",
+        "tags" : ["Carbon Footprint Calculator"],
+        "summary": "Get the possible action to reduce the carbon footprint by ID",
+        "description": "Retrieve the possible action to reduce the carbon footprint by ID",
         "parameters": [
           {
             "name": "id",
@@ -2197,18 +2488,41 @@
         }
       },
       "put": {
-        "description": "",
+        "tags" : ["Carbon Footprint Calculator"],
+        "summary": "Update the possible action to reduce the carbon footprint by ID",
+        "description": "Update an existing possible action to reduce the carbon footprint",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {"type": "string"},
+                "description": {"type": "string"},
+                "grade": {"type": "string"}
+              }
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "actionId": {"type": "integer"},
+                "title": {"type": "string"},
+                "description": {"type": "string"},
+                "grade": {"type": "string"}
+              }
+            }
           },
           "400": {
             "description": "Bad Request"
@@ -2219,7 +2533,9 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags" : ["Carbon Footprint Calculator"],
+        "summary": "Delete a possible action to reduce the carbon footprint",
+        "description": "Delete an existing possible action to reduce the carbon footprint",
         "parameters": [
           {
             "name": "id",
@@ -2228,9 +2544,20 @@
             "type": "string"
           }
         ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+            "type": "object",
+            "properties": {
+              "message": {"type": "string"}
+            }
+          }
           },
           "500": {
             "description": "Internal Server Error"
@@ -2240,7 +2567,9 @@
     },
     "/articles/{articleUrl}/content": {
       "get": {
-        "description": "",
+        "tags": ["Articles"],
+        "summary": "Get article content",
+        "description": "Retrieve an article's content",
         "parameters": [
           {
             "name": "articleUrl",
@@ -2261,7 +2590,9 @@
     },
     "/articles/{sortBy}": {
       "get": {
-        "description": "",
+        "tags": ["Articles"],
+        "summary": "Sort articles",
+        "description": "Sort all articles in a particular order",
         "parameters": [
           {
             "name": "sortBy",
@@ -2420,6 +2751,211 @@
           }
         }
       }
+    }
+  },
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Enter your JWT token in the format **Bearer &lt;token&gt;**"
+    }
+  },
+  "definitions": {
+    "Post": {
+      "type": "object",
+      "properties": {
+        "postId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 255
+        },
+        "description": {
+          "type": "string"
+        },
+        "topicId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "likes": {
+          "type": "integer",
+          "format": "int32",
+          "default": 0
+        },
+        "comments": {
+          "type": "integer",
+          "format": "int32",
+          "default": 0
+        },
+        "reports": {
+          "type": "integer",
+          "format": "int32",
+          "default": 0
+        },
+        "dateCreated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "dateUpdated": {
+          "type": "string",
+          "format": "date-time",
+          "nullable": true
+        }
+      },
+      "required": ["postId", "userId", "title", "description", "topicId", "dateCreated"
+      ]
+    },
+    "Topic": {
+      "type": "object",
+      "properties": {
+        "topicId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "topic": {
+          "type": "string"
+        }
+      },
+      "required": ["topicId", "topic"]
+    },
+    "CarbonFootprint": {
+      "type": "object",
+      "properties": {
+        "carTravel": {
+          "type": "number",
+          "format": "float"
+        },
+        "publicTransport": {
+          "type": "number",
+          "format": "float"
+        },
+        "flight": {
+          "type": "number",
+          "format": "float"
+        },
+        "motorBike": {
+          "type": "number",
+          "format": "float"
+        },
+        "treeEquivalent": {
+          "type": "number",
+          "format": "float"
+        },
+        "grade": {
+          "type": "number",
+          "format": "float"
+        }
+      },
+      "required": ["carTravel", "publicTransport", "flight", "motorBike", "treeEquivalent", "grade"]
+    },
+    "PostReport": {
+      "type": "object",
+      "properties": {
+        "reportId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "postId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "dateReported": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reason": {
+          "type": "string"
+        }
+
+      },
+      "required": ["reportId", "postId", "userId", "dateReported", "reason"]
+    },
+    "CommentReport": {
+      "type": "object",
+      "properties": {
+        "reportId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "commentId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "postId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "dateReported": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reason": {
+          "type": "string"
+        }
+
+      },
+      "required": ["reportId", "commentId", "postId", "userId", "dateReported", "reason"]
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+        "messageId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string",
+          "nullable": true
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "format": "phone-number",
+          "nullable": true
+        },
+        "status": {
+          "type": "string",
+          "default": "unanswered"
+        }
+
+      },
+      "required": ["messageId", "firstName", "email", "status"]
+    },
+    "Article": {
+      "type": "object",
+      "properties": {
+        "searchTerm": {
+          "type": "string",
+          "nullable": true
+        },
+        "sortBy": {
+          "type": "string",
+          "default": "relevancy"
+        }
+
+      },
+      "required": ["sortBy"]
     }
   }
 }
