@@ -207,6 +207,107 @@
             </div>
         </div>
 
+        <div
+            class="user-modal"
+            style="
+                position: fixed;
+                inset: 0;
+                z-index: 50;
+                overflow: auto;
+                background-color: rgba(0, 0, 0, 0.5);
+                display: none;
+            "
+        >
+            <div
+                style="
+                    position: relative;
+                    width: 100%;
+                    max-width: 30rem;
+                    margin: 2rem auto;
+                    padding: 1.5rem;
+                    background-color: white;
+                    border-radius: 1rem;
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                "
+            >
+                <div
+                    style="
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                    "
+                >
+                    <div style="width: 9rem; height: 9rem; margin-bottom: 1rem">
+                        <img
+                            class="profile-picture"
+                            src=""
+                            alt="profile picture"
+                            style="
+                                width: 9rem;
+                                height: 9rem;
+                                border-radius: 50%;
+                            "
+                        />
+                    </div>
+                    <h2
+                        class="username"
+                        style="font-size: 1.875rem; font-weight: bold"
+                    >
+                        username
+                    </h2>
+                    <p
+                        class="role"
+                        style="
+                            margin-bottom: 1rem;
+                            font-size: 1.25rem;
+                            text-align: center;
+                        "
+                    >
+                        role
+                    </p>
+                </div>
+
+                <div style="margin-bottom: 1.5rem">
+                    <strong>Bio: </strong>
+                    <p class="bio">bio</p>
+                </div>
+                <div style="margin-bottom: 1.5rem">
+                    <strong>Email: </strong>
+                    <p class="email">email</p>
+                </div>
+                <div style="margin-bottom: 3rem">
+                    <strong>Location: </strong>
+                    <p class="location">location</p>
+                </div>
+                <div style="margin-bottom: 1.5rem">
+                    <strong>ID: </strong>
+                    <p class="id">id</p>
+                </div>
+
+                <div
+                    style="
+                        margin-top: 1.5rem;
+                        display: flex;
+                        justify-content: flex-end;
+                    "
+                >
+                    <button
+                        onclick="document.querySelector('.user-modal').style.display = 'none';document.body.classList.remove('stop-scrolling');"
+                        style="
+                            padding: 0.5rem 1rem;
+                            font-size: 0.875rem;
+                            border: 1px solid #d1d5db;
+                            border-radius: 0.375rem;
+                            background: none;
+                            cursor: pointer;
+                        "
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <main>
             <section>
                 <div class="container">
@@ -215,44 +316,90 @@
                         <div class="col-10 col-lg-4 flex-grow-1 mt-5">
                             <aside class="card">
                                 <!-- Member profile -->
-                                <div class="card-body" id="member-profile" style="display: none;">
+                                <div
+                                    class="card-body"
+                                    id="member-profile"
+                                    style="display: none"
+                                >
                                     <div class="text-center">
-                                        <img class="mb-4" id="profile-picture" src="../images/about-us/about-us.jpg" />
-                                        <h4><strong><span id="profile-username"></span></strong></h4>
-                                        <p class="card-subtitle text-body-secondary mb-4">
+                                        <img
+                                            class="mb-4"
+                                            id="profile-picture"
+                                            src="../images/about-us/about-us.jpg"
+                                        />
+                                        <h4>
+                                            <strong
+                                                ><span
+                                                    id="profile-username"
+                                                ></span
+                                            ></strong>
+                                        </h4>
+                                        <p
+                                            class="card-subtitle text-body-secondary mb-4"
+                                        >
                                             <span id="profile-email"></span>
                                         </p>
-                                        <p>Bio: <span id="profile-bio"></span></p>
+                                        <p>
+                                            Bio: <span id="profile-bio"></span>
+                                        </p>
                                     </div>
 
                                     <div>
                                         <div class="info-title">
                                             <h5>Personal Information</h5>
-                                            <button class="btn focus-ring">Edit</button>
+                                            <button class="btn focus-ring">
+                                                Edit
+                                            </button>
                                         </div>
                                         <ul>
                                             <li>
                                                 <strong>Name</strong>
-                                                <div id="profile-username-duplicate"></div>
+                                                <div
+                                                    id="profile-username-duplicate"
+                                                ></div>
                                             </li>
                                             <li>
                                                 <strong>Email Address</strong>
-                                                <div id="profile-email-duplicate"></div>
+                                                <div
+                                                    id="profile-email-duplicate"
+                                                ></div>
                                             </li>
                                             <li>
-                                                <span><strong>Location</strong></span>
-                                                <div id="profile-location"></div>
+                                                <span
+                                                    ><strong
+                                                        >Location</strong
+                                                    ></span
+                                                >
+                                                <div
+                                                    id="profile-location"
+                                                ></div>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
 
                                 <!-- Event profile -->
-                                <div class="card-body" id="event-profile" style="display: none;">
+                                <div
+                                    class="card-body"
+                                    id="event-profile"
+                                    style="display: none"
+                                >
                                     <div class="text-center">
-                                        <img class="mb-4" id="profile-picture-event" src="../images/about-us/about-us.jpg" />
-                                        <h4><strong><span id="profile-event-name"></span></strong></h4>
-                                        <p class="card-subtitle text-body-secondary mb-4">
+                                        <img
+                                            class="mb-4"
+                                            id="profile-picture-event"
+                                            src="../images/about-us/about-us.jpg"
+                                        />
+                                        <h4>
+                                            <strong
+                                                ><span
+                                                    id="profile-event-name"
+                                                ></span
+                                            ></strong>
+                                        </h4>
+                                        <p
+                                            class="card-subtitle text-body-secondary mb-4"
+                                        >
                                             Event Management
                                         </p>
                                     </div>
@@ -260,7 +407,9 @@
                                     <div>
                                         <div class="info-title">
                                             <h5>Staff Information</h5>
-                                            <button class="btn focus-ring">Edit</button>
+                                            <button class="btn focus-ring">
+                                                Edit
+                                            </button>
                                         </div>
                                         <ul>
                                             <li>
@@ -269,32 +418,60 @@
                                             </li>
                                             <li>
                                                 <strong>Name</strong>
-                                                <div id="profile-event-name-duplicate"></div>
+                                                <div
+                                                    id="profile-event-name-duplicate"
+                                                ></div>
                                             </li>
                                             <li>
                                                 <strong>Email Address</strong>
-                                                <div id="profile-event-email"></div>
+                                                <div
+                                                    id="profile-event-email"
+                                                ></div>
                                             </li>
                                             <li>
-                                                <span><strong>Department</strong></span>
+                                                <span
+                                                    ><strong
+                                                        >Department</strong
+                                                    ></span
+                                                >
                                                 <div>Event Management</div>
                                             </li>
                                             <li>
-                                                <span><strong>Location</strong></span>
-                                                <div id="profile-event-location"></div>
+                                                <span
+                                                    ><strong
+                                                        >Location</strong
+                                                    ></span
+                                                >
+                                                <div
+                                                    id="profile-event-location"
+                                                ></div>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
 
                                 <!-- admin profile -->
-                                <div class="card-body" id="admin-profile" style="display: none;">
+                                <div
+                                    class="card-body"
+                                    id="admin-profile"
+                                    style="display: none"
+                                >
                                     <div class="text-center">
-                                        <img class="mb-4" id="profile-picture-admin" src="../images/about-us/about-us.jpg" />
+                                        <img
+                                            class="mb-4"
+                                            id="profile-picture-admin"
+                                            src="../images/about-us/about-us.jpg"
+                                        />
                                         <h4>
-                                            <strong><span id="profile-admin-name"></span></strong>
+                                            <strong
+                                                ><span
+                                                    id="profile-admin-name"
+                                                ></span
+                                            ></strong>
                                         </h4>
-                                        <p class="card-subtitle text-body-secondary mb-4">
+                                        <p
+                                            class="card-subtitle text-body-secondary mb-4"
+                                        >
                                             Admin Management
                                         </p>
                                     </div>
@@ -315,23 +492,39 @@
                                         </button>
                                         <li>
                                             <span><strong>ID</strong></span>
-                                            <div class="profile-adminid">Staff ID</div>
+                                            <div class="profile-adminid">
+                                                Staff ID
+                                            </div>
                                         </li>
                                         <li>
                                             <span><strong>Name</strong></span>
-                                            <div id="profile-admin-name-duplicate">Staff Name</div>
+                                            <div
+                                                id="profile-admin-name-duplicate"
+                                            >
+                                                Staff Name
+                                            </div>
                                         </li>
                                         <li>
                                             <span><strong>Email</strong></span>
-                                            <div id="profile-admin-email">Staff Name</div>
+                                            <div id="profile-admin-email">
+                                                Staff Name
+                                            </div>
                                         </li>
                                         <li>
-                                            <span><strong>Department</strong></span>
+                                            <span
+                                                ><strong
+                                                    >Department</strong
+                                                ></span
+                                            >
                                             <div>Admin Management</div>
                                         </li>
                                         <li>
-                                            <span><strong>Location</strong></span>
-                                            <div id="profile-admin-location">Singapore</div>
+                                            <span
+                                                ><strong>Location</strong></span
+                                            >
+                                            <div id="profile-admin-location">
+                                                Singapore
+                                            </div>
                                         </li>
                                     </ul>
                                 </div>
@@ -348,7 +541,10 @@
                                         id="member-tab"
                                         role="tablist"
                                     >
-                                        <li class="nav-item me-5" role="presentation">
+                                        <li
+                                            class="nav-item me-5"
+                                            role="presentation"
+                                        >
                                             <button
                                                 class="nav-link active"
                                                 id="member-posts-tab"
@@ -362,7 +558,10 @@
                                                 Posts
                                             </button>
                                         </li>
-                                        <li class="nav-item me-5" role="presentation">
+                                        <li
+                                            class="nav-item me-5"
+                                            role="presentation"
+                                        >
                                             <button
                                                 class="nav-link"
                                                 id="member-events-tab"
@@ -377,7 +576,10 @@
                                             </button>
                                         </li>
                                         <div class="vr"></div>
-                                        <li class="nav-item ms-5" role="presentation">
+                                        <li
+                                            class="nav-item ms-5"
+                                            role="presentation"
+                                        >
                                             <button
                                                 class="nav-link"
                                                 id="member-donations-tab"
@@ -402,32 +604,100 @@
                                         >
                                             <!-- Content for Posts -->
                                             <div id="posts-container">
-                                                <div class="card-body d-flex flex-column justify-content-between posts-container">
-                                                    <div class="d-flex flex-row justify-content-between align-content-between">
-                                                        <div class="d-flex flex-row align-content-between justify-content-between mx-3 mt-2 mb-3 flex-grow-1">
-                                                            <p class="post-author" id="post-author">@user</p>
-                                                            <div class="d-flex flex-row align-content-end mx-2 gap-4">
-                                                                <p class="post-date" id="post-date">date posted</p>
-                                                                <a class="post-ellipsis" id="post-ellipsis"><i class="fa fa-ellipsis-v"></i></a>
+                                                <div
+                                                    class="card-body d-flex flex-column justify-content-between posts-container"
+                                                >
+                                                    <div
+                                                        class="d-flex flex-row justify-content-between align-content-between"
+                                                    >
+                                                        <div
+                                                            class="d-flex flex-row align-content-between justify-content-between mx-3 mt-2 mb-3 flex-grow-1"
+                                                        >
+                                                            <p
+                                                                class="post-author"
+                                                                id="post-author"
+                                                            >
+                                                                @user
+                                                            </p>
+                                                            <div
+                                                                class="d-flex flex-row align-content-end mx-2 gap-4"
+                                                            >
+                                                                <p
+                                                                    class="post-date"
+                                                                    id="post-date"
+                                                                >
+                                                                    date posted
+                                                                </p>
+                                                                <a
+                                                                    class="post-ellipsis"
+                                                                    id="post-ellipsis"
+                                                                    ><i
+                                                                        class="fa fa-ellipsis-v"
+                                                                    ></i
+                                                                ></a>
                                                             </div>
                                                         </div>
                                                     </div>
-                        
-                                                    <div class="post-content mx-5 mb-4">
-                                                        <h5 class="card-title" id="post-title">Post Title</h5>
-                                                        <p class="card-text" id="post-description">Post content goes here...</p>
+
+                                                    <div
+                                                        class="post-content mx-5 mb-4"
+                                                    >
+                                                        <h5
+                                                            class="card-title"
+                                                            id="post-title"
+                                                        >
+                                                            Post Title
+                                                        </h5>
+                                                        <p
+                                                            class="card-text"
+                                                            id="post-description"
+                                                        >
+                                                            Post content goes
+                                                            here...
+                                                        </p>
                                                     </div>
-                        
-                                                    <div class="d-flex flex-row align-items-center justify-content-between">
-                                                        <div class="post-topic mx-5" id="post-topic">Topic</div>
-                                                        <div class="d-flex flex-row justify-content-end mx-4 gap-2">
-                                                            <div class="d-flex flex-row">
-                                                                <p class="number-of-likes" id="post-likes">100</p>
-                                                                <a class="like-icon" id="like-icon"><i class="fa fa-thumbs-up"></i></a>
+
+                                                    <div
+                                                        class="d-flex flex-row align-items-center justify-content-between"
+                                                    >
+                                                        <div
+                                                            class="post-topic mx-5"
+                                                            id="post-topic"
+                                                        >
+                                                            Topic
+                                                        </div>
+                                                        <div
+                                                            class="d-flex flex-row justify-content-end mx-4 gap-2"
+                                                        >
+                                                            <div
+                                                                class="d-flex flex-row"
+                                                            >
+                                                                <p
+                                                                    class="number-of-likes"
+                                                                    id="post-likes"
+                                                                >
+                                                                    100
+                                                                </p>
+                                                                <a
+                                                                    class="like-icon"
+                                                                    id="like-icon"
+                                                                    ><i
+                                                                        class="fa fa-thumbs-up"
+                                                                    ></i
+                                                                ></a>
                                                             </div>
-                                                            <div class="d-flex flex-row">
-                                                                <i class="post-comment-icon mx-2 fa fa-comment-o"></i>
-                                                                <p class="post-comments" id="post-comments">1</p>
+                                                            <div
+                                                                class="d-flex flex-row"
+                                                            >
+                                                                <i
+                                                                    class="post-comment-icon mx-2 fa fa-comment-o"
+                                                                ></i>
+                                                                <p
+                                                                    class="post-comments"
+                                                                    id="post-comments"
+                                                                >
+                                                                    1
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -454,7 +724,6 @@
                                         </div>
                                     </div>
                                 </div>
-
 
                                 <!-- event container -->
                                 <div class="card-header" id="event-container">
@@ -1028,6 +1297,7 @@
 
         <script src="../scripts/login-popup.js"></script>
         <script src="../scripts/profile.js"></script>
+        <script src="../scripts/administrator.js"></script>
 
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -1039,6 +1309,5 @@
             integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
             crossorigin="anonymous"
         ></script>
-        <script src="../scripts/administrator.js"></script>
     </body>
 </html>

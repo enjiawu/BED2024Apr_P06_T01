@@ -21,44 +21,58 @@
         <link rel="stylesheet" href="../styles/nav.css" />
     </head>
     <body>
-
         <header>
             <div class="nav-container">
                 <div class="nav-left">
-                    <a href="../index.html"><img src="../images/logo/ReThink Logo - Green.png" alt="Logo" class="logo"></a>
+                    <a href="#"
+                        ><img
+                            src="../images/logo/ReThink Logo - Green.png"
+                            alt="Logo"
+                            class="logo"
+                    /></a>
                 </div>
-                <div class="nav-right">
-                    <ul class="nav-links">
+                <div class="nav-right" id="nav-right">
+                    <ul class="nav-links" id="nav-links">
                         <li><a href="../index.html">Home</a></li>
                         <li><a href="about-us.html">About</a></li>
                         <li><a href="#">Articles</a></li>
                         <li class="dropdown">
                             <a href="#">Community</a>
                             <div class="dropdown-content">
-                                <a href="community-forum.html">Community Forum</a>
+                                <a href="community-forum.html"
+                                    >Community Forum</a
+                                >
                                 <a href="event.html">Events</a>
                                 <a href="#">Donation</a>
                             </div>
                         </li>
-                        <li><a href="#">Carbon Footprint Calculator</a></li>
+                        <li>
+                            <a href="carbon-footprint-calculator.html"
+                                >Carbon Footprint Calculator</a
+                            >
+                        </li>
                         <li><a href="contact.html">Contact</a></li>
                         <li class="user-dropdown" id="user-dropdown">
                             <div class="profile-pic">
                                 <!-- Initially hidden, shown after login -->
-                                <img src="images/logo/ReThink Logo - Beige.png" alt="Profile Picture" class="avatar">
+                                <img
+                                    src="images/logo/ReThink Logo - Beige.png"
+                                    alt="Profile Picture"
+                                    class="avatar"
+                                />
                             </div>
                             <div class="dropdown-content">
-                                <a href="#">Profile</a>
+                                <a href="html/profile.html">Profile</a>
                                 <a href="#">Settings</a>
-                                <a href="#">Notifications</a>
                                 <a href="#" id="logout-button">Logout</a>
                             </div>
                         </li>
-                        <li class="login-btn-pop" id="login-button-nav"><a href="#">Login</a></li>
+                        <li class="login-btn-pop" id="login-button-nav">
+                            <a href="#">Login</a>
+                        </li>
                     </ul>
                 </div>
-                <!-- Menu button for mobile menu -->
-                <div class="icon menu-btn">
+                <div class="icon menu-btn" id="menu-btn">
                     <i class="fa fa-bars"></i>
                 </div>
             </div>
@@ -69,75 +83,125 @@
             <div id="login-container" class="wrapper">
                 <!-- Close button -->
                 <span class="icon-close">x</span>
-                
+
                 <!-- Login form -->
                 <div class="form-box login active">
                     <h2>Sign In</h2>
                     <form id="login-form" action="/users/login" method="POST">
                         <div class="input-box">
-                            <span class="icon"><ion-icon name="mail"></ion-icon></span>
-                            <input type="email" id="login-email" required>
+                            <span class="icon"
+                                ><ion-icon name="mail"></ion-icon
+                            ></span>
+                            <input type="email" id="login-email" required />
                             <label>Email</label>
                         </div>
                         <div class="input-box">
-                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
-                            <input type="password" id="login-password" required>
+                            <span class="icon"
+                                ><ion-icon name="lock-closed"></ion-icon
+                            ></span>
+                            <input
+                                type="password"
+                                id="login-password"
+                                required
+                            />
                             <label>Password</label>
                         </div>
                         <div class="remember-forgot">
                             <p>Forgot Password?</p>
                         </div>
-                        <button type="submit" class="btn" id="login-button">Sign In</button>
+                        <button type="submit" class="btn" id="login-button">
+                            Sign In
+                        </button>
                         <div class="login-register">
-                            <p>Don't have an account? <a href="#" class="register-link">Register</a></p>
-                            <p>Are you a staff? <a href="#" class="staff-login-link">Staff Sign In</a></p>
+                            <p>
+                                Don't have an account?
+                                <a href="#" class="register-link">Register</a>
+                            </p>
+                            <p>
+                                Are you a staff?
+                                <a href="#" class="staff-login-link"
+                                    >Staff Sign In</a
+                                >
+                            </p>
                         </div>
                     </form>
                 </div>
-        
+
                 <!-- Staff Login form -->
                 <div class="form-box staff-login">
                     <h2>Staff Sign In</h2>
                     <form id="staff-login-form">
                         <div class="input-box">
-                            <span class="icon"><ion-icon name="person"></ion-icon></span>
-                            <input type="text" id="staff-id" required>
+                            <span class="icon"
+                                ><ion-icon name="person"></ion-icon
+                            ></span>
+                            <input type="text" id="staff-id" required />
                             <label for="staff-id">Staff ID</label>
                         </div>
                         <div class="input-box">
-                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
-                            <input type="password" id="staff-password" required>
+                            <span class="icon"
+                                ><ion-icon name="lock-closed"></ion-icon
+                            ></span>
+                            <input
+                                type="password"
+                                id="staff-password"
+                                required
+                            />
                             <label for="staff-password">Password</label>
                         </div>
-                        <button type="button" class="btn" id="staff-login-button">Staff Sign In</button>
+                        <button
+                            type="button"
+                            class="btn"
+                            id="staff-login-button"
+                        >
+                            Staff Sign In
+                        </button>
                         <div class="login-register">
-                            <p>Are you a user? <a href="#" class="login-link">User Sign In</a></p>
+                            <p>
+                                Are you a user?
+                                <a href="#" class="login-link">User Sign In</a>
+                            </p>
                         </div>
                     </form>
                 </div>
-        
+
                 <!-- Registration form -->
                 <div class="form-box register">
                     <h2>Registration</h2>
                     <form id="register-form" action="/users" method="POST">
                         <div class="input-box">
-                            <span class="icon"><ion-icon name="person"></ion-icon></span>
-                            <input type="text" id="register-name" required>
+                            <span class="icon"
+                                ><ion-icon name="person"></ion-icon
+                            ></span>
+                            <input type="text" id="register-name" required />
                             <label for="register-name">Username</label>
                         </div>
                         <div class="input-box">
-                            <span class="icon"><ion-icon name="mail"></ion-icon></span>
-                            <input type="email" id="register-email" required>
+                            <span class="icon"
+                                ><ion-icon name="mail"></ion-icon
+                            ></span>
+                            <input type="email" id="register-email" required />
                             <label for="register-email">Email</label>
                         </div>
                         <div class="input-box">
-                            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
-                            <input type="password" id="register-password" required>
+                            <span class="icon"
+                                ><ion-icon name="lock-closed"></ion-icon
+                            ></span>
+                            <input
+                                type="password"
+                                id="register-password"
+                                required
+                            />
                             <label for="register-password">Password</label>
                         </div>
-                        <button type="submit" class="btn" id="register-button">Register</button>
+                        <button type="submit" class="btn" id="register-button">
+                            Register
+                        </button>
                         <div class="login-register">
-                            <p>Already have an account? <a href="#" class="login-link">Login</a></p>
+                            <p>
+                                Already have an account?
+                                <a href="#" class="login-link">Login</a>
+                            </p>
                         </div>
                     </form>
                 </div>
@@ -146,50 +210,57 @@
 
         <main>
             <section class="about-us-description text-center">
-            <div class="container">
-                <div class="row my-5">
-                    <h1 class=""><strong>About ReThink</strong></h1>
-                </div>
-
-                <div class="row my-5">
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat. Duis aute irure dolor in
-                        reprehenderit in voluptate velit esse cillum dolore eu
-                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit
-                        anim id est laborum.
-                    </p>
-                </div>
-
-                <div class="container my-5 fixed-bottom stats">
-                    <div class="row my-4 counters">
-                        <div class="col">
-                            <strong><div class="user-counter">...</div></strong>
-                        </div>
-                        <div class="col">
-                            <strong><div class="post-counter">...</div></strong>
-                        </div>
-                        <div class="col">
-                            <strong>
-                                <div class="event-counter">...</div>
-                            </strong>
-                        </div>
+                <div class="container">
+                    <div class="row my-5">
+                        <h1 class=""><strong>About ReThink</strong></h1>
                     </div>
 
-                    <div class="row">
-                        <div class="col">Users</div>
-                        <div class="col">Posts</div>
-                        <div class="col">Events</div>
+                    <div class="row my-5">
+                        <p>
+                            At ReThink, we are passionate about creating a
+                            sustainable future for our planet. Our mission is to
+                            inspire and empower individuals and communities to
+                            adopt eco-friendly practices and make informed
+                            choices that benefit the environment. Through
+                            innovative solutions, educational resources, and
+                            community engagement, we strive to reduce waste,
+                            conserve natural resources, and promote a greener,
+                            healthier world. Join us on our journey to rethink
+                            our habits, reduce our footprint, and make a lasting
+                            positive impact on the Earth. Together, we can build
+                            a sustainable tomorrow.
+                        </p>
+                    </div>
+
+                    <div class="container my-5 fixed-bottom stats">
+                        <div class="row my-4 counters">
+                            <div class="col">
+                                <strong
+                                    ><div class="user-counter">...</div></strong
+                                >
+                            </div>
+                            <div class="col">
+                                <strong
+                                    ><div class="post-counter">...</div></strong
+                                >
+                            </div>
+                            <div class="col">
+                                <strong>
+                                    <div class="event-counter">...</div>
+                                </strong>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">Users</div>
+                            <div class="col">Posts</div>
+                            <div class="col">Events</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
         </main>
-        
+
         <script src="../scripts/login-popup.js"></script>
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
