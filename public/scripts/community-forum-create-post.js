@@ -3,16 +3,28 @@ let token = localStorage.getItem('token'); // Get the token from local storage
 
 // Function to get the user data from the token
 function getUserDataFromToken() {
-
-    if (!token) {
+    if (!token) { // If no token is found
         console.log("No token found");
         return false;
     }
 
-    userId = JSON.parse(localStorage.getItem("userData")).user.userId;
+    try{ // Try to get the staff data from the token if it is the staff login
+        staffId = JSON.parse(localStorage.getItem("staffData")).staff.staffId;
+    }
+    catch{
+        staffId = null;
+    }
+
+    try { // Try to get the user data from the token if it is the user login
+        userId = JSON.parse(localStorage.getItem("userData")).user.userId;
+    }
+    catch{
+        userId = null;
+    }
 
     return true;
 }
+
 
 // Function to validate the input fields
 function validateInput() {

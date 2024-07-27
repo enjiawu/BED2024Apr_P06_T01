@@ -10,7 +10,7 @@ function getUserDataFromToken() {
     }
 
     try{ // Try to get the staff data from the token if it is the staff login
-        staffId = JSON.parse(localStorage.getItem("staffData")).staffId;
+        staffId = JSON.parse(localStorage.getItem("staffData")).staff.staffId;
     }
     catch{
         staffId = null;

@@ -10,6 +10,48 @@
   "schemes": [
     "http"
   ],
+  "tags": [
+    {
+      "name": "Users",
+      "description": "/users"
+    },
+    {
+      "name": "Staff",
+      "description": "/staff"
+    },
+    {
+      "name": "Carbon Footprint Calculator",
+      "description": "/carbonfootprint"
+    },
+    {
+      "name": "Community Forum Posts",
+      "description": "/communityforum/posts" 
+    },
+    {
+      "name": "Community Forum Topics",
+      "description": "/communityforum/topics"
+    },
+    {
+      "name": "Community Events",
+      "description": "/events"
+    },
+    {
+      "name": "Payment for Donations",
+      "description": "/payment"
+    },
+    {
+      "name": "Reports",
+      "description": "/reports"
+    },
+    {
+      "name": "Messages",
+      "description": "/messages"
+    },
+    {
+      "name": "Articles",
+      "description": "/articles"
+    }
+  ],
   "paths": {
     "/communityforum/": {
       "get": {
