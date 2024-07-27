@@ -68,6 +68,11 @@ function verifyJWT(req, res, next) {
             "/reports/comments": ["admin"], // Only admin can view all comment reports
             "/reports/comments/[0-9]+": ["admin"], // Only admin can view a comment report
             "/reports/comments/[0-9]+": ["admin"], // Only admin can delete a comment report
+
+            // Carbon footprint calclator routes
+            "^/possibleActions": ["admin", "event"], // Only admin or event manager can create a possible action
+            "^/possibleActions/[0-9]+": ["admin", "event"], // Only admin or event manager can update or delete a possible action
+
         };
 
         const requestedEndpoint = req.url;

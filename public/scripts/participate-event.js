@@ -9,7 +9,7 @@ function getUserDataFromToken() {
         return false;
     }
 
-    userId = JSON.parse(localStorage.getItem("userData")).userId;
+    userId = JSON.parse(localStorage.getItem("userData")).user.userId;
 
     return true;
 }
@@ -37,6 +37,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             const editEventBtn = document.getElementById('editEventBtn');
             editEventBtn.addEventListener('click', () => {
                 window.location.href = `/html/edit-event.html?id=${eventId}`;
+            });
+
+            const deleteEventBtn = document.getElementById('deleteEventBtn');
+            deleteEventBtn.addEventListener('click', () => {
+                if (confirm('Are you sure you want to delete this event?')) {
+                    deleteEvent(eventId);
+                }
             });
 
             setupLikeButton(event, userId);
@@ -70,6 +77,26 @@ function displayEventDetails(event) {
         editDropdown.style.display = 'none';
     }
 };
+
+async function deleteEvent(eventId) {
+    try {
+        const response = await fetch(`/events/${eventId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Failed to delete the event');
+        }
+        alert('Event deleted successfully.');
+        window.location.href = '/html/event.html'; // Redirect to events page
+    } catch (error) {
+        console.error('Error deleting event:', error);
+        alert('Error deleting event.');
+    }
+}
 
 async function setupLikeButton(event, userId) {
     const likeBtn = document.getElementById('likeBtn');
