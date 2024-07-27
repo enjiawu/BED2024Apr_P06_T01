@@ -34,7 +34,8 @@ function verifyJWT(req, res, next) {
             "^/[0-9]+": ["member", "admin", "event"], // Members and admins update and delete a post
 
             // event routes
-            
+            "^/[0-9]+/modify-participation": ["member", "admin", "event"], //Anyone can participate/withdraw an event
+
             // Like Routes
             "^/[0-9]+/modify-like": ["member", "admin", "event"], // Anyone can like/unlike a post
             "^/comments/[0-9]+/modify-like": ["member", "admin", "event"], // Members can like/unlike a comment
