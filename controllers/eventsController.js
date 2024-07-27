@@ -86,7 +86,19 @@ const updateEvent = async (req, res) => {
 
 const deleteEvent = async (req, res) => {
     const eventId = parseInt(req.params.id);
+    const userId = req.body.userId;
     try {
+
+        const event = await Event.getEventById(eventId);
+        
+        if (!event) {
+            return res.status(404).send("Event not found");
+        }
+
+        if (event.userId !== userId) {
+            return res.status(403).send("Unauthorized to delete event.");
+        }
+
         const success = await Event.deleteEvent(eventId);
         if (success === -1) {
             return res.status(404).send("Event not found");
