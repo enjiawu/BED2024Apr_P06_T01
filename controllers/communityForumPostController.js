@@ -19,10 +19,10 @@ const getPostById = async (req, res) => {
         if (!post) {
             return res.status(404).json({ error: "Post not found" });
         }
-        res.json(post);
+        res.status(200).json(post);
     } catch (error) {
         console.error(error);
-        res.status(500).json({error: "Error retrieving posts"});
+        res.status(500).json({error: "Error retrieving post"});
     }
 };
 
@@ -31,7 +31,6 @@ const createPost = async (req, res) => {
     const newPostData = req.body;
     try {
         const createdPost = await Post.createPost(newPostData);
-
         res.status(201).json(createdPost);
     } catch (error) {
         console.error(error);
@@ -56,18 +55,17 @@ const updatePost = async (req, res) => {
     }
 };
 
-// Deleting the post if it belongs to the user or if its an admin
 const deletePost = async (req, res) => {
     const postId = parseInt(req.params.id);
     try {
         const success = await Post.deletePost(postId);
         if (success != 1) {
-            return res.status(404).send("Post not found");
+            return res.status(404).json({ error: "Post not found" }); // Return JSON object
         }
-        res.status(201).json("Post has been deleted");
+        res.status(204).json({ message: "Post has been deleted" }); // Change status code to 200 for successful deletion
     } catch (error) {
         console.error(error);
-        res.status(500).json({error: "Error deleting posts"});
+        res.status(500).json({ error: "Error deleting posts" });
     }
 };
 
@@ -76,7 +74,7 @@ const searchPosts = async (req, res) => {
     const searchTerm = req.query.searchTerm;
     try {
         const posts = await Post.searchPosts(searchTerm);
-        res.json(posts);
+        res.staus(200).json(posts);
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error searching posts"});
@@ -91,7 +89,7 @@ const getPostsByTopic = async (req, res) => {
         if (!posts) {
             return res.status(404).json({ error: "No posts found" });
         }
-        res.json(posts);
+        res.staus(200).json(posts);
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error retrieving posts"});
@@ -102,7 +100,7 @@ const getPostsByTopic = async (req, res) => {
 const getPostCount = async (req, res) => {
     try {
         const postCount = await Post.getPostCount();
-        res.json(postCount);
+        res.staus(200).json(postCount);
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error retrieving post count"});
@@ -170,7 +168,7 @@ const getTrendingTopics = async (req, res) => {
     try {
         const topicCounts = await Post.getAllTopicCountsByPost();
         topicCounts.sort((a, b) => b.postCount - a.postCount);
-        res.json(topicCounts.slice(0, 5));
+        res.staus(200).json(topicCounts.slice(0, 5));
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error retrieving topic counts"});
@@ -199,7 +197,7 @@ const getLikeByUser = async (req, res) => {
     const userId = parseInt(req.params.userId);
     try {
         const like = await Post.getLikeByUser(postId, userId);
-        res.json(like);
+        res.staus(200).json(like);
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error retrieving like"});
@@ -220,14 +218,14 @@ const modifyLike = async (req, res) => {
             if (!post) {
                 return res.status(404).json({ error: "Post not found" });
             }
-            res.json({ success: true, status: 'unliked', likes: post.likes }); 
+            res.staus(200).json({ success: true, status: 'unliked', likes: post.likes }); 
         } else { // If the user has not liked the post, like it
             // Like the post
             const post = await Post.likePost(postId, userId);
             if (!post) {
                 return res.status(404).json({ error: "Post not found" });
             }
-            res.json({ success: true, status: 'liked', likes: post.likes });
+            res.staus(200).json({ success: true, status: 'liked', likes: post.likes });
         }
     } catch (error) {
         console.error(error);
@@ -241,7 +239,7 @@ const getCommentLikeByUser = async (req, res) => {
     const userId = parseInt(req.params.userId);
     try {
         const like = await Post.getCommentLikeByUser(commentId, userId);
-        res.json(like);
+        res.staus(200).json(like);
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error retrieving like"});
@@ -254,7 +252,7 @@ const getCommentsByPost = async (req, res) => {
     const postId = parseInt(req.params.id);
     try {
         const comments = await Post.getCommentsByPost(postId);
-        res.json(comments);
+        res.status(200).json(comments);
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error retrieving comments"});
@@ -269,7 +267,7 @@ const getCommentById = async (req, res) => {
         if (!comment) {
             return res.status(404).json({ error: "Comment not found" });
         }
-        res.json(comment);
+        res.status(200).json(comment);
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error retrieving comment"});
@@ -297,7 +295,7 @@ const updateComment = async (req, res) => {
         if (!comment) {
             return res.status(404).json({ error: "Comment not found" });
         }
-        res.json(comment);
+        res.status(200).json(comment);
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error updating comment"});
@@ -312,7 +310,7 @@ const deleteComment = async (req, res) => {
         if (success != 1) {
             return res.status(404).json({ error: "Comment not found" });
         }
-        res.status(201).json("Comment has been deleted");
+        res.status(204).json("Comment has been deleted");
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error deleting comment"});
@@ -332,14 +330,14 @@ const modifyCommentLike = async (req, res) => {
             if (!comment) {
                 return res.status(404).json({ error: "Comment not found" });
             }
-            res.json({ success: true, status: 'unliked', likes: comment.likes });
+            res.status(200).json({ success: true, status: 'unliked', likes: comment.likes });
         } else { // If the user has not liked the comment, like it
             // Like the comment
             const comment = await Post.likeComment(commentId, userId);
             if (!comment) {
                 return res.status(404).json({ error: "Comment not found" });
             }
-            res.json({ success: true, status: 'liked', likes: comment.likes });
+            res.status(200).json({ success: true, status: 'liked', likes: comment.likes });
         }
     }
     catch (error) {
@@ -385,11 +383,9 @@ const getRepliesByComment = async (req, res) => {
         const replies = await Post.getRepliesByComment(commentId);
         if (!replies) {
             // If the user has not liked the post, return an error
-            return res
-                .status(400)
-                .json({ error: "There are not replies to this comment" });
+            return res.status(400).json({ error: "There are not replies to this comment" });
         }
-        res.json(replies);
+        res.status(200).json(replies);
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error retrieving replies"});
@@ -405,7 +401,7 @@ const getPostsByUserId = async (req, res) => {
         if (posts.length === 0) {
             return res.status(404).json({ error: "No posts found for this user" });
         }
-        res.json(posts);
+        res.status(200).json(posts);
     } catch (error) {
         console.error("Error retrieving posts:", error);
         res.status(500).json({ error: "Error retrieving posts" });
