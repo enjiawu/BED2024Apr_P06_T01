@@ -85,7 +85,8 @@ async function deleteEvent(eventId) {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
-            }
+            },
+            body: JSON.stringify({userId : userId})
         });
         if (!response.ok) {
             throw new Error('Failed to delete the event');
