@@ -27,11 +27,11 @@
                 <div class="nav-left">
                     <a href="../index.html"><img src="../images/logo/ReThink Logo - Green.png" alt="Logo" class="logo"></a>
                 </div>
-                <div class="nav-right">
-                    <ul class="nav-links">
+                <div class="nav-right" id="nav-right">
+                    <ul class="nav-links" id="nav-links">
                         <li><a href="../index.html">Home</a></li>
                         <li><a href="about-us.html">About</a></li>
-                        <li><a href="#">Articles</a></li>
+                        <li><a href="articles.html">Articles</a></li>
                         <li class="dropdown">
                             <a href="#">Community</a>
                             <div class="dropdown-content">
@@ -45,20 +45,18 @@
                         <li class="user-dropdown" id="user-dropdown">
                             <div class="profile-pic">
                                 <!-- Initially hidden, shown after login -->
-                                <img src="images/logo/ReThink Logo - Beige.png" alt="Profile Picture" class="avatar">
+                                <img src="../images/logo/ReThink Logo - Beige.png" alt="Profile Picture" class="avatar">
                             </div>
                             <div class="dropdown-content">
-                                <a href="#">Profile</a>
+                                <a href="profile.html">Profile</a>
                                 <a href="#">Settings</a>
-                                <a href="#">Notifications</a>
                                 <a href="#" id="logout-button">Logout</a>
                             </div>
                         </li>
                         <li class="login-btn-pop" id="login-button-nav"><a href="#">Login</a></li>
                     </ul>
                 </div>
-                <!-- Menu button for mobile menu -->
-                <div class="icon menu-btn">
+                <div class="icon menu-btn" id="menu-btn">
                     <i class="fa fa-bars"></i>
                 </div>
             </div>
@@ -174,7 +172,49 @@
                 </div>
             </section>
         </main>
-        
+        <footer>
+            <div class="footer-row">
+                <div class="footer-col footer-logo">
+                    <div class="footer-logo-img">
+                        <img src="../images/logo/ReThink Logo - Green.png" alt="logo">
+                    </div>
+                </div>
+                <div class="footer-col footer-nav">
+                    <div class="footer-navbar">
+                        <h4>Resources</h4>
+                        <nav>
+                            <ul>
+                                <li><a href="../html/articles.html">Articles</a></li>
+                                <li><a href="../html/event.html">Events</a></li>
+                                <li><a href="../html/carbon-footprint-calculator.html">Carbon Footprint Calculator</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="footer-navbar">
+                        <h4>Support</h4>
+                        <nav>
+                            <ul>
+                                <li><a href="../html/donation-portal.html">Donation</a></li>
+                                <li><a href="../html/contact.html">Contact Us</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="footer-navbar">
+                        <h4>About</h4>
+                        <nav>
+                            <ul>
+                                <li><a href="../html/about-us.html">About Us</a></li>
+                                <li><a href="../html/credit.html">Credits</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>Copyright © 2024 ReThink</p>
+            </div>
+        </footer>
+        <script src="../scripts/ham-menu.js"></script>
         <script src="../scripts/login-popup.js"></script>
         <script src="../scripts/carbon-footprint-calculator-output.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!--To show the users carbon footprint vs average-->

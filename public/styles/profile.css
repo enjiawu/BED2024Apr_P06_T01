@@ -1,4 +1,128 @@
 .posts-container {
     border-radius: 10px;
     border: 1px solid black;
+    margin-bottom: 20px;
+    background-color: #fff;
+}
+.post-content.mb-4{
+    padding: 0 20px;
+}
+
+.view-post {
+    color: #fff;
+}
+
+ul{
+    list-style: none;
+}
+
+.view-post a,
+.view-event a,
+.edit-button a{
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #404a3d;
+    border-radius: 5px;
+}
+
+.view-post a:hover,
+.view-event a:hover,
+.edit-button a:hover {
+    background-color: #fea866;
+    color: #414833;
+}
+
+.overview-title{
+    border-top: 1px solid #404a3d;
+    padding-top: 20px;
+    color: #414833;
+}
+
+.overview-title h4{
+    font-size: 18px;
+}
+
+.post-ellipsis {
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+    z-index: 1000;
+    top: 0;
+}
+.dropdown-menu.show {
+    display: block;
+}
+.dropdown-item {
+    padding: 0.25rem 1.5rem;
+    cursor: pointer;
+}
+
+#events-filter-container {
+    text-align: right;
+}
+
+#no-events-message {
+    margin-top: 20px;
+    color: #777;
+    font-size: 16px;
+}
+
+.event-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 30px 20px;
+    margin-bottom: 15px;
+    background-color: #fff;
+}
+
+.event-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pending-state {
+    color: #ff9900; /* Pending state color */
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.event-details {
+    display: flex;
+    margin-top: 10px;
+}
+
+.event-info-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-right: 15px;
+}
+
+.event-info-left img {
+    width: 100%;
+    border-radius: 0;
+    height: 100%;
+}
+
+.event-info-right {
+    flex: 2;
+}
+
+.event-image {
+    max-width: 150px;
+    max-height: 100px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.view-event {
+    margin-top: 10px;
+    text-align: right;
 }

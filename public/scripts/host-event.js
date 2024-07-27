@@ -10,8 +10,8 @@ function getUserDataFromToken() {
         return false;
     }
 
-    userId = JSON.parse(localStorage.getItem("userData")).userId;
-    username = JSON.parse(localStorage.getItem("userData")).username;
+    userId = JSON.parse(localStorage.getItem("userData")).user.userId;
+    username = JSON.parse(localStorage.getItem("userData")).user.username;
 
     return true;
 }
@@ -40,6 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('/events', {
                 method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
                 body: formData
             });
 

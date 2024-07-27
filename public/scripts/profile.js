@@ -47,6 +47,10 @@ document.addEventListener("DOMContentLoaded", () => {
         // Update profile elements with event staff data
         profileLocation.textContent = user.location || 'Location not provided';
         profileBio.textContent = user.bio || 'Bio not provided';
+
+        profilePicture.onerror = function() {
+            this.src = '../images/logo/ReThink Logo - Beige.png'; // Default image
+        };
     } else if (staffData) {
         const staff = staffData.staff;
 
@@ -67,6 +71,10 @@ document.addEventListener("DOMContentLoaded", () => {
         profileAdminEmail.textContent = staff.email || 'Email not provided';
         profileAdminLocation.textContent = staff.location || 'Location not provided';
         profileAdminId.textContent = staff.staffId || 'ID not provided';
+
+        profilePictureEvent.onerror = function() {
+            this.src = '../images/logo/ReThink Logo - Beige.png'; // Default image
+        };
     } else {
         // Redirect to login page if no user data found
         alert('Not authenticated');

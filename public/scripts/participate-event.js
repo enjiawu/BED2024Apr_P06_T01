@@ -114,10 +114,11 @@ async function setupLikeButton(event, userId) {
 
     likeBtn.addEventListener('click', async () => {
         try {
-            const response = await fetch(`/events/${event.eventId}/modifylike`, {
+            const response = await fetch(`/events/${event.eventId}/modify-like`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ userId: userId })
             });
@@ -173,10 +174,11 @@ async function setupParticipateBtn(event, userId) {
 
     participateBtn.addEventListener('click', async () => {
         try {
-            const response = await fetch(`/events/${event.eventId}/modifyparticipation`, {
+            const response = await fetch(`/events/${event.eventId}/modify-participation`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ userId: userId })
             });
