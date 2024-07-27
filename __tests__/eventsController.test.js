@@ -78,3 +78,88 @@ describe("eventsController.getAllEvents", () => {
         expect(res.send).toHaveBeenCalledWith("Error retrieving events");
     });
 });
+
+describe('eventsController.createEvent', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it('should create a new event and return it with status 201', async () => {
+        const req = {
+            body: {
+                title: 'New Event',
+                description: 'This is a new event.',
+                startDate: '2024-08-01',
+                startTime: '10:00',
+                location: 'New York',
+                userId: 1,
+                username: 'user123',
+            },
+            file: {
+                filename: 'image.jpg'
+            }
+        };
+
+        const createdEvent = {
+            eventId: 3,
+            ...req.body,
+            image: '../uploads/image.jpg',
+            datePosted: new Date(),
+            status: 'Pending'
+        };
+
+        Event.createEvent.mockResolvedValue(createdEvent);
+
+        const res = {
+            json: jest.fn(),
+            status: jest.fn().mockReturnThis(),
+            send: jest.fn()
+        };
+
+        await eventsController.createEvent(req, res);
+
+        expect(Event.createEvent).toHaveBeenCalledWith(expect.objectContaining({
+            title: 'New Event',
+            description: 'This is a new event.',
+            image: '../uploads/image.jpg',
+            startDate: '2024-08-01',
+            startTime: '10:00',
+            location: 'New York',
+            status: 'Pending',
+            userId: 1,
+            username: 'user123',
+        }));
+        expect(Event.createEvent).toHaveBeenCalledTimes(1);
+        expect(res.status).toHaveBeenCalledWith(201);
+    });
+
+    it('should handle errors and return a 500 status', async () => {
+        const req = {
+            body: {
+                title: 'New Event',
+                description: 'This is a new event.',
+                startDate: '2024-08-01',
+                startTime: '10:00',
+                location: 'New York',
+                userId: 1,
+                username: 'user123',
+            },
+            file: {
+                filename: 'image.jpg'
+            }
+        };
+
+        Event.createEvent.mockRejectedValue(new Error('Database Error'));
+
+        const res = {
+            status: jest.fn().mockReturnThis(),
+            send: jest.fn(),
+            json: jest.fn()
+        };
+
+        await eventsController.createEvent(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.send).toHaveBeenCalledWith("Error creating event");
+    });
+});
