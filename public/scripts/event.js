@@ -145,10 +145,11 @@ async function renderEvents(events) {
 
         button.addEventListener('click', async () => {
             try {
-                const response = await fetch(`/events/${eventId}/modifylike`, {
+                const response = await fetch(`/events/${eventId}/modify-like`, {
                     method: 'PUT',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({ userId: userId }) // Change as needed for actual user ID
                 });
