@@ -74,7 +74,7 @@ const searchPosts = async (req, res) => {
     const searchTerm = req.query.searchTerm;
     try {
         const posts = await Post.searchPosts(searchTerm);
-        res.staus(200).json(posts);
+        res.status(200).json(posts);
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error searching posts"});
@@ -89,7 +89,7 @@ const getPostsByTopic = async (req, res) => {
         if (!posts) {
             return res.status(404).json({ error: "No posts found" });
         }
-        res.staus(200).json(posts);
+        res.status(200).json(posts);
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error retrieving posts"});
@@ -100,7 +100,7 @@ const getPostsByTopic = async (req, res) => {
 const getPostCount = async (req, res) => {
     try {
         const postCount = await Post.getPostCount();
-        res.staus(200).json(postCount);
+        res.status(200).json(postCount);
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error retrieving post count"});
@@ -168,7 +168,7 @@ const getTrendingTopics = async (req, res) => {
     try {
         const topicCounts = await Post.getAllTopicCountsByPost();
         topicCounts.sort((a, b) => b.postCount - a.postCount);
-        res.staus(200).json(topicCounts.slice(0, 5));
+        res.status(200).json(topicCounts.slice(0, 5));
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error retrieving topic counts"});
@@ -197,7 +197,7 @@ const getLikeByUser = async (req, res) => {
     const userId = parseInt(req.params.userId);
     try {
         const like = await Post.getLikeByUser(postId, userId);
-        res.staus(200).json(like);
+        res.status(200).json(like);
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error retrieving like"});
@@ -218,14 +218,14 @@ const modifyLike = async (req, res) => {
             if (!post) {
                 return res.status(404).json({ error: "Post not found" });
             }
-            res.staus(200).json({ success: true, status: 'unliked', likes: post.likes }); 
+            res.status(200).json({ success: true, status: 'unliked', likes: post.likes }); 
         } else { // If the user has not liked the post, like it
             // Like the post
             const post = await Post.likePost(postId, userId);
             if (!post) {
                 return res.status(404).json({ error: "Post not found" });
             }
-            res.staus(200).json({ success: true, status: 'liked', likes: post.likes });
+            res.status(200).json({ success: true, status: 'liked', likes: post.likes });
         }
     } catch (error) {
         console.error(error);
@@ -239,7 +239,7 @@ const getCommentLikeByUser = async (req, res) => {
     const userId = parseInt(req.params.userId);
     try {
         const like = await Post.getCommentLikeByUser(commentId, userId);
-        res.staus(200).json(like);
+        res.status(200).json(like);
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error retrieving like"});

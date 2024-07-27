@@ -1,5 +1,4 @@
 // carbonFootprintController.test.js
-
 const carbonFootprintController = require("../controllers/carbonFootprintController");
 const CarbonFootprint = require("../models/carbonFootprint");
 
