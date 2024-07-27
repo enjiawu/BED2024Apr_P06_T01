@@ -42,7 +42,7 @@ const addReply = async (req, res) => {
                 newReply.replyDescription,
         };
 
-        await transporter.sendMail(mailOptions);
+        const email = await transporter.sendMail(mailOptions);
 
         const addedReply = await Reply.addReply(newReply);
         res.status(201).json(addedReply);
