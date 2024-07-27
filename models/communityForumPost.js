@@ -176,7 +176,9 @@ class CommunityForumPost {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = `
-        DELETE FROM Comments WHERE postId = @postId
+        DELETE FROM CommentLikes WHERE commentId IN (SELECT commentId FROM Comments WHERE postId = @postId); 
+        DELETE FROM CommentReports WHERE postId = @postId; 
+        DELETE FROM Comments WHERE postId = @postId; 
         DELETE FROM PostLikes WHERE postId = @postId
         DELETE FROM PostReports WHERE postId = @postId
         DELETE FROM CommunityPosts WHERE postId = @postId`; // Delete post from comments, post reports and community posts
@@ -187,7 +189,7 @@ class CommunityForumPost {
 
         connection.close();
 
-        return result.rowsAffected[3] > 0; // Check that post has been deleted
+        return result.rowsAffected[5] > 0; // Check that post has been deleted
     }
 
     // Searching for posts based on the title
@@ -563,7 +565,7 @@ class CommunityForumPost {
 
         connection.close();
 
-        return result.rowsAffected[4] > 0; // Check that comment has been deleted
+        return result.rowsAffected[5] > 0; // Check that comment has been deleted
     }
 
     // Like comment

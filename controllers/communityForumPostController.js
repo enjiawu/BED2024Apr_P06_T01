@@ -62,7 +62,7 @@ const deletePost = async (req, res) => {
         if (success != 1) {
             return res.status(404).json({ error: "Post not found" }); // Return JSON object
         }
-        res.status(204).json({ message: "Post has been deleted" }); // Change status code to 200 for successful deletion
+        res.status(200).json({ message: "Post has been deleted" }); 
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error deleting posts" });
@@ -307,10 +307,11 @@ const deleteComment = async (req, res) => {
     console.log(commentId);
     try {
         const success = await Post.deleteComment(commentId);
+        console.log(success);
         if (success != 1) {
             return res.status(404).json({ error: "Comment not found" });
         }
-        res.status(204).json("Comment has been deleted");
+        res.status(200).json("Comment has been deleted");
     } catch (error) {
         console.error(error);
         res.status(500).json({error: "Error deleting comment"});
