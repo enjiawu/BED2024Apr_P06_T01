@@ -17,7 +17,7 @@ module.exports = function (app) {
     app.use("/communityforum", communityForumRouter);
     app.use("/reports", reportsRouter);
     app.use("/users", usersRouter);
-    app.use("/staffs", staffsRouter); // Correct usage
+    app.use("/staff", staffsRouter); // Correct usage
     app.use("/events", eventsRouter);
     app.use("/messages", messagesRouter);
     app.use("/replies", repliesRouter);
