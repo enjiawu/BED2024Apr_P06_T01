@@ -26,13 +26,15 @@ function verifyJWT(req, res, next) {
             "^/posts/[0-9]+": ["member"], // Members can view their own posts
             "^/events/[0-9]+": ["member"], // Members can view events they hosted
             "^/events$": ["member", "admin", "event"], // Anyone can view events
-            "^/events/[0-9]+/status$": ["event"], // Only 'event' can update status
+            "^/events/[0-9]+/status": ["event"], // Only 'event' can update status
 
             // Community route - Only for logged in users
             // Post routes
             "^/": ["member", "admin", "event"], // Anyone can create a post or comment
             "^/[0-9]+": ["member", "admin", "event"], // Members and admins update and delete a post
 
+            // event routes
+            
             // Like Routes
             "^/[0-9]+/modify-like": ["member", "admin", "event"], // Anyone can like/unlike a post
             "^/comments/[0-9]+/modify-like": ["member", "admin", "event"], // Members can like/unlike a comment
