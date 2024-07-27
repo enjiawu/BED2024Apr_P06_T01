@@ -33,7 +33,7 @@ const calculateCarbonFootprint = async (req, res) => {
         // Update the carbon footprint
         await CarbonFootprint.updateCarbonFootprint(data.carTravel, data.publicTransport, data.flight, data.motorBike, treeEquivalent, totalCarbonFootprint); // Update the carbon footprint in the database
         
-        res.json({'individualCF': individualCF, 'totalCarbonFootprint': totalCarbonFootprint, 'treeEquivalent': treeEquivalent, 'grade': grade, 'tips': randomTips, 'stats': stats}); // Return the results
+        res.status(200).json({'individualCF': individualCF, 'totalCarbonFootprint': totalCarbonFootprint, 'treeEquivalent': treeEquivalent, 'grade': grade, 'tips': randomTips, 'stats': stats}); // Return the results
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error calculating carbon footprint' });
@@ -44,7 +44,7 @@ const calculateCarbonFootprint = async (req, res) => {
 const getCarbonFootprintPossibleActions = async (req, res) => { 
     try {
         const actions = await CarbonFootprint.getCarbonFootprintPossibleActions(); // Get the possible actions
-        res.json(actions); // Return the actions
+        res.status(200).json(actions); // Return the actions
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error retrieving possible actions' });
@@ -59,7 +59,7 @@ const getCarbonFootprintPossibleActionsById = async (req, res) => {
         if (!action) { // If the action is not found
             return res.status(404).json({ error: 'Action not found' });
         }
-        res.json(action); // Return the action
+        res.status(200).json(action); // Return the action
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error retrieving action' });
@@ -80,10 +80,13 @@ const createCarbonFootprintPossibleAction = async (req, res) => {
 
 const updateCarbonFootprintPossibleAction = async (req, res) => {
     const id = req.params.id;
-    const action = req.body;
+    const actionInput = req.body;
     try {
-        await CarbonFootprint.updateCarbonFootprintPossibleAction(id, action);
-        res.json(action);
+        const action = await CarbonFootprint.updateCarbonFootprintPossibleAction(id, actionInput);
+        if (!action) {
+            return res.status(404).json({ error: 'Action not found' });
+        }
+        res.status(200).json(action);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error updating action' });
@@ -93,8 +96,11 @@ const updateCarbonFootprintPossibleAction = async (req, res) => {
 const deleteCarbonFootprintPossibleAction = async (req, res) => {
     const id = req.params.id;
     try {
-        await CarbonFootprint.deleteCarbonFootprintPossibleAction(id);
-        res.json({ message: 'Action deleted' });
+        const success = await CarbonFootprint.deleteCarbonFootprintPossibleAction(id);
+        if (!success) {
+            return res.status(404).json({ error: 'Action not found' });
+        }
+        res.status(204).json({ message: 'Action deleted' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error deleting action' });

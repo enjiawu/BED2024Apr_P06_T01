@@ -172,7 +172,7 @@ describe("topicsController", () => {
 
       await topicsController.createTopic(req, res);
 
-      expect(res.status).toHaveBeenCalledWith(409);
+      expect(res.status).toHaveBeenCalledWith(404);
       expect(res.json).toHaveBeenCalledWith({ error: "Topic already exists" });
     });
 

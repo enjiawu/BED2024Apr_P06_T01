@@ -43,7 +43,7 @@ const createTopic = async (req, res) => {
     try { 
         const topicExists = await Topic.checkIfTopicExists(topic); // Check if topic already exists
         if (topicExists) {
-            return res.status(409).json({ error: "Topic already exists" });
+            return res.status(404).json({ error: "Topic already exists" });
         }
         await Topic.createTopic(topic);
         res.status(201).json(topic);
@@ -74,7 +74,7 @@ const deleteTopic = async (req, res) => {
         if (!success) {
             return res.status(404).json({ error: "Topic not found" });
         }
-        res.status(200).json({message: "Topic deleted"});
+        res.status(204).json({message: "Topic deleted"});
     } catch (error) {
         console.error('Error in deleteTopic:', error);
         res.status(500).json({error: "Error deleting topic"});

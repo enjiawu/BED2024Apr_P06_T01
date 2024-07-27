@@ -86,8 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!response.ok) {
                 throw new Error('Login failed');
             }
-
+            
             const userData = await response.json();
+            console.log(userData);
             localStorage.setItem('token', userData.token);
             localStorage.setItem('userData', JSON.stringify(userData));
             console.log('Login successful:', userData);
