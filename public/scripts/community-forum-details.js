@@ -1094,5 +1094,5 @@ document.addEventListener('DOMContentLoaded', async () => {
         await fetchPostDetails(postId);
     } else {
         alert('Post not found.');
-    }
+    }    
 });

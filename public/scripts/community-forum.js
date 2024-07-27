@@ -202,6 +202,12 @@ async function formatPost(post, postList){
     postEllipsisIcon.classList.add("fa", "fa-ellipsis-v");
     postEllipsis.appendChild(postEllipsisIcon);
 
+    // Create the dropdown menu
+    const dropdownMenu = document.createElement("div");
+    dropdownMenu.classList.add("dropdown-menu", "show");
+    dropdownMenu.style.display = "none";
+    postOptions.appendChild(dropdownMenu); // Assuming `postOptions` is a valid element to append `dropdownMenu`
+
     if (!staffId){
         // Create the report option
         const reportOption = document.createElement("a");
@@ -318,12 +324,6 @@ async function formatPost(post, postList){
 
         dropdownMenu.appendChild(reportOption);
     }
-
-    // Create the dropdown menu
-    const dropdownMenu = document.createElement("div");
-    dropdownMenu.classList.add("dropdown-menu", "show");
-    dropdownMenu.style.display = "none";
-    postOptions.appendChild(dropdownMenu); // Assuming `postOptions` is a valid element to append `dropdownMenu`
 
     // Event listener for post ellipsis
     let postEllipsisVisible = false;

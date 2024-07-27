@@ -34,6 +34,7 @@ main{
     word-wrap: break-word;
     white-space: pre-wrap;
     width: auto;
+    max-width: 600px;
 }
 
 h3{
