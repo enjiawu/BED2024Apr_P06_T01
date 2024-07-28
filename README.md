@@ -49,28 +49,28 @@ Rethink is a web platform designed to foster community engagement and promote su
   + Implemented UI to allow users to view community forum posts
 
 **API Endpoints**:
->   + **GET /communityforum** - Retrieve all posts from the community forum.
->   + **GET /communityforum/:id**: Retrieve a specific post by its ID.
->   + **POST /communityforum**: Create a new post with provided data.
->   + **PUT /communityforum/:id**: Update an existing post identified by its ID.
->   + **DELETE /communityforum/:id**: Delete a post based on its ID.
->   + **GET /communityforum/search**: Search posts by a specific term.
->   + **GET /communityforum/posts-by-topic/:id**: Retrieve posts filtered by a specific topic ID.
->   + **GET /communityforum/likes-count**: Get the total count of likes across all posts.
->   + **GET /communityforum/sort-by-likes-desc**: Retrieve posts sorted in descending order by likes.
->   + **GET /communityforum/sort-by-likes-asc**: Retrieve posts sorted in ascending order by likes.
->   + **GET /communityforum/sort-by-newest**: Retrieve posts sorted from newest to oldest.
->   + **GET /communityforum/sort-by-oldest**: Retrieve posts sorted from oldest to newest.
+	+ **GET /communityforum** - Retrieve all posts from the community forum.
+	+ **GET /communityforum/:id**: Retrieve a specific post by its ID.
+	+ **POST /communityforum**: Create a new post with provided data.
+	+ **PUT /communityforum/:id**: Update an existing post identified by its ID.
+	+ **DELETE /communityforum/:id**: Delete a post based on its ID.
+	+ **GET /communityforum/search**: Search posts by a specific term.
+	+ **GET /communityforum/posts-by-topic/:id**: Retrieve posts filtered by a specific topic ID.
+	+ **GET /communityforum/likes-count**: Get the total count of likes across all posts.
+	+ **GET /communityforum/sort-by-likes-desc**: Retrieve posts sorted in descending order by likes.
+	+ **GET /communityforum/sort-by-likes-asc**: Retrieve posts sorted in ascending order by likes.
+	+ **GET /communityforum/sort-by-newest**: Retrieve posts sorted from newest to oldest.
+	+ **GET /communityforum/sort-by-oldest**: Retrieve posts sorted from oldest to newest.
 
 
 * **Community Forum Topic**:
   + Implemented endpoints for managing community forum topics.
   + Implemented UI to allow users to view trending topics
 
-> * **API Endpoints**:
->   + **GET /communityforum/topics**: Retrieve all topics available in the community forum.
->   + **GET /communityforum/topics/:id**: Retrieve a specific topic by its ID.
->   + **GET /communityforum/topic-count**: Get the total count of topics.
+* **API Endpoints**:
+  + **GET /communityforum/topics**: Retrieve all topics available in the community forum.
+  +   + **GET /communityforum/topics/:id**: Retrieve a specific topic by its ID.
+  + **GET /communityforum/topic-count**: Get the total count of topics.
 
 
 ### Team Member 2 - Joseph Wan
@@ -159,46 +159,71 @@ Rethink is a web platform designed to foster community engagement and promote su
    npm start
    
 ## Technologies Used
-1. [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)
-   - This project uses HTML as the markup language.
+1. [@mozilla/readability](https://www.npmjs.com/package/@mozilla/readability)
+   - A library to extract readable content from web pages.
 
-2. [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
-   - This project uses CSS for styling and formatting.
+2. [axios](https://www.npmjs.com/package/axios)
+   - Promise based HTTP client for the browser and node.js.
 
-3. [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-   - This project uses JavaScript to enhance the frontend interactivity.
+3. [bcrypt](https://www.npmjs.com/package/bcrypt)
+   - A library to help hash passwords.
 
-4. [Node.js](https://nodejs.org/)
-   - Node.js is used as the server-side runtime environment.
+4. [bcryptjs](https://www.npmjs.com/package/bcryptjs)
+   - Optimized bcrypt in JavaScript with zero dependencies.
 
-5. [Express.js](https://expressjs.com/)
-   - Express.js is used as the backend framework to build the RESTful API.
+5. [body-parser](https://www.npmjs.com/package/body-parser)
+   - Node.js body parsing middleware.
 
-6. [SQL Server](https://www.microsoft.com/en-us/sql-server/)
-   - Microsoft SQL Server is used as the relational database management system.
+6. [dotenv](https://www.npmjs.com/package/dotenv)
+   - Loads environment variables from a `.env` file into `process.env`.
 
-7. [Figma](https://www.figma.com/)
-   - Figma is used for designing and prototyping the UI/UX of the application.
+7. [env](https://www.npmjs.com/package/env)
+   - A library for managing environment variables.
 
-8. [Postman](https://www.postman.com/)
-   - Postman is used for API development and testing.
-  
-9. [Bootstrap](https://getbootstrap.com/)
-    - Bootstrap is used for frontend styling and responsive design.
+8. [express](https://www.npmjs.com/package/express)
+   - Fast, unopinionated, minimalist web framework for node.
 
-10. [Bcrypt.js](https://www.npmjs.com/package/bcryptjs)
-    - Bcrypt.js is used for hashing passwords before storing them in the database.
+9. [joi](https://www.npmjs.com/package/joi)
+   - Object schema validation.
+
+10. [jsdom](https://www.npmjs.com/package/jsdom)
+    - A JavaScript implementation of various web standards, notably the WHATWG DOM and HTML Standards.
+
+11. [jwt-decode](https://www.npmjs.com/package/jwt-decode)
+    - A small library that decodes JSON Web Tokens (JWTs) without verifying the signature.
+
+12. [mssql](https://www.npmjs.com/package/mssql)
+    - A Microsoft SQL Server client for Node.js.
+
+13. [multer](https://www.npmjs.com/package/multer)
+    - Middleware for handling `multipart/form-data`, which is primarily used for uploading files.
+
+14. [nodemailer](https://www.npmjs.com/package/nodemailer)
+    - Easy as cake email sending from your Node.js applications.
+
+15. [nodemon](https://www.npmjs.com/package/nodemon)
+    - A tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.
+
+16. [path](https://www.npmjs.com/package/path)
+    - A utility module for working with file and directory paths.
+
+17. [stripe](https://www.npmjs.com/package/stripe)
+    - The Stripe Node.js library for integrating Stripe's API.
+
+18. [swagger](https://www.npmjs.com/package/swagger)
+    - A tool for implementing the OpenAPI Specification (formerly known as Swagger Specification).
+
+19. [swagger-autogen](https://www.npmjs.com/package/swagger-autogen)
+    - A library to autogenerate a Swagger documentation.
+
+20. [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express)
+    - Swagger UI for express.js projects.
 
 ## Credits
-### Content
-- The text for the "" Page was referenced from [Title](link)
-  
 ### Media
 - The photos used in this site were obtained from:
   - https://unsplash.com/photos/green-plant-x8ZStukS2PM?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash
   - https://www.freepik.com/free-photo/group-businesspeople-fist-bumping-desk_2555046.htm#query=sustainable%20community&position=42&from_view=keyword&track=ais_user&uuid=a101f4c7-2653-4ee9-a1fb-a44d6165bbbf 
   - https://www.vecteezy.com/photo/7950886-small-plant-growing-in-morning-light-at-garden-concept-earth-day
 
-### Acknowledgement
-- We received inspiration for this project from:
-  - E
+
