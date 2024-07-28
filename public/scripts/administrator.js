@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", async function () {
+    // Check if logged in
     const token = localStorage.getItem("token");
     if (!token) {
         alert("Not authenticated");
@@ -6,6 +7,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
     async function loadPostReports() {
         try {
+            // Fetch all post reports
             const postReportsResponse = await fetch("/reports/posts", {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -20,6 +22,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 document.getElementsByClassName("post-report-card")[0];
             postReportsList.replaceChildren(postReportCardTemplate);
 
+            // Load post report data into cards and load cards
             for (let postReport of postReports) {
                 const postResponse = await fetch(
                     `/communityforum/${postReport.postId}`
@@ -61,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                         const userModal = document.querySelector(".user-modal");
 
                         userModal.querySelector(".profile-picture").src =
-                            user.profilePicture;
+                            "../images/about-us/about-us.jpg";
                         userModal.querySelector(".username").innerText =
                             user.username;
                         userModal.querySelector(".role").innerText = user.role;
@@ -99,7 +102,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                     postReport.dateReported.slice(23);
 
                 const postReporterResponse = await fetch(
-                    `/users/profile/${postReport.userId}`
+                    `/users/profile/${postReport.userId}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
                 );
                 const postReporter = await postReporterResponse.json();
                 newPostReportCard.querySelector(".post-reporter").innerText =
@@ -188,36 +196,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                             const postId =
                                 newPostReportCard.getAttribute("data-post-id");
 
-                            // const commentReportsResponse = await fetch(
-                            //     "/reports/comments",
-                            //     {
-                            //         headers: {
-                            //             Authorization: `Bearer ${token}`,
-                            //         },
-                            //     }
-                            // );
-                            // const commentReports =
-                            //     await commentReportsResponse.json();
-                            // console.log(commentReports);
-                            // for (let report of commentReports) {
-                            //     if ((report.postId = postId)) {
-                            //         const deleteCommentReportResponse =
-                            //             await fetch(
-                            //                 `/reports/comments/${report.reportId}`,
-                            //                 {
-                            //                     method: "DELETE",
-                            //                     headers: {
-                            //                         Authorization: `Bearer ${token}`,
-                            //                     },
-                            //                 }
-                            //             );
-                            //         if (deleteCommentReportResponse.ok) {
-                            //         } else {
-                            //             alert("Failed to remove post");
-                            //             return;
-                            //         }
-                            //     }
-                            // }
                             const postReportsResponse = await fetch(
                                 "/reports/posts",
                                 {
