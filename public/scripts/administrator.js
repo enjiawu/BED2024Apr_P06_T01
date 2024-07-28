@@ -167,6 +167,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                                 newPostReportCard.parentNode.removeChild(
                                     newPostReportCard
                                 );
+                            } else {
+                                alert("Failed to delete post report");
                             }
                         } catch (error) {
                             console.log(error);
@@ -178,12 +180,72 @@ document.addEventListener("DOMContentLoaded", async function () {
                     .querySelector(".remove-button")
                     .addEventListener("click", async function () {
                         try {
-                            const reportId =
-                                newPostReportCard.getAttribute(
-                                    "data-report-id"
-                                );
-                            const deletePostReportResponse = await fetch(
-                                `/reports/posts/${reportId}`,
+                            const postId =
+                                newPostReportCard.getAttribute("data-post-id");
+
+                            const commentReportsResponse = await fetch(
+                                "/reports/comments",
+                                {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`,
+                                    },
+                                }
+                            );
+                            const commentReports =
+                                await commentReportsResponse.json();
+                            console.log(commentReports);
+                            for (let report of commentReports) {
+                                if ((report.postId = postId)) {
+                                    const deleteCommentReportResponse =
+                                        await fetch(
+                                            `/reports/comments/${report.reportId}`,
+                                            {
+                                                method: "DELETE",
+                                                headers: {
+                                                    Authorization: `Bearer ${token}`,
+                                                },
+                                            }
+                                        );
+                                    if (deleteCommentReportResponse.ok) {
+                                    } else {
+                                        alert("Failed to remove post");
+                                        return;
+                                    }
+                                }
+                            }
+                            const postReportsResponse = await fetch(
+                                "/reports/posts",
+                                {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`,
+                                    },
+                                }
+                            );
+                            const postReports =
+                                await postReportsResponse.json();
+
+                            for (let report of postReports) {
+                                if (report.postId === postId) {
+                                    const deletePostReportResponse =
+                                        await fetch(
+                                            `/reports/posts/${report.reportId}`,
+                                            {
+                                                method: "DELETE",
+                                                headers: {
+                                                    Authorization: `Bearer ${token}`,
+                                                },
+                                            }
+                                        );
+                                    if (deletePostReportResponse.ok) {
+                                    } else {
+                                        alert("Failed to remove post");
+                                        return;
+                                    }
+                                }
+                            }
+
+                            const deletePostResponse = await fetch(
+                                `/communityforum/${postId}`,
                                 {
                                     method: "DELETE",
                                     headers: {
@@ -191,21 +253,22 @@ document.addEventListener("DOMContentLoaded", async function () {
                                     },
                                 }
                             );
-                            if (deletePostReportResponse.ok) {
-                                const postId =
-                                    newPostReportCard.getAttribute(
-                                        "data-post-id"
-                                    );
-                                const deletePostResponse = await fetch(
-                                    `/communityforum/${postId}`,
-                                    {
-                                        method: "DELETE",
-                                        headers: {
-                                            Authorization: `Bearer ${token}`,
-                                        },
-                                    }
+
+                            if (deletePostResponse.ok) {
+                                // newPostReportCard.parentNode.removeChild(
+                                //     newPostReportCard
+                                // );
+                                newPostReportCard.parentNode.removeChild(
+                                    newPostReportCard
                                 );
+                            } else {
+                                alert("Failed to remove post");
                             }
+
+                            const reportId =
+                                newPostReportCard.getAttribute(
+                                    "data-report-id"
+                                );
                         } catch (error) {
                             console.log(error);
                             alert("Failed to remove post");
@@ -391,6 +454,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                                 newCommentReportCard.parentNode.removeChild(
                                     newCommentReportCard
                                 );
+                            } else {
+                                alert("Failed to delete comment report");
                             }
                         } catch (error) {
                             console.log(error);
@@ -405,8 +470,44 @@ document.addEventListener("DOMContentLoaded", async function () {
                                 newCommentReportCard.getAttribute(
                                     "data-report-id"
                                 );
-                            const deleteCommentReportResponse = await fetch(
-                                `/reports/comments/${reportId}`,
+                            const commentId =
+                                newCommentReportCard.getAttribute(
+                                    "data-comment-id"
+                                );
+                            const commentReportsResponse = await fetch(
+                                "/reports/comments",
+                                {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`,
+                                    },
+                                }
+                            );
+                            const commentReports =
+                                await commentReportsResponse.json();
+
+                            for (let report of commentReports) {
+                                if ((report.commentId = commentId)) {
+                                    const deleteCommentReportResponse =
+                                        await fetch(
+                                            `/reports/comments/${report.reportId}`,
+                                            {
+                                                method: "DELETE",
+                                                headers: {
+                                                    Authorization: `Bearer ${token}`,
+                                                },
+                                            }
+                                        );
+                                    if (deleteCommentReportResponse.ok) {
+                                        // newCommentReportCard.parentNode.removeChild(
+                                        // newCommentReportCard
+                                        // );
+                                    } else {
+                                        alert("Failed to delete comment");
+                                    }
+                                }
+                            }
+                            const deleteCommentResponse = await fetch(
+                                `/communityforum/comments/${commentId}`,
                                 {
                                     method: "DELETE",
                                     headers: {
@@ -414,20 +515,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                                     },
                                 }
                             );
-                            if (deleteCommentReportResponse.ok) {
-                                const commentId =
-                                    newCommentReportCard.getAttribute(
-                                        "data-comment-id"
-                                    );
-                                const deleteCommentResponse = await fetch(
-                                    `/communityforum/comments/${commentId}`,
-                                    {
-                                        method: "DELETE",
-                                        headers: {
-                                            Authorization: `Bearer ${token}`,
-                                        },
-                                    }
-                                );
+                            if (deleteCommentResponse.ok) {
+                            } else {
+                                alert("Failed to delete comment");
                             }
                         } catch (error) {
                             console.log(error);
