@@ -17,8 +17,6 @@ function verifyJWT(req, res, next) {
 
         // Define authorized roles for different endpoints
         const authorizedRoles = {
-            "/allmember": ["member"], // Root endpoint for testing
-            "/alladmin": ["admin"], // Root endpoint for testing
 
             // member
             //"^/profile/[0-9]+": ["member"], // Members can access their own profile
@@ -27,6 +25,7 @@ function verifyJWT(req, res, next) {
             "^/events/[0-9]+": ["member"], // Members can view events they hosted
             "^/events$": ["member", "admin", "event"], // Anyone can view events
             "^/events/[0-9]+/status": ["event"], // Only 'event' can update status
+
 
             // Community route - Only for logged in users
             // Post routes
