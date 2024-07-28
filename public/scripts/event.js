@@ -1,4 +1,5 @@
 let userId = null; // Initialize the user ID
+let username = null;
 let token = localStorage.getItem('token'); // Get the token from local storage
 
 // Function to get the user data from the token
@@ -10,7 +11,7 @@ function getUserDataFromToken() {
     }
 
     userId = JSON.parse(localStorage.getItem("userData")).user.userId;
-
+    username = JSON.parse(localStorage.getItem("userData")).user.username;
     return true;
 }
 

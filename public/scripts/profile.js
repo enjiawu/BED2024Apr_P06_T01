@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Retrieve elements for member profile
     const profilePicture = document.getElementById('profile-picture');
     const profileUsername = document.getElementById('profile-username');
+    const profileBio = document.getElementById('profile-bio');
     const profileUsernameDuplicate = document.getElementById('profile-username-duplicate');
     const profileEmail = document.getElementById('profile-email');
     const profileEmailDuplicate = document.getElementById('profile-email-duplicate');
@@ -121,3 +122,4 @@ function showProfileBasedOnRole(role) {
             console.error('Unknown role:', role);
     }
 }
+

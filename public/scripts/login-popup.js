@@ -1,29 +1,34 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const wrapper = document.querySelector(".wrapper");
-    const loginLinks = document.querySelectorAll(".login-link");
-    const staffLoginLink = document.querySelector(".staff-login-link");
-    const registerLink = document.querySelector(".register-link");
-    const popupBtn = document.querySelector(".login-btn-pop");
-    const iconClose = document.querySelector(".icon-close");
-    const userDropdown = document.getElementById("user-dropdown");
-    const profilePicture = document.querySelector(".profile-pic img");
-    const logoutButton = document.getElementById("logout-button");
-    const loginForm = document.querySelector(".form-box.login");
-    const staffLoginForm = document.querySelector(".form-box.staff-login");
-    const registerForm = document.querySelector(".form-box.register");
+    const wrapper = document.querySelector('.wrapper');
+    const loginLinks = document.querySelectorAll('.login-link');
+    const staffLoginLink = document.querySelector('.staff-login-link');
+    const registerLink = document.querySelector('.register-link');
+    const popupBtn = document.querySelector('.login-btn-pop');
+    const iconClose = document.querySelector('.icon-close');
+    const userDropdown = document.getElementById('user-dropdown');
+    const profilePicture = document.querySelector('.profile-pic img');
+    const logoutButton = document.getElementById('logout-button');
+    const settingButton = document.getElementById('setting-button');
+
+    const loginForm = document.querySelector('.form-box.login');
+    const staffLoginForm = document.querySelector('.form-box.staff-login');
+    const registerForm = document.querySelector('.form-box.register');
+
     function hideAllForms() {
         loginForm.classList.remove("active");
         staffLoginForm.classList.remove("active");
         registerForm.classList.remove("active");
     }
     function updateUIForAuthenticatedUser(userData) {
-        console.log("Updating UI for user:", userData);
-        userDropdown.style.display = "block";
-        document.getElementById("login-button-nav").style.display = "none";
+        console.log('Updating UI for user:', userData);
+        userDropdown.style.display = 'block';
+        document.getElementById('login-button-nav').style.display = 'none';
+    
         if (userData.profilePicUrl) {
             profilePicture.src = userData.profilePicUrl;
         }
-        wrapper.classList.remove("pop-active");
+    
+        wrapper.classList.remove('pop-active');
     }
     registerLink.addEventListener("click", (event) => {
         event.preventDefault();

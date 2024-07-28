@@ -12,7 +12,7 @@ const staffsController = require("../controllers/staffsController.js");
 const verifyJWT = require('../middlewares/verifyJWT.js');
 
 // Routes
-router.get("/alladmin", verifyJWT, staffsController.getAllStaffs); 
+router.get("/alladmin", staffsController.getAllStaffs); 
 router.post("/register", staffsController.registerStaff);
 router.post("/login", staffsController.loginStaff);
 

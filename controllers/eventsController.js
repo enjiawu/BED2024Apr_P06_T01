@@ -58,7 +58,7 @@ const updateEvent = async (req, res) => {
     let image;
 
     if (req.file) {
-        image = req.file.filename;
+        image = "../uploads/" + req.file.filename;
     } else {
         // Fetch existing image from the database if no new image is uploaded
         const existingEvent = await Event.getEventById(eventId);
@@ -66,7 +66,7 @@ const updateEvent = async (req, res) => {
     }
 
     const updatedEvent = {
-        image: "../uploads/" + req.file.filename,
+        image,
         title,
         description,
         startDate,
