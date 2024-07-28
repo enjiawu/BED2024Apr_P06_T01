@@ -447,9 +447,10 @@ async function fetchForumStats() {
     const topicStats = document.getElementById("topics-stats");
     const likesStats = document.getElementById("likes-stats");
 
-    postStats.innerText = postCountData.postCount;
-    topicStats.innerText = topicCountData.topicCount;
-    likesStats.innerText = likesCountData.totalLikes;
+    postStats.innerText = postCountData.postCount ?? 0;
+    topicStats.innerText = topicCountData.topicCount ?? 0;
+    likesStats.innerText = likesCountData.totalLikes ?? 0;
+    
 }
 
 // Function to search for posts
