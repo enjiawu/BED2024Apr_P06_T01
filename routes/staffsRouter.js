@@ -10,10 +10,11 @@ const staffsController = require("../controllers/staffsController.js");
 
 // Middleware
 const verifyJWT = require('../middlewares/verifyJWT.js');
+const {validateRegisterStaff, validateLoginStaff} = require('../middlewares/validateStaff.js');
 
 // Routes
 router.get("/alladmin", staffsController.getAllStaffs); 
-router.post("/register", staffsController.registerStaff);
-router.post("/login", staffsController.loginStaff);
+router.post("/register", validateRegisterStaff, staffsController.registerStaff);
+router.post("/login", validateLoginStaff, staffsController.loginStaff);
 
 module.exports = router; // Export the router

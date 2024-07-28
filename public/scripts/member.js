@@ -1,3 +1,5 @@
+const token = localStorage.getItem('token'); // Retrieve token from localStorage
+
 document.addEventListener('DOMContentLoaded', function () {
     // Retrieve user data from localStorage
     const userData = JSON.parse(localStorage.getItem('userData'));
@@ -165,11 +167,13 @@ function confirmQuitEvent(eventId) {
 async function quitEvent(eventId) {
     const userId = JSON.parse(localStorage.getItem('userData')).user.userId; // Retrieve userId from localStorage
 
+
     try {
-        const response = await fetch(`/events/${eventId}/modifyparticipation`, {
+        const response = await fetch(`/events/${eventId}/modify-participation`, {
             method: 'PUT', // Adjust according to your API requirements
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({ userId: userId })
         });
@@ -318,6 +322,7 @@ function closeAllDropdowns() {
 // Function to delete a post
 async function deletePost(postId) {
     const token = localStorage.getItem('token'); // Retrieve token
+    console.log(postId, token); // Debugging
 
     try {
         const response = await fetch(`/communityforum/${postId}`, {
@@ -328,14 +333,17 @@ async function deletePost(postId) {
             }
         });
 
-        if (response.ok) {
+        const success = await response.json();
+        if (success) {
             alert("Post successfully deleted!");
             const postElement = document.querySelector(`#post-${postId}`);
             if (postElement) postElement.remove(); // Remove the post element from the DOM
+            window.location.reload();
         } else {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Failed to delete post.');
+            console.error(success.error);
+            throw new Error("Failed to delete post.");
         }
+
     } catch (error) {
         console.error('Error deleting post:', error);
         alert("Failed to delete post.");
