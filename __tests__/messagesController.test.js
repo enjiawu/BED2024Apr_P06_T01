@@ -25,7 +25,7 @@ describe("messagesController.getAllMessages", () => {
                 lastName: "Doe",
                 email: "jane@mail.com",
                 phoneNumber: "87654321",
-                message: "General Kenobi!",
+                message: "Hello!",
                 status: "unanswered",
             },
         ];
