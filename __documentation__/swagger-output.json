@@ -1524,7 +1524,9 @@
     },
     "/staff/alladmin": {
       "get": {
-        "description": "",
+        "description": "Retrieve all staff members with the 'admin' role. Requires authorization token.",
+        "summary": "Get all admin staff members",
+        "tags": ["Staff"],
         "parameters": [
           {
             "name": "authorization",
@@ -1550,7 +1552,9 @@
     },
     "/staff/register": {
       "post": {
-        "description": "",
+        "description": "Register a new staff member. Requires staff name, email, password, and role.",
+        "summary": "Register a new staff member",
+        "tags": ["Staff"],
         "parameters": [
           {
             "name": "body",
@@ -1589,7 +1593,9 @@
     },
     "/staff/login": {
       "post": {
-        "description": "",
+        "description": "Login a staff member. Requires email and password.",
+        "summary": "Login a staff member",
+        "tags": ["Staff"],
         "parameters": [
           {
             "name": "body",
@@ -1623,6 +1629,8 @@
         }
       }
     },
+    
+
     "/events/": {
       "get": {
         "tags": ["Community Events"],
