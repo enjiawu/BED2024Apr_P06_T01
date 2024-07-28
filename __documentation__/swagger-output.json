@@ -32,7 +32,7 @@
       "description": "Endpoints for managing topics in the community forum, including creating, retrieving, and deleting forum topics."
     },
     {
-      "name": "Commnity Events",
+      "name": "Community Events",
       "description": "Endpoints for managing community events, including creating, updating, retrieving, and deleting event information."
     },
     {
@@ -1625,7 +1625,9 @@
     },
     "/events/": {
       "get": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Retrieve all events for Events Page",
+        "summary": "Retrieve all events for Events Page",
         "responses": {
           "200": {
             "description": "OK"
@@ -1636,8 +1638,15 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Create new event",
+        "summary": "User hosts an event",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
@@ -1672,6 +1681,11 @@
             }
           }
         ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"
@@ -1687,7 +1701,9 @@
     },
     "/events/listed": {
       "get": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Retrieve all events that are either 'Open', 'Closed', or 'Cancelled'",
+        "summary": "Retrieve events that are already approved by the Event Manager",
         "responses": {
           "200": {
             "description": "OK"
@@ -1700,7 +1716,9 @@
     },
     "/events/pending": {
       "get": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Retrieve all events that are pending for approval",
+        "summary": "Retrieve all events that are to be approved by the Event Manager",
         "responses": {
           "200": {
             "description": "OK"
@@ -1713,7 +1731,9 @@
     },
     "/events/denied": {
       "get": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Retrieved all events that have been denied",
+        "summary": "Retrieve all events denied by Event Managers",
         "responses": {
           "200": {
             "description": "OK"
@@ -1726,7 +1746,9 @@
     },
     "/events/count": {
       "get": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Get the event count",
+        "summary": "Get the number of events hosted by users from the database.",
         "responses": {
           "200": {
             "description": "OK"
@@ -1739,7 +1761,9 @@
     },
     "/events/search": {
       "get": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Search for events within a certain search term",
+        "summary": "Allow users to search for specific events they would like to look for",
         "parameters": [
           {
             "name": "searchTerm",
@@ -1759,7 +1783,9 @@
     },
     "/events/status/{status}": {
       "get": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Retrieve events based on its status",
+        "summary": "Retrieve events filtered by status",
         "parameters": [
           {
             "name": "status",
@@ -1783,7 +1809,9 @@
     },
     "/events/{id}": {
       "get": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Retrieve a specific event by its ID",
+        "summary": "Retrieve a specific event by its ID",
         "parameters": [
           {
             "name": "id",
@@ -1805,12 +1833,19 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Update a specific event based on its ID",
+        "summary": "Allow users to update their own event based on its ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
             "type": "string"
           },
           {
@@ -1841,6 +1876,11 @@
             }
           }
         ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -1854,13 +1894,25 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Delete a specific event by its ID",
+        "summary": "Allow users who have hosted their event to delete theirs.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -1878,7 +1930,9 @@
     },
     "/events/{userId}/participated": {
       "get": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Retrieve all events participated by a specific user ID",
+        "summary": "Retrieve all events participated by a particular user",
         "parameters": [
           {
             "name": "userId",
@@ -1899,7 +1953,9 @@
     },
     "/events/{userId}/events-hosted": {
       "get": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Retrieve all events hosted by a specific user ID",
+        "summary": "Retrieve all events hosted by a particular user",
         "parameters": [
           {
             "name": "userId",
@@ -1920,7 +1976,9 @@
     },
     "/events/{eventId}/get-like-by-user/{userId}": {
       "get": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Retrieve a like from a specific ID based on what event they liked from its event ID",
+        "summary": "Get like from a user from which events they liked",
         "parameters": [
           {
             "name": "eventId",
@@ -1947,7 +2005,8 @@
     },
     "/events/{eventId}/get-event-participation/{userId}": {
       "get": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Retrieve event participate from a specific user ID based on a specific event ID",
         "parameters": [
           {
             "name": "eventId",
@@ -1974,7 +2033,9 @@
     },
     "/events/approve/{id}": {
       "put": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Approve an event based on a specific event ID",
+        "summary": "The event manager uses this route to approve a pending event.",
         "parameters": [
           {
             "name": "id",
@@ -1998,7 +2059,9 @@
     },
     "/events/deny/{id}": {
       "put": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Denies an event based on a specific event ID",
+        "summary": "The event manager uses this route to deny a pending event.",
         "parameters": [
           {
             "name": "id",
@@ -2020,14 +2083,21 @@
         }
       }
     },
-    "/events/{id}/modifylike": {
+    "/events/{id}/modify-like": {
       "put": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Modifies like based on a specific event ID",
+        "summary": "This route essentially modifies the like counter on a specific event.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
             "type": "string"
           },
           {
@@ -2041,6 +2111,11 @@
                 }
               }
             }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -2059,14 +2134,21 @@
         }
       }
     },
-    "/events/{id}/modifyparticipation": {
+    "/events/{id}/modify-participation": {
       "put": {
-        "description": "",
+        "tags": ["Community Events"],
+        "description": "Modifies participation based on a specific event ID",
+        "summary": "This route is used to modify the participation button on the participate event page.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
             "type": "string"
           },
           {
@@ -2080,6 +2162,11 @@
                 }
               }
             }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -2956,6 +3043,102 @@
 
       },
       "required": ["sortBy"]
+    },
+    "Event": {
+      "type": "object",
+      "properties": {
+        "eventId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 255
+        },
+        "description": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "datePosted": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "location": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "startTime": {
+          "type": "string",
+          "format": "time"
+        },
+        "status": {
+          "type": "string"
+        },
+        "likes": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string"
+        },
+        "staffId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "staffName": {
+          "type": "string"
+        }
+      },
+      "required": ["eventId", "title", "description", "image", "datePosted", "location", "startDate", "startTime", "status", "likes", "userId", "username", "staffId", "staffName"
+      ]
+    },
+    "Payment": {
+      "type": "object",
+      "properties": {
+        "donationId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "amount": {
+          "type": "number",
+          "format": "float"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "customerId": {
+          "type": "string"
+        },
+        "organization": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "email": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }        
+      }
     }
   }
 }
