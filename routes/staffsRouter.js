@@ -9,7 +9,6 @@ const router = express.Router();
 const staffsController = require("../controllers/staffsController.js");
 
 // Middleware
-const verifyJWT = require('../middlewares/verifyJWT.js');
 const {validateRegisterStaff, validateLoginStaff} = require('../middlewares/validateStaff.js');
 
 // Routes

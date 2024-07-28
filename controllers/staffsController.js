@@ -13,24 +13,24 @@ const getAllStaffs = async (req, res) => {
 };
 
 const getStaffByName = async (req, res) => {
-    try{
+    try {
         const staff = await Staff.getStaffByName(req.params.staffName);
         res.json(staff);
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).send("Cannot retrieve staff");
     }
 };
 
 const getStaffByEmail = async (req, res) => {
-    try{
-        const staff = await Staff.gettaffByEmail(req.params.email);
+    try {
+        const staff = await Staff.getStaffByEmail(req.params.email);
         res.json(staff);
     } catch (error) {
-        console.log(error);
-        res.status(500).send("Cannot retrieve staff email")
+        console.error(error);
+        res.status(500).send("Cannot retrieve staff email");
     }
-}
+};
 
 const updateStaff = async (req, res) => {
     try {
@@ -42,7 +42,7 @@ const updateStaff = async (req, res) => {
         );
         res.json(staff);
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).send("Cannot update staff.");
     }
 };
@@ -51,7 +51,7 @@ async function registerStaff(req, res) {
     const { staffName, email, password, role } = req.body;
     try {
         // Check if email already exists
-        const existingEmail = await Staff.gettaffByEmail(email);
+        const existingEmail = await Staff.getStaffByEmail(email);
         if (existingEmail) {
             return res.status(400).json({ message: "Email already exists" });
         }
@@ -72,28 +72,18 @@ async function registerStaff(req, res) {
 async function loginStaff(req, res) {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-        return res.status(400).json({ message: "Email and password are required" });
-    }
-
     try {
         // Retrieve staff by email
-        const staff = await Staff.gettaffByEmail(email);
+        const staff = await Staff.getStaffByEmail(email);
 
         if (!staff) {
-            console.log("Staff not found:", email);
             return res.status(401).json({ message: "Invalid email or password" });
         }
 
-        // Log retrieved staff for debugging
-        console.log("Retrieved staff:", staff);
-
         // Compare password with hash
-        // Ensure you use the correct field name, which is `password` here, not `passwordHash`
         const isMatch = await bcrypt.compare(password, staff.password);
 
         if (!isMatch) {
-            console.log("Password mismatch for email:", email);
             return res.status(401).json({ message: "Invalid email or password" });
         }
 
@@ -103,16 +93,15 @@ async function loginStaff(req, res) {
             role: staff.role,
         };
         const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
-            expiresIn: "3600s",
+            expiresIn: "1h",
         });
 
-        return res.status(200).json({ token , staff});
+        return res.status(200).json({ token, staff });
     } catch (error) {
         console.error("Login error:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 }
-
 
 module.exports = {
     getAllStaffs,
