@@ -19,7 +19,7 @@ function verifyJWT(req, res, next) {
         const authorizedRoles = {
 
             // member
-            //"^/profile/[0-9]+": ["member"], // Members can access their own profile
+            "^/profile/[0-9]+": ["member", "admin", "event"], // Members can access their own profile
             "^/profile/[0-9]+/edit": ["member"], // Member can edit their own profile
             "^/posts/[0-9]+": ["member"], // Members can view their own posts
             "^/events/[0-9]+": ["member"], // Members can view events they hosted
@@ -74,7 +74,6 @@ function verifyJWT(req, res, next) {
             // Carbon footprint calclator routes
             "^/possibleActions": ["admin", "event"], // Only admin or event manager can create a possible action
             "^/possibleActions/[0-9]+": ["admin", "event"], // Only admin or event manager can update or delete a possible action
-
         };
 
         const requestedEndpoint = req.url;
