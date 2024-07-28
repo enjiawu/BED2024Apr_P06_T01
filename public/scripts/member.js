@@ -1,3 +1,5 @@
+const token = localStorage.getItem('token'); // Retrieve token from localStorage
+
 document.addEventListener('DOMContentLoaded', function () {
     // Retrieve user data from localStorage
     const userData = JSON.parse(localStorage.getItem('userData'));
@@ -165,11 +167,13 @@ function confirmQuitEvent(eventId) {
 async function quitEvent(eventId) {
     const userId = JSON.parse(localStorage.getItem('userData')).user.userId; // Retrieve userId from localStorage
 
+
     try {
-        const response = await fetch(`/events/${eventId}/modifyparticipation`, {
+        const response = await fetch(`/events/${eventId}/modify-participation`, {
             method: 'PUT', // Adjust according to your API requirements
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({ userId: userId })
         });
