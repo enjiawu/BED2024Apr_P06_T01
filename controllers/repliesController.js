@@ -21,15 +21,17 @@ const addReply = async (req, res) => {
 
     try {
         var transporter = nodemailer.createTransport({
-            host: "smtp.office365.com",
+            host: "smtp.office365.com", // outlook
             port: 587,
             secure: false,
             auth: {
+                // sender email authentication
                 user: process.env.RETHINK_REPLY_EMAIL,
                 pass: process.env.RETHINK_REPLY_EMAIL_APP_PASS,
             },
         });
 
+        // creating the email
         var mailOptions = {
             from: process.env.RETHINK_REPLY_EMAIL,
             to: newReply.senderEmail,
@@ -42,6 +44,7 @@ const addReply = async (req, res) => {
                 newReply.replyDescription,
         };
 
+        // sending the email
         const email = await transporter.sendMail(mailOptions);
 
         const addedReply = await Reply.addReply(newReply);
