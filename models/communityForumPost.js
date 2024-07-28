@@ -176,12 +176,36 @@ class CommunityForumPost {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = `
-        DELETE FROM CommentLikes WHERE commentId IN (SELECT commentId FROM Comments WHERE postId = @postId); 
-        DELETE FROM CommentReports WHERE postId = @postId; 
-        DELETE FROM Comments WHERE postId = @postId; 
-        DELETE FROM PostLikes WHERE postId = @postId
-        DELETE FROM PostReports WHERE postId = @postId
-        DELETE FROM CommunityPosts WHERE postId = @postId`; // Delete post from comments, post reports and community posts
+
+        -- Delete likes and reports for child comments first
+        DELETE FROM CommentLikes WHERE commentId IN (
+            SELECT commentId FROM Comments WHERE postId = @postId AND parentCommentId IS NOT NULL
+        );
+        DELETE FROM CommentReports WHERE commentId IN (
+            SELECT commentId FROM Comments WHERE postId = @postId AND parentCommentId IS NOT NULL
+        );
+
+        -- Delete child comments
+        DELETE FROM Comments WHERE postId = @postId AND parentCommentId IS NOT NULL;
+
+        -- Delete likes and reports for parent comments
+        DELETE FROM CommentLikes WHERE commentId IN (
+            SELECT commentId FROM Comments WHERE postId = @postId AND parentCommentId IS NULL
+        );
+        DELETE FROM CommentReports WHERE commentId IN (
+            SELECT commentId FROM Comments WHERE postId = @postId AND parentCommentId IS NULL
+        );
+
+        -- Delete parent comments
+        DELETE FROM Comments WHERE postId = @postId AND parentCommentId IS NULL;
+
+        -- Delete post likes and reports
+        DELETE FROM PostLikes WHERE postId = @postId;
+        DELETE FROM PostReports WHERE postId = @postId;
+
+        -- Delete the post itself
+        DELETE FROM CommunityPosts WHERE postId = @postId;
+        `; // Delete post from comments, post reports and community posts
 
         const request = connection.request();
         request.input("postId", postId);
@@ -549,7 +573,7 @@ class CommunityForumPost {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = `
-        UPDATE CommunityPosts SET comments -=1 where postId = (SELECT postId FROM comments where commentId = @commentId);
+        UPDATE CommunityPosts SET comments -= ((SELECT COUNT(*) FROM Comments WHERE parentCommentId = @commentId) + 1) where postId = (SELECT postId FROM comments where commentId = @commentId);
 
         DELETE FROM CommentLikes WHERE commentId = @commentId; 
         DELETE FROM CommentReports WHERE commentId = @commentId;
@@ -564,6 +588,7 @@ class CommunityForumPost {
         console.log(result);
 
         connection.close();
+
 
         return result.rowsAffected[5] > 0; // Check that comment has been deleted
     }
