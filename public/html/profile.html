@@ -35,17 +35,17 @@
             rel="stylesheet"
         />
         <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
-        integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+            integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
         />
-        
+
         <link rel="stylesheet" href="../styles/style.css" />
-        <link rel="stylesheet" href="../styles/administrator.css" />
         <link rel="stylesheet" href="../styles/nav.css" />
         <link rel="stylesheet" href="../styles/profile.css" />
+        <link rel="stylesheet" href="../styles/administrator.css" />
     </head>
     <body>
         <header>
@@ -336,15 +336,14 @@
             </div>
         </div>
 
-        <main style = "margin-bottom: 50px"> 
+        <main style="margin-bottom: 50px">
             <!-- Confirmation Container -->
-            <div id="deleteConfirmationContainer" style="display: none;">
+            <div id="deleteConfirmationContainer" style="display: none">
                 <p>Are you sure you want to delete this post?</p>
                 <div class="delete-flex">
                     <button id="confirmDeleteButton">Yes, Delete</button>
-                    <button id="cancelDeleteButton">Cancel</button>    
+                    <button id="cancelDeleteButton">Cancel</button>
                 </div>
-                
             </div>
             <section>
                 <div class="container">
@@ -384,7 +383,9 @@
                                     <div class="profile-info">
                                         <div class="info-title">
                                             <h5>Personal Information</h5>
-                                            <button class="btn focus-ring"><a href="setting.html">Edit</a></button>
+                                            <button class="btn focus-ring">
+                                                <a href="setting.html">Edit</a>
+                                            </button>
                                         </div>
                                         <ul>
                                             <li>
@@ -442,7 +443,9 @@
                                     <div>
                                         <div class="info-title">
                                             <h5>Staff Information</h5>
-                                            <button class="btn focus-ring"><a href="setting.html">Edit</a></button>
+                                            <button class="btn focus-ring">
+                                                <a href="setting.html">Edit</a>
+                                            </button>
                                         </div>
                                         <ul>
                                             <li>
@@ -521,7 +524,7 @@
                                     <hr />
                                     <ul class="collapse staff-info">
                                         <button class="btn focus-ring">
-                                            <a href="setting.html">Edit</a>  
+                                            <a href="setting.html">Edit</a>
                                         </button>
                                         <li>
                                             <span><strong>ID</strong></span>
@@ -1352,7 +1355,7 @@
                                                         >
                                                             <input
                                                                 type="text"
-                                                                class="form-control focus-ring"
+                                                                class="form-control focus-ring reply-input"
                                                                 placeholder="Reply"
                                                                 aria-label="Reply and send"
                                                                 aria-describedby="reply-button"
@@ -1367,7 +1370,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                             <!-- <nav
                                                 class="mt-5"
                                                 aria-label="messages navigation"
