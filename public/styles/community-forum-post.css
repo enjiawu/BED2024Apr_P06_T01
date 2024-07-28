@@ -1,3 +1,7 @@
+main{
+    margin-bottom: 50px;
+}
+
 .back-arrow{
     text-decoration: none;
     color: #414833;
@@ -30,6 +34,7 @@
     word-wrap: break-word;
     white-space: pre-wrap;
     width: auto;
+    max-width: 600px;
 }
 
 h3{

@@ -10,7 +10,7 @@ function getUserDataFromToken() {
     }
 
     try{ // Try to get the staff data from the token if it is the staff login
-        staffId = JSON.parse(localStorage.getItem("staffData")).staffId;
+        staffId = JSON.parse(localStorage.getItem("staffData")).staff.staffId;
     }
     catch{
         staffId = null;
@@ -30,6 +30,9 @@ function getUserDataFromToken() {
 async function checkForLoggedIn(){
     if (!await getUserDataFromToken()) {
         alert("You need to be logged in to view this page!");
+    }
+    else if (staffId){
+        alert("Staff members cannot create posts!");
     }
     else{
         window.location.href = "community-forum-post-details.html"; // Redirect to the post details page to create a new post
@@ -107,7 +110,12 @@ async function formatPost(post, postList){
             }
         } catch (error) {
             console.error(error);
-            alert("You need to be logged in to like a post!");
+            if (staffId){
+                alert("Staff members cannot like posts!");
+            }
+            else{
+                alert("You need to be logged in to like a post!");
+            }
         }
     });
 
@@ -194,68 +202,130 @@ async function formatPost(post, postList){
     postEllipsisIcon.classList.add("fa", "fa-ellipsis-v");
     postEllipsis.appendChild(postEllipsisIcon);
 
-   // Create the report option
-    const reportOption = document.createElement("a");
-    reportOption.textContent = "Report";
-    reportOption.classList.add("dropdown-item");
-
-    // Create the report container
-    const reportContainer = document.createElement("div");
-    reportContainer.id = "report-container";
-    reportContainer.className = "dialog-content flex-column";
-    reportContainer.style.display = "none";
-
-    // Create the header
-    const header = document.createElement("div");
-    header.className = "dialog-header";
-    reportContainer.appendChild(header);
-
-    const title = document.createElement("div");
-    title.className = "dialog-title";
-    title.textContent = "Report Post";
-    header.appendChild(title);
-
-    const description = document.createElement("div");
-    description.className = "dialog-description";
-    description.textContent = "Share the reason for reporting this post. We value your feedback and will thoroughly investigate the matter.";
-    header.appendChild(description);
-
-    // Create the textarea for report reason
-    const reportReasonInput = document.createElement("textarea");
-    reportReasonInput.id = "report-reason";
-    reportReasonInput.className = "input";
-    reportReasonInput.rows = 3;
-    reportReasonInput.placeholder = "Enter your report reason...";
-    reportContainer.appendChild(reportReasonInput);
-
-    // Create the footer
-    const footer = document.createElement("div");
-    footer.className = "dialog-footer";
-    reportContainer.appendChild(footer);
-
-    const closeButton = document.createElement("div");
-    closeButton.id = "close-report";
-    closeButton.className = "button-outline";
-    closeButton.textContent = "Cancel";
-    footer.appendChild(closeButton);
-
-    const submitButton = document.createElement("div");
-    submitButton.id = "report-submit";
-    submitButton.className = "button-outline";
-    submitButton.textContent = "Submit Report";
-    footer.appendChild(submitButton);
-
-    // Add the report container to the page
-    postOptions.appendChild(reportContainer);
-
     // Create the dropdown menu
     const dropdownMenu = document.createElement("div");
     dropdownMenu.classList.add("dropdown-menu", "show");
     dropdownMenu.style.display = "none";
     postOptions.appendChild(dropdownMenu); // Assuming `postOptions` is a valid element to append `dropdownMenu`
 
+    if (!staffId){
+        // Create the report option
+        const reportOption = document.createElement("a");
+        reportOption.textContent = "Report";
+        reportOption.classList.add("dropdown-item");
+
+        // Create the report container
+        const reportContainer = document.createElement("div");
+        reportContainer.id = "report-container";
+        reportContainer.className = "dialog-content flex-column";
+        reportContainer.style.display = "none";
+
+        // Create the header
+        const header = document.createElement("div");
+        header.className = "dialog-header";
+        reportContainer.appendChild(header);
+
+        const title = document.createElement("div");
+        title.className = "dialog-title";
+        title.textContent = "Report Post";
+        header.appendChild(title);
+
+        const description = document.createElement("div");
+        description.className = "dialog-description";
+        description.textContent = "Share the reason for reporting this post. We value your feedback and will thoroughly investigate the matter.";
+        header.appendChild(description);
+
+        // Create the textarea for report reason
+        const reportReasonInput = document.createElement("textarea");
+        reportReasonInput.id = "report-reason";
+        reportReasonInput.className = "input";
+        reportReasonInput.rows = 3;
+        reportReasonInput.placeholder = "Enter your report reason...";
+        reportContainer.appendChild(reportReasonInput);
+
+        // Create the footer
+        const footer = document.createElement("div");
+        footer.className = "dialog-footer";
+        reportContainer.appendChild(footer);
+
+        const closeButton = document.createElement("div");
+        closeButton.id = "close-report";
+        closeButton.className = "button-outline";
+        closeButton.textContent = "Cancel";
+        footer.appendChild(closeButton);
+
+        const submitButton = document.createElement("div");
+        submitButton.id = "report-submit";
+        submitButton.className = "button-outline";
+        submitButton.textContent = "Submit Report";
+        footer.appendChild(submitButton);
+
+        // Add the report container to the page
+        postOptions.appendChild(reportContainer);
+
+        let reportOptionVisible = false;
+
+         // Event listener for report option
+        reportOption.addEventListener("click", function() {
+            if (reportOptionVisible) {
+                reportOptionVisible = false;
+                reportContainer.style.display = "none";
+            } else {
+                reportOptionVisible = true;
+                reportContainer.style.display = "flex";
+            }
+        });
+
+        // Add event listener to close button
+        closeButton.addEventListener("click", function() {
+            reportContainer.style.display = "none";
+            reportOptionVisible = false; // Ensure the report option is also hidden
+        });
+
+        // Add event listener to submit button
+        submitButton.addEventListener("click", async function() {
+            const reportReason = document.getElementById("report-reason").value.trim();
+            if (reportReason === "") {
+                alert("Please enter a reason for reporting the post.");
+                return;
+            }
+
+            try {
+                const reportResponse = await fetch(`/communityforum/report-post`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` // Adjust as needed
+                    },
+                    body: JSON.stringify({
+                        postId: post.postId,
+                        userId: userId,
+                        reason: reportReason
+                    })
+                });
+
+                const reportData = await reportResponse.json();
+
+                if (!reportData.error) {
+                    alert("Post has been reported! Our staff will review it shortly.");
+                    reportContainer.style.display = "none";
+                    reportOptionVisible = false; // Ensure the report option is also hidden
+                } else if (reportData.error === "You have already reported this post") {
+                    alert("You have already reported this post.");
+                } else {
+                    console.error(reportData.error);
+                    throw new Error("Failed to report post.");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Failed to report post. You need to be logged in.");
+            }
+        });
+
+        dropdownMenu.appendChild(reportOption);
+    }
+
     // Event listener for post ellipsis
-    let reportOptionVisible = false;
     let postEllipsisVisible = false;
 
     postEllipsis.addEventListener("click", function() {
@@ -268,73 +338,21 @@ async function formatPost(post, postList){
         }
     });
 
-    // Event listener for report option
-    reportOption.addEventListener("click", function() {
-        if (reportOptionVisible) {
-            reportOptionVisible = false;
-            reportContainer.style.display = "none";
-        } else {
-            reportOptionVisible = true;
-            reportContainer.style.display = "flex";
-        }
-    });
-
-    // Add event listener to close button
-    closeButton.addEventListener("click", function() {
-        reportContainer.style.display = "none";
-        reportOptionVisible = false; // Ensure the report option is also hidden
-    });
-
-    // Add event listener to submit button
-    submitButton.addEventListener("click", async function() {
-        const reportReason = document.getElementById("report-reason").value.trim();
-        if (reportReason === "") {
-            alert("Please enter a reason for reporting the post.");
-            return;
-        }
-
-        try {
-            const reportResponse = await fetch(`/communityforum/report-post`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` // Adjust as needed
-                },
-                body: JSON.stringify({
-                    postId: post.postId,
-                    userId: userId,
-                    reason: reportReason
-                })
-            });
-
-            const reportData = await reportResponse.json();
-
-            if (!reportData.error) {
-                alert("Post has been reported! Our staff will review it shortly.");
-                reportContainer.style.display = "none";
-                reportOptionVisible = false; // Ensure the report option is also hidden
-            } else if (reportData.error === "You have already reported this post") {
-                alert("You have already reported this post.");
-            } else {
-                console.error(reportData.error);
-                throw new Error("Failed to report post.");
-            }
-        } catch (error) {
-            console.error(error);
-            alert("Failed to report post. You need to be logged in.");
-        }
-    });
      
     // Edit button in the dropdown menu if post is created by the user
     if (post.userId === userId || staffId) {
-        const editButton = document.createElement("a");
-        editButton.classList.add("dropdown-item");
-        editButton.textContent = "Edit";
+        if (!staffId){
+            const editButton = document.createElement("a");
+            editButton.classList.add("dropdown-item");
+            editButton.textContent = "Edit";
+    
+            editButton.addEventListener("click", function () {
+                // Redirect to the edit post page with the post ID
+                window.location.href = `community-forum-edit-post.html?id=${post.postId}`;
+            });
 
-        editButton.addEventListener("click", function () {
-            // Redirect to the edit post page with the post ID
-            window.location.href = `community-forum-edit-post.html?id=${post.postId}`;
-        });
+            dropdownMenu.appendChild(editButton);
+        }
 
         const deleteButton = document.createElement("a");
         deleteButton.classList.add("dropdown-item");
@@ -371,11 +389,8 @@ async function formatPost(post, postList){
             }
         });
 
-        dropdownMenu.appendChild(editButton);
         dropdownMenu.appendChild(deleteButton);
     }
-
-    dropdownMenu.appendChild(reportOption);
 
     postEllipsis.appendChild(dropdownMenu);
 
@@ -432,9 +447,10 @@ async function fetchForumStats() {
     const topicStats = document.getElementById("topics-stats");
     const likesStats = document.getElementById("likes-stats");
 
-    postStats.innerText = postCountData.postCount;
-    topicStats.innerText = topicCountData.topicCount;
-    likesStats.innerText = likesCountData.totalLikes;
+    postStats.innerText = postCountData.postCount ?? 0;
+    topicStats.innerText = topicCountData.topicCount ?? 0;
+    likesStats.innerText = likesCountData.totalLikes ?? 0;
+    
 }
 
 // Function to search for posts

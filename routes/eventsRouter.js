@@ -12,6 +12,7 @@ const eventsController = require("../controllers/eventsController.js");
 const upload = require('../middlewares/fileUpload');
 const validateEvent = require('../middlewares/validateEvent');
 const validateLikes = require("../middlewares/validateLikes");
+const verifyJWT = require("../middlewares/verifyJWT");
 
 //Event Routes
 router.get("/", eventsController.getAllEvents);
@@ -26,12 +27,12 @@ router.get("/:userId/participated", eventsController.getParticipatedEvents);
 router.get("/:userId/events-hosted", eventsController.getHostedEventsbyUser);
 router.get("/:eventId/get-like-by-user/:userId", eventsController.getLikeByUser);
 router.get("/:eventId/get-event-participation/:userId", eventsController.getEventByUser);
-router.post("/", upload.single('image'), validateEvent, eventsController.createEvent);
+router.post("/", verifyJWT, upload.single('image'), validateEvent, eventsController.createEvent);
 router.put("/approve/:id", eventsController.approveEvent);
 router.put("/deny/:id", eventsController.denyEvent);
-router.put("/:id/modifylike", validateLikes, eventsController.modifyLike);
-router.put("/:id/modifyparticipation", eventsController.modifyParticipation);
-router.put("/:id", upload.single('image'), validateEvent, eventsController.updateEvent);
-router.delete("/:id", eventsController.deleteEvent);
+router.put("/:id/modify-like", verifyJWT, validateLikes, eventsController.modifyLike);
+router.put("/:id/modify-participation", verifyJWT, eventsController.modifyParticipation);
+router.put("/:id", verifyJWT, upload.single('image'), validateEvent, eventsController.updateEvent);
+router.delete("/:id", verifyJWT, eventsController.deleteEvent);
 
 module.exports = router; // Export the router

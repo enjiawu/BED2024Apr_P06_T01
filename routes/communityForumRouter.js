@@ -34,7 +34,7 @@ router.get("/likes-count", postsController.getAllLikes); // Get total number of 
 
 // Sorting Routes
 router.get("/sort-by-likes-desc", postsController.sortPostsByLikesDesc); // Sort posts by likes in descending order
-router.get("/sort-by-likes-asc", verifyJWT, postsController.sortPostsByLikesAsc); // Sort posts by likes in ascending order
+router.get("/sort-by-likes-asc", postsController.sortPostsByLikesAsc); // Sort posts by likes in ascending order
 router.get("/sort-by-newest", postsController.sortPostsByNewest); // Sort posts by date in descending order
 router.get("/sort-by-oldest", postsController.sortPostsByOldest); // Sort posts by date in ascending order
 
