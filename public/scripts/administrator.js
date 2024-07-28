@@ -573,8 +573,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                         .addEventListener("click", async function () {
                             try {
                                 if (
-                                    newMessageCard.querySelector(".reply-input")
-                                        .value !== ""
+                                    newMessageCard.querySelector(".reply-input").value !== ""
                                 ) {
                                     const postReplyResponse = await fetch(
                                         "/replies",
