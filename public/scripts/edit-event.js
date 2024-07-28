@@ -63,11 +63,15 @@ async function handleFormSubmit(event) {
     const formData = new FormData(document.getElementById('editEventForm'));
     const eventImageFile = document.getElementById('customImage').files[0];
 
-    // Validate file type
-    if (!isImageFile(eventImageFile)) {
-        displayFeedback('Please upload a valid image file.', 'error');
-        return;
+    // Append the image file only if a new image is selected
+    if (eventImageFile) {
+        // Validate file type
+        if (!isImageFile(eventImageFile)) {
+            displayFeedback('Please upload a valid image file.', 'error');
+            return;
+        }
     }
+
     formData.append('image', '');
     formData.append('userId', userId);
     formData.append('username', username);
