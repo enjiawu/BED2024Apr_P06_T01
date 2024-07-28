@@ -1,7 +1,7 @@
 const stripe = require('stripe')(process.env.STRIPE_SK); 
 const Payment = require('../models/payment');
 require("dotenv").config(); // Import dotenv package to read environment variables
-
+//Create Payment Intent on stripe
 const createPaymentIntent = async (req, res) => {
   const { email, name, amount, organization } = req.body;
 
@@ -44,7 +44,7 @@ const createPaymentIntent = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
+//Get all customer ids
 const getAllCustomerIds = async () => {
   try {
     const customers = [];
@@ -66,7 +66,7 @@ const getAllCustomerIds = async () => {
     throw error;
   }
 };
-
+//Get payment details by customer
 const getPaymentDetailsByCustomer = async (customerId) => {
   try {
     const paymentIntents = await stripe.paymentIntents.list({
@@ -92,7 +92,7 @@ const getPaymentDetailsByCustomer = async (customerId) => {
   }
 };
 
-
+//Get all payment details
 const getAllPaymentDetails = async () => {
   try {
     const customerIds = await getAllCustomerIds();
@@ -106,12 +106,12 @@ const getAllPaymentDetails = async () => {
     throw error;
   }
 };
-
+//Timestamp conversion
 const convertUnixTimestamp = (timestamp) => {
   const date = new Date(timestamp * 1000); // Multiply by 1000 to convert seconds to milliseconds
   return date.toISOString(); // Format to ISO 8601 string
 };
-
+//Save customer payments
 const saveCustomerPayments = async (req, res) => {
   try {
     // Retrieve all customer IDs
@@ -143,7 +143,7 @@ const saveCustomerPayments = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
+//Retrieve donation history by user
 const getDonationHistoryByUser = async (req, res) => {
   const userId = parseInt(req.params.userId);
   try {
@@ -154,7 +154,7 @@ const getDonationHistoryByUser = async (req, res) => {
     res.status(500).send("Error retrieving donation history.");
   }
 };
-
+// Retrieve lifetime donation by user
 const getLifetimeDonationByUser = async (req, res) => {
   const userId = parseInt(req.params.userId);
   try {
@@ -165,7 +165,7 @@ const getLifetimeDonationByUser = async (req, res) => {
     res.status(500).send("Error retrieving lifetime donation.");
   }
 };
-
+// Retrieve average donation by user
 const getAverageDonationByUser = async (req, res) => {
   const userId = parseInt(req.params.userId);
   try {
@@ -176,7 +176,7 @@ const getAverageDonationByUser = async (req, res) => {
     res.status(500).send("Error retrieving average donation.");
   }
 };
-
+//Get number of donations by user
 const getNumberOfDonationsByUser = async (req, res) => {
   const userId = parseInt(req.params.userId);
   try {

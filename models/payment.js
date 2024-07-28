@@ -70,7 +70,7 @@ class Payment {
     
         return result.recordset; // Array of payment details
     }
-
+    //Retrieve donation history by user
     static async getDonationHistorybyUser(userId) {
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `
@@ -100,7 +100,7 @@ class Payment {
             )
         ) // Array of donation history
     }
-
+    //Retrieve lifetime donation by user
     static async getLifetimeDonationByUser(userId) {
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `
@@ -116,7 +116,7 @@ class Payment {
     
         return result.recordset[0]['Lifetime Donation']; // Get the lifetime donation amount
     }
-
+    //Retrieve average donation by user
     static async getAverageDonationByUser(userId) {
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `
@@ -136,7 +136,7 @@ class Payment {
     
         return result.recordset[0]['Average Donation']; // Get the average donation amount
     }
-
+    //Retrieve number of donations by user
     static async getNumberOfDonationsByUser(userId) {
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `
