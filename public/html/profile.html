@@ -329,9 +329,18 @@
         </div>
 
         <main style = "margin-bottom: 50px"> 
+            <!-- Confirmation Container -->
+            <div id="deleteConfirmationContainer" style="display: none;">
+                <p>Are you sure you want to delete this post?</p>
+                <div class="delete-flex">
+                    <button id="confirmDeleteButton">Yes, Delete</button>
+                    <button id="cancelDeleteButton">Cancel</button>    
+                </div>
+                
+            </div>
             <section>
                 <div class="container">
-                    <div class="row">
+                    <div class="row profile-row">
                         <!-- left side login information profile -->
                         <div class="col-10 col-lg-4 flex-grow-1 mt-5">
                             <aside class="card">
@@ -359,17 +368,15 @@
                                         >
                                             <span id="profile-email"></span>
                                         </p>
-                                        <p>
+                                        <p class="bio-box">
                                             Bio: <span id="profile-bio"></span>
                                         </p>
                                     </div>
 
-                                    <div>
+                                    <div class="profile-info">
                                         <div class="info-title">
                                             <h5>Personal Information</h5>
-                                            <button class="btn focus-ring">
-                                                Edit
-                                            </button>
+                                            <button class="btn focus-ring"><a href="setting.html">Edit</a></button>
                                         </div>
                                         <ul>
                                             <li>
@@ -427,9 +434,7 @@
                                     <div>
                                         <div class="info-title">
                                             <h5>Staff Information</h5>
-                                            <button class="btn focus-ring">
-                                                Edit
-                                            </button>
+                                            <button class="btn focus-ring"><a href="setting.html">Edit</a></button>
                                         </div>
                                         <ul>
                                             <li>
@@ -508,7 +513,7 @@
                                     <hr />
                                     <ul class="collapse staff-info">
                                         <button class="btn focus-ring">
-                                            Edit
+                                            <a href="setting.html">Edit</a>  
                                         </button>
                                         <li>
                                             <span><strong>ID</strong></span>
@@ -1339,7 +1344,7 @@
                                                         >
                                                             <input
                                                                 type="text"
-                                                                class="form-control focus-ring reply-input"
+                                                                class="form-control focus-ring"
                                                                 placeholder="Reply"
                                                                 aria-label="Reply and send"
                                                                 aria-describedby="reply-button"
@@ -1354,6 +1359,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            
                                             <!-- <nav
                                                 class="mt-5"
                                                 aria-label="messages navigation"
