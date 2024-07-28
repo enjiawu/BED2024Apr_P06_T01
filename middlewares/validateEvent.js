@@ -33,7 +33,7 @@ const validateEvent = (req, res, next) => {
             'string.optional': 'Username is optional'
         }),
         status: Joi.any().optional()
-    });
+    }); //Validation messages added
 
     const validation = schema.validate(req.body, { abortEarly: false });
 
