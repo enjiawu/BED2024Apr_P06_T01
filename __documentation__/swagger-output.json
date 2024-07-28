@@ -2713,7 +2713,9 @@
     },
     "/payment/get-donation-history/{userId}": {
       "get": {
-        "description": "",
+        "tags": ["Payment for Donations"],
+        "description": "Get Donation History by user ID",
+        "summary": "Get Donation History by a specific user",
         "parameters": [
           {
             "name": "userId",
@@ -2734,7 +2736,9 @@
     },
     "/payment/get-lifetime-donation/{userId}": {
       "get": {
-        "description": "",
+        "tags": ["Payment for Donations"],
+        "description": "Get Lifetime Donation by user ID",
+        "summary": "Get Lifetime donation by a specific user",
         "parameters": [
           {
             "name": "userId",
@@ -2755,7 +2759,9 @@
     },
     "/payment/get-average-donation/{userId}": {
       "get": {
-        "description": "",
+        "tags": ["Payment for Donations"],
+        "description": "Get Average Donation by user ID",
+        "summary": "Get Average Donation by a specific user",
         "parameters": [
           {
             "name": "userId",
@@ -2776,7 +2782,9 @@
     },
     "/payment/get-number-of-donations/{userId}": {
       "get": {
-        "description": "",
+        "tags": ["Payment for Donations"],
+        "description": "Get number of donations by a specific user ID",
+        "summary": "Get number of donations by a specific user",
         "parameters": [
           {
             "name": "userId",
@@ -2797,7 +2805,9 @@
     },
     "/payment/create-payment-intent": {
       "post": {
-        "description": "",
+        "tags": ["Payment for Donations"],
+        "description": "Create a payment intent",
+        "summary": "Create a payment intent on stripe to process the payment.",
         "parameters": [
           {
             "name": "body",
@@ -2836,7 +2846,9 @@
     },
     "/payment/save-customer-payments": {
       "post": {
-        "description": "",
+        "tags": ["Payment for Donations"],
+        "description": "Save customer payments",
+        "summary": "Save customer payments altogether that were made on Stripe",
         "responses": {
           "200": {
             "description": "OK"

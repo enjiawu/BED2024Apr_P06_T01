@@ -75,7 +75,14 @@ async function displayPostDetails(post) {
     postTopic.textContent = topicData.topic;
 
     // Getting username from user id
-    const authorResponse = await fetch(`/users/profile/${post.userId}`);
+    const authorResponse = await fetch(
+        `/users/profile/${post.userId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
     const authorData = await authorResponse.json();
     postAuthor.textContent = "@" + authorData.username;
 
@@ -304,7 +311,14 @@ async function displayComments(postId, postUserId) {
     // Iterate through comments and display them
     await comments.forEach(async (comment) => {
         // Getting username from user id
-        const authorResponse = await fetch(`/users/profile/${comment.userId}`); 
+        const authorResponse = await fetch(
+            `/users/profile/${comment.userId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
         const authorData = await authorResponse.json();
 
         const commentElement = document.createElement('div');
@@ -709,7 +723,14 @@ async function displayComments(postId, postUserId) {
             await replies.forEach(async (reply) => {
             
                 // Getting username from user id
-                const replyAuthorResponse = await fetch(`/users/profile/${reply.userId}`);
+                const replyAuthorResponse = await fetch(
+                    `/users/profile/${reply.userId}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
                 const replyAuthorData = await replyAuthorResponse.json();
             
                 const replyElement = document.createElement('div');

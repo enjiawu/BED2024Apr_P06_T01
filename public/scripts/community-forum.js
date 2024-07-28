@@ -23,6 +23,7 @@ function getUserDataFromToken() {
         userId = null;
     }
 
+    console.log(token, userId, staffId);
     return true;
 }
 
@@ -168,7 +169,15 @@ async function formatPost(post, postList){
     postDateAuthorContainer.appendChild(postDate);
 
     // Getting user name from the user id
-    const userResponse = await fetch(`/users/profile/${post.userId}`);
+    const userResponse = await fetch(
+        `/users/profile/${post.userId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+    
     const userData = await userResponse.json();
 
     const postAuthor = document.createElement("a");

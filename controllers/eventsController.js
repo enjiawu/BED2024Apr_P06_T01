@@ -1,5 +1,5 @@
 const Event = require("../models/event");
-
+//Retrieve all events
 const getAllEvents = async (req, res) => {
     try{
         const events = await Event.getAllEvents();
@@ -9,7 +9,7 @@ const getAllEvents = async (req, res) => {
         res.status(500).send("Error retrieving events");
     }
 };
-
+//Retrieve event by id
 const getEventById = async (req, res) => {
     const eventId = parseInt(req.params.id);
     try {
@@ -23,7 +23,7 @@ const getEventById = async (req, res) => {
         res.status(500).send("Error retrieving event");
     }
 };
-
+// Create Event
 const createEvent = async (req, res) => {
     const { title, description, datePosted, startDate, startTime, location, userId, username } = req.body;
 
@@ -51,7 +51,7 @@ const createEvent = async (req, res) => {
         res.status(500).send("Error creating event");
     }
 };
-
+//Update Event
 const updateEvent = async (req, res) => {
     const eventId = req.params.id;
     const { title, description, startDate, startTime, status, location } = req.body;
@@ -83,7 +83,7 @@ const updateEvent = async (req, res) => {
         res.status(500).send('Failed to update event');
     }
 };
-
+//Delete Event
 const deleteEvent = async (req, res) => {
     const eventId = parseInt(req.params.id);
     const userId = req.body.userId;
@@ -109,7 +109,7 @@ const deleteEvent = async (req, res) => {
         res.status(500).send("Error deleting event");
     }
 };
-
+// Search Events
 const searchEvents = async (req, res) => {
     const searchTerm = req.query.searchTerm;
     try {
@@ -120,7 +120,7 @@ const searchEvents = async (req, res) => {
         res.status(500).send("Error searching events");
     }
 };
-
+// Get event count
 const getEventCount = async (req, res) => {
     try {
         const eventCount = await Event.getEventCount();
@@ -130,7 +130,7 @@ const getEventCount = async (req, res) => {
         res.status(500).send("Error retrieving event count");
     }
 };
-
+// Get event by status
 const getEventsByStatus = async (req, res) => {
     const eventStatus = req.params.status;
     try {
@@ -144,7 +144,7 @@ const getEventsByStatus = async (req, res) => {
         res.status(500).send("Error retrieving event");
     }
 };
-
+// Get listed events
 const getListedEvents = async (req, res) => {
     try{
         const events = await Event.getListedEvents();
@@ -154,7 +154,7 @@ const getListedEvents = async (req, res) => {
         res.status(500).send("Error retrieving events");
     }
 };
-
+// Get pending events
 const getPendingEvents = async (req, res) => {
     try{
         const events = await Event.getPendingEvents();
@@ -164,7 +164,7 @@ const getPendingEvents = async (req, res) => {
         res.status(500).send("Error retrieving events");
     }
 };
-
+//Get denied events
 const getDeniedEvents = async (req, res) => {
     try{
         const events = await Event.getDeniedEvents();
@@ -174,7 +174,7 @@ const getDeniedEvents = async (req, res) => {
         res.status(500).send("Error retrieving events");
     }
 };
-
+// Approve event
 const approveEvent = async (req, res) => {
     const newEvent = req.body;
     const eventId = parseInt(req.params.id);
@@ -190,7 +190,7 @@ const approveEvent = async (req, res) => {
         res.status(500).send("Error approving event");
     }
 };
-
+//Deny event
 const denyEvent = async (req, res) => {
     const newEvent = req.body;
     const eventId = parseInt(req.params.id);
@@ -206,7 +206,7 @@ const denyEvent = async (req, res) => {
         res.status(500).send("Error denying event");
     }
 };
-
+// Like function
 const modifyLike = async (req, res) => {
     const eventId = parseInt(req.params.id);
     const userId = req.body.userId;
@@ -235,7 +235,7 @@ const modifyLike = async (req, res) => {
     }
     
 };
-
+// Get like by user
 const getLikeByUser = async (req, res) => {
     const eventId = parseInt(req.params.eventId);
     const userId = parseInt(req.params.userId);
@@ -248,7 +248,7 @@ const getLikeByUser = async (req, res) => {
     }
 
 }
-
+// Modify participation
 const modifyParticipation = async (req, res) => {
     const eventId = parseInt(req.params.id);
     const userId = req.body.userId;
@@ -276,7 +276,7 @@ const modifyParticipation = async (req, res) => {
         res.status(500).json({ error: "Error joining/withdrawing event" });
     }
 }
-
+// Get event joined by user
 const getEventByUser = async (req, res) => {
     const eventId = parseInt(req.params.eventId);
     const userId = parseInt(req.params.userId);
@@ -289,7 +289,7 @@ const getEventByUser = async (req, res) => {
     }
 
 }
-
+//Get events participated by user
 const getParticipatedEvents = async (req, res) => {
     const userId = parseInt(req.params.userId);
     try {
@@ -301,7 +301,7 @@ const getParticipatedEvents = async (req, res) => {
     }
 
 }
-
+//Get hosted events by user
 const getHostedEventsbyUser = async (req, res) => {
     const userId = parseInt(req.params.userId);
     try {
