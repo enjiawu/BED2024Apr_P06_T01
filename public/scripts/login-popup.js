@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const userDropdown = document.getElementById('user-dropdown');
     const profilePicture = document.querySelector('.profile-pic img');
     const logoutButton = document.getElementById('logout-button');
+    const settingButton = document.getElementById('setting-button');
 
     const loginForm = document.querySelector('.form-box.login');
     const staffLoginForm = document.querySelector('.form-box.staff-login');
@@ -23,11 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log('Updating UI for user:', userData);
         userDropdown.style.display = 'block';
         document.getElementById('login-button-nav').style.display = 'none';
-
+    
         if (userData.profilePicUrl) {
             profilePicture.src = userData.profilePicUrl;
         }
-
+    
         wrapper.classList.remove('pop-active');
     }
 

@@ -9,10 +9,8 @@ function getUserDataFromToken() {
         console.log("No token found");
         return false;
     }
-
-    userId = JSON.parse(localStorage.getItem("userData")).userId;
-    username = JSON.parse(localStorage.getItem("userData")).username;
-
+    userId = JSON.parse(localStorage.getItem("userData")).user.userId;
+    username = JSON.parse(localStorage.getItem("userData")).user.username;
     return true;
 }
 

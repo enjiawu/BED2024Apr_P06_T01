@@ -1,8 +1,7 @@
 .posts-container {
     border-radius: 10px;
-    border: 1px solid black;
     margin-bottom: 20px;
-    background-color: #fff;
+    background-color: #EBE3D2;
 }
 .post-content.mb-4{
     padding: 0 20px;
@@ -63,7 +62,17 @@ ul{
     cursor: pointer;
 }
 
+.change-size{
+    font-size: 18px;
+}
+
+.card-body {
+    background-color: #EBEEE8;
+}
+
 #events-filter-container {
+    padding-top: 20px;
+    border-top: 1px solid #414833;
     text-align: right;
 }
 
@@ -95,7 +104,41 @@ ul{
 
 .event-details {
     display: flex;
-    margin-top: 10px;
+    margin-top: 20px;
+}
+
+.info-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0 10px 0;
+    border-bottom: 1px solid #414833;
+}
+
+.profile-info ul{
+    padding-top: 20px;
+}
+
+.profile-info ul li {
+    padding: 5px 0;
+}
+
+.focus-ring{
+    color: #fff;
+    background-color: #414833;
+}
+
+.focus-ring a{
+    color: #fff;
+}
+
+.focus-ring:hover {
+    background-color: #ff9900;
+}
+
+.focus-ring a:hover{
+    color: #fff;
+    text-decoration: none;
 }
 
 .event-info-left {
@@ -122,7 +165,77 @@ ul{
     margin-bottom: 10px;
 }
 
-.view-event {
+.view-event,
+.edit-button {
     margin-top: 10px;
     text-align: right;
+}
+
+.profile-row {
+    padding-bottom: 100px;
+}
+
+.dropdown a {
+    color: #414833;
+}
+
+.topic-name {
+    font-size: 14px;
+    padding: 5px 15px;
+    border-radius: 20px;
+    background-color: #414833;
+    color: #fff;
+    display: inline-block;
+}
+
+.post-icon {
+    color: #414833;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.post-icon p {
+    margin: 0;
+}
+
+/* Style the confirmation container */
+#deleteConfirmationContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed; /* Fix the position to the viewport */
+    bottom: 50%;
+    left: 40%;
+    background-color:#414833;/* Semi-transparent background */
+    color: white; /* Text color */
+    z-index: 20;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.delete-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+/* Style the buttons */
+#deleteConfirmationContainer button {
+    margin: 10px 5px 0 5px;
+    border-radius: 5px;
+    border: none;
+    background-color: #ff9900;
+}
+
+#deleteConfirmationContainer button:hover {
+    background-color: #fff;
+    color: #414833;
+}
+
+.bio-box {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
 }
