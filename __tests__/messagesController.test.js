@@ -59,3 +59,66 @@ describe("messagesController.getAllMessages", () => {
         expect(res.send).toHaveBeenCalledWith("Error retrieving messages");
     });
 });
+
+describe("getMessageById", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it("should return message by ID with status 200", async () => {
+        const mockMessage = {
+            messageId: 1,
+            firstName: "John",
+            lastName: "Doe",
+            email: "john@mail.com",
+            phoneNumber: "12345678",
+            message: "Hello there!",
+            status: "replied",
+        };
+        Message.getMessageById.mockResolvedValue(mockMessage);
+
+        const req = { params: { messageId: "1" } };
+        const res = {
+            json: jest.fn(),
+            status: jest.fn().mockReturnThis(),
+        };
+
+        await messagesController.getMessageById(req, res);
+
+        expect(Message.getMessageById).toHaveBeenCalledWith(1);
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(mockMessage);
+    });
+
+    it("should return 404 if message not found", async () => {
+        Message.getMessageById.mockResolvedValue(null);
+
+        const req = { params: { messageId: "1" } };
+        const res = {
+            json: jest.fn(),
+            status: jest.fn().mockReturnThis(),
+        };
+
+        await messagesController.getMessageById(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.json).toHaveBeenCalledWith({ error: "Message not found" });
+    });
+
+    it("should handle errors and return a 500 status", async () => {
+        Message.getMessageById.mockRejectedValue(new Error("Error"));
+
+        const req = { params: { messsageId: "1" } };
+        const res = {
+            json: jest.fn(),
+            status: jest.fn().mockReturnThis(),
+        };
+
+        await messagesController.getMessageById(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({
+            error: "Error retrieving message",
+        });
+    });
+});

@@ -10,7 +10,6 @@ class Article {
     }
 
     static async getArticles(searchTerm, sortBy) {
-        // TODO Temporary validation
         if (searchTerm === undefined || searchTerm === "undefined")
             searchTerm = "";
         const response = await axios.get(

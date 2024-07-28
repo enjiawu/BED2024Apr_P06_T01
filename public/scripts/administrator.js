@@ -38,7 +38,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                     post.description;
 
                 const originalPosterResponse = await fetch(
-                    `/users/profile/${post.userId}`
+                    `/users/profile/${post.userId}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
                 );
                 console.log(originalPosterResponse);
                 const originalPoster = await originalPosterResponse.json();
@@ -594,7 +599,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                         .addEventListener("click", async function () {
                             try {
                                 if (
-                                    newMessageCard.querySelector(".reply-input").value !== ""
+                                    newMessageCard.querySelector(".reply-input")
+                                        .value !== ""
                                 ) {
                                     const postReplyResponse = await fetch(
                                         "/replies",
