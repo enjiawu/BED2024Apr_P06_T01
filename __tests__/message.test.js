@@ -1,5 +1,6 @@
 const Message = require("../models/message");
 const sql = require("mssql");
+const dbConfig = require("../dbConfig");
 
 jest.mock("mssql"); // Mock the mssql library
 
@@ -42,7 +43,7 @@ describe("Message.getAllMessages", () => {
 
         const messages = await Message.getAllMessages();
 
-        expect(sql.connect).toHaveBeenCalledWith(expect.any(Object));
+        expect(sql.connect).toHaveBeenCalledWith(dbConfig);
         expect(mockConnection.close).toHaveBeenCalledTimes(1);
         expect(messages).toHaveLength(2);
         expect(messages[0]).toBeInstanceOf(Message);
@@ -59,5 +60,48 @@ describe("Message.getAllMessages", () => {
         const errorMessage = "Database Error";
         sql.connect.mockRejectedValue(new Error(errorMessage));
         await expect(Book.getAllBooks()).rejects.toThrow(errorMessage);
+    });
+});
+
+describe("Message.getMessageById", () => {
+    it("should retrieve a message by ID from the database", async () => {
+        beforeEach(() => {
+            jest.clearAllMocks();
+        });
+
+        const messageId = 1;
+        const mockMessage = {
+            messageId: 1,
+            firstName: "John",
+            lastName: "Doe",
+            email: "john@mail.com",
+            phoneNumber: "12345678",
+            message: "Hello there!",
+            status: "replied",
+        };
+
+        const mockRequest = {
+            query: jest.fn().mockResolvedValue({ recordset: [mockMessage] }),
+            input: jest.fn().mockReturnThis(),
+        };
+
+        const mockConnection = {
+            request: jest.fn().mockReturnValue(mockRequest),
+            close: jest.fn().mockResolvedValue(undefined),
+        };
+
+        sql.connect.mockResolvedValue(mockConnection);
+
+        const post = await Message.getPostById(messageId);
+
+        expect(sql.connect).toHaveBeenCalledWith(dbConfig);
+        expect(mockConnection.close).toHaveBeenCalledTimes(1);
+        expect(post).toEqual(mockMessage);
+    });
+
+    it("should handle errors when retrieving a message by ID", async () => {
+        const errorMessage = "Error getting message by ID";
+        sql.connect.mockRejectedValue(new Error(errorMessage));
+        await expect(Message.getMessageById(1)).rejects.toThrow(errorMessage);
     });
 });
