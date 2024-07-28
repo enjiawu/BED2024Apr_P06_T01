@@ -318,6 +318,7 @@ function closeAllDropdowns() {
 // Function to delete a post
 async function deletePost(postId) {
     const token = localStorage.getItem('token'); // Retrieve token
+    console.log(postId, token); // Debugging
 
     try {
         const response = await fetch(`/communityforum/${postId}`, {
@@ -328,14 +329,17 @@ async function deletePost(postId) {
             }
         });
 
-        if (response.ok) {
+        const success = await response.json();
+        if (success) {
             alert("Post successfully deleted!");
             const postElement = document.querySelector(`#post-${postId}`);
             if (postElement) postElement.remove(); // Remove the post element from the DOM
+            window.location.reload();
         } else {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Failed to delete post.');
+            console.error(success.error);
+            throw new Error("Failed to delete post.");
         }
+
     } catch (error) {
         console.error('Error deleting post:', error);
         alert("Failed to delete post.");
