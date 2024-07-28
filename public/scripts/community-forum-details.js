@@ -312,7 +312,7 @@ async function displayComments(postId, postUserId) {
     await comments.forEach(async (comment) => {
         // Getting username from user id
         const authorResponse = await fetch(
-            `/users/profile/${commment.userId}`,
+            `/users/profile/${comment.userId}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,

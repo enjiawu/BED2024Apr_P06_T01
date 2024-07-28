@@ -23,6 +23,7 @@ function getUserDataFromToken() {
         userId = null;
     }
 
+    console.log(token, userId, staffId);
     return true;
 }
 
