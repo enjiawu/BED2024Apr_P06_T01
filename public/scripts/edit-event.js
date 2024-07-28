@@ -9,8 +9,10 @@ function getUserDataFromToken() {
         console.log("No token found");
         return false;
     }
+
     userId = JSON.parse(localStorage.getItem("userData")).user.userId;
     username = JSON.parse(localStorage.getItem("userData")).user.username;
+
     return true;
 }
 
@@ -73,6 +75,9 @@ async function handleFormSubmit(event) {
     try {
         const response = await fetch(`/events/${eventId}`, {
             method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
             body: formData
         });
         if (!response.ok) {

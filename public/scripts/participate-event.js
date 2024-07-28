@@ -39,6 +39,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 window.location.href = `/html/edit-event.html?id=${eventId}`;
             });
 
+            const deleteEventBtn = document.getElementById('deleteEventBtn');
+            deleteEventBtn.addEventListener('click', () => {
+                if (confirm('Are you sure you want to delete this event?')) {
+                    deleteEvent(eventId);
+                }
+            });
+
             setupLikeButton(event, userId);
             setupParticipateBtn(event, userId);
 
@@ -71,6 +78,27 @@ function displayEventDetails(event) {
     }
 };
 
+async function deleteEvent(eventId) {
+    try {
+        const response = await fetch(`/events/${eventId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({userId : userId})
+        });
+        if (!response.ok) {
+            throw new Error('Failed to delete the event');
+        }
+        alert('Event deleted successfully.');
+        window.location.href = '/html/event.html'; // Redirect to events page
+    } catch (error) {
+        console.error('Error deleting event:', error);
+        alert('Error deleting event.');
+    }
+}
+
 async function setupLikeButton(event, userId) {
     const likeBtn = document.getElementById('likeBtn');
     const likeCount = document.getElementById('likeCount');
@@ -86,10 +114,11 @@ async function setupLikeButton(event, userId) {
 
     likeBtn.addEventListener('click', async () => {
         try {
-            const response = await fetch(`/events/${event.eventId}/modifylike`, {
+            const response = await fetch(`/events/${event.eventId}/modify-like`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ userId: userId })
             });
@@ -145,10 +174,11 @@ async function setupParticipateBtn(event, userId) {
 
     participateBtn.addEventListener('click', async () => {
         try {
-            const response = await fetch(`/events/${event.eventId}/modifyparticipation`, {
+            const response = await fetch(`/events/${event.eventId}/modify-participation`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ userId: userId })
             });

@@ -40,6 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('/events', {
                 method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
                 body: formData
             });
 
