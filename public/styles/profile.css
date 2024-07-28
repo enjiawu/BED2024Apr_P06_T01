@@ -11,8 +11,34 @@
     color: #fff;
 }
 
+.edit-information {
+    background-color: #414833;
+    color: #fff;
+}
+
+#staff-setting {
+    padding: 200px 30px;
+    text-align: center;
+}
+
+.edit-information:hover{
+    background-color: #ff9900;
+    text-decoration: none;
+}
+
+
 ul {
     list-style: none;
+}
+
+.member-setting{
+    margin: 30px 0;
+}
+
+.justify-content-end .btn{
+    color: #fff;
+    background-color: #414833;
+    border: none;
 }
 
 .view-post a,

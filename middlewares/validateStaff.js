@@ -1,5 +1,6 @@
-const Joi = require("joi");// Validation schema for user registration
+const Joi = require("joi");
 
+// Validation schema for staff registration
 const registerStaffSchema = Joi.object({
     staffName: Joi.string().min(3).max(30).required(),
     email: Joi.string().email().required(),
@@ -7,7 +8,7 @@ const registerStaffSchema = Joi.object({
     role: Joi.string().valid('admin', 'event').required()
 });
 
-// Validation schema for user login
+// Validation schema for staff login
 const loginStaffSchema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().min(8).max(100).required()
