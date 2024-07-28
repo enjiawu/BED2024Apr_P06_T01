@@ -1,9 +1,9 @@
 .posts-container {
     border-radius: 10px;
     margin-bottom: 20px;
-    background-color: #EBE3D2;
+    background-color: #ebe3d2;
 }
-.post-content.mb-4{
+.post-content.mb-4 {
     padding: 0 20px;
 }
 
@@ -11,13 +11,13 @@
     color: #fff;
 }
 
-ul{
+ul {
     list-style: none;
 }
 
 .view-post a,
 .view-event a,
-.edit-button a{
+.edit-button a {
     color: #fff;
     text-decoration: none;
     padding: 10px 20px;
@@ -32,13 +32,13 @@ ul{
     color: #414833;
 }
 
-.overview-title{
+.overview-title {
     border-top: 1px solid #404a3d;
     padding-top: 20px;
     color: #414833;
 }
 
-.overview-title h4{
+.overview-title h4 {
     font-size: 18px;
 }
 
@@ -50,7 +50,7 @@ ul{
     display: none;
     position: absolute;
     background-color: white;
-    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     z-index: 1000;
     top: 0;
 }
@@ -62,12 +62,17 @@ ul{
     cursor: pointer;
 }
 
-.change-size{
+.change-size {
     font-size: 18px;
 }
 
-.card-body {
-    background-color: #EBEEE8;
+#posts-container .card-body,
+#events-container .card-body,
+#pending-events-container .card-body,
+#deny-events-container .card-body,
+#event-profile,
+#member-profile {
+    background-color: #ebeee8;
 }
 
 #events-filter-container {
@@ -115,7 +120,7 @@ ul{
     border-bottom: 1px solid #414833;
 }
 
-.profile-info ul{
+.profile-info ul {
     padding-top: 20px;
 }
 
@@ -123,20 +128,29 @@ ul{
     padding: 5px 0;
 }
 
-.focus-ring{
+#post-container .focus-ring,
+#events-container .focus-ring,
+#pending-events-container .focus-ring,
+#deny-events-container .focus-ring {
     color: #fff;
     background-color: #414833;
 }
 
-.focus-ring a{
+.focus-ring a {
     color: #fff;
 }
 
-.focus-ring:hover {
+#post-container .focus-ring:hover,
+#events-container .focus-ring:hover,
+#pending-events-container .focus-ring:hover,
+#deny-events-container .focus-ring:hover {
     background-color: #ff9900;
 }
 
-.focus-ring a:hover{
+#post-container .focus-ring,
+#events-container .focus-ring,
+#pending-events-container .focus-ring a:hover,
+#deny-events-container .focus-ring a:hover {
     color: #fff;
     text-decoration: none;
 }
@@ -208,7 +222,7 @@ ul{
     position: fixed; /* Fix the position to the viewport */
     bottom: 50%;
     left: 40%;
-    background-color:#414833;/* Semi-transparent background */
+    background-color: #414833; /* Semi-transparent background */
     color: white; /* Text color */
     z-index: 20;
     padding: 20px;
@@ -218,7 +232,7 @@ ul{
 .delete-flex {
     display: flex;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
 }
 
 /* Style the buttons */
