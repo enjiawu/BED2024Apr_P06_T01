@@ -513,7 +513,7 @@ class Event {
         return result.recordset.map(
         (event) => 
             new Event(
-                event.eventId[0],
+                event.eventId,
                 event.title,
                 event.description,
                 event.image,

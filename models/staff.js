@@ -33,6 +33,68 @@ class Staff {
         }
     }
 
+    static async getStaffById(staffId) {
+        try {
+          let pool = await sql.connect(dbConfig);
+          let staff = await pool
+            .request()
+            .input("staffId", staffId)
+            .query("SELECT * FROM Staff WHERE staffId = @staffId");
+          return staff.recordset[0];
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      static async updateProfile(staffId, newStaffData) {
+        const connection = await sql.connect(dbConfig);
+    
+        try {
+          // Check if the new ustaffname already exists for a different user
+          if (newStaffData.staffName) {
+            const staffNameCheck = await connection.request()
+              .input("staffName", sql.VarChar, newStaffData.username)
+              .input("staffId", sql.Int, staffId)
+              .query("SELECT staffId FROM Staff WHERE staffName = @staffName AND staffId != @staffId");
+    
+            if (staffNameCheck.recordset.length > 0) {
+              return { error: "staff name already exists" };
+            }
+          }
+    
+          const sqlQuery = `
+                    UPDATE Staff 
+                    SET 
+                        staffName = @staffName, 
+                        location = @location, 
+                        department = @department
+                        ${newStaffData.profilePicture ? ', profilePicture = @profilePicture' : ''}
+                    WHERE staffId = @staffId
+                `.replace(/,\s*$/, ''); // Remove trailing comma if passwordHash is not included
+    
+          const request = connection.request();
+          request.input("staffId", sql.Int, staffId);
+          request.input("staffName", sql.VarChar, newstaffData.staffName || null);
+          request.input("email", sql.VarChar, newStaffData.email || null);
+          request.input("location", sql.VarChar, newStaffData.location || null);
+          request.input("department", sql.Text, newStaffData.department || null);
+          request.input("profilePicture", sql.VarChar, newStaffData.profilePicture || null);
+    
+          const result = await request.query(sqlQuery);
+          connection.close();
+    
+          if (result.rowsAffected[0] === 0) {
+            return null;
+          }
+    
+          return this.getStaffById(staffId);
+        } catch (error) {
+          console.error('Error updating profile:', error);
+          connection.close();
+          throw error; // Re-throw error to be caught in the controller
+        }
+      }
+
     static async authenticateStaff(email, password) {
         const connection = await sql.connect(dbConfig);
 
