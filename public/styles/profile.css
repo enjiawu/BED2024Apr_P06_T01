@@ -16,6 +16,11 @@
     color: #fff;
 }
 
+#staff-setting {
+    padding: 200px 30px;
+    text-align: center;
+}
+
 .edit-information:hover{
     background-color: #ff9900;
     text-decoration: none;
