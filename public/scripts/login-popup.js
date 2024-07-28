@@ -155,6 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error("Registration error:", error);
             }
         });
+        
     function checkAuthentication() {
         const token = localStorage.getItem("token");
         const userData = localStorage.getItem("userData");
