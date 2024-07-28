@@ -103,10 +103,16 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-    document
-        .getElementById("staff-login-form")
-        .addEventListener("submit", async function (event) {
-            event.preventDefault();
+
+        try {
+            const response = await fetch('/staff/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
 
             const email = document.getElementById("staff-login-email").value;
             const password = document.getElementById("staff-password").value;
