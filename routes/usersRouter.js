@@ -28,7 +28,7 @@ router.put(
 router.get("/count", usersController.getUserCount);
 router.get("/:username", usersController.getUserByUserName);
 router.post("/register", validateRegisterUser, usersController.registerUser);
-router.post("/login", usersController.loginUser);
+router.post("/login", validateLoginUser, usersController.loginUser);
 router.post("/changePassword", verifyJWT, usersController.changePassword);
 
 module.exports = router; // Export the router
