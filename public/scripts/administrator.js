@@ -183,36 +183,36 @@ document.addEventListener("DOMContentLoaded", async function () {
                             const postId =
                                 newPostReportCard.getAttribute("data-post-id");
 
-                            const commentReportsResponse = await fetch(
-                                "/reports/comments",
-                                {
-                                    headers: {
-                                        Authorization: `Bearer ${token}`,
-                                    },
-                                }
-                            );
-                            const commentReports =
-                                await commentReportsResponse.json();
-                            console.log(commentReports);
-                            for (let report of commentReports) {
-                                if ((report.postId = postId)) {
-                                    const deleteCommentReportResponse =
-                                        await fetch(
-                                            `/reports/comments/${report.reportId}`,
-                                            {
-                                                method: "DELETE",
-                                                headers: {
-                                                    Authorization: `Bearer ${token}`,
-                                                },
-                                            }
-                                        );
-                                    if (deleteCommentReportResponse.ok) {
-                                    } else {
-                                        alert("Failed to remove post");
-                                        return;
-                                    }
-                                }
-                            }
+                            // const commentReportsResponse = await fetch(
+                            //     "/reports/comments",
+                            //     {
+                            //         headers: {
+                            //             Authorization: `Bearer ${token}`,
+                            //         },
+                            //     }
+                            // );
+                            // const commentReports =
+                            //     await commentReportsResponse.json();
+                            // console.log(commentReports);
+                            // for (let report of commentReports) {
+                            //     if ((report.postId = postId)) {
+                            //         const deleteCommentReportResponse =
+                            //             await fetch(
+                            //                 `/reports/comments/${report.reportId}`,
+                            //                 {
+                            //                     method: "DELETE",
+                            //                     headers: {
+                            //                         Authorization: `Bearer ${token}`,
+                            //                     },
+                            //                 }
+                            //             );
+                            //         if (deleteCommentReportResponse.ok) {
+                            //         } else {
+                            //             alert("Failed to remove post");
+                            //             return;
+                            //         }
+                            //     }
+                            // }
                             const postReportsResponse = await fetch(
                                 "/reports/posts",
                                 {
@@ -485,27 +485,48 @@ document.addEventListener("DOMContentLoaded", async function () {
                             const commentReports =
                                 await commentReportsResponse.json();
 
-                            for (let report of commentReports) {
-                                if ((report.commentId = commentId)) {
-                                    const deleteCommentReportResponse =
-                                        await fetch(
-                                            `/reports/comments/${report.reportId}`,
-                                            {
-                                                method: "DELETE",
-                                                headers: {
-                                                    Authorization: `Bearer ${token}`,
-                                                },
-                                            }
-                                        );
-                                    if (deleteCommentReportResponse.ok) {
-                                        // newCommentReportCard.parentNode.removeChild(
-                                        // newCommentReportCard
-                                        // );
-                                    } else {
-                                        alert("Failed to delete comment");
-                                    }
+                            const deleteCommentReportResponse = await fetch(
+                                `/reports/comments/${reportId}`,
+                                {
+                                    method: "DELETE",
+                                    headers: {
+                                        Authorization: `Bearer ${token}`,
+                                    },
                                 }
+                            );
+                            if (deleteCommentReportResponse.ok) {
+                                newCommentReportCard.style.display = "none";
+                                // newCommentReportCard.parentNode.removeChild(
+                                //     newCommentReportCard
+                                // );
+                                console.log("YES");
+                            } else {
+                                alert("Failed to delete comment");
                             }
+
+                            // for (let report of commentReports) {
+                            //     if ((report.commentId = commentId)) {
+                            //         const deleteCommentReportResponse =
+                            //             await fetch(
+                            //                 `/reports/comments/${report.reportId}`,
+                            //                 {
+                            //                     method: "DELETE",
+                            //                     headers: {
+                            //                         Authorization: `Bearer ${token}`,
+                            //                     },
+                            //                 }
+                            //             );
+                            //         newCommentReportCard.style.display = "none";
+                            //         if (deleteCommentReportResponse.ok) {
+                            //             // newCommentReportCard.parentNode.removeChild(
+                            //             //     newCommentReportCard
+                            //             // );
+                            //             console.log("YES");
+                            //         } else {
+                            //             alert("Failed to delete comment");
+                            //         }
+                            //     }
+                            // }
                             const deleteCommentResponse = await fetch(
                                 `/communityforum/comments/${commentId}`,
                                 {
@@ -573,8 +594,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                         .addEventListener("click", async function () {
                             try {
                                 if (
-                                    newMessageCard.querySelector(".reply-input")
-                                        .value !== ""
+                                    newMessageCard.querySelector(".reply-input").value !== ""
                                 ) {
                                     const postReplyResponse = await fetch(
                                         "/replies",
