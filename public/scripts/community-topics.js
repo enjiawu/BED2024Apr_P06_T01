@@ -6,6 +6,7 @@ async function fetchTrendingTopics() {
     topicList.innerHTML = ""; // Clear the existing topics
 
     data.forEach((topic) => {
+        console.log(topic);
         //Create the topic content 
         const topicContent = document.createElement("div");
         topicContent.classList.add("d-flex", "flex-row");

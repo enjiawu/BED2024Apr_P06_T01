@@ -176,8 +176,6 @@ class CommunityForumPost {
         const connection = await sql.connect(dbConfig);
 
         const sqlQuery = `
-
-        -- Delete likes and reports for child comments first
         DELETE FROM CommentLikes WHERE commentId IN (
             SELECT commentId FROM Comments WHERE postId = @postId AND parentCommentId IS NOT NULL
         );
@@ -185,10 +183,8 @@ class CommunityForumPost {
             SELECT commentId FROM Comments WHERE postId = @postId AND parentCommentId IS NOT NULL
         );
 
-        -- Delete child comments
         DELETE FROM Comments WHERE postId = @postId AND parentCommentId IS NOT NULL;
 
-        -- Delete likes and reports for parent comments
         DELETE FROM CommentLikes WHERE commentId IN (
             SELECT commentId FROM Comments WHERE postId = @postId AND parentCommentId IS NULL
         );
@@ -196,14 +192,11 @@ class CommunityForumPost {
             SELECT commentId FROM Comments WHERE postId = @postId AND parentCommentId IS NULL
         );
 
-        -- Delete parent comments
         DELETE FROM Comments WHERE postId = @postId AND parentCommentId IS NULL;
 
-        -- Delete post likes and reports
         DELETE FROM PostLikes WHERE postId = @postId;
         DELETE FROM PostReports WHERE postId = @postId;
 
-        -- Delete the post itself
         DELETE FROM CommunityPosts WHERE postId = @postId;
         `; // Delete post from comments, post reports and community posts
 
