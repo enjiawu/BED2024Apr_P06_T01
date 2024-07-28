@@ -33,7 +33,7 @@ class Event {
         this.staffId = staffId;
         this.staffName = staffName;
     }
-
+//Retrieve all events
     static async getAllEvents() {
         const connection = await sql.connect(dbConfig);
 
@@ -64,7 +64,7 @@ class Event {
             )
         )
     }
-
+//Retrieve event by Id
     static async getEventById(eventId) {
         const connection = await sql.connect(dbConfig);
 
@@ -94,7 +94,7 @@ class Event {
             result.recordset[0].staffName,
         ) : null;
     }
-
+//Create event
     static async createEvent(newEvent) {
         const connection = await sql.connect(dbConfig);
 
@@ -121,7 +121,7 @@ class Event {
 
         return this.getEventById(result.recordset[0].eventId);
     }
-
+//Update Event
     static async updateEvent(eventId, newEvent) {
         const connection = await sql.connect(dbConfig);
 
@@ -143,7 +143,7 @@ class Event {
 
         return this.getEventById(eventId);
     }
-
+//Update Event
     static async deleteEvent(eventId) {
         const connection = await sql.connect(dbConfig);
 
@@ -157,7 +157,7 @@ class Event {
 
         return result.rowsAffected > 0;
     }
-
+//Search events
     static async searchEvents(searchTerm) {
         const connection = await sql.connect(dbConfig);
         try {
@@ -172,7 +172,7 @@ class Event {
             await connection.close();
         }
     }
-
+//Get event count
     static async getEventCount() {
         const connection = await sql.connect(dbConfig);
 
@@ -185,7 +185,7 @@ class Event {
 
         return result.recordset[0];
     }
-
+//Get events by status
     static async getEventsByStatus(status) {
         const connection = await sql.connect(dbConfig);
 
@@ -217,7 +217,7 @@ class Event {
             )
         )
     }
-
+//Get listed events
     static async getListedEvents() {
         const connection = await sql.connect(dbConfig);
 
@@ -248,7 +248,7 @@ class Event {
             )
         )
     }
-
+//Get pending events
     static async getPendingEvents() {
         const connection = await sql.connect(dbConfig);
 
@@ -279,7 +279,7 @@ class Event {
             )
         )
     }
-
+//Get denied events
     static async getDeniedEvents() {
         const connection = await sql.connect(dbConfig);
 
@@ -310,7 +310,7 @@ class Event {
             )
         )
     }
-
+//Approve of an event
     static async approveEvent(eventId, newEvent) {
         const connection = await sql.connect(dbConfig);
 
@@ -328,7 +328,7 @@ class Event {
 
         return this.getEventById(eventId);
     }
-
+//Deny an event
     static async denyEvent(eventId, newEvent) {
         const connection = await sql.connect(dbConfig);
 
@@ -346,7 +346,7 @@ class Event {
 
         return this.getEventById(eventId);
     }
-
+//Like an event
     static async likeEvent(eventId, userId) {
         const connection = await sql.connect(dbConfig);
 
@@ -368,7 +368,7 @@ class Event {
 
         return this.getEventById(eventId); 
     }
-
+//Unlike an event
     static async unlikeEvent(eventId, userId) {
         const connection = await sql.connect(dbConfig);
 
@@ -390,7 +390,7 @@ class Event {
 
         return this.getEventById(eventId);
     }
-
+//Retrieve like by user
     static async getLikeByUser(eventId, userId) {
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `
@@ -405,7 +405,7 @@ class Event {
 
         return result.rowsAffected[0] > 0;
     }
-
+//Retrieve event by user
     static async getEventByUser(eventId, userId) {
         const connection = await sql.connect(dbConfig);
         const sqlQuery = `
@@ -420,7 +420,7 @@ class Event {
 
         return result.rowsAffected[0] > 0;
     }
-
+//Join event/participate
     static async joinEvent(eventId, userId) {
         const connection = await sql.connect(dbConfig);
 
@@ -439,7 +439,7 @@ class Event {
 
         return this.getEventById(eventId);
     }
-
+//Withdraw/quit event
     static async withdrawEvent(eventId, userId) {
         const connection = await sql.connect(dbConfig);
 
@@ -458,7 +458,7 @@ class Event {
 
         return this.getEventById(eventId);
     }
-
+//Get events participated by user
     static async getParticipatedEvents(userId) {
         const connection = await sql.connect(dbConfig);
 
@@ -494,7 +494,7 @@ class Event {
             )
         )
     }
-
+//Get events hosted by user
     static async getHostedEventsbyUser(userId) {
         const connection = await sql.connect(dbConfig);
 
