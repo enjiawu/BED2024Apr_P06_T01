@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 newPostReportCard
                     .querySelector(".original-poster")
                     .addEventListener("click", async function () {
+                        // Load user information
                         const userResponse = await fetch(
                             `/users/${originalPoster.username}`
                         );
@@ -75,6 +76,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                             user.location;
                         userModal.querySelector(".id").innerText = user.userId;
 
+                        // Display modal, prevent scrolling of background
                         userModal.style.display = "block";
                         document.body.classList.add("stop-scrolling");
                     });
@@ -95,6 +97,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     post.dateCreated.slice(11, 19) +
                     post.dateCreated.slice(23);
 
+                // Original date: "2024-07-15T02:35:09.000Z"
                 newPostReportCard.querySelector(".date-reported").innerText =
                     postReport.dateReported.slice(0, 10) +
                     " " +
@@ -269,6 +272,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     async function loadCommentReports() {
         try {
+            // Fetch all comment reports
             const commentReportsResponse = await fetch("/reports/comments", {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -303,7 +307,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                     comment.description;
 
                 const originalCommenterResponse = await fetch(
-                    `/users/profile/${comment.userId}`
+                    `/users/profile/${comment.userId}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
                 );
                 const originalCommenter =
                     await originalCommenterResponse.json();
@@ -351,7 +360,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                     commentReport.dateReported.slice(23);
 
                 const commentReporterResponse = await fetch(
-                    `/users/profile/${commentReport.userId}`
+                    `/users/profile/${commentReport.userId}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
                 );
                 const commentReporter = await commentReporterResponse.json();
                 newCommentReportCard.querySelector(
