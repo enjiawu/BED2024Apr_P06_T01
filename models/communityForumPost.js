@@ -193,6 +193,7 @@ class CommunityForumPost {
         );
 
         DELETE FROM Comments WHERE postId = @postId AND parentCommentId IS NULL;
+        DELETE CommentReports WHERE postId = @postId;
 
         DELETE FROM PostLikes WHERE postId = @postId;
         DELETE FROM PostReports WHERE postId = @postId;
