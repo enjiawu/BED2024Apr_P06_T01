@@ -1348,33 +1348,32 @@
         }
       }
     },
-    "/users/allmember": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
     "/users/profile/{userId}": {
       "get": {
-        "description": "",
+        "description": "Retrieve the profile of a user by their user ID. Requires authorization token.",
+        "summary": "Get user profile by user ID",
+        "tags": ["Users"],
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "ID of the user"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string",
+            "description": "JWT authorization token"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing token"
           },
           "500": {
             "description": "Internal Server Error"
@@ -1382,36 +1381,36 @@
         }
       },
       "put": {
-        "description": "",
+        "description": "Update the profile of a user by their user ID. Requires authorization token.",
+        "summary": "Update user profile by user ID",
+        "tags": ["Users"],
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "ID of the user"
           },
           {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "passwordHash": {
-                  "example": "any"
-                }
-              }
-            }
+            "name": "authorization",
+            "in": "header",
+            "type": "string",
+            "description": "JWT authorization token"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "type": "file",
+            "description": "Profile picture file"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
           },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
+          "401": {
+            "description": "Unauthorized - Invalid or missing token"
           },
           "500": {
             "description": "Internal Server Error"
@@ -1421,7 +1420,9 @@
     },
     "/users/count": {
       "get": {
-        "description": "",
+        "description": "Retrieve the total count of users.",
+        "summary": "Get user count",
+        "tags": ["Users"],
         "responses": {
           "200": {
             "description": "OK"
@@ -1434,13 +1435,16 @@
     },
     "/users/{username}": {
       "get": {
-        "description": "",
+        "description": "Retrieve a user by their username.",
+        "summary": "Get user by username",
+        "tags": ["Users"],
         "parameters": [
           {
             "name": "username",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Username of the user"
           }
         ],
         "responses": {
@@ -1455,7 +1459,9 @@
     },
     "/users/register": {
       "post": {
-        "description": "",
+        "description": "Register a new user. Requires username, email, and password.",
+        "summary": "Register a new user",
+        "tags": ["Users"],
         "parameters": [
           {
             "name": "body",
@@ -1464,24 +1470,28 @@
               "type": "object",
               "properties": {
                 "username": {
-                  "example": "any"
+                  "example": "johndoe",
+                  "description": "Username of the new user"
                 },
                 "email": {
-                  "example": "any"
+                  "example": "johndoe@example.com",
+                  "description": "Email address of the new user"
                 },
                 "password": {
-                  "example": "any"
+                  "example": "password123",
+                  "description": "Password for the new user"
                 }
-              }
+              },
+              "required": ["username", "email", "password"]
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created - User registered successfully"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request - Invalid input data"
           },
           "500": {
             "description": "Internal Server Error"
@@ -1491,7 +1501,9 @@
     },
     "/users/login": {
       "post": {
-        "description": "",
+        "description": "Login a user. Requires email and password.",
+        "summary": "Login a user",
+        "tags": ["Users"],
         "parameters": [
           {
             "name": "body",
@@ -1500,21 +1512,74 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "any"
+                  "example": "johndoe@example.com",
+                  "description": "Email address of the user"
                 },
                 "password": {
-                  "example": "any"
+                  "example": "password123",
+                  "description": "Password for the user"
                 }
-              }
+              },
+              "required": ["email", "password"]
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK - Login successful"
+          },
+          "400": {
+            "description": "Bad Request - Invalid input data"
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized - Invalid email or password"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/changePassword": {
+      "post": {
+        "description": "Change the password of a user. Requires current password and new password. Requires authorization token.",
+        "summary": "Change user password",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string",
+            "description": "JWT authorization token"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "currentPassword": {
+                  "example": "currentpassword123",
+                  "description": "Current password of the user"
+                },
+                "newPassword": {
+                  "example": "newpassword123",
+                  "description": "New password for the user"
+                }
+              },
+              "required": ["currentPassword", "newPassword"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Password changed successfully"
+          },
+          "400": {
+            "description": "Bad Request - Invalid input data"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing token"
           },
           "500": {
             "description": "Internal Server Error"
