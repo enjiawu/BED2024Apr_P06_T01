@@ -2,12 +2,12 @@
 
 ## Assignment for IT - Back-end Development (AY24/25)
 ## Team Members
-| Name | Student ID |
-| --- | --- |
-| Wu Enjia | S10256978E |
-| Joseph Wan | S10262528G |
-| Timothy Chai | S10256132A |
-| Xue Wenya | S10262410A |
+| Name |
+| --- |
+| Enjia |
+| Joseph |
+| Timothy |
+| Wenya | 
 
 
 ## Overview
